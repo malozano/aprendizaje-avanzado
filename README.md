@@ -1,0 +1,4 @@
+## 📜 Licencia
+Este repositorio está licenciado bajo [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).  
+© 2025 Miguel Angel Lozano Ortega
+
