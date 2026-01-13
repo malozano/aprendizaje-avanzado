@@ -1,0 +1,888 @@
+<!DOCTYPE html><html lang="es" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apuntes de la asignatura Aprendizaje Avanzado del Grado en Ingeniería en Inteligencia Artificial de la Universidad de Alicante">
+      
+      
+        <meta name="author" content="Miguel Angel Lozano">
+      
+      
+        <link rel="canonical" href="https://malozano.github.io/aprendizaje-avanzado/02-svm/">
+      
+      
+        <link rel="prev" href="../01-modelos-no-param/">
+      
+      
+        <link rel="next" href="../03-arboles-decision/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.1">
+    
+    
+      
+        <title>2. SVM - Aprendizaje Avanzado</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.402914a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#support-vector-machines-svm" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="Aprendizaje Avanzado" class="md-header__button md-logo" aria-label="Aprendizaje Avanzado" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Aprendizaje Avanzado
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2. SVM
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Modo oscuro" type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Modo oscuro" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Modo claro" type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Modo claro" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Aprendizaje Avanzado" class="md-nav__button md-logo" aria-label="Aprendizaje Avanzado" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
+
+    </a>
+    Aprendizaje Avanzado
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Introducción
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Bloque I. Aprendizaje supervisado
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Bloque I. Aprendizaje supervisado
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-modelos-no-param/" class="md-nav__link">
+        1. Modelos paramétricos y no paramétricos
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          2. SVM
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        2. SVM
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#aplicaciones-de-svm" class="md-nav__link">
+    Aplicaciones de SVM
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maximizacion-del-margen" class="md-nav__link">
+    Maximización del margen
+  </a>
+  
+    <nav class="md-nav" aria-label="Maximización del margen">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#margen-duro" class="md-nav__link">
+    Margen duro
+  </a>
+  
+    <nav class="md-nav" aria-label="Margen duro">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forma-primal" class="md-nav__link">
+    Forma primal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forma-dual" class="md-nav__link">
+    Forma dual
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#condiciones-kkt" class="md-nav__link">
+    Condiciones KKT
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#margen-blando" class="md-nav__link">
+    Margen blando
+  </a>
+  
+    <nav class="md-nav" aria-label="Margen blando">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#forma-primal_1" class="md-nav__link">
+    Forma primal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forma-dual_1" class="md-nav__link">
+    Forma dual
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#efecto-del-parametro-c" class="md-nav__link">
+    Efecto del parámetro C
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#primal-vs-dual" class="md-nav__link">
+    Primal VS Dual
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kernel-trick" class="md-nav__link">
+    Kernel trick
+  </a>
+  
+    <nav class="md-nav" aria-label="Kernel trick">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kernel-lineal" class="md-nav__link">
+    Kernel lineal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kernel-polinomial" class="md-nav__link">
+    Kernel polinomial
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kernel-radial-basis-function-rbf" class="md-nav__link">
+    Kernel Radial Basis Function (RBF)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kernel-sigmoide" class="md-nav__link">
+    Kernel sigmoide
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-arboles-decision/" class="md-nav__link">
+        3. Árboles de decisión
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="support-vector-machines-svm">Support Vector Machines (SVM)<a class="headerlink" href="#support-vector-machines-svm" title="Permanent link">¶</a></h1>
+<p>Las Support Vector Machines (SVM) (Cortes &amp; Vapnik, 1995)<sup id="fnref:cortes1995svm"><a class="footnote-ref" href="#fn:cortes1995svm">1</a></sup> son algoritmos de aprendizaje supervisado utilizados principalmente para clasificación, aunque también pueden aplicarse a regresión. </p>
+<h2 id="aplicaciones-de-svm">Aplicaciones de SVM<a class="headerlink" href="#aplicaciones-de-svm" title="Permanent link">¶</a></h2>
+<p>Aunque en la actualidad los modelos basados en aprendizaje profundo dominan en campos como la Visión por Computador (CV) o el Procesamiento del Lenguaje Natural (NLP), y en general cuando contamos con extensos conjuntos de datos y disponibilidad de gran capacidad de computación, modelos como SVM pueden ser competitivos cuando contemos con datos tabulares de tamaño pequeño o mediano.</p>
+<p>SVM ofrece un buen rendimiento con  conjuntos de datos pequeños. A modo orientativo, con conjuntos de menos de 1.000 ejemplos puede resultar la opción más adecuada, y podría mantenerse competitivo incluso con <em>datasets</em> del orden de 10.000 ejemplos.  Encontramos otros modelos que siguen ofreciendo resultados competitivos en estos casos, como XGBoost o Random Forest. </p>
+<p>Por ejemplo, un área en la que estos modelos pueden resultar de interés es en el análisis de datos médicos, en los que contamos con <strong><em>datasets</em> pequeños</strong> (datos de pacientes) pero con <strong>alta dimensionalidad</strong> (por ejemplo teniendo en cuenta la expresión de diferentes genes). Además, tenemos la ventaja de que este tipo de modelos facilita la <strong>interpretabilidad</strong>, lo cual los hace especialmente interesantes en estos ámbitos. </p>
+<h2 id="maximizacion-del-margen">Maximización del margen<a class="headerlink" href="#maximizacion-del-margen" title="Permanent link">¶</a></h2>
+<p>Como hemos visto anteriormente, en un problema de clasificación binaria buscamos encontrar un hiperplano que separe los datos de las dos clases, pero, ¿cuál es el hiperplano de separación óptimo? Lo que plantea SVM es buscar el hiperplano que <strong>maximiza el margen</strong> entre las dos clases, a diferencia del modelo de regresión logística en el que lo que se buscaba era maximizar la verosimilitud. Es decir, regresión logística proporciona probabilidades bien calibradas, mientras que SVM prioriza la robustez del margen, sin producir probabilidades de forma directa.</p>
+<p>El margen será la distancia desde el hiperplano hasta los puntos más cercanos de cada clase. Estos puntos más cercanos son conocidos como <strong>vectores de soporte</strong> (ver <a href="#fig-margenduro">Figura 1</a>). </p>
+<p></p><figure id="fig-margenduro"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t2_svm_margen_duro.png" data-desc-position="bottom"><img alt="" src="../images/t2_svm_margen_duro.png"></a><figcaption>Figura 1: Maximización del margen </figcaption></figure><p></p>
+<p>Además, como veremos más adelante, SVM se puede generalizar para casos en los que los datos no sean separables de forma líneal. </p>
+<h3 id="margen-duro">Margen duro<a class="headerlink" href="#margen-duro" title="Permanent link">¶</a></h3>
+<p>Vamos en primer lugar a suponer que los datos son linealmente separables. Hablamos entonces de margen duro, ya que estableceremos la restricción de que los puntos pertenecientes a cada clase deben quedar siempre al lado correcto del margen.</p>
+<p>Consideremos que tenemos un conjunto de entrenamiento con <span class="arithmatex">\(N\)</span> pares <span class="arithmatex">\((\mathbf{x_i}, y_i)\)</span> con <span class="arithmatex">\(\mathbf{x_i} \in \mathbb{R}^d\)</span> y <span class="arithmatex">\(y_i \in \{-1, 1\}\)</span> (problema de clasificación binaria), siendo <span class="arithmatex">\(d\)</span> el número de <em>features</em>.</p>
+<p>En caso de que el vector <span class="arithmatex">\(\mathbf{w}\)</span> sea unitario, la función <span class="arithmatex">\(f(\mathbf{x})\)</span> nos dará la distancia desde el hiperplano a cada punto <span class="arithmatex">\(\mathbf{x}\)</span>. </p>
+<p>Con esto, para buscar el hiperplano que maximice el margen <span class="arithmatex">\(M\)</span>, deberemos resolver el siguiente problema de optimización:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\max_{\mathbf{w}, b, \lVert \mathbf{w}  \rVert=1} \quad  &amp; M \\
+\text{s.a.} \quad &amp; y_i(\mathbf{x}_i^T\mathbf{w} + b) \geq M, i = 1, \ldots, N
+\end{align*}
+\]</div>
+<p>Podemos eliminar la restricción de que <span class="arithmatex">\(\mathbf{w}\)</span> sea unitario dividiendo la ecuación del hiperplano entre <span class="arithmatex">\(\lVert \mathbf{w} \rVert\)</span>. Si dividimos toda la ecuación seguirá representando al mismo hiperplano y nos permitirá  reemplazar la condición con:</p>
+<div class="arithmatex">\[
+\frac{1}{\lVert \mathbf{w} \rVert} y_i(\mathbf{x}_i^T\mathbf{w} + b) \geq M
+\]</div>
+<p>O lo que es lo mismo:</p>
+<div class="arithmatex">\[
+y_i(\mathbf{x}_i^T\mathbf{w} + b) \geq M \lVert \mathbf{w} \rVert
+\]</div>
+<p>En este caso, el hiperplano seguirá siendo el mismo independientemente del valor de <span class="arithmatex">\(\lVert \mathbf{w} \rVert\)</span>. Por lo tanto, podemos considerar de forma arbitraria que <span class="arithmatex">\(\lVert \mathbf{w} \rVert = 1 / M\)</span>, lo cual nos permite reescribir la restricción anterior de la siguiente forma:</p>
+<div class="arithmatex">\[
+y_i(\mathbf{x}_i^T\mathbf{w} + b) \geq 1 
+\]</div>
+<h4 id="forma-primal">Forma primal<a class="headerlink" href="#forma-primal" title="Permanent link">¶</a></h4>
+<p>Con lo anterior, el problema de optimización a resolver tendría la siguiente forma:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\min_{\mathbf{w}, b} \quad &amp; \mathbf{\lVert w \rVert} \\
+\text{s.a.} \quad &amp; y_i(\mathbf{x}_i^T\mathbf{w} + b) \geq 1, i = 1, \ldots, N
+\end{align*}
+\]</div>
+<p>Esta es la conocida como <strong>forma primal</strong>, en la que tenemos nuestra función objetivo y una serie de restricciones. Podríamos resolver este problema aplicando algún método de optimización como descenso por gradiente, o descenso por gradiente estocástico (SGD), para buscar los parámetros <span class="arithmatex">\(\mathbf{w}\)</span> y <span class="arithmatex">\(b\)</span> óptimos. </p>
+<p>Sin embargo, vamos a utilizar el método de los <strong>multiplicadores de Lagrange</strong> (Boyd &amp; Vandenberghe, 2004)<sup id="fnref:boyd2004convex"><a class="footnote-ref" href="#fn:boyd2004convex">2</a></sup> para transformar este problema con restricciones a un problema en el que las restricciones se transforman en penalizaciones a la función objetivo.</p>
+<p>El problema de optimización anterior sería equivalente al siguiente, ya que el mínimo de <span class="arithmatex">\(\mathbf{\lVert w \rVert}\)</span> será el mismo que el de <span class="arithmatex">\(\frac{1}{2} \mathbf{\lVert w \rVert}^2\)</span>:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\min_{ \mathbf{w}, b} \quad  &amp; \frac{1}{2} \mathbf{\lVert w \rVert}^2 \\
+\text{s.a.} \quad &amp; y_i(\mathbf{x}_i^T\mathbf{w} + b) \geq 1, i = 1, \ldots, N
+\end{align*}
+\]</div>
+<p>Sin embargo, esta segunda forma nos da ventajas importantes, especialmente la diferenciabilidad de <span class="arithmatex">\(\frac{1}{2} \mathbf{\lVert w \rVert}^2\)</span>, que es derivable en todos sus puntos, mientras <span class="arithmatex">\(\mathbf{\lVert w \rVert}\)</span> no es derivable cuando <span class="arithmatex">\(\mathbf{\lVert w \rVert}\)</span> = 0. </p>
+<p>Debemos recordar que estamos asumiendo de momento que los datos son separables (<strong>margen duro</strong>), y por lo tanto consideramos únicamente dos casos posibles:</p>
+<ul>
+<li><span class="arithmatex">\(y_i(\mathbf{x}_i^T\mathbf{w} + b) &gt; 1\)</span> : correctamente clasificados fuera del margen.</li>
+<li><span class="arithmatex">\(y_i(\mathbf{x}_i^T\mathbf{w} + b) = 1\)</span> : Vectores de soporte, pertenecientes al margen.</li>
+</ul>
+<p>Para resolver el problema de optimización mediante multiplicadores de Lagrange, la función Lagrangiana primal que deberemos minimizar respecto a <span class="arithmatex">\(\mathbf{w}\)</span> y <span class="arithmatex">\(b\)</span> es la siguiente:</p>
+<div class="arithmatex">\[
+L_P(\mathbf{w}, b, \alpha) = \frac{1}{2} \lVert \mathbf{w} \rVert^2 - \sum_{i=1}^N \alpha_i [ y_i ( \mathbf{x}_i^T \mathbf{w} + b ) - 1 ]
+\]</div>
+<p>Hemos transformado cada restricción en un término de la función a minimizar, y aplicado a cada uno de estos términos un multiplicador <span class="arithmatex">\(\alpha_i\)</span> (multiplicador de Lagrange). </p>
+<p>Derivamos la función anterior respecto a <span class="arithmatex">\(\mathbf{w}\)</span> y <span class="arithmatex">\(b\)</span>, y establecemos las derivadas a <span class="arithmatex">\(0\)</span> para buscar el punto en el que la función presenta un mínimo (condición de estacionariedad). Tenemos entonces:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\frac {\delta L(\mathbf{w}, b, \alpha)}{\delta \mathbf{w}} &amp;= \mathbf{w} - \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i = 0 &amp; \Rightarrow \mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i 
+\\
+\frac {\delta L(\mathbf{w}, b, \alpha)}{\delta b} &amp;= \sum_{i=1}^N \alpha_i y_i  = 0  &amp; \Rightarrow 0 = \sum_{i=1}^N \alpha_i y_i
+\end{align*}
+\]</div>
+<p>Sustituyendo <span class="arithmatex">\(\mathbf{w}\)</span> en la Lagrangiana (teniendo en cuenta que <span class="arithmatex">\(\lVert \mathbf{w} \rVert^2 = \mathbf{w}^T \mathbf{w}\)</span>) tenemos:</p>
+<div class="arithmatex">\[
+\begin{align*}
+L_D(\mathbf{w}, b, \alpha) &amp;= \frac{1}{2}  \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i^T \sum_{j=1}^N \alpha_j y_j \mathbf{x}_j   - \sum_{i=1}^N \alpha_i [ y_i ( \mathbf{x}_i^T \sum_{j=1}^N \alpha_j y_j \mathbf{x}_j + b ) - 1 ] = \\
+&amp;= \frac{1}{2}  \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i^T \sum_{j=1}^N \alpha_j y_j \mathbf{x}_j    
+- \sum_{i=1}^N \alpha_i y_i  \mathbf{x}_i^T \sum_{j=1}^N \alpha_j y_j \mathbf{x}_j 
+- b \sum_{i=1}^N \alpha_i y_i  
++ \sum_{i=1}^N \alpha_i =
+\\ 
+&amp;= \sum_{i=1}^N \alpha_i -
+\sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j \mathbf{x}_i^T \mathbf{x}_j 
+\end{align*}
+\]</div>
+<h4 id="forma-dual">Forma dual<a class="headerlink" href="#forma-dual" title="Permanent link">¶</a></h4>
+<p>Tenemos entonces el problema dual. A diferencia del problema primal donde minimizábamos la norma de <span class="arithmatex">\(\mathbf{w}\)</span>, ahora buscamos maximizar la función <span class="arithmatex">\(L_D(\alpha)\)</span>:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\max_\alpha \quad &amp; L_D(\alpha) =  \sum_{i=1}^N \alpha_i -
+\sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j \mathbf{x}_i^T \mathbf{x}_j 
+\\
+s.a.\quad  &amp; \sum_{i=1}^N \alpha_i y_i  = 0 
+\\
+&amp;\alpha_i \geq 0 \  \forall i=1, \ldots, N
+\end{align*}
+\]</div>
+<p>Esto ocurre porque al transformar el problema mediante multiplicadores de Lagrange, la función dual nos proporciona una cota inferior del valor óptimo del problema primal, por lo que para encontrar la mejor solución debemos maximizar esta cota. </p>
+<p>Debemos destacar en este punto que en el caso de la forma dual deberemos optimizar los multiplicadores <span class="arithmatex">\(\alpha_i\)</span>, en lugar de los parámetro <span class="arithmatex">\(\mathbf{w}\)</span> y <span class="arithmatex">\(b\)</span> como ocurría en el caso de la forma primal. </p>
+<p>Nos encontramos con un problema de <strong>programación cuadrática (QP)</strong> convexo con restricciones lineales. Este tipo de problemas tienen la siguiente forma general:</p>
+<div class="arithmatex">\[
+f(\mathbf{\alpha}) = \frac{1}{2} \mathbf{\alpha}^T Q \mathbf{\alpha} + c^T \mathbf{\alpha}
+\]</div>
+<p>Para que el problema sea convexo, la matriz <span class="arithmatex">\(Q\)</span> debe ser semidefinida positiva, y esto se cumple en el caso de SVM, ya que tenemos:</p>
+<div class="arithmatex">\[ 
+Q_{ij} = y_i y^j \mathbf{x}^T_i \mathbf{x}_j
+\]</div>
+<p>Podremos por lo tanto aplicar algún algoritmo de optimización para este tipo de problemas. Encontramos diferentes <em>solvers</em>, como por ejemplo <a href="https://cvxopt.org">CVXOPT</a> o <a href="https://osqp.org/">OSQP</a> en Python. </p>
+<p>En la práctica, el algoritmo más utilizado es SMO (<em>Sequential Minimal Optimization</em>) (Platt, 1998)<sup id="fnref:platt1998smo"><a class="footnote-ref" href="#fn:platt1998smo">3</a></sup>. Este es el algoritmo utilizado por ejemplo por <a href="https://www.csie.ntu.edu.tw/~cjlin/libsvm/">LIBSVM</a>, que es la librería que encontramos integrada en <a href="https://scikit-learn.org/stable/">scikit-learn</a>. En este caso, en lugar, de resolver un problema QP completo con <span class="arithmatex">\(N\)</span> variables, selecciona solo dos variables <span class="arithmatex">\(\alpha_i\)</span> y <span class="arithmatex">\(\alpha_j\)</span> iterativamente, fijando el resto, las optimiza, e itera hasta la convergencia. </p>
+<h4 id="condiciones-kkt">Condiciones KKT<a class="headerlink" href="#condiciones-kkt" title="Permanent link">¶</a></h4>
+<p>En un problema de optimización convexo con restricciones para que un punto sea óptimo debe satisfacer un conjunto de condiciones conocidas como condiciones KKT (Karush-Kuhn-Tucker) (Boyd &amp; Vandenberghe, 2004; Kuhn &amp; Tucker, 1951)<sup id="fnref:kuhn1951nonlinear"><a class="footnote-ref" href="#fn:kuhn1951nonlinear">4</a></sup> <sup id="fnref2:boyd2004convex"><a class="footnote-ref" href="#fn:boyd2004convex">2</a></sup>:</p>
+<ol>
+<li><strong>Estacionariedad</strong>. Buscamos que la función Lagrangiana tenga gradiente <span class="arithmatex">\(0\)</span>. Se cumple al haber igualado las derivadas a <span class="arithmatex">\(0\)</span>. </li>
+<li><strong>Factibilidad</strong>. El punto debe ser factible y cumplir las restricciones.</li>
+<li>
+<p><strong>Signo</strong>. Todos los multiplicadores asociados a restricciones de desigualdad deben tener signo positivo:
+$$
+\alpha_i \geq 0 \quad \forall i=1, \ldots, N
+$$  </p>
+</li>
+<li>
+<p><strong>Complementariedad</strong>. Además de las condiciones anteriores, es importante cumplir también la siguiente condición:</p>
+</li>
+</ol>
+<div class="arithmatex">\[
+\alpha_i [ y_i ( \mathbf{x}_i^T \mathbf{w} + b) - 1 ] = 0 \quad \forall i=1, \ldots, N
+\]</div>
+<p>Esta última condición nos dice que:</p>
+<ul>
+<li>
+<p>Si <span class="arithmatex">\(\alpha_i &gt; 0\)</span>, entonces la restricción es activa y debe cumplirse <span class="arithmatex">\([ y_i ( \mathbf{x}_i^T \mathbf{w} + b) - 1 ] = 0\)</span>. Estos serán los puntos conocidos como <strong>vectores de soporte</strong>, que se encuentran justo en el margen de separación.</p>
+</li>
+<li>
+<p>En caso de que <span class="arithmatex">\(y_i (\mathbf{x}_i^T \mathbf{w} + b) &gt; 1\)</span>, entonces el punto estará fuera del margen y la restricción no será activa, siendo <span class="arithmatex">\(\alpha_i = 0\)</span>. En este caso no se tratará de un vector de soporte.</p>
+</li>
+</ul>
+<p>Es importante destacar que solo los puntos con <span class="arithmatex">\(\alpha_i &gt; 0\)</span> (vectores de soporte) contribuyen a la solución. El resto de puntos no afectarán al hiperplano. </p>
+<p>Podemos observar que <span class="arithmatex">\(\mathbf{w}\)</span> se obtendrá como combinación lineal de los vectores de soporte <span class="arithmatex">\(\mathbf{x}_i\)</span> (aquellos con <span class="arithmatex">\(\alpha_i &gt; 0\)</span>). El parámetro <span class="arithmatex">\(b\)</span> se puede obtener resolviendo la condición de complementariedad para cualquiera de los vectores de soporte.</p>
+<h3 id="margen-blando">Margen blando<a class="headerlink" href="#margen-blando" title="Permanent link">¶</a></h3>
+<p>Todo lo anterior es válido bajo la suposición de que los datos son linealmente separables, pero si esto no se cumple entonces el problema primal no tendrá solución. </p>
+<p>Supongamos ahora que existe un solape entre los datos. Una forma de tratar con este solape es maximizar <span class="arithmatex">\(M\)</span> permitiendo que algunos datos estén en el lado incorrecto del margen, para lo cual se definen las variables <span class="arithmatex">\(\xi = (\xi_1, \xi_2, \ldots, \xi_N)\)</span>, relajando la restricción del primal de la siguiente forma:</p>
+<div class="arithmatex">\[
+y_i(\mathbf{x}_i^T\mathbf{w} + b) \geq 1 - \xi_i \quad \forall i, \xi_i \geq 0
+\]</div>
+<p>Podemos interpretar <span class="arithmatex">\(\xi_i\)</span> como la cantidad proporcional que permitimos que una predicción esté en el lado incorrecto del margen (ver <a href="#fig-margenblando">Figura 2</a>). Si tenemos <span class="arithmatex">\(\xi_i &gt; 1\)</span> entonces la correspondiente predicción estaría mal clasificada, mientras que con valores <span class="arithmatex">\(0 &lt; \xi_i &lt; 1\)</span> estaría correctamente clasificada pero en el lado incorrecto del margen.</p>
+<p></p><figure id="fig-margenblando"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t2_svm_margen_blando.png" data-desc-position="bottom"><img alt="" src="../images/t2_svm_margen_blando.png"></a><figcaption>Figura 2: Margen blando y variables <span class="arithmatex">\(\xi_i\)</span> </figcaption></figure><p></p>
+<p>Si acotamos el sumatorio <span class="arithmatex">\(\sum_{i=1}^N \xi_i\)</span> a un valor constante, entonces estaremos acotando el número máximo de errores de clasificación de los datos de entrenamiento a dicha constante. Esto lo trasladaremos como una penalización a nuestra función objetivo.</p>
+<h4 id="forma-primal_1">Forma primal<a class="headerlink" href="#forma-primal_1" title="Permanent link">¶</a></h4>
+<p>Al igual que hicimos en el caso con margen duro, describimos el problema como una solución de programación cuadrática utilizando multiplicadores de Lagrange, en este caso introduciendo las variables <span class="arithmatex">\(\xi_i\)</span>, con la siguiente función objetivo:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\min_{ \mathbf{w}, b} \quad  &amp; \frac{1}{2} \mathbf{\lVert w \rVert}^2 + C \sum^N_{i=1} \xi_i \\
+\text{s.a.} \quad &amp; \xi_i \geq 0,\ y_i(\mathbf{x}_i^T\mathbf{w} + b) \geq 1 - \xi_i, \quad \forall i = 1, \ldots, N
+\end{align*}
+\]</div>
+<p>Podemos ver que el parámetro <span class="arithmatex">\(C\)</span> gradúa la penalización de las variables <span class="arithmatex">\(\xi_i\)</span>. Cuanto más alto sea <span class="arithmatex">\(C\)</span>, más penalizará cada punto fuera del margen. En el caso extremo, con <span class="arithmatex">\(C=\infty\)</span> equivaldría al caso con margen duro y no se permitiría ningún punto en el lado incorrecto del margen.</p>
+<p>La función de Langrange primal en este caso es:</p>
+<div class="arithmatex">\[
+L_P(\mathbf{w}, b, \xi, \alpha, \mu) = \frac{1}{2} \lVert \mathbf{w} \rVert^2 + C \sum^N_{i=1} \xi_i - \sum_{i=1}^N \alpha_i [ y_i ( \mathbf{x}_i^T \mathbf{w} + b ) - (1-\xi_i) ] - \sum_{i=1}^N \mu_i \xi_i
+\]</div>
+<p>Tendremos que minimizar esta función respecto a <span class="arithmatex">\(\mathbf{w}\)</span>, <span class="arithmatex">\(b\)</span> y <span class="arithmatex">\(\xi_i\)</span>, por lo que igualaremos las correspondientes derivadas a <span class="arithmatex">\(0\)</span>:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\frac {\delta L_P(\mathbf{w}, b, \xi, \alpha, \mu)}{\delta \mathbf{w}} &amp;= \mathbf{w} - \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i = 0 &amp; \Rightarrow \mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i 
+\\
+\frac {\delta L_P(\mathbf{w}, b, \xi, \alpha, \mu)}{\delta b} &amp;= \sum_{i=1}^N \alpha_i y_i  = 0 
+&amp; \Rightarrow 0 = \sum_{i=1}^N \alpha_i y_i  
+\\
+\frac {\delta L_P(\mathbf{w}, b, \xi, \alpha, \mu)}{\delta \xi_i} &amp;= C - \alpha_i - \mu_i = 0
+&amp; \Rightarrow \alpha_i = C - \mu_i
+\end{align*}
+\]</div>
+<h4 id="forma-dual_1">Forma dual<a class="headerlink" href="#forma-dual_1" title="Permanent link">¶</a></h4>
+<p>Sustituyendo las derivadas anteriores en la función primal, obtenemos la forma dual:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\max_\alpha \quad &amp; L_D(\alpha) =  \sum_{i=1}^N \alpha_i -
+\sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j \mathbf{x}_i^T \mathbf{x}_j 
+\\
+s.a.\quad  &amp; \sum_{i=1}^N \alpha_i y_i  = 0 
+\\
+&amp;0 \leq \alpha_i \leq C \quad  \forall i=1, \ldots, N
+\end{align*}
+\]</div>
+<p>La función <span class="arithmatex">\(L_D\)</span> nos da una cota inferior de la función objetivo para cualquier punto viable, por lo que buscaremos maximizarla. </p>
+<p>Además, se deben cumplir las diferentes condiciones KKT:</p>
+<ol>
+<li>
+<p><strong>Estacionariedad</strong>. Se cumple habiendo igualado las derivadas a <span class="arithmatex">\(0\)</span>.</p>
+</li>
+<li>
+<p><strong>Factibilidad</strong>. Deben cumplirse las restricciones originales del problema primal:
+$$ 
+y_i(\mathbf{x}_i^T\mathbf{w} + b) \geq 1 - \xi_i \quad \forall i
+\
+\xi_i \geq 0 \quad \forall i
+$$</p>
+</li>
+<li>
+<p><strong>Signo</strong>. Los multiplicadores asociados a restricciones de desigualdad no deben ser negativos:
+$$ 
+\alpha_i \geq 0 \quad \forall i
+\
+\mu_i \geq 0 \quad \forall i
+$$</p>
+</li>
+<li>
+<p><strong>Complementariedad</strong>. Esta es la más importante a tener en cuenta, ya que define qué restricciones son activas (aquellas con parámetros <span class="arithmatex">\(\alpha_i &gt; 0\)</span> y <span class="arithmatex">\(\mu_i &gt; 0\)</span>), indicando de esta forma cuáles son los <strong>vectores de soporte</strong>. 
+$$
+\alpha_i[y_i(\mathbf{x}_i^T \mathbf{w} + b) - 1 + \xi_i] = 0 \quad \forall i
+\
+\mu_i \xi_i = 0 \Rightarrow (C-\alpha_i) \xi_i = 0 \quad \forall i 
+$$</p>
+</li>
+</ol>
+<p>Podemos distinguir varios casos:</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(\alpha_i = 0\)</span>. Son puntos correctamente clasificados, que no son vectores de soporte. En este caso siempre tendremos <span class="arithmatex">\(\xi_i = 0\)</span> debido a las condiciones de complementariedad.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(0 &lt;  \alpha_i &lt; C\)</span>. Estos son los vectores de soporte que se sitúan exactamente en el margen. En estos casos <span class="arithmatex">\(\mu_i &gt; 0\)</span>, y por lo tanto <span class="arithmatex">\(\xi_i = 0\)</span>, por lo que no hay violación del margen.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\alpha_i = C\)</span>. En este caso tenemos vectores de soporte que violan el margen. En estos casos <span class="arithmatex">\(\mu_i = 0\)</span>, por lo que podemos tener <span class="arithmatex">\(\xi_i &gt; 0\)</span>. Teniendo en cuenta que se debe cumplir <span class="arithmatex">\(y_i (\mathbf{x}^T_i \mathbf{w} + b) = 1 - \xi_i\)</span>, si <span class="arithmatex">\(0 &lt; \xi_i &lt; 1\)</span> entonces el vector viola el margen pero estará bien clasificado, mientras que en caso de que <span class="arithmatex">\(\xi &gt; 1\)</span> entonces estará mal clasificado.</p>
+</li>
+</ul>
+<p>Una vez resuelto el problema de optimización y obtenidos los <span class="arithmatex">\(\alpha_i\)</span> óptimos, podemos observar que los coeficientes <span class="arithmatex">\(\mathbf{w}\)</span> se obtendrían como combinación lineal únicamente de los vectores de soporte (entradas <span class="arithmatex">\(\mathbf{x_i}\)</span> para las que <span class="arithmatex">\(\alpha_i &gt; 0\)</span>):</p>
+<div class="arithmatex">\[
+\mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i 
+\]</div>
+<p>Una vez obtenidos los coeficientes, para despejar <span class="arithmatex">\(b\)</span>, podemos utilizar cualquiera de los puntos del margen (<span class="arithmatex">\(\alpha_i &gt; 0\)</span>, <span class="arithmatex">\(\xi_i = 0\)</span>) en la primera ecuación de la restricción de complementariedad, aunque habitualmente se suele hacer una media de la estimación de todos ellos para tener una mayor estabilidad numérica. </p>
+<h4 id="efecto-del-parametro-c">Efecto del parámetro C<a class="headerlink" href="#efecto-del-parametro-c" title="Permanent link">¶</a></h4>
+<p>Es importante entender el rol del parámetro <span class="arithmatex">\(C\)</span>:</p>
+<ul>
+<li>Con valores altos de <span class="arithmatex">\(C\)</span>, se penalizarán <span class="arithmatex">\(\xi_i\)</span> positivos, y podremos tender al <em>overfitting</em>. </li>
+<li>Por el contrario, con valores bajos de <span class="arithmatex">\(C\)</span> se tenderá a valores pequeños de <span class="arithmatex">\(\lVert \mathbf{w} \rVert\)</span>, lo que causará que la frontera sea más suave (ampliando el margen).</li>
+</ul>
+<h2 id="primal-vs-dual">Primal VS Dual<a class="headerlink" href="#primal-vs-dual" title="Permanent link">¶</a></h2>
+<p>Como hemos visto, SVM lineal puede resolverse de ambas formas. Son dos formas complementarias que resuelven el mismo problema. La clave está en que en cada caso cambian las variables a optimizar. En el caso de la forma primal optimizamos directamente los parámetros del modelo <span class="arithmatex">\((\mathbf{w}, b)\)</span>, donde <span class="arithmatex">\(\mathbf{w} \in \mathbb{R}^d\)</span> (siendo <span class="arithmatex">\(d\)</span> el número de <em>features</em>), mientras que en el caso de la forma dual estaremos optimizando los <span class="arithmatex">\(N\)</span> multiplicadores <span class="arithmatex">\(\alpha_i\)</span> (uno para cada ejemplo de entrenamiento).</p>
+<p>Por lo tanto, la conclusión más inmediata es que si <span class="arithmatex">\(N \gg d\)</span> convendría utilizar la forma primal, mientras que en el caso de tener <span class="arithmatex">\(N &lt; d\)</span> sería preferible la forma dual. </p>
+<p>La <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html">implementación SVCLinear de sklearn</a> nos permite elegir entre utilizar la forma dual o la forma primal, e incluso nos permite dejar que la implementación seleccione el problema automáticamente en función del número de <em>samples</em>, el número de <em>features</em> y otros parámetros. Esta implementación utiliza internamente como optimizador el método <strong>Coordinate Descent</strong> (Hsieh et al., 2008)<sup id="fnref:hsieh2008dual"><a class="footnote-ref" href="#fn:hsieh2008dual">5</a></sup>, implementado en la librería <a href="https://www.csie.ntu.edu.tw/~cjlin/liblinear/">LIBLINEAR</a>. Recordemos que es un método similar a descenso por gradiente, pero en el que se seleccionan características una a una. Se fijan todas las variables excepto una, se optimiza para esa variable, y repite iterativamente para cada variable, iterando hasta la convergencia. </p>
+<p>Por otro lado, en caso de contar con un extenso conjunto de datos, puede ser conveniente utilizar <strong>Descenso por Gradiente Estocástico</strong>. En este caso, contamos con <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html">SGDClassifier</a> que nos permite especificar diferentes funciones de pérdida para diferentes modelos lineales. Por defecto, utiliza la función de pérdida <code>hinge</code> que equivale a <strong>SVM Lineal</strong> (maximizar el margen es equivamente a minimizar el <em>hinge loss</em>). En este caso estaremos resolviendo siempre el problema primal (hemos de tener en cuenta que utilizaremos esta implementación cuando el número de <em>samples</em> sea muy grande). Si como función de pérdida utilizamos <code>log_loss</code> entonces tendremos un clasificador de regresión logística.   </p>
+<p>Además del criterio de número de <em>samples</em> frente a número de <em>features</em>, otra ventaja de la forma dual es la esparsidad de la solución, ya que solo unos pocos puntos tienen <span class="arithmatex">\(\alpha_i &gt; 0\)</span> y contribuyen.</p>
+<p>Pero la ventaja más destacada de utilizar la forma lineal es que nos permite aplicar el conocido como <em>Kernel trick</em>, con el que podremos transformar el modelo en no lineal, e incluso en no paramétrico.</p>
+<h2 id="kernel-trick"><em>Kernel trick</em><a class="headerlink" href="#kernel-trick" title="Permanent link">¶</a></h2>
+<p>Hemos visto como mediante ingeniería de características podemos proyectar las características originales <span class="arithmatex">\(\mathbf{x}\)</span> en un nuevo espacio de características <span class="arithmatex">\(h(\mathbf{x})\)</span>. El clasificador SVM presenta una extensión de esta idea, que nos permite que la dimensión del nuevo espacio de características sea muy alta, e incluso infinita en algunos casos.</p>
+<p>Para que esto sea abordable, la idea es representar el problema de optimización de forma que las características de entrada se presenten solo como producto escalar. </p>
+<p>Podemos representar la función dual de la siguiente forma:</p>
+<div class="arithmatex">\[
+L_D(\alpha) =  \sum_{i=1}^N \alpha_i - \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j \langle h(\mathbf{x}_i), h(\mathbf{x}_j) \rangle
+\]</div>
+<p>Donde hemos sustituido el producto escalar de <span class="arithmatex">\(\mathbf{x_i}^T \mathbf{x_j}\)</span> por el producto escalar entre las características transformadas. </p>
+<p>De esta forma, la función del hiperplano de separación quedaría expresada de la siguiente forma:</p>
+<div class="arithmatex">\[
+f(x) = h(\mathbf{x})^T \mathbf{w} + b 
+\]</div>
+<p>Recordando que los pesos se calculan como una combinación lineal de los vectores de soporte, tendríamos:</p>
+<div class="arithmatex">\[
+\begin{align*}
+f(x) &amp;= h(\mathbf{x})^T  \sum_{i=1}^N \alpha_i y_i h(\mathbf{x}_i)  + b =
+\\
+&amp;= \sum_{i=1}^N \alpha_i y_i \langle h(\mathbf{x}), h(\mathbf{x}_i) \rangle  + b
+\end{align*}
+\]</div>
+<p>Podemos ver entonces que tanto en la formulación del problema dual como en la función de separación solución del problema las variables de entrada <span class="arithmatex">\(h(\mathbf{x})\)</span> están involucradas únicamente en forma de producto escalar, por lo que lo único que necesitamos conocer de ellas es lo que conocemos como función de Kernel:</p>
+<div class="arithmatex">\[
+K(\mathbf{x}_i, \mathbf{x}_j) = \langle h(\mathbf{x}_i), h(\mathbf{x}_j) \rangle
+\]</div>
+<p>La función <span class="arithmatex">\(K\)</span> produce el producto escalar de las características en el espacio transformado, y solo necesitamos conocer esta función, no hace falta que trabajemos en el espacio transformado. Esto es lo que se conoce como Kernel <em>trick</em> (Boser et al., 1992)<sup id="fnref:boser1992"><a class="footnote-ref" href="#fn:boser1992">6</a></sup>. Hay que destacar que la aplicación de este Kernel <em>trick</em> <strong>solo es posible con la formulación del problema dual</strong>. Por lo tanto, en la implementación <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html">SVC de sklearn</a> siempre se resolverá el problema dual, permitiendo de esta forma el uso de diferentes Kernels.</p>
+<p>Utilizando diferentes funciones de Kernel podremos aplicar de forma sencilla y eficiente diferentes transformaciones del espacio de características (ver <a href="#fig-kernels">Figura 3</a>). Vamos a ver los Kernels más comunes.</p>
+<p></p><figure id="fig-kernels"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t2_svm_kernels_comparacion.png" data-desc-position="bottom"><img alt="" src="../images/t2_svm_kernels_comparacion.png"></a><figcaption>Figura 3: Comparativa de SVM con diferentes Kernels aplicados a datos no separables linealmente: lineal (izquierda), polinomial (centro) y RBF (derecha) </figcaption></figure><p></p>
+<h3 id="kernel-lineal">Kernel lineal<a class="headerlink" href="#kernel-lineal" title="Permanent link">¶</a></h3>
+<p>Generalizando el uso de los Kernels, podemos ver que el modelo SVM lineal que hemos estudiado hasta el momento se podría considerar un caso particular en el que se utiliza el siguiente Kernel:</p>
+<div class="arithmatex">\[
+K(\mathbf{x}_i, \mathbf{x}_j) =\mathbf{x}_i^T \mathbf{x}_j
+\]</div>
+<p>Este Kernel podrá resultar adecuado cuando sepamos que los datos son linealmente separables o en casos en los que tengamos alta dimensionalidad. Este tipo de Kernel facilita la interpretabilidad.</p>
+<h3 id="kernel-polinomial">Kernel polinomial<a class="headerlink" href="#kernel-polinomial" title="Permanent link">¶</a></h3>
+<p>Está relacionado con el uso de características polinomiales, pero tiene la ventaja de que no es necesario definir las características explícitamente, sino que se apoya en el Kernel <em>trick</em> para obtener una mayor eficiencia. Tiene la siguiente forma:</p>
+<div class="arithmatex">\[
+K(\mathbf{x}_i, \mathbf{x}_j) = (\gamma  \mathbf{x}_i^T \mathbf{x}_j + r) ^d
+\]</div>
+<p>Donde <span class="arithmatex">\(d\)</span> es el grado del polinomio, <span class="arithmatex">\(\gamma\)</span> controla la influencia de cada <em>sample</em> en la frontera de decisión y <span class="arithmatex">\(r\)</span> es un término de sesgo en el polinomio. </p>
+<p>En este caso, el Kernel está mapeando las características a un espacio de mayor dimensionalidad, pero la dimensión sigue siendo finita y fija, por lo que seguimos teniendo un modelo paramétrico. En este caso la frontera de decisión puede que ya no sea lineal en el espacio original de características (aunque lo seguirá siendo en el transformado), tal como hemos visto anteriormente en el caso de ingeniería de características.</p>
+<p>En la <a href="#fig-polinomial">Figura 4</a> podemos ver el efecto del parámetro de grado <span class="arithmatex">\(d\)</span> en el Kernel polinomial. Con un mayor grado podemos tener fronteras más complejas, pero también mayor riesgo de <em>overfitting</em>.</p>
+<p></p><figure id="fig-polinomial"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t2_svm_poly_grado_efecto.png" data-desc-position="bottom"><img alt="" src="../images/t2_svm_poly_grado_efecto.png"></a><figcaption>Figura 4: Efecto del grado en el Kernel polinomial </figcaption></figure><p></p>
+<h3 id="kernel-radial-basis-function-rbf">Kernel Radial Basis Function (RBF)<a class="headerlink" href="#kernel-radial-basis-function-rbf" title="Permanent link">¶</a></h3>
+<p>Se trata de uno de los Kernels más utilizados, y permite representar relaciones no lineales complejas. Se basa en crear campanas de similaridad alrededor de los puntos, generando algo parecido a un mapa de calor. Tiene la siguiente forma:</p>
+<div class="arithmatex">\[
+K(\mathbf{x}_i, \mathbf{x}_j) = e^{- \gamma \lVert \mathbf{x}_i - \mathbf{x}_j \rVert^2}
+\]</div>
+<p>El parámetro <span class="arithmatex">\(\gamma\)</span> controla la influencia de cada <em>sample</em> en la frontera de decisión, permitiendo así ajustar la suavidad de la frontera. </p>
+<p>En este caso, el Kernel Gaussiano mapea a un espacio de dimensión infinita.  Intuitivamente, esto significa que crea una función base (una 'campana gaussiana') centrada en cada punto del conjunto de datos, permitiendo representar fronteras de decisión arbitrariamente complejas. El modelo seleccionará como vectores de soporte únicamente aquellos puntos necesarios para definir la frontera, lo que permite que la complejidad del modelo se adapte automáticamente a los datos de entrada. Por ello, en este caso el modelo pasa a ser <strong>no paramétrico</strong>.</p>
+<p>En la figura <a href="#fig-rbf">Figura 5</a> podemos ver el efecto del parámetro <span class="arithmatex">\(\gamma\)</span> en el Kernel RBF. Con valores altos de este parámetro (<span class="arithmatex">\(\gamma = 10\)</span>) podemos observar fronteras muy irregulares y un mayor número de vectores de soporte, indicando tendencia al <em>overfitting</em>. Por el contrario, con valores bajos de <span class="arithmatex">\(\gamma\)</span> (por ejemplo <span class="arithmatex">\(\gamma=0.1\)</span>) se obtienen fronteras más suaves que generalizan mejor, aunque si es demasiado bajo podría causar <em>underfitting</em>.  </p>
+<p></p><figure id="fig-rbf"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t2_svm_rbf_gamma_efecto.png" data-desc-position="bottom"><img alt="" src="../images/t2_svm_rbf_gamma_efecto.png"></a><figcaption>Figura 5: Efecto del parámetro <span class="arithmatex">\(\gamma\)</span> en el Kernel RBF </figcaption></figure><p></p>
+<h3 id="kernel-sigmoide">Kernel sigmoide<a class="headerlink" href="#kernel-sigmoide" title="Permanent link">¶</a></h3>
+<p>También conocido como Kernel <em>neural network</em>, tiene un comportamiento similar a redes neuronales de una capa, y tiene la siguiente forma:</p>
+<div class="arithmatex">\[
+K(\mathbf{x}_i, \mathbf{x}_j) = \tanh (\gamma  \mathbf{x}_i^T \mathbf{x}_j + r)
+\]</div>
+<p>Donde, al igual que en los casos anteriores, <span class="arithmatex">\(\gamma\)</span> controla la influencia de cada <em>sample</em> en la frontera de decisión y <span class="arithmatex">\(r\)</span> es un término de sesgo que desplaza los datos en una dirección y otra.</p>
+<p>Es menos utilizado actualmente, y su uso se limita a casos muy concretos en los que los datos tienen una forma sigmoidal. </p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:cortes1995svm">
+<p>Cortes, C., &amp; Vapnik, V. (1995). Support-vector networks. <em>Machine Learning</em>, <em>20</em>(3), 273--297. <a href="https://doi.org/10.1007/BF00994018">https://doi.org/10.1007/BF00994018</a>&nbsp;<a class="footnote-backref" href="#fnref:cortes1995svm" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+<li id="fn:boyd2004convex">
+<p>Boyd, S., &amp; Vandenberghe, L. (2004). <em>Convex optimization</em>. Cambridge University Press.&nbsp;<a class="footnote-backref" href="#fnref:boyd2004convex" title="Jump back to footnote 2 in the text">↩</a><a class="footnote-backref" href="#fnref2:boyd2004convex" title="Jump back to footnote 2 in the text">↩</a></p>
+</li>
+<li id="fn:platt1998smo">
+<p>Platt, J. C. (1998). <em>Sequential minimal optimization: A fast algorithm for training support vector machines</em> (Nos. MSR-TR-98-14). Microsoft Research.&nbsp;<a class="footnote-backref" href="#fnref:platt1998smo" title="Jump back to footnote 3 in the text">↩</a></p>
+</li>
+<li id="fn:kuhn1951nonlinear">
+<p>Kuhn, H. W., &amp; Tucker, A. W. (1951). Nonlinear programming. <em>Proceedings of the Second Berkeley Symposium on Mathematical Statistics and Probability</em>, 481--492.&nbsp;<a class="footnote-backref" href="#fnref:kuhn1951nonlinear" title="Jump back to footnote 4 in the text">↩</a></p>
+</li>
+<li id="fn:hsieh2008dual">
+<p>Hsieh, C.-J., Chang, K.-W., Lin, C.-J., Keerthi, S. S., &amp; Sundararajan, S. (2008). A dual coordinate descent method for large-scale linear SVM. <em>Proceedings of the 25th International Conference on Machine Learning</em>, 408--415.&nbsp;<a class="footnote-backref" href="#fnref:hsieh2008dual" title="Jump back to footnote 5 in the text">↩</a></p>
+</li>
+<li id="fn:boser1992">
+<p>Boser, B. E., Guyon, I. M., &amp; Vapnik, V. N. (1992). A training algorithm for optimal margin classifiers. <em>Proceedings of the Fifth Annual Workshop on Computational Learning Theory</em>, 144--152. <a href="https://doi.org/10.1145/130385.130401">https://doi.org/10.1145/130385.130401</a>&nbsp;<a class="footnote-backref" href="#fnref:boser1992" title="Jump back to footnote 6 in the text">↩</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+            Volver al principio
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "toc.follow", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.b78d2936.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

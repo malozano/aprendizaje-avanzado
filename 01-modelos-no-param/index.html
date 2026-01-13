@@ -1,0 +1,802 @@
+<!DOCTYPE html><html lang="es" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apuntes de la asignatura Aprendizaje Avanzado del Grado en Ingeniería en Inteligencia Artificial de la Universidad de Alicante">
+      
+      
+        <meta name="author" content="Miguel Angel Lozano">
+      
+      
+        <link rel="canonical" href="https://malozano.github.io/aprendizaje-avanzado/01-modelos-no-param/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../02-svm/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.1">
+    
+    
+      
+        <title>1. Modelos paramétricos y no paramétricos - Aprendizaje Avanzado</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.402914a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tema-1-modelos-parametricos-y-no-parametricos" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="Aprendizaje Avanzado" class="md-header__button md-logo" aria-label="Aprendizaje Avanzado" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Aprendizaje Avanzado
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. Modelos paramétricos y no paramétricos
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Modo oscuro" type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Modo oscuro" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-label="Modo claro" type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Modo claro" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Aprendizaje Avanzado" class="md-nav__button md-logo" aria-label="Aprendizaje Avanzado" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
+
+    </a>
+    Aprendizaje Avanzado
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Introducción
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Bloque I. Aprendizaje supervisado
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Bloque I. Aprendizaje supervisado
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          1. Modelos paramétricos y no paramétricos
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        1. Modelos paramétricos y no paramétricos
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#modelos-lineales" class="md-nav__link">
+    Modelos lineales
+  </a>
+  
+    <nav class="md-nav" aria-label="Modelos lineales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hiperplanos-y-clasificacion" class="md-nav__link">
+    Hiperplanos y clasificación
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regresion-logistica" class="md-nav__link">
+    Regresión Logística
+  </a>
+  
+    <nav class="md-nav" aria-label="Regresión Logística">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#funcion-sigmoide" class="md-nav__link">
+    Función sigmoide
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#funcion-de-coste" class="md-nav__link">
+    Función de coste
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimizacion" class="md-nav__link">
+    Optimización
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regularizacion" class="md-nav__link">
+    Regularización
+  </a>
+  
+    <nav class="md-nav" aria-label="Regularización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regularizacion-l2-ridge" class="md-nav__link">
+    Regularización L2 (Ridge)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regularizacion-l1-lasso" class="md-nav__link">
+    Regularización L1 (Lasso)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regularizacion-elastic-net" class="md-nav__link">
+    Regularización Elastic Net
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitaciones-de-los-modelos-lineales" class="md-nav__link">
+    Limitaciones de los modelos lineales
+  </a>
+  
+    <nav class="md-nav" aria-label="Limitaciones de los modelos lineales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regresion-logistica-con-datos-linealmente-separables" class="md-nav__link">
+    Regresión logística con datos linealmente separables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regresion-logistica-con-datos-linealmente-no-separables" class="md-nav__link">
+    Regresión logística con datos linealmente no separables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#posibles-soluciones" class="md-nav__link">
+    Posibles soluciones
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ingenieria-de-caracteristicas" class="md-nav__link">
+    Ingeniería de características
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modelos-parametricos-no-lineales" class="md-nav__link">
+    Modelos paramétricos no lineales
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modelos-no-parametricos" class="md-nav__link">
+    Modelos no paramétricos
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-svm/" class="md-nav__link">
+        2. SVM
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-arboles-decision/" class="md-nav__link">
+        3. Árboles de decisión
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="tema-1-modelos-parametricos-y-no-parametricos">Tema 1: Modelos paramétricos y no paramétricos<a class="headerlink" href="#tema-1-modelos-parametricos-y-no-parametricos" title="Permanent link">¶</a></h1>
+<p>Los <strong>modelos no paramétricos</strong>, a diferencia de los modelos paramétricos, son una familia de modelos que no asumen una forma funcional fija. Una implicación importante de este hecho es que la complejidad del modelo puede crecer en función del conjunto de datos. </p>
+<p>En un modelo paramétrico se define de antemano la forma funcional, que podría ser por ejemplo lineal o cuadrática, y tendremos que estimar un número fijo de parámetros, pero si la estructura de los datos es más compleja y no conocemos su forma, puede que no puedan ajustarse de forma adecuada al modelo.</p>
+<p>Los modelos no paramétricos no imponen una estructura fija, sino que permiten que sean los propios datos los que determinen la complejidad del modelo. </p>
+<p>Desde el punto de vista del compromiso (<em>trade-off</em>) entre <strong>sesgo</strong> (<em>bias</em>) y <strong>varianza</strong>, podemos intuir que los modelos paramétricos tenderán a tener un mayor sesgo, si el modelo no es lo suficientemente complejo como para poder representar los datos (riesgo de <em>underfitting</em>), mientras que los modelos no paramétricos tenderán a tener menor sesgo pero mayor varianza (riesgo de <em>overfitting</em>), siendo sensibles a los cambios en los datos de entrenamiento.</p>
+<p>Vamos a ilustrarlo a continuación mediante un clasificador paramétrico sencillo.</p>
+<h2 id="modelos-lineales">Modelos lineales<a class="headerlink" href="#modelos-lineales" title="Permanent link">¶</a></h2>
+<p>Una familia característica de modelos paramétricos son los modelos lineales, que son aquellos que asumen una relación lineal entre los datos de entrada y la variable objetivo.</p>
+<p>El modelo lineal predice la salida como una combinación lineal ponderada de las variables de entrada, con la siguiente forma:</p>
+<div class="arithmatex">\[
+\hat{y} = w_1 x_1 + w_2 x_2 + \ldots + w_N x_N = \mathbf{x}^T \mathbf{w} + b
+\]</div>
+<p>Donde <span class="arithmatex">\(\mathbf{x}\)</span> es el vector de características de entrada, <span class="arithmatex">\(\mathbf{w}\)</span> es el vector de coeficientes que el modelo aprende, <span class="arithmatex">\(b\)</span> es el sesgo o desplazamiento y <span class="arithmatex">\(\hat{y}\)</span> la predicción que nos da el modelo. </p>
+<p>Desde el punto de vista geométrico, esta ecuación define un hiperplano. Con esto, podemos dar la siguiente interpretación al funcionamiento de estos modelos:</p>
+<ul>
+<li>Tareas de <strong>regresión</strong>: Se busca el hiperplano que mejor se ajusta a los datos de entrada.</li>
+<li>Tareas de <strong>clasificación</strong>: Se busca el hiperplano que mejor separa los datos de dos clases. </li>
+</ul>
+<p>Vamos a centrarnos a continuación en la tarea de clasificación, y estudiaremos dos de los principales métodos lineales para clasificación: <strong>Regresión Logística</strong> y <strong>SVM</strong> (Hastie et al., 2009)<sup id="fnref:hastie2009elements"><a class="footnote-ref" href="#fn:hastie2009elements">1</a></sup>. </p>
+<h3 id="hiperplanos-y-clasificacion">Hiperplanos y clasificación<a class="headerlink" href="#hiperplanos-y-clasificacion" title="Permanent link">¶</a></h3>
+<p>En un problema de clasificación, si contamos con datos linealmente separables podremos encontrar un hiperplano que nos permita clasificarlos sin errores. El hiperplano tendrá la siguiente forma:</p>
+<div class="arithmatex">\[
+\mathbf{x^T} \mathbf{w} + b = 0
+\]</div>
+<p>Donde sus parámetros son <span class="arithmatex">\(\mathbf{w}\)</span>, que representa un vector perpendicular al hiperplano, y <span class="arithmatex">\(b\)</span>, como término de desplazamiento. </p>
+<p>Para facilitar la visualización, vamos a considerar el caso concreto de dos dimensiones, donde el hiperplano anterior sería una línea, con la siguiente ecuación:</p>
+<div class="arithmatex">\[
+w_1 x_1 + w_2 x_2 + b = 0 \
+\]</div>
+<p>Por ejemplo, si consideramos como parámetros el vector <span class="arithmatex">\(\mathbf{w} = [0.45, 0.89]\)</span> y <span class="arithmatex">\(b = -2\)</span>, tendremos la siguiente recta:</p>
+<p></p><figure id="fig-hiperplano"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_hiperplano.png" data-desc-position="bottom"><img alt="" src="../images/t1_hiperplano.png"></a><figcaption>Figura 1: Ejemplo de hiperplano para separar dos conjuntos de datos </figcaption></figure><p></p>
+<p>En la <a href="#fig-hiperplano">Figura 1</a> podemos observar que si el vector <span class="arithmatex">\(\mathbf{w}\)</span> es unitario, como en el ejemplo anterior, entonces el término <span class="arithmatex">\(b\)</span> coincide con la distancia del plano al origen. En el caso general en el que <span class="arithmatex">\(\mathbf{w}\)</span> no es unitario, la distancia al origen será <span class="arithmatex">\(|b| / \lVert \mathbf{w} \rVert\)</span>.  </p>
+<p>La ecuación del hiperplano nos proporciona una forma sencilla de clasificar los puntos según se encuentren a uno u otro lado, tomando dicha ecuación como función:</p>
+<div class="arithmatex">\[
+f(\mathbf{\mathbf{x}}) = \mathbf{x^T} \mathbf{w} + b
+\]</div>
+<p>En la función <span class="arithmatex">\(f(\mathbf{x})\)</span>, todos los puntos que pertenezcan al hiperplano nos darán <span class="arithmatex">\(f(\mathbf{x})=0\)</span> (cumplirían la ecuación del hiperplano), pero lo que realmente nos interesa es que todos los puntos que estén al lado al que apunta el vector <span class="arithmatex">\(\mathbf{w}\)</span> harán que <span class="arithmatex">\(f(\mathbf{x})\)</span> tenga signo positivo, mientras que los que estén al lado contrario harán que tenga signo negativo.  Es decir, podemos utilizar el signo de dicha función como clasificador:</p>
+<div class="arithmatex">\[
+G(\mathbf{x}) = signo[f(\mathbf{x})]
+\]</div>
+<p>De esta forma, diferentes puntos de datos quedarían clasificados tal como se muestra en la <a href="#fig-clf-hiperplano">Figura 2</a></p>
+<p></p><figure id="fig-clf-hiperplano"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_clasificacion_hiperplano.png" data-desc-position="bottom"><img alt="" src="../images/t1_clasificacion_hiperplano.png"></a><figcaption>Figura 2: Ejemplo de clasificación con un hiperplano </figcaption></figure><p></p>
+<blockquote>
+<p>Además, en caso de que <span class="arithmatex">\(\mathbf{w}\)</span> sea unitario, la función <span class="arithmatex">\(f(\mathbf{\mathbf{x}})\)</span> nos dará la distancia (con signo) desde cada punto al plano. Podemos ver esto de forma intuitiva, considerando que el producto escalar <span class="arithmatex">\(\mathbf{x^T} \mathbf{w}\)</span> nos da la proyección de <span class="arithmatex">\(\mathbf{x}\)</span> sobre el vector <span class="arithmatex">\(\mathbf{w}\)</span> perpendicular al hiperplano. Esto nos dará la distancia al hiperplano si pasara por el origen, y el término <span class="arithmatex">\(b\)</span> introduce un desplazamiento.</p>
+</blockquote>
+<p>Existen diferentes métodos que nos permiten aprender, a partir de un conjunto de datos, un hiperplano que separe los datos de dos clases. </p>
+<h3 id="regresion-logistica">Regresión Logística<a class="headerlink" href="#regresion-logistica" title="Permanent link">¶</a></h3>
+<p>Aunque el nombre pueda resultar confuso, se trata de un <strong>método de clasificación</strong>, y no de regresión. Si bien con el método de regresión lineal se busca ajustar un hiperplano a un conjunto de puntos, de forma que se minimice la distancia entre los puntos del conjunto de entrada y el hiperplano, en el caso de la regresión logística buscamos el hiperplano que mejor separe dos clases de datos. Hablamos en este caso de regresión logística <strong>binomial</strong>, en la que contamos únicamente con dos clases, aunque también podríamos extender este método a un mayor número de clases, hablando en este caso de regresión logística <strong>multinomial</strong>. Vamos a centrarnos de momento por simplicidad en el caso binomial.  </p>
+<p>Como hemos visto anteriormente, a partir de la ecuación del hiperplano podemos determinar si un punto está a uno u otro lado a partir del signo de la función <span class="arithmatex">\(f(x)\)</span> anterior.</p>
+<p>Este modelo destaca por su interpretabilidad, y es ampliamente utilizado como modelo base en numerosos problemas de clasificación. </p>
+<p>La clave principal de la regresión logistica consiste en aplicar sobre la función anterior la función sigmoide, modelando mediante esta función la probabilidad de pertenencia a cada clase.</p>
+<h4 id="funcion-sigmoide">Función sigmoide<a class="headerlink" href="#funcion-sigmoide" title="Permanent link">¶</a></h4>
+<p>La función sigmoide <span class="arithmatex">\(\sigma(z)\)</span> tiene la siguiente forma:</p>
+<div class="arithmatex">\[
+\sigma(z) = \frac{1}{1+ e^{-z}}
+\]</div>
+<p>Podemos verla representada en la <a href="#fig-sigmoide">Figura 3</a>.</p>
+<p></p><figure id="fig-sigmoide"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_sigmoid.png" data-desc-position="bottom"><img alt="" src="../images/t1_sigmoid.png"></a><figcaption>Figura 3: Forma de la función sigmoide </figcaption></figure><p></p>
+<p>Como podemos observar, esta función presenta una transición suave desde <span class="arithmatex">\(0\)</span> (cuando <span class="arithmatex">\(z \rightarrow -\infty\)</span>) hasta <span class="arithmatex">\(1\)</span> (cuando <span class="arithmatex">\(z \rightarrow \infty\)</span>), teniendo su punto medio en <span class="arithmatex">\(\sigma(0) = 0.5\)</span>. </p>
+<p>La función es siempre creciente y derivable, lo cual es una propiedad importante para la optimización.</p>
+<p>La función sigmoide tiene la siguiente derivada:</p>
+<div class="arithmatex">\[
+\sigma'(z) = \sigma(z) (1 - \sigma(z))
+\]</div>
+<p>Esta forma simplifica mucho el cálculo del gradiente.</p>
+<p>Podemos sustituir <span class="arithmatex">\(z\)</span> por nuestra función <span class="arithmatex">\(f(x)\)</span> que nos permite clasificar los puntos en función del signo, teniendo:</p>
+<div class="arithmatex">\[
+h_w(\mathbf{x}) = \sigma(f(x)) =  \frac{1}{1 + e^{-f(x)}} = \frac{1}{1 + e^{-(\mathbf{x}^T \mathbf{w} + b)}}
+\]</div>
+<p>Podemos interpretar <span class="arithmatex">\(h_w(x)\)</span> como la probabilidad estimada de que <span class="arithmatex">\(y = 1\)</span> (es decir, de que pertenezca a la clase positiva). Podemos expresarlo como:</p>
+<div class="arithmatex">\[
+h_w(\mathbf{x}) = P(y=1 | \mathbf{x}, \mathbf{w}, b)
+\]</div>
+<p>Estimaremos los parámetros mediante máxima verosimilitud, lo cual equivale a minimizar la pérdida logarítmica (<em>log-loss</em>).</p>
+<h4 id="funcion-de-coste">Función de coste<a class="headerlink" href="#funcion-de-coste" title="Permanent link">¶</a></h4>
+<p>La función de pérdida logarítmica (<em>log-loss</em>) para una sola muestra tiene la siguiente forma:</p>
+<div class="arithmatex">\[
+L(h_w(\mathbf{x}), y) = -y \log (h_w(x)) - (1-y) log(1-h_w(x))
+\]</div>
+<p>Esta función tiene la propiedad de que penaliza fuertemente las predicciones confiadas pero incorrectas. Es decir, si la salida esperada es <span class="arithmatex">\(y=1\)</span> pero la predicción <span class="arithmatex">\(h(\mathbf{x}) \rightarrow 0\)</span>, entonces la penalización será alta.</p>
+<p>Consideremos ahora que tenemos un conjunto de entrenamiento con <span class="arithmatex">\(N\)</span> pares <span class="arithmatex">\((\mathbf{x_i}, y_i)\)</span> con <span class="arithmatex">\(\mathbf{x_i} \in \mathbb{R}^d\)</span> y <span class="arithmatex">\(y_i \in \{0, 1\}\)</span> (problema binomial), siendo <span class="arithmatex">\(d\)</span> el número de <em>features</em>.</p>
+<p>Con todo ello, para el conjunto de muestras podemos construir la siguiente función de coste:</p>
+<div class="arithmatex">\[
+J(\mathbf{w}) = -\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i) \log (1 - h_w(\mathbf{x}_i))]
+\]</div>
+<p>Esta función tiene la propiedad de que es convexa (tiene un único mínimo global) y diferenciable, y como hemos comentado, penaliza las predicciones claramente incorrectas.</p>
+<h4 id="optimizacion">Optimización<a class="headerlink" href="#optimizacion" title="Permanent link">¶</a></h4>
+<p>Buscamos encontrar los pesos <span class="arithmatex">\(\mathbf{w}\)</span> que minimicen la función de coste anterior. </p>
+<div class="arithmatex">\[
+\mathbf{\hat{w}} = \arg \min_{\mathbf{w}} J(\mathbf{w}) 
+\]</div>
+<p>Obtenemos el gradiente de la función, mediante la derivada parcial respecto a cada peso <span class="arithmatex">\(w_j\)</span>:</p>
+<div class="arithmatex">\[
+\frac{\delta J(\mathbf{w})}{\delta w_j} = \frac{1}{N} \sum_{i=1}^N (h_w(\mathbf{x}_i) - y_i) x_{ij}
+\]</div>
+<p>Podemos expresar el gradiente en forma vectorial, para todos los pesos, de la siguiente forma:</p>
+<div class="arithmatex">\[
+\nabla J(\mathbf{w}) = \frac{1}{N} \mathbf{x}^T (h_w(\mathbf{x}) - y) 
+\]</div>
+<p>Donde <span class="arithmatex">\(\mathbf{x}\)</span> es una matriz de dimensión <span class="arithmatex">\(N \times d\)</span>, <span class="arithmatex">\(h_w(\mathbf{x})\)</span> es un vector de predicciones de dimensión <span class="arithmatex">\(N \times 1\)</span> y <span class="arithmatex">\(y\)</span> es un vector de etiquetas de dimensión <span class="arithmatex">\(N \times 1\)</span> (una fila para cada ejemplo de entrada). </p>
+<p>De la misma forma, podemos obtener la derivada parcial respecto al sesgo (<span class="arithmatex">\(b\)</span>):</p>
+<div class="arithmatex">\[
+\frac{\delta J(\mathbf{w})}{\delta b} = \frac{1}{N} \sum_{i=1}^N (h_w(\mathbf{x}_i) - y_i)
+\]</div>
+<p>Con esto, podremos aplicar <strong>Descenso por Gradiente</strong> o <strong>Descenso por Gradiente estocástico (SGD)</strong> para optimizar los pesos. También tenemos otros algoritmos de optimización como <strong>Coordinate Descent</strong> (Hsieh et al., 2008)<sup id="fnref:hsieh2008dual"><a class="footnote-ref" href="#fn:hsieh2008dual">2</a></sup>, en el que en lugar de aplicar descenso por gradiente a la vez sobre todas las coordenadas, se selecciona de forma iterativa una coordenada, se congela el resto, y se optimiza para la coordenada seleccionada. El algoritmo itera por las diferentes coordenadas hasta la convergencia. Encontramos también otros métodos de optimización, como el método de <strong>Newton</strong> (Nocedal &amp; Wright, 2006)<sup id="fnref:nocedal2006numerical"><a class="footnote-ref" href="#fn:nocedal2006numerical">3</a></sup> que utiliza segundas derivadas y presenta la ventaja de una convergencia más rápida, aunque resulta algo costoso. Tenemos también <strong>L-BFGS</strong> (Liu &amp; Nocedal, 1989)<sup id="fnref:liu1989limited"><a class="footnote-ref" href="#fn:liu1989limited">4</a></sup> que es una aproximación eficiente del método de Newton y es el utilizado por defecto en la <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">implementación de <code>LogisticRegression</code> en sklearn</a>. Esta implementación  incluye diferentes <em>solvers</em> alternativos que podemos utilizar para la optimización. </p>
+<h4 id="regularizacion">Regularización<a class="headerlink" href="#regularizacion" title="Permanent link">¶</a></h4>
+<p>Podemos añadir a la función de coste un término de penalización para prevenir el <em>overfitting</em> y controlar la complejidad del modelo. Encontramos diferentes tipos de regularización:</p>
+<h5 id="regularizacion-l2-ridge">Regularización L2 (Ridge)<a class="headerlink" href="#regularizacion-l2-ridge" title="Permanent link">¶</a></h5>
+<p>Busca penalizar pesos grandes, para favorecer soluciones más simples:</p>
+<div class="arithmatex">\[
+\begin{align*}
+J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i) \log (1 - h_w(\mathbf{x}_i))] +
+\\
+&amp; + \frac{\lambda}{2N} \sum_{k=1}^d w_k^2
+\end{align*}
+\]</div>
+<h5 id="regularizacion-l1-lasso">Regularización L1 (Lasso)<a class="headerlink" href="#regularizacion-l1-lasso" title="Permanent link">¶</a></h5>
+<p>Favorece que algunos pesos puedan ser exactamente <span class="arithmatex">\(0\)</span>, actuando de esta forma como una selección de características:</p>
+<div class="arithmatex">\[
+\begin{align*}
+J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i) \log (1 - h_w(\mathbf{x}_i))] +
+\\
+&amp; + \frac{\lambda}{N} \sum_{k=1}^d | w_k |
+\end{align*}
+\]</div>
+<h5 id="regularizacion-elastic-net">Regularización Elastic Net<a class="headerlink" href="#regularizacion-elastic-net" title="Permanent link">¶</a></h5>
+<p>Combina L1 y L2:</p>
+<div class="arithmatex">\[
+\begin{align*}
+J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i) \log (1 - h_w(\mathbf{x}_i))] +
+\\
+&amp; + \frac{\lambda_1}{N} \sum_{k=1}^d | w_k | + \frac{\lambda_2}{2N} \sum_{k=1}^d w_k^2 
+\end{align*}
+\]</div>
+<p>En todos estos casos tenemos un hiper-parámetro <span class="arithmatex">\(\lambda\)</span> con el que podemos ajustar la regularización. Con <span class="arithmatex">\(\lambda = 0\)</span> no aplicamos regularización, con lo que tendremos mayor riesgo de <em>overfitting</em>, mientras que con valores muy altos podríamos tener mayor riesgo de <em>underfitting</em>. </p>
+<h2 id="limitaciones-de-los-modelos-lineales">Limitaciones de los modelos lineales<a class="headerlink" href="#limitaciones-de-los-modelos-lineales" title="Permanent link">¶</a></h2>
+<p>Como hemos visto, los modelos lineales como regresión logística buscan el hiperplano que mejor separe los datos de las diferentes clases. Sin embargo, esto no siempre será posible.</p>
+<h3 id="regresion-logistica-con-datos-linealmente-separables">Regresión logística con datos linealmente separables<a class="headerlink" href="#regresion-logistica-con-datos-linealmente-separables" title="Permanent link">¶</a></h3>
+<p>En caso de tener datos linealmente separables, como los que se muestran en la  <a href="#fig-separable">Figura 4</a>, existirá un hiperplano que los separe. En este caso, un clasificador lineal con solo 3 parámetros (<span class="arithmatex">\(w_1, w_2, b\)</span>) será suficiente para representar los datos.</p>
+<p></p><figure id="fig-separable"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_logistic_linear_separable.png" data-desc-position="bottom"><img alt="" src="../images/t1_logistic_linear_separable.png"></a><figcaption>Figura 4: Conjunto de datos linealmente separables </figcaption></figure><p></p>
+<p>Con esta distribución de los datos, incluso si apareciese algún solape entre las dos clases o algún <em>outlier</em>, seguiría siendo posible encontrar un hiperplano que nos permita clasificarlos con una alta precisión, y solo un pequeño porcentaje de errores (ver <a href="#fig-solape">Figura 5</a>).</p>
+<p></p><figure id="fig-solape"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_logistic_linear_overlap.png" data-desc-position="bottom"><img alt="" src="../images/t1_logistic_linear_overlap.png"></a><figcaption>Figura 5: Conjunto de datos separables con solape </figcaption></figure><p></p>
+<p>Podemos además ver en la <a href="#fig-prob">Figura 6</a> el mapa de probabilidades que nos proporciona el modelo de regresión logística.</p>
+<p></p><figure id="fig-prob"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_logistic_probability_map.png" data-desc-position="bottom"><img alt="" src="../images/t1_logistic_probability_map.png"></a><figcaption>Figura 6: Mapa de probabilidades </figcaption></figure><p></p>
+<h3 id="regresion-logistica-con-datos-linealmente-no-separables">Regresión logística con datos linealmente no separables<a class="headerlink" href="#regresion-logistica-con-datos-linealmente-no-separables" title="Permanent link">¶</a></h3>
+<p>Sin embargo, si la distribución de los datos cambiase, y pasaran a ser no separables, como los que se muestran en la <a href="#fig-xor">Figura 7</a>, el modelo anterior no sería suficiente para representarlos.</p>
+<p></p><figure id="fig-xor"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_xor_basic_model.png" data-desc-position="bottom"><img alt="" src="../images/t1_xor_basic_model.png"></a><figcaption>Figura 7: Conjunto de datos linealmente no separables </figcaption></figure><p></p>
+<p>En este caso los datos siguen un patrón conocido como XOR, distribuido en <span class="arithmatex">\(4\)</span> cuadrantes, y no es posible encontrar ningún hiperplano que los separe. Cualquier hiperplano nos dará siempre un error aproximado del <span class="arithmatex">\(50\%\)</span>, que equivale a lanzar una moneda al aire para predecir la clase, tal como se ve en la figura anterior. </p>
+<p>Vemos en este caso como el no poder adaptar la complejidad del modelo a los datos (estaríamos limitados a <span class="arithmatex">\(3\)</span> parámetros <span class="arithmatex">\(w_1, w_2, b\)</span>) hace que el modelo no pueda ajustarse de forma adecuada.</p>
+<h3 id="posibles-soluciones">Posibles soluciones<a class="headerlink" href="#posibles-soluciones" title="Permanent link">¶</a></h3>
+<p>Para clasificar los puntos del último ejemplo minimizando el error de clasificación, podríamos optar por:</p>
+<ul>
+<li>
+<p><strong>Clasificador lineal con ingeniería de características</strong>: Crear manualmente características no lineales (por ejemplo <span class="arithmatex">\(x_1^2,x_2^2,x_1 \cdot x_2\)</span>) y usar un modelo lineal sobre ellas. Esto requiere tener conocimiento del dominio, para determinar qué características necesitaríamos para que la función pueda ajustarse a nuestros datos.</p>
+</li>
+<li>
+<p><strong>Clasificador paramétrico no lineal</strong>: Por ejemplo, una red neuronal con número fijo de parámetros. Necesitaremos determinar la arquitectura más adecuada.</p>
+</li>
+<li>
+<p><strong>Clasificador no paramétrico</strong>: En este caso no será necesario conocer previamente la estructura de los datos (su forma funcional), sino que el modelo se adaptará automáticamente a su complejidad.</p>
+</li>
+</ul>
+<p>Veremos a continuación ejemplos de cada una de estas soluciones.</p>
+<h2 id="ingenieria-de-caracteristicas">Ingeniería de características<a class="headerlink" href="#ingenieria-de-caracteristicas" title="Permanent link">¶</a></h2>
+<p>Vamos en primer lugar a ver cómo podríamos utilizar ingeniería de características para separar el conjunto de datos anterior (ejemplo XOR). </p>
+<p>Al estar en dos dimensiones contamos con las <em>features</em> <span class="arithmatex">\(x_1\)</span> y <span class="arithmatex">\(x_2\)</span>. Lo que vamos a hacer es añadir además las <em>features</em> <span class="arithmatex">\(x_1^2\)</span>, <span class="arithmatex">\(x_1 x_2\)</span> y <span class="arithmatex">\(x_2^2\)</span>. Nótese que se trata de <em>features</em> derivadas de las originales. Esto nos va a permitir definir una frontera curva entre los datos, donde el papel de la característica <span class="arithmatex">\(x_1 x_2\)</span> será fundamental, ya que según su signo podremos inferir la clase en una operación XOR. Podemos ver esto ilustrado en la <a href="#fig-xor-feat">Figura 8</a>.</p>
+<p></p><figure id="fig-xor-feat"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_xor_feature.png" data-desc-position="bottom"><img alt="" src="../images/t1_xor_feature.png"></a><figcaption>Figura 8: Ingeniería de características </figcaption></figure><p></p>
+<p>Si aplicamos a este conjunto de datos el modelo de regresión logística introduciendo las <em>features</em> indicadas anteriormente, obtenemos la frontera de clasificación que se muestra en la <a href="#fig-frontera">Figura 9</a>.</p>
+<p></p><figure id="fig-frontera"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_xor_polynomial_model.png" data-desc-position="bottom"><img alt="" src="../images/t1_xor_polynomial_model.png"></a><figcaption>Figura 9: Frontera de decisión con ingeniería de características </figcaption></figure><p></p>
+<p>Lo que hemos hecho ha sido crear <span class="arithmatex">\(M\)</span>  características de entrada <span class="arithmatex">\(h(\mathbf{x}) = (h_1(\mathbf{x}), h_2(\mathbf{x}), \ldots, h_M(\mathbf{x}))\)</span> a partir de las características originales <span class="arithmatex">\(\mathbf{x}\)</span>. Es decir, con <span class="arithmatex">\(h(\mathbf{x})\)</span> estamos proyectando las características originales en un nuevo espacio de características. Con esto, el hiperplano de separación quedaría de la siguiente forma:</p>
+<div class="arithmatex">\[
+f(\mathbf{x}) = h(\mathbf{x})^T \mathbf{w} + b
+\]</div>
+<p>Podemos observar que aunque el modelo sigue siendo lineal respecto a las características proyectadas <span class="arithmatex">\(h(\mathbf{x})\)</span>, puede que ya no lo sea en el espacio original de características de <span class="arithmatex">\(\mathbf{x}\)</span>. Esto es lo que ocurre en el caso del ejemplo anterior, en el que las características proyectadas son <span class="arithmatex">\(h(\mathbf{x}) = (x_1, x_2, x_1 x_2, x_1^2, x_2^2)\)</span>, y por lo tanto tenemos un polinomio de grado 2 en el espacio original.</p>
+<h2 id="modelos-parametricos-no-lineales">Modelos paramétricos no lineales<a class="headerlink" href="#modelos-parametricos-no-lineales" title="Permanent link">¶</a></h2>
+<p>Un tipo destacado modelo paramétrico no lineal son las Redes Neuronales. Vamos a establecer la relación de la Regresión Logística con las Redes Neuronales y a estudiar como estos modelos pueden resolver problemas no lineales como el planteado.</p>
+<p>Es fácil determinar que el modelo de regresión logística es equivalente a un perceptrón con <span class="arithmatex">\(N\)</span> entradas que aplique una función sigmoide como función de activación (ver <a href="#fig-perceptron">Figura 10</a>). </p>
+<p></p><figure id="fig-perceptron"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_perceptron.png" data-desc-position="bottom"><img alt="" src="../images/t1_perceptron.png"></a><figcaption>Figura 10: Perceptrón con <span class="arithmatex">\(N\)</span> entradas y función de activación Sigmoide </figcaption></figure><p></p>
+<p>En este caso, la salida de la neurona sería:</p>
+<div class="arithmatex">\[
+y = \sigma(\sum_{i=1}^N w_i x_i + b)
+\]</div>
+<p>Donde <span class="arithmatex">\(x_i\)</span> son las entradas, <span class="arithmatex">\(w_b\)</span> los pesos para cada entrada y <span class="arithmatex">\(b\)</span> el sesgo o <em>bias</em>. </p>
+<p>Cuando a la red le añadimos varias capas ocultas (ver <a href="#fig-deep">Figura 11</a>), lo que estaremos haciendo es aprender a transformar el espacio original de características <span class="arithmatex">\(\mathbf{X}\)</span> en un espacio latente <span class="arithmatex">\(\mathbf{H}\)</span> que facilite su clasificación. Podremos encontrar estas características en la última capa de la red, y sobre ellas se aplicará una clasificación equivalente a la regresión logística.</p>
+<p></p><figure id="fig-deep"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_perceptron_multicapa.png" data-desc-position="bottom"><img alt="" src="../images/t1_perceptron_multicapa.png"></a><figcaption>Figura 11: Red neuronal profunda con neurona de salida Sigmoidea </figcaption></figure><p></p>
+<p>Esta transformación del espacio de características nos podría permitir mapear nuestros datos de entrada no linealmente separables sobre un espacio en el que si que lo sean. En este caso tenemos un modelo <strong>paramétrico pero no lineal</strong>. </p>
+<p>Cabe destacar que aplicando ingeniería de características debemos diseñar manualmente las nuevas características que derivamos del conjunto original, por lo que es necesario tener conocimiento sobre la forma funcional de los datos. Sin embargo, en este caso es la propia red quien aprende de forma automática las características más adecuadas para resolver el problema.</p>
+<h2 id="modelos-no-parametricos">Modelos no paramétricos<a class="headerlink" href="#modelos-no-parametricos" title="Permanent link">¶</a></h2>
+<p>Nuestra tercera opción es el uso de modelos no paramétricos. Estos modelos cuentan con la ventaja de que su complejidad se adapta a los datos. </p>
+<p>Dentro de este grupo encontramos por ejemplo modelos basados en vecindad como <strong>K-NN</strong>, que son capaces de adaptarse sin problema al problema XOR anterior y a formas más complejas. En la <a href="#fig-knn">Figura 12</a> vemos la frontera de decisión obtenida cuando aplicamos K-NN al conjunto de datos que sigue el patrón XOR.</p>
+<p></p><figure id="fig-knn"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_knn_xor_best.png" data-desc-position="bottom"><img alt="" src="../images/t1_knn_xor_best.png"></a><figcaption>Figura 12: Aplicación de K-NN al problema XOR </figcaption></figure><p></p>
+<p>En la próxima sesión veremos el modelo <strong>SVM</strong>, que originalmente se plantea como un modelo paramétrico lineal, pero que puede transformarse en un modelo no paramétrico mediante el conocido como <em>kernel trick</em>. </p>
+<p>Encontramos muchos otros modelos no paramétricos, parte de los cuales enumeramos a continuación:</p>
+<ul>
+<li>
+<p><strong>Métodos basados en vecindad</strong>. Encontramos <strong>K-NN</strong> tanto para clasificación como para regresión, así como variantes como K-NN ponderado por distancia, así como métodos de estimación de densidad como <strong>Kernel Density Estimation (KDE)</strong></p>
+</li>
+<li>
+<p><strong>Métodos de kernel</strong>, como <strong>SVM</strong> y sus variantes. </p>
+</li>
+<li>
+<p><strong>Métodos basados en árboles</strong>. Encontramos los <strong>árboles de decisión</strong>, que nos permiten abordar problemas de clasificación y regresión, y <strong>métodos de <em>ensemble</em></strong> que combinan diferentes clasificadores "débiles" para construir un clasificador "fuerte". Dentro de este último subgrupo, encontramos métodos como <strong>Random Forest</strong>, <strong>AdaBoost</strong>, <strong>Gradient Boosting</strong> y <strong>XGBoost</strong>.</p>
+</li>
+<li>
+<p><strong>Métodos de clustering</strong>, como <strong>DBSCAN</strong>,  <strong>Gaussian Mixture Models (GMM)</strong> y <strong>Spectral Clustering</strong>.  </p>
+</li>
+<li>
+<p><strong>Métodos de aprendizaje por refuerzo</strong>, como <strong>Q-learning</strong> y <strong>SARSA</strong>.</p>
+</li>
+<li>
+<p><strong>Métodos de reducción de la dimensionalidad</strong>, como <strong>t-SNE</strong> y <strong>UMAP</strong>.</p>
+</li>
+</ul>
+<p>En las próximas sesiones estudiaremos varios de estos modelos.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:hastie2009elements">
+<p>Hastie, T., Tibshirani, R., &amp; Friedman, J. (2009). <em>The elements of statistical learning: Data mining, inference, and prediction</em> (2nd ed., pp. 119--128). Springer.&nbsp;<a class="footnote-backref" href="#fnref:hastie2009elements" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+<li id="fn:hsieh2008dual">
+<p>Hsieh, C.-J., Chang, K.-W., Lin, C.-J., Keerthi, S. S., &amp; Sundararajan, S. (2008). A dual coordinate descent method for large-scale linear SVM. <em>Proceedings of the 25th International Conference on Machine Learning</em>, 408--415.&nbsp;<a class="footnote-backref" href="#fnref:hsieh2008dual" title="Jump back to footnote 2 in the text">↩</a></p>
+</li>
+<li id="fn:nocedal2006numerical">
+<p>Nocedal, J., &amp; Wright, S. J. (2006). <em>Numerical optimization</em> (2nd ed.). Springer.&nbsp;<a class="footnote-backref" href="#fnref:nocedal2006numerical" title="Jump back to footnote 3 in the text">↩</a></p>
+</li>
+<li id="fn:liu1989limited">
+<p>Liu, D. C., &amp; Nocedal, J. (1989). On the limited memory BFGS method for large scale optimization. <em>Mathematical Programming</em>, <em>45</em>(1-3), 503--528.&nbsp;<a class="footnote-backref" href="#fnref:liu1989limited" title="Jump back to footnote 4 in the text">↩</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+            Volver al principio
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "toc.follow", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.b78d2936.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://malozano.github.io/aprendizaje-avanzado/</loc>
+         <lastmod>2026-01-13</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://malozano.github.io/aprendizaje-avanzado/01-modelos-no-param/</loc>
+         <lastmod>2026-01-13</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://malozano.github.io/aprendizaje-avanzado/02-svm/</loc>
+         <lastmod>2026-01-13</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://malozano.github.io/aprendizaje-avanzado/03-arboles-decision/</loc>
+         <lastmod>2026-01-13</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+</urlset>
