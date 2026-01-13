@@ -1,17 +1,24 @@
-# Welcome to MkDocs
+# Aprendizaje Avanzado
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+Este material se proporciona como apuntes para la asignatura [Aprendizaje Avanzado](https://cvnet.cpd.ua.es/Guia-Docente/GuiaDocente/Index?wcodest=C213&wcodasi=33680&wlengua=es) del [Grado en Ingeniería en Inteligencia Artificial](https://web.ua.es/es/grados/grado-en-ingenieria-en-inteligencia-artificial/) de la [Universidad de Alicante](www.ua.es/). 
 
-## Commands
+## Contexto de la asignatura
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+La asignatura _Aprendizaje Avanzado_ forma parte de la materia **Aprendizaje Automático**
+ junto con _Fundamentos del Aprendizaje Automático_ y _Redes Neuronales y Aprendizaje Profundo_. Se imparte en el segundo cuatrimestre del tercer curso, como continuación natural de _Fundamentos del Aprendizaje Automático_ y de forma paralela con _Redes Neuronales y Aprendizaje Profundo_.
 
-## Project layout
+Una vez establecidas las bases del aprendizaje automático en la asignatura de fundamentos, _Aprendizaje Avanzado_ se centra en proporcionar una visión amplia de los diferentes tipos de modelos existentes, buscando adquirir la capacidad de seleccionar, integrar, optimizar y evaluar múltiples técnicas para resolver problemas complejos del mundo real.
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+Se recomienda haber cursado previamente _Fundamentos del Aprendizaje Automático_.
+
+## Licencia
+
+**© 2025 Miguel Ángel Lozano Ortega**
+
+<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">
+  <img src="https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg" alt="CC BY 4.0">
+</a>
+
+
+Este material está disponible bajo licencia Creative Commons Attribution 4.0 International. 
+Esto significa que puedes usar, compartir y adaptar estos apuntes libremente, siempre que des el crédito apropiado.

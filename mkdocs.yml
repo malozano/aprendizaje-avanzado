@@ -9,14 +9,14 @@ theme:
   language: es
   palette:
     - scheme: default
-      primary: indigo
+      primary: white
       accent: indigo
       toggle:
         icon: material/brightness-7
         name: Modo oscuro
     - scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: white
+      accent: blue
       toggle:
         icon: material/brightness-4
         name: Modo claro    
