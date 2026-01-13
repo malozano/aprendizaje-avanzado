@@ -1,1 +1,115 @@
-site_name: My Docs
+site_name: Aprendizaje Avanzado
+site_description: Apuntes de la asignatura Aprendizaje Avanzado del Grado en Ingeniería en Inteligencia Artificial de la Universidad de Alicante
+site_author: Miguel Angel Lozano
+site_url: https://malozano.github.io/aprendizaje-avanzado/
+
+theme:
+  name: material
+  logo: 'images/logo.png'
+  language: es
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Modo oscuro
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Modo claro    
+  features:
+    # - navigation.tabs
+    # - navigation.sections
+    # - navigation.expand
+    # - search.suggest
+    # - search.highlight
+    - navigation.sections      # Secciones expandibles en la izquierda
+    - navigation.expand        # Expandir secciones automáticamente
+    - navigation.top           # Botón "volver arriba"
+    - navigation.indexes       # Páginas índice para secciones
+    - toc.follow               # TOC sigue el scroll
+    - toc.integrate            # Integrar TOC en navegación izquierda (opcional)
+    - search.suggest           # Sugerencias de búsqueda
+    - search.highlight         # Resaltar resultados
+    - content.code.copy        # Botón copiar código
+    - content.code.annotate    # Anotaciones en código    
+
+plugins:
+  - search:
+      lang: es
+  - glightbox  # Para zoom en imágenes
+  - bibtex:
+      bib_file: "referencias.bib"
+      csl_file: "apa.csl"
+  - caption:
+      additional_identifier: []  
+      cross_reference_text: '{page_title}/{local_ref}'
+      table: 
+        enable: true
+        start_index: 1
+        increment_index: 1
+        position: bottom
+        default_id: '_table-{index}'
+        reference_text: 'Tabla {index}'
+        caption_prefix: 'Tabla {index}:'
+        markdown_identifier: 'Table:'
+        allow_indented_caption: True
+      figure: 
+        enable: true
+        start_index: 1
+        increment_index: 1
+        position: bottom
+        default_id: '_figure-{index}'
+        reference_text: 'Figura {index}'
+        caption_prefix: 'Figura {index}:'
+        markdown_identifier: 'Figure:'
+        allow_indented_caption: True
+        ignore_alt: False
+        ignore_classes: ["twemoji"]
+      custom: 
+        enable: true
+        start_index: 1
+        increment_index: 1
+        position: bottom
+        default_id: '_{identifier}-{index}'
+        reference_text: '{Identifier} {index}'
+        caption_prefix: '{Identifier} {index}:'
+        markdown_identifier: '{Identifier}:'
+        allow_indented_caption: True
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.superfences
+  - pymdownx.details
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+  - toc:
+      permalink: true
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js
+
+nav:
+- Introducción: 'index.md'
+- Bloque I. Aprendizaje supervisado: 
+  - 1. Modelos paramétricos y no paramétricos: '01-modelos-no-param.md'
+  - 2. SVM: '02-svm.md'
+  - 3. Árboles de decisión: '03-arboles-decision.md'
+#  - 4. Métodos de ensamble: '04-ensamble.md'
+#- Bloque II. Aprendizaje no supervisado:
+#  - 5. Modelos probabilísticos: '05-clustering.md'
+#  - 6. Métodos de clustering: '05-clustering.md'
+#- Bloque III. Aprendizaje por refuerzo:
+#  - 7. Aprendizaje por refuerzo: '06-refuerzo.md'
+#- Bloque IV. Aplicación del Aprendizaje Automático:
+#  - 8. Selección y optimización de modelos: '07-optimizacion.md'
+#  - 9. Aprendizaje automático en problemas del mundo real: '08-aplicaciones.md'
