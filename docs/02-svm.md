@@ -101,9 +101,9 @@ Derivamos la función anterior respecto a $\mathbf{w}$ y $b$, y establecemos las
 
 $$
 \begin{align*}
-\frac {\delta L(\mathbf{w}, b, \alpha)}{\delta \mathbf{w}} &= \mathbf{w} - \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i = 0 & \Rightarrow \mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i 
+\frac {\partial L(\mathbf{w}, b, \alpha)}{\partial \mathbf{w}} &= \mathbf{w} - \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i = 0 & \Rightarrow \mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i 
 \\
-\frac {\delta L(\mathbf{w}, b, \alpha)}{\delta b} &= \sum_{i=1}^N \alpha_i y_i  = 0  & \Rightarrow 0 = \sum_{i=1}^N \alpha_i y_i
+\frac {\partial L(\mathbf{w}, b, \alpha)}{\partial b} &= \sum_{i=1}^N \alpha_i y_i  = 0  & \Rightarrow 0 = \sum_{i=1}^N \alpha_i y_i
 \end{align*}
 $$
 
@@ -228,12 +228,12 @@ Tendremos que minimizar esta función respecto a $\mathbf{w}$, $b$ y $\xi_i$, po
 
 $$
 \begin{align*}
-\frac {\delta L_P(\mathbf{w}, b, \xi, \alpha, \mu)}{\delta \mathbf{w}} &= \mathbf{w} - \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i = 0 & \Rightarrow \mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i 
+\frac {\partial L_P(\mathbf{w}, b, \xi, \alpha, \mu)}{\partial \mathbf{w}} &= \mathbf{w} - \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i = 0 & \Rightarrow \mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i 
 \\
-\frac {\delta L_P(\mathbf{w}, b, \xi, \alpha, \mu)}{\delta b} &= \sum_{i=1}^N \alpha_i y_i  = 0 
+\frac {\partial L_P(\mathbf{w}, b, \xi, \alpha, \mu)}{\partial b} &= \sum_{i=1}^N \alpha_i y_i  = 0 
 & \Rightarrow 0 = \sum_{i=1}^N \alpha_i y_i  
 \\
-\frac {\delta L_P(\mathbf{w}, b, \xi, \alpha, \mu)}{\delta \xi_i} &= C - \alpha_i - \mu_i = 0
+\frac {\partial L_P(\mathbf{w}, b, \xi, \alpha, \mu)}{\partial \xi_i} &= C - \alpha_i - \mu_i = 0
 & \Rightarrow \alpha_i = C - \mu_i
 \end{align*}
 $$

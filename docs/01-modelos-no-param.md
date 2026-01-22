@@ -161,8 +161,9 @@ $$
 Obtenemos el gradiente de la función, mediante la derivada parcial respecto a cada peso $w_j$:
 
 $$
-\frac{\delta J(\mathbf{w})}{\delta w_j} = \frac{1}{N} \sum_{i=1}^N (h_w(\mathbf{x}_i) - y_i) x_{ij}
+\frac{\partial J(\mathbf{w})}{\partial w_j} = \frac{1}{N} \sum_{i=1}^N (h_w(\mathbf{x}_i) - y_i) x_{ij}
 $$
+
 
 Podemos expresar el gradiente en forma vectorial, para todos los pesos, de la siguiente forma:
 
@@ -175,7 +176,7 @@ Donde $\mathbf{x}$ es una matriz de dimensión $N \times d$, $h_w(\mathbf{x})$ e
 De la misma forma, podemos obtener la derivada parcial respecto al sesgo ($b$):
 
 $$
-\frac{\delta J(\mathbf{w})}{\delta b} = \frac{1}{N} \sum_{i=1}^N (h_w(\mathbf{x}_i) - y_i)
+\frac{\partial J(\mathbf{w})}{\partial b} = \frac{1}{N} \sum_{i=1}^N (h_w(\mathbf{x}_i) - y_i)
 $$
 
 Con esto, podremos aplicar **Descenso por Gradiente** o **Descenso por Gradiente estocástico (SGD)** para optimizar los pesos. También tenemos otros algoritmos de optimización como **Coordinate Descent** [@hsieh2008dual], en el que en lugar de aplicar descenso por gradiente a la vez sobre todas las coordenadas, se selecciona de forma iterativa una coordenada, se congela el resto, y se optimiza para la coordenada seleccionada. El algoritmo itera por las diferentes coordenadas hasta la convergencia. Encontramos también otros métodos de optimización, como el método de **Newton** [@nocedal2006numerical] que utiliza segundas derivadas y presenta la ventaja de una convergencia más rápida, aunque resulta algo costoso. Tenemos también **L-BFGS** [@liu1989limited] que es una aproximación eficiente del método de Newton y es el utilizado por defecto en la [implementación de `LogisticRegression` en sklearn](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html). Esta implementación  incluye diferentes _solvers_ alternativos que podemos utilizar para la optimización. 

@@ -13,7 +13,7 @@ Se recomienda haber cursado previamente _Fundamentos del Aprendizaje Automático
 
 ## Licencia
 
-**© 2025 Miguel Ángel Lozano Ortega**
+**© 2026 Departamento de Ciencia de la Computación e Inteligencia Artificial. Universidad de Alicante**
 
 <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">
   <img src="https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg" alt="CC BY 4.0">
