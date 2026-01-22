@@ -15,6 +15,8 @@
         <link rel="prev" href="../02-svm/">
       
       
+        <link rel="next" href="../practicas/00-datos-y-visualizacion/">
+      
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.1">
     
@@ -316,10 +318,329 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          3. Árboles de decisión
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         3. Árboles de decisión
       </a>
       
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#estructura" class="md-nav__link">
+    Estructura
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#construccion" class="md-nav__link">
+    Construcción
+  </a>
+  
+    <nav class="md-nav" aria-label="Construcción">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arboles-de-regresion" class="md-nav__link">
+    Árboles de regresión
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arboles-de-clasificacion" class="md-nav__link">
+    Árboles de clasificación
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#poda-de-arboles" class="md-nav__link">
+    Poda de árboles
+  </a>
+  
+    <nav class="md-nav" aria-label="Poda de árboles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#poda-previa" class="md-nav__link">
+    Poda previa
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poda-posterior" class="md-nav__link">
+    Poda posterior
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poda-basada-en-complejidad-de-coste" class="md-nav__link">
+    Poda basada en complejidad de coste
+  </a>
+  
+    <nav class="md-nav" aria-label="Poda basada en complejidad de coste">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#funcion-de-complejidad-de-coste" class="md-nav__link">
+    Función de complejidad de coste
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generacion-de-la-secuencia-de-subarboles" class="md-nav__link">
+    Generación de la secuencia de subárboles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#seleccion-final-del-arbol" class="md-nav__link">
+    Selección final del árbol
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#algoritmos" class="md-nav__link">
+    Algoritmos
+  </a>
+  
+    <nav class="md-nav" aria-label="Algoritmos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cart" class="md-nav__link">
+    CART
+  </a>
+  
+    <nav class="md-nav" aria-label="CART">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterio-de-division" class="md-nav__link">
+    Criterio de división
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criterio-de-parada" class="md-nav__link">
+    Criterio de parada
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prediccion-en-las-hojas" class="md-nav__link">
+    Predicción en las hojas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poda-del-arbol" class="md-nav__link">
+    Poda del árbol
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#id3" class="md-nav__link">
+    ID3
+  </a>
+  
+    <nav class="md-nav" aria-label="ID3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estructura-del-arbol" class="md-nav__link">
+    Estructura del árbol
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criterio-de-seleccion" class="md-nav__link">
+    Criterio de selección
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pasos-del-algoritmo" class="md-nav__link">
+    Pasos del algoritmo
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c45" class="md-nav__link">
+    C4.5
+  </a>
+  
+    <nav class="md-nav" aria-label="C4.5">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gain-ratio" class="md-nav__link">
+    Gain Ratio
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atributos-continuos" class="md-nav__link">
+    Atributos continuos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#valores-perdidos" class="md-nav__link">
+    Valores perdidos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#poda-posterior_1" class="md-nav__link">
+    Poda posterior
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pasos-del-algoritmo_1" class="md-nav__link">
+    Pasos del algoritmo
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitaciones-de-los-arboles-de-decision" class="md-nav__link">
+    Limitaciones de los árboles de decisión
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Prácticas
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Prácticas
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/00-datos-y-visualizacion/" class="md-nav__link">
+        0. Datos y visualización
+      </a>
     </li>
   
 
@@ -347,7 +668,262 @@
 
 
 <h1 id="arboles-de-decision">Árboles de decisión<a class="headerlink" href="#arboles-de-decision" title="Permanent link">¶</a></h1>
-<p><em>Próximamente</em></p>
+<p>Los árboles de decisión son modelos de aprendizaje supervisado que nos permiten hacer tanto tareas de clasificación como de regresión. Se basan en una estructura jerárquica de decisiones, y su principal ventaja es la interpretabilidad del modelo, ya que podemos interpretarlos como un diagrama de flujo en el que en cada nodo debe tomarse una decisión (ver <a href="#fig-estructura">Figura 1</a>-izquierda).</p>
+<h2 id="estructura">Estructura<a class="headerlink" href="#estructura" title="Permanent link">¶</a></h2>
+<p>El árbol tiene un <strong>nodo raíz</strong> que abarcará todo el espacio de características, conteniendo todo el conjunto de datos de entrada. </p>
+<p>Cada <strong>nodo interno</strong> del árbol divide el espacio de características mediante una  <strong>condición</strong> sobre los atributos. Considerando que nuestros datos tienen un conjunto de <span class="arithmatex">\(d\)</span> atributos o <em>features</em>  <span class="arithmatex">\(\{x_1, x_2, \ldots, x_d \}\)</span>, la condición de cada nodo tendrá habitualmente una forma del tipo <span class="arithmatex">\(x_i \leq \text{valor}\)</span>. Es decir, podemos ver cada nodo como un modelo sencillo que separa los datos en dos subramas.</p>
+<p>El nodo tendrá diferentes <strong>subramas</strong> que lo conectan con sus hijos. Estas subramas representan los resultados de la condición. Aplicando la condición a cada dato de entrada, se seleccionará una de las subramas y llegaremos al correspondiente nodo hijo. Los hijos, a su vez, podrán definir nuevas condiciones que vuelvan a particionar el espacio de características. </p>
+<p>Llegaremos finalmente a <strong>nodos hoja</strong> que no tienen hijos y corresponden a las predicciones finales, que podrán corresponder a las diferentes clases en problemas de clasificación o valores en problemas de regresión. </p>
+<p>De este forma, para un determinado ejemplo de entrada, el árbol se recorrerá desde la raíz, tomando en cada nodo la subrama que corresponda al resultado de aplicar la condición del nodo al ejemplo, hasta llegar a un nodo hoja. El nodo hoja que alcancemos nos dará la predicción que devolverá el modelo.</p>
+<p>Desde el punto de vista de dos dimensiones, este árbol estará dividiendo el espacio de características en diferentes rectángulos (ver <a href="#fig-estructura">Figura 1</a>-centro). </p>
+<p></p><figure id="fig-estructura"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t3_estructura_regiones.png" data-desc-position="bottom"><img alt="" src="../images/t3_estructura_regiones.png"></a><figcaption>Figura 1: Estructura del árbol de decisión (izquierda) y división del espacio de características en regiones (centro y derecha) </figcaption></figure><p></p>
+<p>Esta división generará <span class="arithmatex">\(J\)</span> regiones <span class="arithmatex">\(R_1, R_2, \ldots, R_J\)</span> no solapadas, de forma que cada datos de entrada <span class="arithmatex">\(\mathbf{x}\)</span> pertenecerá a una, y solo una de estas regiones. Cada región <span class="arithmatex">\(R_j\)</span> corresponde a uno de los nodos hoja del árbol, y estará asociada a una categoría en el caso de los árboles de clasificación, o a un valor en el caso de árboles de regresión. Es importante destacar que la salida de los árboles de decisión estará estratificada, ya que dentro de cada región se generará siempre un valor constante. </p>
+<h2 id="construccion">Construcción<a class="headerlink" href="#construccion" title="Permanent link">¶</a></h2>
+<p>Vamos a ver en este punto cómo construir el árbol a partir de un conjunto de datos. Consideramos que nuestro conjunto de datos <span class="arithmatex">\(\mathcal{D}\)</span> contiene <span class="arithmatex">\(N\)</span> ejemplos <span class="arithmatex">\((\mathbf{x}_i, y_i)\)</span> para <span class="arithmatex">\(i =&nbsp;\{1, 2, \ldots, N \}\)</span>, con <span class="arithmatex">\(\mathbf{x}_i = ( x_{i1}, x_{i2}, \ldots, x_{id} )\)</span>.</p>
+<p>Como hemos comentado, el árbol dividirá el espacio de características en <span class="arithmatex">\(J\)</span> regiones <span class="arithmatex">\(R_1, R_2, \ldots, R_J\)</span> no solapadas, de forma que cada dato <span class="arithmatex">\(\mathbf{x}_i\)</span> corresponderá a una de estas regiones.</p>
+<p>Buscamos encontrar la división del espacio que se ajuste de forma óptima a los datos. Por ejemplo, en caso de árboles de regresión podemos tomar como criterio encontrar el particionamiento que minimice el error cuadrático medio (MSE) total del conjunto de datos:</p>
+<div class="arithmatex">\[
+\frac{1}{N} \sum_{j=1}^J \sum_{i \in R_j} (y_i - \hat{y}_{R_j})^2
+\]</div>
+<p>Donde <span class="arithmatex">\(\hat{y}_{R_j}\)</span> es la media de la salida de las observaciones pertenecientes a la región <span class="arithmatex">\(R_j\)</span>. </p>
+<p>Dado que no es viable considerar todas las posibles particiones del espacio, se opta por un algoritmo voraz que va dividiendo el espacio recursivamente. Partiendo del conjunto de entrenamiento completo, este algoritmo funciona de la siguiente forma:</p>
+<ol>
+<li>Seleccionamos el <strong>mejor atributo</strong> y <strong>punto de corte</strong> para dividir el conjunto de datos actual.</li>
+<li>Creamos un <strong>nodo</strong> con una condición basada en los parámetros seleccionados.</li>
+<li>Particionamos el conjunto de datos en dos <strong>subconjuntos</strong>, en función del resultado de la condición anterior.</li>
+<li>Repetimos este proceso recursivamente para cada uno de los subconjuntos anteriores hasta cumplir un <strong>criterio de parada</strong> (por ejemplo hasta conseguir regiones suficientemente homogéneas).</li>
+</ol>
+<p>Una de las cuestiones más crítica es establecer un <strong>criterio de división</strong> de los datos para establecer cuáles son los mejores parámetros para particionar nuestros datos. Deberemos seleccionar tanto una característica <span class="arithmatex">\(j \in \{1, 2, \ldots, d\}\)</span> como un valor de corte <span class="arithmatex">\(t\)</span>. De esta forma, la condición dividiría el espacio en dos subregiones y separará los datos en dos subconjuntos: </p>
+<div class="arithmatex">\[
+\mathcal{D}_L = \{ \{\mathbf{x}_i, y_i \} : x_{ij} \leq t \}
+\\
+\mathcal{D}_R = \{ \{\mathbf{x}_i, y_i \} : x_{ij} \gt t \}
+\]</div>
+<p>Definimos una función de impureza <span class="arithmatex">\(H\)</span> que nos indicará la calidad de la partición. Buscamos minimizar esta función para conseguir que la división genere regiones lo más homogéneas posible. Las posibles funciones alternativas de impureza diferirán según si las orientamos a problemas de clasificación o de regresión. Veremos más adelante las funciones utilizadas comúnmente para ambos tipos de problemas.</p>
+<p>Con esta función <span class="arithmatex">\(H\)</span>, podemos calcular la impureza de la división (<em>split</em>) con parámetros <span class="arithmatex">\((j, t)\)</span> de la siguiente forma:</p>
+<div class="arithmatex">\[
+H_{split}(j,t) = \frac{N_L}{N} H(\mathcal{D}_L) + \frac{N_R}{N} H(\mathcal{D}_R)
+\]</div>
+<p>Donde <span class="arithmatex">\(N_L = |\mathcal{D_L}|\)</span> y <span class="arithmatex">\(N_R = |\mathcal{D_R}|\)</span> indican el número de ejemplos que quedarían en cada una de las particiones. Es decir, la impureza de la división se calcula como la suma de las impurezas de cada una de las particiones creadas, ponderada por el número de ejemplos de cada partición.</p>
+<p>De esta forma, se deberán buscar los parámetros <span class="arithmatex">\((j,t)\)</span> que minimicen la función <span class="arithmatex">\(H_{split}(j,t)\)</span>. Para ello, se puede realizar una búsqueda exhaustiva para todos los pares <span class="arithmatex">\((j,t)\)</span>, o realizar un muestreo aleatorio de algunos posibles valores para reducir el coste computacional. </p>
+<p>Vamos a continuación a ver de forma específica las principales funciones de impureza utilizadas en problemas de regresión y clasificación. </p>
+<h3 id="arboles-de-regresion">Árboles de regresión<a class="headerlink" href="#arboles-de-regresion" title="Permanent link">¶</a></h3>
+<p>En caso de árboles de regresión, dentro de cada región se devolverá como predicción <span class="arithmatex">\(\hat{y}_i\)</span> siempre el mismo valor constante, que se calculará habitualmente como la <strong>media de todas las observaciones</strong> <span class="arithmatex">\(\bar{y}_i\)</span> del conjunto de entrenamiento que pertenezcan a dicha región. </p>
+<p>Como función de impureza en árboles de regresión habitualmente se utiliza el <strong>error cuadrático medio (MSE)</strong>:</p>
+<div class="arithmatex">\[
+H_{MSE}(\mathcal{D}) = \frac{1}{N} \sum_{i=1}^N (y_i - \bar{y}_i)^2
+\]</div>
+<p>Vemos que en la función calculamos la diferencia entre el valor observado <span class="arithmatex">\(y_i\)</span> y la predicción, que en este caso es la media <span class="arithmatex">\(\bar{y}_i\)</span>. Podemos observar también que esta función coincide con la <strong>varianza</strong> de las salidas esperadas del conjunto <span class="arithmatex">\(\mathcal{D}\)</span>. </p>
+<p>En la práctica se utiliza también habitualmente la suma de los cuadrados de los errores (SSE), que es equivalente a la formulación anterior, ya que la única diferencia es que el valor no está promediado:</p>
+<div class="arithmatex">\[
+H_{SSE}(\mathcal{D}) = \sum_{i=1}^N (y_i - \bar{y}_i)^2
+\]</div>
+<p>Esta es la función de impureza más comunmente utilizada, siendo el valor por defecto en las principales librerías. Esta función asume ruido gaussiano y penaliza los errores grandes.</p>
+<p>También puede utilizarse el <strong>error absoluto medio (MAE)</strong>, aunque en estos casos como predicción utilizamos la <strong>mediana</strong> <span class="arithmatex">\(\tilde{y}_i\)</span> en lugar de la media:</p>
+<div class="arithmatex">\[
+H_{MAE}(\mathcal{D}) = \frac{1}{N} \sum_{i=1}^N |y_i - \tilde{y}_i|
+\]</div>
+<p>Esta función es más robusta frente a <em>outliers</em>, y no penaliza tanto grandes errores como el caso anterior, aunque el proceso de optimización resulta más costoso. </p>
+<p>También contamos con otras funciones como <strong>Poisson deviance</strong>, que se define de la siguiente forma:</p>
+<div class="arithmatex">\[
+H_{Poisson}(\mathcal{D}) = \frac{2}{N} \sum_{i=1}^N (y_i \log \frac{y_i}{\bar{y}_i} - y_i + \bar{y}_i)
+\]</div>
+<p>Este criterio puede ser de interés cuando la variable objetivo sea un conteo (por ejemplo, número de estudiantes aprobados) o frecuencia (por ejemplo, número de suspensos por estudiante).</p>
+<h3 id="arboles-de-clasificacion">Árboles de clasificación<a class="headerlink" href="#arboles-de-clasificacion" title="Permanent link">¶</a></h3>
+<p>En este caso buscamos clasificar cada ejemplo de entrada en un número <span class="arithmatex">\(K\)</span> de clases. </p>
+<p>Considerando un nodo <span class="arithmatex">\(m\)</span> del árbol que representa un región <span class="arithmatex">\(R_m\)</span> que contiene un conjunto de <span class="arithmatex">\(N_m\)</span> ejemplos, calculamos la proporción de las observaciones de la clase <span class="arithmatex">\(k\)</span> dentro del nodo <span class="arithmatex">\(m\)</span> de la siguiente forma:</p>
+<div class="arithmatex">\[
+p_{mk} = \frac{1}{N_m} \sum_{\mathbf{x}_i \in R_m} I(y_i = k)
+\]</div>
+<p>Buscamos medir cómo de mezcladas están las clases dentro de cada nodo. Para ello, varias de las funciones de impureza utilizadas están basadas en teoría de la información. </p>
+<p>Una de las funciones más utilizadas es el <strong>índice de Gini</strong>, que se define de la siguiente forma para un nodo <span class="arithmatex">\(m\)</span>:</p>
+<div class="arithmatex">\[
+H_{Gini} = 1 - \sum_{k=1}^K p_{mk}^2
+\]</div>
+<p>En este caso, si el nodo es puro y solo contiene una única clase tendremos <span class="arithmatex">\(H_{Gini} = 0\)</span>. El valor será máximo cuando todas las clases estén equilibradas. Es utilizada por el algoritmo CART y en Random Forest.</p>
+<p>También se utiliza habitualmente la <strong>entropía</strong>:</p>
+<div class="arithmatex">\[
+H_{Entropía} =  - \sum_{k=1}^K p_{mk} \log_2 (p_{mk})
+\]</div>
+<p>Se trata de una medida basada en teoría de la información, que mide la incertidumbre del conjunto. Nos dará máxima incertidumbre cuando las clases están equilibradas, y penaliza más que Gini. Se utiliza  en los algoritmos ID3 y C4.5.</p>
+<h2 id="poda-de-arboles">Poda de árboles<a class="headerlink" href="#poda-de-arboles" title="Permanent link">¶</a></h2>
+<p>Los árboles individuales tienen bajo sesgo pero alta varianza, ya que al construirse de forma voraz tienen una alta dependencia con los datos de entrada. Un pequeño cambio en los datos puede producir árboles muy diferentes. </p>
+<p>Cuando con el algoritmo descrito el árbol se hace crecer en exceso, tendremos tendencia al <em>overfitting</em>. Clasificará bien los datos de entrenamiento, pero dará malos resultados de <em>test</em>. Reduciendo el número de regiones podemos reducir la varianza y mejorar la capacidad de generalización y la interpretabilidad.</p>
+<p>Una posible forma de abordar esta tarea es evitar que el árbol crezca en exceso, esto es lo que se conoce como <strong>poda previa</strong>.</p>
+<h3 id="poda-previa">Poda previa<a class="headerlink" href="#poda-previa" title="Permanent link">¶</a></h3>
+<p>La poda previa consiste en detener el crecimiento del árbol antes de que alcance su tamaño máximo imponiendo criterior de parada. Algunos de estos criterios pueden ser:</p>
+<ul>
+<li>Limitar la profundidad máxima</li>
+<li>Establecer un número mínimo de muestras que debe tener un nodo</li>
+<li>Exigir que la mejora de la impureza se encuentre por encima de un mínimo</li>
+</ul>
+<p>Aunque es una forma rápida y sencilla de simplificar el grafo, existe riesgo de <em>underfitting</em>. Por ejemplo, si  establecemos como criterio de parada dejar de crecer cuando la mejora de la medida de impureza esté por debajo de cierto umbral, puede ocurrir que en un nivel tengamos una división que no mejora apenas, pero en el siguiente encontremos una gran mejora, con lo cual, si paramos de forma anticipada, nos estaremos perdiendo esa gran mejora en la clasificación.</p>
+<p>Por ello, es mejor estrategia dejar crecer el árbol hasta obtener un gran árbol <span class="arithmatex">\(T_0\)</span>, y tras ello aplicar una <strong>poda posterior</strong>. </p>
+<h3 id="poda-posterior">Poda posterior<a class="headerlink" href="#poda-posterior" title="Permanent link">¶</a></h3>
+<p>La poda posterior consiste en reducir el tamaño del árbol eliminando nodos o subárboles que no aportan una mejora significativa en la capacidad de generalización. </p>
+<p>El proceso de poda se hará siempre desde abajo hacia arriba, es decir, desde las hojas hacia la raíz. Para cada <strong>nodo interno</strong>, tendremos la opción de mantener el subárbol que depende de él, o bien podarlo y convertir dicho nodo en un nodo hoja.</p>
+<p>Tras aplicar la poda, buscaremos quedarnos con aquel subárbol <span class="arithmatex">\(T \subset T_0\)</span> que haga que no empeore, o incluso consiga que mejore, su error de generalización respecto a <span class="arithmatex">\(T_0\)</span>. Este error de generalización será el error obtenido con datos no vistos durante la construcción del árbol.</p>
+<p>Dado un subarbol, podemos estimar su error de generalización mediante un <strong>conjunto de validación separado</strong> o mediante <strong>validación cruzada</strong>. Sin embargo, dado que normalmente existirá un número muy elevado de posibles subárboles, no será posible computacionalmente evaluar el error de todos ellos. </p>
+<p>Necesitaremos tener un criterio que nos permita seleccionar un pequeño conjunto de subárboles para tener en consideración. Una forma de hacer esto es mediante la <strong>poda basada en complejidad de coste</strong> (Breiman et al., 1984)<sup id="fnref:breiman1984classification"><a class="footnote-ref" href="#fn:breiman1984classification">1</a></sup>.</p>
+<h3 id="poda-basada-en-complejidad-de-coste">Poda basada en complejidad de coste<a class="headerlink" href="#poda-basada-en-complejidad-de-coste" title="Permanent link">¶</a></h3>
+<p>La idea es generar una secuencia de subárboles candidatos con la siguiente forma:</p>
+<div class="arithmatex">\[
+T_0 \supset T_1 \supset T_2 \supset \ldots \supset T_k
+\]</div>
+<p>Para cada uno de estos árboles candidatos, se calculará su error de validación y seleccionaremos aquel con menor error de validación. </p>
+<h4 id="funcion-de-complejidad-de-coste">Función de complejidad de coste<a class="headerlink" href="#funcion-de-complejidad-de-coste" title="Permanent link">¶</a></h4>
+<p>Lo fundamental será encontrar un criterio que nos permita generar la secuencia de árboles a considerar. Para ello se define la siguiente función de coste:</p>
+<div class="arithmatex">\[
+R_{\alpha}(T) = R(T)+ \alpha |\tilde{T}|
+\]</div>
+<p>Donde <span class="arithmatex">\(R(T)\)</span> es el error empírico obtenido con el árbol <span class="arithmatex">\(T\)</span> con los datos de entrenamiento, <span class="arithmatex">\(\alpha \geq 0\)</span> es un parámetro para controlar la complejidad del árbol, y <span class="arithmatex">\(|\tilde{T}|\)</span> es el número de hojas del árbol <span class="arithmatex">\(T\)</span>. </p>
+<h4 id="generacion-de-la-secuencia-de-subarboles">Generación de la secuencia de subárboles<a class="headerlink" href="#generacion-de-la-secuencia-de-subarboles" title="Permanent link">¶</a></h4>
+<p>Buscamos generar árboles que minimicen el coste anterior con diferentes valores de <span class="arithmatex">\(\alpha\)</span>. Podemos interpretar este parámetro como un factor de penalización por el número de hojas. En el caso de <span class="arithmatex">\(\alpha = 0\)</span>, al no existir penalización el error mínimo nos lo dará el árbol completo, pero conforme incrementemos la penalización deberemos reducir el número de hojas. </p>
+<p>Para cada nodo interno del árbol <span class="arithmatex">\(t\)</span>, consideraremos el error <span class="arithmatex">\(R(t)\)</span> (o impureza) dentro del propio nodo <span class="arithmatex">\(t\)</span>, como si se tratara de un hoja, y la suma de los errores <span class="arithmatex">\(R(T_t)\)</span> de todas las hojas del subárbol con raíz en <span class="arithmatex">\(t\)</span>. Es decir, comparamos el error empírico <span class="arithmatex">\(R(T_t)\)</span> del subárbol completo con raíz en <span class="arithmatex">\(t\)</span>, con el error empírico <span class="arithmatex">\(R(t)\)</span> si dicho subárbol se reemplazase por una hoja, aplicando la poda. </p>
+<p>En general, <span class="arithmatex">\(R(T_t) &lt; R(t)\)</span>, ya que de no ser así no deberían haberse seguido generando hijos durante la construcción del árbol. Sin embargo, si introducimos la penalización con el parámetro <span class="arithmatex">\(\alpha\)</span> entonces tenemos:</p>
+<div class="arithmatex">\[
+R_\alpha (t) = R(t) + \alpha \\
+R_\alpha (T_t) = R(T_t) + \alpha |\tilde{T}_t|
+\]</div>
+<p>En este caso podemos buscar el valor de <span class="arithmatex">\(\alpha\)</span> que haga <span class="arithmatex">\(R_{\alpha}(T_t) = R_\alpha (t)\)</span>. Para cada uno de los nodos internos calculamos:</p>
+<div class="arithmatex">\[
+\alpha_t = \frac{R(t) - R(T_t)}{|\tilde{T}_t| - 1}
+\]</div>
+<p>Buscaremos el nodo <span class="arithmatex">\(t\)</span> con menor <span class="arithmatex">\(\alpha_t\)</span>, y podaremos ese nodo, obteniendo así <span class="arithmatex">\(T_1\)</span>.</p>
+<p>Aplicaremos el mismo proceso sobre <span class="arithmatex">\(T_1\)</span> para obtener <span class="arithmatex">\(T_2\)</span>, y así iterativamente hasta quedarnos con un único nodo. </p>
+<h4 id="seleccion-final-del-arbol">Selección final del árbol<a class="headerlink" href="#seleccion-final-del-arbol" title="Permanent link">¶</a></h4>
+<p>Una vez generados todos los árboles candidatos <span class="arithmatex">\(T_0, T_1, \ldots, T_k\)</span>, los evaluaremos mediante validación cruzada y nos quedaremos con aquel que obtenga un mínimo error.</p>
+<h2 id="algoritmos">Algoritmos<a class="headerlink" href="#algoritmos" title="Permanent link">¶</a></h2>
+<p>Vamos a ver a continuación los principales algoritmos para la construcción de árboles de decisión: CART, ID3 y C4.5.</p>
+<h3 id="cart">CART<a class="headerlink" href="#cart" title="Permanent link">¶</a></h3>
+<p>CART es un algoritmo para construir <strong>árboles de decisión binarios</strong>, aplicable tanto a clasificación como a regresión. Fue propuesto por Breiman et al. (1984) (Breiman et al., 1984)<sup id="fnref2:breiman1984classification"><a class="footnote-ref" href="#fn:breiman1984classification">1</a></sup> y es la base de métodos como Random Forests.</p>
+<p>Es el algoritmo que encontramos implementado en las clases <a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn.tree.DecisionTreeClassifier">DecisionTreeClassifier</a> y <a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html#sklearn.tree.DecisionTreeRegressor">DecisionTreeRegressor</a> en <em>sklearn</em>.</p>
+<h4 id="criterio-de-division">Criterio de división<a class="headerlink" href="#criterio-de-division" title="Permanent link">¶</a></h4>
+<p>CART construye el árbol mediante un proceso recursivo y voraz, donde en cada nodo se selecciona la mejor división posible según los siguientes criterios de impureza:</p>
+<ul>
+<li><strong>MSE</strong>, para árboles de regresión.</li>
+<li><strong>Índice de Gini</strong>, para árboles de clasificación.</li>
+</ul>
+<p>Para cada nodo se consideran todos los atributos <span class="arithmatex">\(j\)</span> y todos los posibles puntos de corte <span class="arithmatex">\(t\)</span>, y para cada <em>split</em> candidato <span class="arithmatex">\((j,t)\)</span> se calcula la ganancia de la siguiente forma:</p>
+<div class="arithmatex">\[
+\Delta H(j,t) = H(\mathcal{D}) - \left[  \frac{N_L}{N} H(\mathcal{D}_L) + \frac{N_R}{N} H(\mathcal{D}_R) \right]
+\]</div>
+<p>Es decir, se mide cuanto mejora la pureza de los conjuntos al realizar la división, respecto a la impureza del nodo padre. Se seleccionará el <em>split</em> <span class="arithmatex">\((j,t)\)</span> que maximice la reducción de impureza.</p>
+<h4 id="criterio-de-parada">Criterio de parada<a class="headerlink" href="#criterio-de-parada" title="Permanent link">¶</a></h4>
+<p>El árbol se construirá recursivamente hasta que se alcance un criterio de parada:</p>
+<ul>
+<li>Se ha obtenido un nodo totalmente puro</li>
+<li>Se ha alcanzado la profundidad máxima del árbol</li>
+<li>Se ha alcanzado el número mínimo de observaciones por nodo</li>
+<li>No se ha obtenido mejora significativa respecto al nodo padre</li>
+</ul>
+<h4 id="prediccion-en-las-hojas">Predicción en las hojas<a class="headerlink" href="#prediccion-en-las-hojas" title="Permanent link">¶</a></h4>
+<p>En problemas de <strong>regresión</strong>, la predicción será la media del valor de todas las observaciones que pertenezcan al nodo hoja:</p>
+<div class="arithmatex">\[
+\hat{y}_i = \bar{y}_i
+\]</div>
+<p>En problemas de <strong>clasificación</strong>, la predicción será o bien la clase mayoritaria del nodo hoja, o bien una distribución de probabilidades:</p>
+<div class="arithmatex">\[
+\hat{p}_k = \frac{N_k}{N}
+\]</div>
+<p>Donde <span class="arithmatex">\(N_k\)</span> es el número de observaciones del nodo que pertenecen a la clase <span class="arithmatex">\(k\)</span>, y <span class="arithmatex">\(N\)</span> es el número total de observaciones en el nodo.</p>
+<h4 id="poda-del-arbol">Poda del árbol<a class="headerlink" href="#poda-del-arbol" title="Permanent link">¶</a></h4>
+<p>El algoritmo CART utiliza <strong>poda posterior basada en complejidad de coste</strong>. Tal como se ha comentado anteriormente, generará con este criterio una secuencia de subárboles y seleccionará el mejor aplicando validación cruzada.</p>
+<h3 id="id3">ID3<a class="headerlink" href="#id3" title="Permanent link">¶</a></h3>
+<p>ID3 (Quinlan, 1986)<sup id="fnref:quinlan1986induction"><a class="footnote-ref" href="#fn:quinlan1986induction">2</a></sup> es un algoritmo histórico para la construcción de árboles de decisión destinado únicamente a la construcción de árboles de clasificación.</p>
+<h4 id="estructura-del-arbol">Estructura del árbol<a class="headerlink" href="#estructura-del-arbol" title="Permanent link">¶</a></h4>
+<p>Este algoritmo fue diseñado para la clasificación con atributos de entrada categóricos. Es decir, cada atributo de entrada puede tomar un conjunto finito de valores. Por ejemplo, podríamos tener como entrada los siguientes atributos:</p>
+<div class="arithmatex">\[
+\text{Viento} \rightarrow \{ \text{Débil}, \text{Medio}, \text{Fuerte} \} \\
+\text{Clima} \rightarrow \{ \text{Soleado}, \text{Nublado}, \text{Lluvia} \}
+\]</div>
+<p>En caso de contar con atributos numéricos, deberíamos discretizarlos previamente en una serie de categorías. </p>
+<p>Este algoritmo construye árboles no binarios (multirama), ya que genera una subrama para cada cada posible valor del atributo seleccionado para la división. Por ejemplo, si en un nodo se selecciona el atributo <span class="arithmatex">\(\text{Viento}\)</span> como criterio de división, se crearán <span class="arithmatex">\(3\)</span> subramas: <span class="arithmatex">\(\text{Débil}\)</span>, <span class="arithmatex">\(\text{Medio}\)</span> y <span class="arithmatex">\(\text{Fuerte}\)</span>.</p>
+<h4 id="criterio-de-seleccion">Criterio de selección<a class="headerlink" href="#criterio-de-seleccion" title="Permanent link">¶</a></h4>
+<p>En este caso se utiliza la <strong>entropía</strong> como medida de impureza. Para un conjunto de datos <span class="arithmatex">\(\mathcal{D}\)</span> tenemos:</p>
+<div class="arithmatex">\[
+H_{Entropía}(\mathcal{D}) =  - \sum_{k=1}^K p_{k} \log_2 (p_{k})
+\]</div>
+<p>Donde <span class="arithmatex">\(p_k\)</span> se define como la proporción de observaciones de la clase <span class="arithmatex">\(k\)</span> dentro de <span class="arithmatex">\(\mathcal{D}\)</span>.</p>
+<p>Como criterio de selección de atributo se utiliza la <strong>ganacia de información</strong>, basada en la entropía. Busca con ello clasificar los ejemplos de entrenamiento reduciendo la incertidumbre sobre la clase.</p>
+<p>Consideremos que cada atributo de entrada <span class="arithmatex">\(x_j\)</span> puede tomar un conjunto de posibles valores <span class="arithmatex">\(\text{Valores}(x_j)\)</span>. La ganancia de información separando el conjunto de datos <span class="arithmatex">\(\mathcal{D}\)</span> con el atributo <span class="arithmatex">\(x_j\)</span>  se define como:</p>
+<div class="arithmatex">\[
+GI(\mathcal{D},j) = H(\mathcal{D}) - \sum_{v \in \text{Valores}(x_j)} \frac{|\mathcal{D}_v|}{|\mathcal{D}|} H(\mathcal{D}_v)
+\]</div>
+<p>Donde <span class="arithmatex">\(\mathcal{D}_v\)</span> es el subconjunto de <span class="arithmatex">\(\mathcal{D}\)</span> en el que el atributo <span class="arithmatex">\(x_j\)</span> toma como valor la categoría <span class="arithmatex">\(v\)</span>.</p>
+<p>ID3 seleccionará el atributo que produzca una mayor ganancia de información. </p>
+<h4 id="pasos-del-algoritmo">Pasos del algoritmo<a class="headerlink" href="#pasos-del-algoritmo" title="Permanent link">¶</a></h4>
+<p>A continuación se muestra el algoritmo paso a paso:</p>
+<ol>
+<li>Si todas las instancias pertenecen a la misma clase se crea una hoja.</li>
+<li>Si no quedan atributos se crea una hoja con la clase mayoritaria.</li>
+<li>Se calcula la ganancia de información para cada atributo.</li>
+<li>Se elige el atributo con máxima ganancia.</li>
+<li>Se crea  una subrama por cada valor del atributo.</li>
+<li>Repite el proceso recursivamente en cada subrama.</li>
+</ol>
+<h3 id="c45">C4.5<a class="headerlink" href="#c45" title="Permanent link">¶</a></h3>
+<p>El algoritmo C4.5 (Quinlan, 1993)<sup id="fnref:quinlan1993c45"><a class="footnote-ref" href="#fn:quinlan1993c45">3</a></sup> se presenta como una evolución de ID3, también destinado únicamente a árboles de clasificación. Las principales mejoras introducidas sobre su predecesor son:</p>
+<ul>
+<li>Introduce la medida <em>Gain Ratio</em> para evitar el sesgo de ID3 hacia atributos con muchos valores. </li>
+<li>Permite el uso de atributos continuos.</li>
+<li>Aplica poda <em>post-pruning</em> para reducir el <em>overfitting</em>.</li>
+<li>Permine manejar valores perdidos.</li>
+</ul>
+<h4 id="gain-ratio"><em>Gain Ratio</em><a class="headerlink" href="#gain-ratio" title="Permanent link">¶</a></h4>
+<p>ID3 utiliza la ganancia de información <span class="arithmatex">\(GI(\mathcal{D}, j)\)</span>, pero esto produce un sesgo hacia atributos con muchos valores. Por ejemplo imaginemos un atributo que tiene un valor diferente para cada ejemplo de entrada. Este atributo sería seleccionado ya que genera nodos hoja puros, pero no generaliza. </p>
+<p>Para evitar esto, se introduce la medida <em>Gain Ratio</em>. Para calcular esta medida, primero se calcula el factor de normalización <em>Split Info</em>:</p>
+<div class="arithmatex">\[
+\text{SplitInfo}(\mathcal{D}, x_j) = - \sum_{v \in \text{Valores}(x_j)} \frac{|\mathcal{D}_v|}{|\mathcal{D}|} \log_2 \frac{|\mathcal{D}_v|}{|\mathcal{D}|}
+\]</div>
+<p>Este factor de normalización es una medida de entropía, pero no de las clases, sino sobre cómo estarían repartidos los tamaños de las particiones en las diferentes subramas. Será <span class="arithmatex">\(0\)</span> cuando todos los elementos del conjunto de datos tengan la misma categoría para el atributo <span class="arithmatex">\(x_j\)</span>, mientras que será máximo cuando los diferentes valores del atributo estén presentes de forma homogénea. Pero además, tendrá un valor bajo cuando haya pocas subramas, y un valor alto cuando haya muchas. </p>
+<p>El <em>Gain Ratio</em> se calculará de la siguiente forma:</p>
+<div class="arithmatex">\[
+\text{GainRatio}(\mathcal{D}, x_j) = \frac{GI(\mathcal{D}, j)}{\text{SplitInfo}(\mathcal{D}, x_j)}
+\]</div>
+<p>De esta forma, el factor <em>Split Info</em> se utiliza para penalizar subdivisiones excesivas y la falta de generalización. </p>
+<h4 id="atributos-continuos">Atributos continuos<a class="headerlink" href="#atributos-continuos" title="Permanent link">¶</a></h4>
+<p>Aunque internamente el algoritmo sigue manejando atributos categóricos, permite introducir como entrada atributos continuas. En estos casos, el algoritmo discretizará de forma automática estos atributos. </p>
+<p>Para ello, dado un atributo numérico <span class="arithmatex">\(x_j\)</span>, realiza lo siguiente:</p>
+<ul>
+<li>Ordena todos los valores de <span class="arithmatex">\(x_j\)</span>.</li>
+<li>Prueba diferentes <em>splits</em> binarios <span class="arithmatex">\(t\)</span>, para dividir en dos categorías: <span class="arithmatex">\(x_j \leq t\)</span> y <span class="arithmatex">\(x_j &gt; t\)</span>. </li>
+<li>Se elige el umbral <span class="arithmatex">\(t\)</span> que maximiza el <em>Gain Ratio</em>.</li>
+</ul>
+<h4 id="valores-perdidos">Valores perdidos<a class="headerlink" href="#valores-perdidos" title="Permanent link">¶</a></h4>
+<p>En caso de que existan valores perdidos, C4.5 asigna una probabilidad a cada posible valor del atributo en función de la distribución de probabilidad observada. Durante el cálculo de la entropía de los <em>splits</em> cada ejemplo con un valor perdido contribuirá proporcionalmente a cada subrama.</p>
+<h4 id="poda-posterior_1">Poda posterior<a class="headerlink" href="#poda-posterior_1" title="Permanent link">¶</a></h4>
+<p>Otra de las mejoras que introduce el algoritmo C4.5 frente a ID3 es la poda.</p>
+<p>Este algoritmo utiliza <strong>poda posterior con estimación del error</strong>. No utiliza un conjunto de validación separado, sino que realiza de forma estadística una estimación pesimista del error a partir del error empírico. </p>
+<p>El algoritmo recorre el árbol de abajo a arriba, evaluando primero los subárboles más profundos. Para cada nodo interno, estima el error del subárbol, y estima el error si ese nodo fuera una hoja. Si la diferencia no es significativa, aplica la poda. </p>
+<h4 id="pasos-del-algoritmo_1">Pasos del algoritmo<a class="headerlink" href="#pasos-del-algoritmo_1" title="Permanent link">¶</a></h4>
+<p>Los pasos del algoritmo son similares a los del algoritmo ID3, con algunas modificaciones:</p>
+<ol>
+<li>Si todas las instancias pertenecen a la misma clase se crea una hoja.</li>
+<li>Si no quedan atributos se crea una hoja con la clase mayoritaria.</li>
+<li>Se calcula el <em>Gain Ratio</em> para cada atributo.</li>
+<li>Se elige el atributo con mayor <em>Gain Ratio</em>.</li>
+<li>Se crea una subrama por cada valor del atributo (o umbral si es un atributo continuo).</li>
+<li>Repite el proceso recursivamente en cada subrama.</li>
+<li>Aplica poda posterior para reducir el <em>overfitting</em>.</li>
+</ol>
+<h2 id="limitaciones-de-los-arboles-de-decision">Limitaciones de los árboles de decisión<a class="headerlink" href="#limitaciones-de-los-arboles-de-decision" title="Permanent link">¶</a></h2>
+<p>A pesar de su simplicidad e interpretabilidad, los árboles de decisión presentan limitaciones importantes, especialmente su elevada varianza y su sensibilidad a pequeñas perturbaciones en los datos de entrenamiento. Un árbol profundo puede producir <em>overfitting</em>, mientras que una poda excesiva puede conducir al <em>underfitting</em>. </p>
+<p>Estas limitaciones han motivado el desarrollo de métodos que combinan múltiples árboles con el objetivo de mejorar la capacidad de generalización. Los <strong>métodos de ensemble</strong> se basan precisamente en esta idea: combinar de forma adecuada un conjunto de modelos sencillos, habitualmente árboles de decisión, buscando reducir tanto sesgo como varianza.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:breiman1984classification">
+<p>Breiman, L., Friedman, J., Stone, C. J., &amp; Olshen, R. A. (1984). <em>Classification and regression trees</em>. CRC Press.&nbsp;<a class="footnote-backref" href="#fnref:breiman1984classification" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref2:breiman1984classification" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+<li id="fn:quinlan1986induction">
+<p>Quinlan, J. R. (1986). Induction of decision trees. <em>Machine Learning</em>, <em>1</em>(1), 81--106. <a href="https://doi.org/10.1007/BF00116251">https://doi.org/10.1007/BF00116251</a>&nbsp;<a class="footnote-backref" href="#fnref:quinlan1986induction" title="Jump back to footnote 2 in the text">↩</a></p>
+</li>
+<li id="fn:quinlan1993c45">
+<p>Quinlan, J. R. (1993). <em>C4.5: Programs for machine learning</em>. Morgan Kaufmann.&nbsp;<a class="footnote-backref" href="#fnref:quinlan1993c45" title="Jump back to footnote 3 in the text">↩</a></p>
+</li>
+</ol>
+</div>
 
 
 

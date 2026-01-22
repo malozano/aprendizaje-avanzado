@@ -500,6 +500,63 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Prácticas
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Prácticas
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/00-datos-y-visualizacion/" class="md-nav__link">
+        0. Datos y visualización
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -608,7 +665,7 @@ J(\mathbf{w}) = -\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i
 \]</div>
 <p>Obtenemos el gradiente de la función, mediante la derivada parcial respecto a cada peso <span class="arithmatex">\(w_j\)</span>:</p>
 <div class="arithmatex">\[
-\frac{\delta J(\mathbf{w})}{\delta w_j} = \frac{1}{N} \sum_{i=1}^N (h_w(\mathbf{x}_i) - y_i) x_{ij}
+\frac{\partial J(\mathbf{w})}{\partial w_j} = \frac{1}{N} \sum_{i=1}^N (h_w(\mathbf{x}_i) - y_i) x_{ij}
 \]</div>
 <p>Podemos expresar el gradiente en forma vectorial, para todos los pesos, de la siguiente forma:</p>
 <div class="arithmatex">\[
@@ -617,7 +674,7 @@ J(\mathbf{w}) = -\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i
 <p>Donde <span class="arithmatex">\(\mathbf{x}\)</span> es una matriz de dimensión <span class="arithmatex">\(N \times d\)</span>, <span class="arithmatex">\(h_w(\mathbf{x})\)</span> es un vector de predicciones de dimensión <span class="arithmatex">\(N \times 1\)</span> y <span class="arithmatex">\(y\)</span> es un vector de etiquetas de dimensión <span class="arithmatex">\(N \times 1\)</span> (una fila para cada ejemplo de entrada). </p>
 <p>De la misma forma, podemos obtener la derivada parcial respecto al sesgo (<span class="arithmatex">\(b\)</span>):</p>
 <div class="arithmatex">\[
-\frac{\delta J(\mathbf{w})}{\delta b} = \frac{1}{N} \sum_{i=1}^N (h_w(\mathbf{x}_i) - y_i)
+\frac{\partial J(\mathbf{w})}{\partial b} = \frac{1}{N} \sum_{i=1}^N (h_w(\mathbf{x}_i) - y_i)
 \]</div>
 <p>Con esto, podremos aplicar <strong>Descenso por Gradiente</strong> o <strong>Descenso por Gradiente estocástico (SGD)</strong> para optimizar los pesos. También tenemos otros algoritmos de optimización como <strong>Coordinate Descent</strong> (Hsieh et al., 2008)<sup id="fnref:hsieh2008dual"><a class="footnote-ref" href="#fn:hsieh2008dual">2</a></sup>, en el que en lugar de aplicar descenso por gradiente a la vez sobre todas las coordenadas, se selecciona de forma iterativa una coordenada, se congela el resto, y se optimiza para la coordenada seleccionada. El algoritmo itera por las diferentes coordenadas hasta la convergencia. Encontramos también otros métodos de optimización, como el método de <strong>Newton</strong> (Nocedal &amp; Wright, 2006)<sup id="fnref:nocedal2006numerical"><a class="footnote-ref" href="#fn:nocedal2006numerical">3</a></sup> que utiliza segundas derivadas y presenta la ventaja de una convergencia más rápida, aunque resulta algo costoso. Tenemos también <strong>L-BFGS</strong> (Liu &amp; Nocedal, 1989)<sup id="fnref:liu1989limited"><a class="footnote-ref" href="#fn:liu1989limited">4</a></sup> que es una aproximación eficiente del método de Newton y es el utilizado por defecto en la <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">implementación de <code>LogisticRegression</code> en sklearn</a>. Esta implementación  incluye diferentes <em>solvers</em> alternativos que podemos utilizar para la optimización. </p>
 <h4 id="regularizacion">Regularización<a class="headerlink" href="#regularizacion" title="Permanent link">¶</a></h4>

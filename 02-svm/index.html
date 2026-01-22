@@ -493,6 +493,63 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Prácticas
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Prácticas
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/00-datos-y-visualizacion/" class="md-nav__link">
+        0. Datos y visualización
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -573,9 +630,9 @@ L_P(\mathbf{w}, b, \alpha) = \frac{1}{2} \lVert \mathbf{w} \rVert^2 - \sum_{i=1}
 <p>Derivamos la función anterior respecto a <span class="arithmatex">\(\mathbf{w}\)</span> y <span class="arithmatex">\(b\)</span>, y establecemos las derivadas a <span class="arithmatex">\(0\)</span> para buscar el punto en el que la función presenta un mínimo (condición de estacionariedad). Tenemos entonces:</p>
 <div class="arithmatex">\[
 \begin{align*}
-\frac {\delta L(\mathbf{w}, b, \alpha)}{\delta \mathbf{w}} &amp;= \mathbf{w} - \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i = 0 &amp; \Rightarrow \mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i 
+\frac {\partial L(\mathbf{w}, b, \alpha)}{\partial \mathbf{w}} &amp;= \mathbf{w} - \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i = 0 &amp; \Rightarrow \mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i 
 \\
-\frac {\delta L(\mathbf{w}, b, \alpha)}{\delta b} &amp;= \sum_{i=1}^N \alpha_i y_i  = 0  &amp; \Rightarrow 0 = \sum_{i=1}^N \alpha_i y_i
+\frac {\partial L(\mathbf{w}, b, \alpha)}{\partial b} &amp;= \sum_{i=1}^N \alpha_i y_i  = 0  &amp; \Rightarrow 0 = \sum_{i=1}^N \alpha_i y_i
 \end{align*}
 \]</div>
 <p>Sustituyendo <span class="arithmatex">\(\mathbf{w}\)</span> en la Lagrangiana (teniendo en cuenta que <span class="arithmatex">\(\lVert \mathbf{w} \rVert^2 = \mathbf{w}^T \mathbf{w}\)</span>) tenemos:</p>
@@ -669,12 +726,12 @@ L_P(\mathbf{w}, b, \xi, \alpha, \mu) = \frac{1}{2} \lVert \mathbf{w} \rVert^2 + 
 <p>Tendremos que minimizar esta función respecto a <span class="arithmatex">\(\mathbf{w}\)</span>, <span class="arithmatex">\(b\)</span> y <span class="arithmatex">\(\xi_i\)</span>, por lo que igualaremos las correspondientes derivadas a <span class="arithmatex">\(0\)</span>:</p>
 <div class="arithmatex">\[
 \begin{align*}
-\frac {\delta L_P(\mathbf{w}, b, \xi, \alpha, \mu)}{\delta \mathbf{w}} &amp;= \mathbf{w} - \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i = 0 &amp; \Rightarrow \mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i 
+\frac {\partial L_P(\mathbf{w}, b, \xi, \alpha, \mu)}{\partial \mathbf{w}} &amp;= \mathbf{w} - \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i = 0 &amp; \Rightarrow \mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i 
 \\
-\frac {\delta L_P(\mathbf{w}, b, \xi, \alpha, \mu)}{\delta b} &amp;= \sum_{i=1}^N \alpha_i y_i  = 0 
+\frac {\partial L_P(\mathbf{w}, b, \xi, \alpha, \mu)}{\partial b} &amp;= \sum_{i=1}^N \alpha_i y_i  = 0 
 &amp; \Rightarrow 0 = \sum_{i=1}^N \alpha_i y_i  
 \\
-\frac {\delta L_P(\mathbf{w}, b, \xi, \alpha, \mu)}{\delta \xi_i} &amp;= C - \alpha_i - \mu_i = 0
+\frac {\partial L_P(\mathbf{w}, b, \xi, \alpha, \mu)}{\partial \xi_i} &amp;= C - \alpha_i - \mu_i = 0
 &amp; \Rightarrow \alpha_i = C - \mu_i
 \end{align*}
 \]</div>
