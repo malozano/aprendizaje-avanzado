@@ -279,8 +279,10 @@ ID3 [@quinlan1986induction] es un algoritmo histórico para la construcción de 
 Este algoritmo fue diseñado para la clasificación con atributos de entrada categóricos. Es decir, cada atributo de entrada puede tomar un conjunto finito de valores. Por ejemplo, podríamos tener como entrada los siguientes atributos:
 
 $$
-\text{Viento} \rightarrow \{ \text{Débil}, \text{Medio}, \text{Fuerte} \} \\
-\text{Clima} \rightarrow \{ \text{Soleado}, \text{Nublado}, \text{Lluvia} \}
+\begin{align*}
+\text{Viento} &\rightarrow \{ \text{Débil}, \text{Medio}, \text{Fuerte} \} \\
+\text{Clima} &\rightarrow \{ \text{Soleado}, \text{Nublado}, \text{Lluvia} \}
+\end{align*}
 $$
 
 En caso de contar con atributos numéricos, deberíamos discretizarlos previamente en una serie de categorías. 

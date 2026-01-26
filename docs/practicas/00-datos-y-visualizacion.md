@@ -102,7 +102,8 @@ dtype: int64
 
 **¿Qué son y por qué aparecen?**
 
-Valores faltantes (NaN, None) aparecen por:
+Valores faltantes `(NaN, None)` aparecen por:
+
 - Errores en la recopilación
 - Equipos que no registraron datos
 - Confidencialidad (datos intencionalmente omitidos)
@@ -112,7 +113,7 @@ Valores faltantes (NaN, None) aparecen por:
 
 | Estrategia | Cuándo usar | Ventajas | Desventajas |
 |-----------|-----------|----------|-----------|
-| **Eliminación de fila** | <5% de datos faltantes en esa fila | Simple, limpio | Pierdes información |
+| **Eliminación de fila** | <5% de filas con datos faltantes | Simple, limpio | Pierdes información |
 | **Eliminación de columna** | >50% de valores faltantes | Limpio | Pierdes feature |
 | **Imputación por media/mediana** | Datos numéricos, MCAR* | Rápido | Reduce varianza, sesgado |
 | **Imputación por forward fill** | Series temporales | Preserva contexto | Solo para datos ordenados |
@@ -215,7 +216,7 @@ Ambas escalan los datos, pero de formas diferentes:
 | Técnica | Fórmula | Rango | Cuándo usar |
 |---------|---------|-------|-----------|
 | **Normalización (Min-Max)** | (x - min) / (max - min) | [0, 1] | Cuando sabes el rango y quieres limites fijos |
-| **Estandarización (Z-score)** | (x - μ) / σ | Aproximadamente [-1, 1] | Por defecto para modelos lineales, SVM, NN |
+| **Estandarización (Z-score)** | (x - μ) / σ | Típicamente [-3, 3], sin límites | Por defecto para modelos lineales, SVM, NN |
 | **Robust Scaling** | (x - Q2) / IQR | - | Cuando hay outliers (menos sensible) |
 
 **¿Por qué es crítico?**
