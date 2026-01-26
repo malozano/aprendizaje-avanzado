@@ -834,8 +834,10 @@ R_\alpha (T_t) = R(T_t) + \alpha |\tilde{T}_t|
 <h4 id="estructura-del-arbol">Estructura del árbol<a class="headerlink" href="#estructura-del-arbol" title="Permanent link">¶</a></h4>
 <p>Este algoritmo fue diseñado para la clasificación con atributos de entrada categóricos. Es decir, cada atributo de entrada puede tomar un conjunto finito de valores. Por ejemplo, podríamos tener como entrada los siguientes atributos:</p>
 <div class="arithmatex">\[
-\text{Viento} \rightarrow \{ \text{Débil}, \text{Medio}, \text{Fuerte} \} \\
-\text{Clima} \rightarrow \{ \text{Soleado}, \text{Nublado}, \text{Lluvia} \}
+\begin{align*}
+\text{Viento} &amp;\rightarrow \{ \text{Débil}, \text{Medio}, \text{Fuerte} \} \\
+\text{Clima} &amp;\rightarrow \{ \text{Soleado}, \text{Nublado}, \text{Lluvia} \}
+\end{align*}
 \]</div>
 <p>En caso de contar con atributos numéricos, deberíamos discretizarlos previamente en una serie de categorías. </p>
 <p>Este algoritmo construye árboles no binarios (multirama), ya que genera una subrama para cada cada posible valor del atributo seleccionado para la división. Por ejemplo, si en un nodo se selecciona el atributo <span class="arithmatex">\(\text{Viento}\)</span> como criterio de división, se crearán <span class="arithmatex">\(3\)</span> subramas: <span class="arithmatex">\(\text{Débil}\)</span>, <span class="arithmatex">\(\text{Medio}\)</span> y <span class="arithmatex">\(\text{Fuerte}\)</span>.</p>

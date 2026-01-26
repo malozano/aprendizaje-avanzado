@@ -762,11 +762,13 @@
 <hr>
 <h3 id="12-manejo-de-valores-faltantes">1.2 Manejo de Valores Faltantes<a class="headerlink" href="#12-manejo-de-valores-faltantes" title="Permanent link">¶</a></h3>
 <p><strong>¿Qué son y por qué aparecen?</strong></p>
-<p>Valores faltantes (NaN, None) aparecen por:
-- Errores en la recopilación
-- Equipos que no registraron datos
-- Confidencialidad (datos intencionalmente omitidos)
-- Procesos de limpieza anteriores</p>
+<p>Valores faltantes <code>(NaN, None)</code> aparecen por:</p>
+<ul>
+<li>Errores en la recopilación</li>
+<li>Equipos que no registraron datos</li>
+<li>Confidencialidad (datos intencionalmente omitidos)</li>
+<li>Procesos de limpieza anteriores</li>
+</ul>
 <p><strong>Estrategias de manejo:</strong></p>
 <table>
 <thead>
@@ -780,7 +782,7 @@
 <tbody>
 <tr>
 <td><strong>Eliminación de fila</strong></td>
-<td>&lt;5% de datos faltantes en esa fila</td>
+<td>&lt;5% de filas con datos faltantes</td>
 <td>Simple, limpio</td>
 <td>Pierdes información</td>
 </tr>
@@ -932,7 +934,7 @@ Output esperado:
 <tr>
 <td><strong>Estandarización (Z-score)</strong></td>
 <td>(x - μ) / σ</td>
-<td>Aproximadamente [-1, 1]</td>
+<td>Típicamente [-3, 3], sin límites</td>
 <td>Por defecto para modelos lineales, SVM, NN</td>
 </tr>
 <tr>
