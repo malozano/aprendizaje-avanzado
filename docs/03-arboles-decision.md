@@ -1,4 +1,4 @@
-# Árboles de decisión
+# Sesión 3: Árboles de decisión
 
 Los árboles de decisión son modelos de aprendizaje supervisado que nos permiten hacer tanto tareas de clasificación como de regresión. Se basan en una estructura jerárquica de decisiones, y su principal ventaja es la interpretabilidad del modelo, ya que podemos interpretarlos como un diagrama de flujo en el que en cada nodo debe tomarse una decisión (ver [](#fig-estructura)-izquierda).
 

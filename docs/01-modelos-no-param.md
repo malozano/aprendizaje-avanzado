@@ -1,5 +1,5 @@
 
-# Tema 1: Modelos paramétricos y no paramétricos
+# Sesión 1: Modelos paramétricos y no paramétricos
 
 Los **modelos no paramétricos**, a diferencia de los modelos paramétricos, son una familia de modelos que no asumen una forma funcional fija. Una implicación importante de este hecho es que la complejidad del modelo puede crecer en función del conjunto de datos. 
 
@@ -19,7 +19,7 @@ Una familia característica de modelos paramétricos son los modelos lineales, q
 El modelo lineal predice la salida como una combinación lineal ponderada de las variables de entrada, con la siguiente forma:
 
 $$
-\hat{y} = w_1 x_1 + w_2 x_2 + \ldots + w_N x_N = \mathbf{x}^T \mathbf{w} + b
+\hat{y} = w_1 x_1 + w_2 x_2 + \ldots + w_d x_d = \mathbf{x}^T \mathbf{w} + b
 $$
 
 Donde $\mathbf{x}$ es el vector de características de entrada, $\mathbf{w}$ es el vector de coeficientes que el modelo aprende, $b$ es el sesgo o desplazamiento y $\hat{y}$ la predicción que nos da el modelo. 
@@ -80,9 +80,11 @@ Existen diferentes métodos que nos permiten aprender, a partir de un conjunto d
 
 ### Regresión Logística
 
-Aunque el nombre pueda resultar confuso, se trata de un **método de clasificación**, y no de regresión. Si bien con el método de regresión lineal se busca ajustar un hiperplano a un conjunto de puntos, de forma que se minimice la distancia entre los puntos del conjunto de entrada y el hiperplano, en el caso de la regresión logística buscamos el hiperplano que mejor separe dos clases de datos. Hablamos en este caso de regresión logística **binomial**, en la que contamos únicamente con dos clases, aunque también podríamos extender este método a un mayor número de clases, hablando en este caso de regresión logística **multinomial**. Vamos a centrarnos de momento por simplicidad en el caso binomial.  
+Aunque el nombre pueda resultar confuso, se trata de un **método de clasificación**, y no de regresión. Si bien con el método de regresión lineal se busca ajustar un hiperplano a un conjunto de puntos, de forma que se minimice la distancia entre los puntos del conjunto de entrada y el hiperplano, en el caso de la regresión logística buscamos el hiperplano que mejor separe dos clases de datos. Hablamos en este caso de regresión logística **binomial**, en la que contamos únicamente con dos clases, aunque también podríamos extender este método a un mayor número de clases, hablando en este caso de regresión logística **multinomial**. 
 
-Como hemos visto anteriormente, a partir de la ecuación del hiperplano podemos determinar si un punto está a uno u otro lado a partir del signo de la función $f(x)$ anterior.
+Vamos a centrarnos de momento por simplicidad en el caso binomial, en el que la salida $y$ podrá tomar dos posibles valores $\{0, 1\}$. Los ejemplos serán clasificados en una clase u otra según el lado del hiperplano en el que se sitúen.   
+
+Como hemos visto anteriormente, a partir de la ecuación del hiperplano podemos determinar si un punto está a uno u otro lado a partir del signo de la función $f(x)$, siendo positiva (clase $1$) en el lado hacia el que apunta el vector $\mathbf{w}$, y negativa (clase $0$) en el otro lado. 
 
 Este modelo destaca por su interpretabilidad, y es ampliamente utilizado como modelo base en numerosos problemas de clasificación. 
 
@@ -115,16 +117,29 @@ $$
 
 Esta forma simplifica mucho el cálculo del gradiente.
 
-Podemos sustituir $z$ por nuestra función $f(x)$ que nos permite clasificar los puntos en función del signo, teniendo:
+Podemos sustituir $z$ por nuestra función $f(\mathbf{x})$ que nos permite clasificar los puntos en función del signo, teniendo:
 
 $$
-h_w(\mathbf{x}) = \sigma(f(x)) =  \frac{1}{1 + e^{-f(x)}} = \frac{1}{1 + e^{-(\mathbf{x}^T \mathbf{w} + b)}}
+\sigma(f(\mathbf{x})) =  \frac{1}{1 + e^{-f(\mathbf{x})}} = \frac{1}{1 + e^{-(\mathbf{x}^T \mathbf{w} + b)}}
 $$
 
-Podemos interpretar $h_w(x)$ como la probabilidad estimada de que $y = 1$ (es decir, de que pertenezca a la clase positiva). Podemos expresarlo como:
+Podemos interpretar la función anterior como la probabilidad estimada de que $y = 1$ (es decir, de que pertenezca a la clase positiva). Definimos de esta forma:
 
 $$
-h_w(\mathbf{x}) = P(y=1 | \mathbf{x}, \mathbf{w}, b)
+p_i = \sigma(f(\mathbf{x}_i)) = \frac{1}{1 + e^{-(\mathbf{x}_i^T \mathbf{w} + b)}}
+$$
+
+Donde $p_i$ define la probabilidad estimada de que el ejemplo $i$ pertenezca a la clase $1$. Tendremos por lo tanto:
+
+$$
+P(y_i=1 | \mathbf{x}_i) = p_i \\
+P(y_i=0 | \mathbf{x}) = 1 - p_i 
+$$
+
+Considerando estos dos posibles valores para $y_i$, podemos escribir ambos casos en una única fórmula, teniendo así la verosimilitud de observar $y_i$ cuando la entrada es $\mathbf{x}_i$:
+
+$$
+P(y_i | \mathbf{x}_i) = (p_i)^y (1 - p_i)^{1-y} 
 $$
 
 Estimaremos los parámetros mediante máxima verosimilitud, lo cual equivale a minimizar la pérdida logarítmica (_log-loss_).
@@ -132,20 +147,20 @@ Estimaremos los parámetros mediante máxima verosimilitud, lo cual equivale a m
 
 #### Función de coste
 
-La función de pérdida logarítmica (_log-loss_) para una sola muestra tiene la siguiente forma:
+La función de pérdida logarítmica (_log-loss_) o _binary cross-entropy_ para una sola muestra tiene la siguiente forma:
 
 $$
-L(h_w(\mathbf{x}), y) = -y \log (h_w(x)) - (1-y) log(1-h_w(x))
+L(p_i, y_i) = -y_i \log (p_i) - (1-y_i) log(1-p_i)
 $$
 
-Esta función tiene la propiedad de que penaliza fuertemente las predicciones confiadas pero incorrectas. Es decir, si la salida esperada es $y=1$ pero la predicción $h(\mathbf{x}) \rightarrow 0$, entonces la penalización será alta.
+Esta función tiene la propiedad de que penaliza fuertemente las predicciones confiadas pero incorrectas. Es decir, si la salida esperada es $y_i=1$ pero la predicción $p_i \rightarrow 0$, entonces la penalización será alta.
 
 Consideremos ahora que tenemos un conjunto de entrenamiento con $N$ pares $(\mathbf{x_i}, y_i)$ con $\mathbf{x_i} \in \mathbb{R}^d$ y $y_i \in \{0, 1\}$ (problema binomial), siendo $d$ el número de _features_.
 
 Con todo ello, para el conjunto de muestras podemos construir la siguiente función de coste:
 
 $$
-J(\mathbf{w}) = -\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i) \log (1 - h_w(\mathbf{x}_i))]
+J(\mathbf{w}) = -\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1 - p_i)]
 $$
 
 Esta función tiene la propiedad de que es convexa (tiene un único mínimo global) y diferenciable, y como hemos comentado, penaliza las predicciones claramente incorrectas.
@@ -161,22 +176,22 @@ $$
 Obtenemos el gradiente de la función, mediante la derivada parcial respecto a cada peso $w_j$:
 
 $$
-\frac{\partial J(\mathbf{w})}{\partial w_j} = \frac{1}{N} \sum_{i=1}^N (h_w(\mathbf{x}_i) - y_i) x_{ij}
+\frac{\partial J(\mathbf{w})}{\partial w_j} = \frac{1}{N} \sum_{i=1}^N (p_i - y_i) x_{ij}
 $$
 
 
 Podemos expresar el gradiente en forma vectorial, para todos los pesos, de la siguiente forma:
 
 $$
-\nabla J(\mathbf{w}) = \frac{1}{N} \mathbf{x}^T (h_w(\mathbf{x}) - y) 
+\nabla J(\mathbf{w}) = \frac{1}{N} \mathbf{X}^T (\mathbf{p} - \mathbf{y}) 
 $$
 
-Donde $\mathbf{x}$ es una matriz de dimensión $N \times d$, $h_w(\mathbf{x})$ es un vector de predicciones de dimensión $N \times 1$ y $y$ es un vector de etiquetas de dimensión $N \times 1$ (una fila para cada ejemplo de entrada). 
+Donde $\mathbf{X}$ es una matriz de dimensión $N \times d$ (una fila para cada ejemplo de entrada), $\mathbf{p}$ es un vector de predicciones ($p_i$) de dimensión $N \times 1$ y $\mathbf{y}$ es un vector de etiquetas de dimensión $N \times 1$. 
 
 De la misma forma, podemos obtener la derivada parcial respecto al sesgo ($b$):
 
 $$
-\frac{\partial J(\mathbf{w})}{\partial b} = \frac{1}{N} \sum_{i=1}^N (h_w(\mathbf{x}_i) - y_i)
+\frac{\partial J(\mathbf{w})}{\partial b} = \frac{1}{N} \sum_{i=1}^N (p_i - y_i)
 $$
 
 Con esto, podremos aplicar **Descenso por Gradiente** o **Descenso por Gradiente estocástico (SGD)** para optimizar los pesos. También tenemos otros algoritmos de optimización como **Coordinate Descent** [@hsieh2008dual], en el que en lugar de aplicar descenso por gradiente a la vez sobre todas las coordenadas, se selecciona de forma iterativa una coordenada, se congela el resto, y se optimiza para la coordenada seleccionada. El algoritmo itera por las diferentes coordenadas hasta la convergencia. Encontramos también otros métodos de optimización, como el método de **Newton** [@nocedal2006numerical] que utiliza segundas derivadas y presenta la ventaja de una convergencia más rápida, aunque resulta algo costoso. Tenemos también **L-BFGS** [@liu1989limited] que es una aproximación eficiente del método de Newton y es el utilizado por defecto en la [implementación de `LogisticRegression` en sklearn](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html). Esta implementación  incluye diferentes _solvers_ alternativos que podemos utilizar para la optimización. 
@@ -191,7 +206,7 @@ Busca penalizar pesos grandes, para favorecer soluciones más simples:
 
 $$
 \begin{align*}
-J(\mathbf{w}) = &-\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i) \log (1 - h_w(\mathbf{x}_i))] +
+J(\mathbf{w}) = &-\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1 - p_i)] +
 \\
 & + \frac{\lambda}{2N} \sum_{k=1}^d w_k^2
 \end{align*}
@@ -203,7 +218,7 @@ Favorece que algunos pesos puedan ser exactamente $0$, actuando de esta forma co
 
 $$
 \begin{align*}
-J(\mathbf{w}) = &-\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i) \log (1 - h_w(\mathbf{x}_i))] +
+J(\mathbf{w}) = &-\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1 - p_i)] +
 \\
 & + \frac{\lambda}{N} \sum_{k=1}^d | w_k |
 \end{align*}
@@ -215,7 +230,7 @@ Combina L1 y L2:
 
 $$
 \begin{align*}
-J(\mathbf{w}) = &-\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i) \log (1 - h_w(\mathbf{x}_i))] +
+J(\mathbf{w}) = &-\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1 - p_i)] +
 \\
 & + \frac{\lambda_1}{N} \sum_{k=1}^d | w_k | + \frac{\lambda_2}{2N} \sum_{k=1}^d w_k^2 
 \end{align*}
@@ -223,7 +238,58 @@ $$
 
 En todos estos casos tenemos un hiper-parámetro $\lambda$ con el que podemos ajustar la regularización. Con $\lambda = 0$ no aplicamos regularización, con lo que tendremos mayor riesgo de _overfitting_, mientras que con valores muy altos podríamos tener mayor riesgo de _underfitting_. 
 
- 
+#### Clasificación multi-clase
+
+Hemos visto hasta ahora el caso binomial (2 clases), pero como hemos comentado, podemos aplicar Regresión Logística también a problemas de clasificación multi-clase. 
+
+Consideramos ahora que debemos clasificar los ejemplos de entrada en $K$ clases. Tenemos dos formas para hacer esto:
+
+- **One-vs-Rest (OvR)**: Creamos $K$ clasificadores binarios, uno para cada clase.
+- **Multinomial**: Se entrana un único modelo que modela la distribución de probabilidad sobre todas las clases. 
+
+Vamos a ver cada uno de estos casos.
+
+##### One-vs-Rest
+
+Podemos aplicar cualquier clasificador binario a problemas multiclase utilizando la estrategia _One-vs-Rest_ (OvR). 
+
+Esta estrategia consiste en crear $K$ clasificadores binarios, uno para cada clase. Cada clasificador binario $k$, con $k = 1, 2, \ldots, K$, clasifica los ejemplos en dos categorías: los que pertenecen a la clase $k$ y los que pertenecen a cualquier de las otras clases.
+
+Para la predicción, se calcula la probabilidad de pertenencia con cada uno de los clasificadores $k = 1, 2, \ldots, K$. Cada clasificador $k$ nos dará la probabilidad de que el ejemplo pertenezca a la correspondiente clase $k$:
+
+$$
+P(y=k | \mathbf{x}) = \frac{1}{1 + e^{-(\mathbf{x}^T \mathbf{w}_k + b_k)}}
+$$
+
+Aquel que obtenga una mayor probabilidad será la clase seleccionada como predicción:
+
+$$
+\hat{k} = \arg \max_k P(y=k | \mathbf{x})
+$$
+
+En sklearn podemos utilizar este enfoque utilizando la clase [OneVsRestClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.multiclass.OneVsRestClassifier.html#sklearn.multiclass.OneVsRestClassifier). Podemos aplicar este método a cualquier clasificador binario. También encontramos [OneVsOneClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.multiclass.OneVsOneClassifier.html#sklearn.multiclass.OneVsOneClassifier) que entrena un clasificador para cada par de clases. Aunque _One-vs-One_ (OvO) es más robusto frente a desbalanceo que OvR, requiere entrenar $K(K-1)/2$ clasificadores, lo que puede ser prohibitivo cuando $K$ es grande. En OvO, cada clasificador votará por una clase, y la clase que reciba más votos será la seleccionada.
+
+Aunque OvR es un modelo sencillo, fácil de implementar y rápido de entrenar, tiene una serie de desventajas. Encontramos en primer lugar que los datos de entrenamiento de cada clasificador están fuertemente desbalanceados, ya que hay muchos menos ejemplos de la clase $k$ correspondiente al clasificador que del resto de clases.
+
+Por otro lado, este enfoque no nos da probabilidades bien calibradas: los _scores_ de los $K$ clasificadores no suman necesariamente 1, ya que cada clasificador se entrena de forma independiente. Si necesitamos contar con probabilidades bien calibradas, podemos utilizar el enfoque de clasificación multinomial.
+
+##### Multinomial
+
+En este caso, las probabilidades de pertenencia a cada clase en lugar de modelarse con una función sigmoide se modelan mediante la función _softmax_:
+
+$$
+P(y=k | \mathbf{x}) = \frac{ e^{(\mathbf{x}^T \mathbf{w}_k + b_k)} } { \sum_{j=1}^K e^{(\mathbf{x}^T \mathbf{w}_j + b_j)}}
+$$
+
+Con esto garantizamos que las probabilidades estén entre $0$ y $1$ y que todas ellas sumen exactamente $1$:
+
+- $P(y = k | \mathbf{x}) \in  [0, 1]$
+- $\sum_{k=1}^{K} P(y = k | \mathbf{x}) = 1$ 
+
+En este caso la función a optimizar será _cross-entropy_ multiclase (o _categorical cross-entropy_). Este enfoque modela las relaciones entre clases y nos proporciona probabilidades bien calibradas, aunque es más costoso que el anterior.
+
+Si tenemos un gran número de clases y necesitamos más velocidad, puede ser conveniente utilizar el enfoque OvR, mientras que si el número de clases es menor, o necesitamos probabilidades calibradas será más apropiado el método multinomial. En la implementación `LogisticRegression` de _sklearn_, todos los _solvers_ utilizarán el enfoque multinomial en problemas multi-clase excepto `liblinear`, que solo soporta clasificación binaria. En este último caso, si queremos aplicarlo a un problema multiclase, deberemos utilizar OvR. 
+
 
 ## Limitaciones de los modelos lineales
 
@@ -303,7 +369,7 @@ Podemos observar que aunque el modelo sigue siendo lineal respecto a las caracte
 
 Un tipo destacado modelo paramétrico no lineal son las Redes Neuronales. Vamos a establecer la relación de la Regresión Logística con las Redes Neuronales y a estudiar como estos modelos pueden resolver problemas no lineales como el planteado.
 
-Es fácil determinar que el modelo de regresión logística es equivalente a un perceptrón con $N$ entradas que aplique una función sigmoide como función de activación (ver [](#fig-perceptron)). 
+Es fácil determinar que el modelo de regresión logística binomial es equivalente a un perceptrón con $N$ entradas que aplique una función sigmoide como función de activación (ver [](#fig-perceptron)) y función de pérdida _binary cross-entropy_. 
 
 Figure: Perceptrón con $N$ entradas y función de activación Sigmoide {#fig-perceptron}
 
@@ -316,6 +382,8 @@ y = \sigma(\sum_{i=1}^N w_i x_i + b)
 $$
 
 Donde $x_i$ son las entradas, $w_b$ los pesos para cada entrada y $b$ el sesgo o _bias_. 
+
+De la misma forma, un modelo de regresión logística multinomial sería equivalente a una red con una única capa _softmax_.
 
 Cuando a la red le añadimos varias capas ocultas (ver [](#fig-deep)), lo que estaremos haciendo es aprender a transformar el espacio original de características $\mathbf{X}$ en un espacio latente $\mathbf{H}$ que facilite su clasificación. Podremos encontrar estas características en la última capa de la red, y sobre ellas se aplicará una clasificación equivalente a la regresión logística.
 

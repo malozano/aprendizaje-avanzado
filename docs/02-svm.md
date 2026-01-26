@@ -1,4 +1,4 @@
-# Support Vector Machines (SVM)
+# Sesión 2: Support Vector Machines (SVM)
 
 Las Support Vector Machines (SVM) [@cortes1995svm] son algoritmos de aprendizaje supervisado utilizados principalmente para clasificación, aunque también pueden aplicarse a regresión. 
 
@@ -307,7 +307,7 @@ Es importante entender el rol del parámetro $C$:
 
 
 
-## Primal VS Dual
+### Primal VS Dual
 
 Como hemos visto, SVM lineal puede resolverse de ambas formas. Son dos formas complementarias que resuelven el mismo problema. La clave está en que en cada caso cambian las variables a optimizar. En el caso de la forma primal optimizamos directamente los parámetros del modelo $(\mathbf{w}, b)$, donde $\mathbf{w} \in \mathbb{R}^d$ (siendo $d$ el número de _features_), mientras que en el caso de la forma dual estaremos optimizando los $N$ multiplicadores $\alpha_i$ (uno para cada ejemplo de entrenamiento).
 
