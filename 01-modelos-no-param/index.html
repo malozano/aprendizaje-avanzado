@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tema-1-modelos-parametricos-y-no-parametricos" class="md-skip">
+        <a href="#sesion-1-modelos-parametricos-y-no-parametricos" class="md-skip">
           Saltar a contenido
         </a>
       
@@ -392,6 +392,33 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#clasificacion-multi-clase" class="md-nav__link">
+    Clasificación multi-clase
+  </a>
+  
+    <nav class="md-nav" aria-label="Clasificación multi-clase">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#one-vs-rest" class="md-nav__link">
+    One-vs-Rest
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multinomial" class="md-nav__link">
+    Multinomial
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -572,7 +599,7 @@
                   
 
 
-<h1 id="tema-1-modelos-parametricos-y-no-parametricos">Tema 1: Modelos paramétricos y no paramétricos<a class="headerlink" href="#tema-1-modelos-parametricos-y-no-parametricos" title="Permanent link">¶</a></h1>
+<h1 id="sesion-1-modelos-parametricos-y-no-parametricos">Sesión 1: Modelos paramétricos y no paramétricos<a class="headerlink" href="#sesion-1-modelos-parametricos-y-no-parametricos" title="Permanent link">¶</a></h1>
 <p>Los <strong>modelos no paramétricos</strong>, a diferencia de los modelos paramétricos, son una familia de modelos que no asumen una forma funcional fija. Una implicación importante de este hecho es que la complejidad del modelo puede crecer en función del conjunto de datos. </p>
 <p>En un modelo paramétrico se define de antemano la forma funcional, que podría ser por ejemplo lineal o cuadrática, y tendremos que estimar un número fijo de parámetros, pero si la estructura de los datos es más compleja y no conocemos su forma, puede que no puedan ajustarse de forma adecuada al modelo.</p>
 <p>Los modelos no paramétricos no imponen una estructura fija, sino que permiten que sean los propios datos los que determinen la complejidad del modelo. </p>
@@ -582,7 +609,7 @@
 <p>Una familia característica de modelos paramétricos son los modelos lineales, que son aquellos que asumen una relación lineal entre los datos de entrada y la variable objetivo.</p>
 <p>El modelo lineal predice la salida como una combinación lineal ponderada de las variables de entrada, con la siguiente forma:</p>
 <div class="arithmatex">\[
-\hat{y} = w_1 x_1 + w_2 x_2 + \ldots + w_N x_N = \mathbf{x}^T \mathbf{w} + b
+\hat{y} = w_1 x_1 + w_2 x_2 + \ldots + w_d x_d = \mathbf{x}^T \mathbf{w} + b
 \]</div>
 <p>Donde <span class="arithmatex">\(\mathbf{x}\)</span> es el vector de características de entrada, <span class="arithmatex">\(\mathbf{w}\)</span> es el vector de coeficientes que el modelo aprende, <span class="arithmatex">\(b\)</span> es el sesgo o desplazamiento y <span class="arithmatex">\(\hat{y}\)</span> la predicción que nos da el modelo. </p>
 <p>Desde el punto de vista geométrico, esta ecuación define un hiperplano. Con esto, podemos dar la siguiente interpretación al funcionamiento de estos modelos:</p>
@@ -619,8 +646,9 @@ G(\mathbf{x}) = signo[f(\mathbf{x})]
 </blockquote>
 <p>Existen diferentes métodos que nos permiten aprender, a partir de un conjunto de datos, un hiperplano que separe los datos de dos clases. </p>
 <h3 id="regresion-logistica">Regresión Logística<a class="headerlink" href="#regresion-logistica" title="Permanent link">¶</a></h3>
-<p>Aunque el nombre pueda resultar confuso, se trata de un <strong>método de clasificación</strong>, y no de regresión. Si bien con el método de regresión lineal se busca ajustar un hiperplano a un conjunto de puntos, de forma que se minimice la distancia entre los puntos del conjunto de entrada y el hiperplano, en el caso de la regresión logística buscamos el hiperplano que mejor separe dos clases de datos. Hablamos en este caso de regresión logística <strong>binomial</strong>, en la que contamos únicamente con dos clases, aunque también podríamos extender este método a un mayor número de clases, hablando en este caso de regresión logística <strong>multinomial</strong>. Vamos a centrarnos de momento por simplicidad en el caso binomial.  </p>
-<p>Como hemos visto anteriormente, a partir de la ecuación del hiperplano podemos determinar si un punto está a uno u otro lado a partir del signo de la función <span class="arithmatex">\(f(x)\)</span> anterior.</p>
+<p>Aunque el nombre pueda resultar confuso, se trata de un <strong>método de clasificación</strong>, y no de regresión. Si bien con el método de regresión lineal se busca ajustar un hiperplano a un conjunto de puntos, de forma que se minimice la distancia entre los puntos del conjunto de entrada y el hiperplano, en el caso de la regresión logística buscamos el hiperplano que mejor separe dos clases de datos. Hablamos en este caso de regresión logística <strong>binomial</strong>, en la que contamos únicamente con dos clases, aunque también podríamos extender este método a un mayor número de clases, hablando en este caso de regresión logística <strong>multinomial</strong>. </p>
+<p>Vamos a centrarnos de momento por simplicidad en el caso binomial, en el que la salida <span class="arithmatex">\(y\)</span> podrá tomar dos posibles valores <span class="arithmatex">\(\{0, 1\}\)</span>. Los ejemplos serán clasificados en una clase u otra según el lado del hiperplano en el que se sitúen.   </p>
+<p>Como hemos visto anteriormente, a partir de la ecuación del hiperplano podemos determinar si un punto está a uno u otro lado a partir del signo de la función <span class="arithmatex">\(f(x)\)</span>, siendo positiva (clase <span class="arithmatex">\(1\)</span>) en el lado hacia el que apunta el vector <span class="arithmatex">\(\mathbf{w}\)</span>, y negativa (clase <span class="arithmatex">\(0\)</span>) en el otro lado. </p>
 <p>Este modelo destaca por su interpretabilidad, y es ampliamente utilizado como modelo base en numerosos problemas de clasificación. </p>
 <p>La clave principal de la regresión logistica consiste en aplicar sobre la función anterior la función sigmoide, modelando mediante esta función la probabilidad de pertenencia a cada clase.</p>
 <h4 id="funcion-sigmoide">Función sigmoide<a class="headerlink" href="#funcion-sigmoide" title="Permanent link">¶</a></h4>
@@ -637,25 +665,34 @@ G(\mathbf{x}) = signo[f(\mathbf{x})]
 \sigma'(z) = \sigma(z) (1 - \sigma(z))
 \]</div>
 <p>Esta forma simplifica mucho el cálculo del gradiente.</p>
-<p>Podemos sustituir <span class="arithmatex">\(z\)</span> por nuestra función <span class="arithmatex">\(f(x)\)</span> que nos permite clasificar los puntos en función del signo, teniendo:</p>
+<p>Podemos sustituir <span class="arithmatex">\(z\)</span> por nuestra función <span class="arithmatex">\(f(\mathbf{x})\)</span> que nos permite clasificar los puntos en función del signo, teniendo:</p>
 <div class="arithmatex">\[
-h_w(\mathbf{x}) = \sigma(f(x)) =  \frac{1}{1 + e^{-f(x)}} = \frac{1}{1 + e^{-(\mathbf{x}^T \mathbf{w} + b)}}
+\sigma(f(\mathbf{x})) =  \frac{1}{1 + e^{-f(\mathbf{x})}} = \frac{1}{1 + e^{-(\mathbf{x}^T \mathbf{w} + b)}}
 \]</div>
-<p>Podemos interpretar <span class="arithmatex">\(h_w(x)\)</span> como la probabilidad estimada de que <span class="arithmatex">\(y = 1\)</span> (es decir, de que pertenezca a la clase positiva). Podemos expresarlo como:</p>
+<p>Podemos interpretar la función anterior como la probabilidad estimada de que <span class="arithmatex">\(y = 1\)</span> (es decir, de que pertenezca a la clase positiva). Definimos de esta forma:</p>
 <div class="arithmatex">\[
-h_w(\mathbf{x}) = P(y=1 | \mathbf{x}, \mathbf{w}, b)
+p_i = \sigma(f(\mathbf{x}_i)) = \frac{1}{1 + e^{-(\mathbf{x}_i^T \mathbf{w} + b)}}
+\]</div>
+<p>Donde <span class="arithmatex">\(p_i\)</span> define la probabilidad estimada de que el ejemplo <span class="arithmatex">\(i\)</span> pertenezca a la clase <span class="arithmatex">\(1\)</span>. Tendremos por lo tanto:</p>
+<div class="arithmatex">\[
+P(y_i=1 | \mathbf{x}_i) = p_i \\
+P(y_i=0 | \mathbf{x}) = 1 - p_i 
+\]</div>
+<p>Considerando estos dos posibles valores para <span class="arithmatex">\(y_i\)</span>, podemos escribir ambos casos en una única fórmula, teniendo así la verosimilitud de observar <span class="arithmatex">\(y_i\)</span> cuando la entrada es <span class="arithmatex">\(\mathbf{x}_i\)</span>:</p>
+<div class="arithmatex">\[
+P(y_i | \mathbf{x}_i) = (p_i)^y (1 - p_i)^{1-y} 
 \]</div>
 <p>Estimaremos los parámetros mediante máxima verosimilitud, lo cual equivale a minimizar la pérdida logarítmica (<em>log-loss</em>).</p>
 <h4 id="funcion-de-coste">Función de coste<a class="headerlink" href="#funcion-de-coste" title="Permanent link">¶</a></h4>
-<p>La función de pérdida logarítmica (<em>log-loss</em>) para una sola muestra tiene la siguiente forma:</p>
+<p>La función de pérdida logarítmica (<em>log-loss</em>) o <em>binary cross-entropy</em> para una sola muestra tiene la siguiente forma:</p>
 <div class="arithmatex">\[
-L(h_w(\mathbf{x}), y) = -y \log (h_w(x)) - (1-y) log(1-h_w(x))
+L(p_i, y_i) = -y_i \log (p_i) - (1-y_i) log(1-p_i)
 \]</div>
-<p>Esta función tiene la propiedad de que penaliza fuertemente las predicciones confiadas pero incorrectas. Es decir, si la salida esperada es <span class="arithmatex">\(y=1\)</span> pero la predicción <span class="arithmatex">\(h(\mathbf{x}) \rightarrow 0\)</span>, entonces la penalización será alta.</p>
+<p>Esta función tiene la propiedad de que penaliza fuertemente las predicciones confiadas pero incorrectas. Es decir, si la salida esperada es <span class="arithmatex">\(y_i=1\)</span> pero la predicción <span class="arithmatex">\(p_i \rightarrow 0\)</span>, entonces la penalización será alta.</p>
 <p>Consideremos ahora que tenemos un conjunto de entrenamiento con <span class="arithmatex">\(N\)</span> pares <span class="arithmatex">\((\mathbf{x_i}, y_i)\)</span> con <span class="arithmatex">\(\mathbf{x_i} \in \mathbb{R}^d\)</span> y <span class="arithmatex">\(y_i \in \{0, 1\}\)</span> (problema binomial), siendo <span class="arithmatex">\(d\)</span> el número de <em>features</em>.</p>
 <p>Con todo ello, para el conjunto de muestras podemos construir la siguiente función de coste:</p>
 <div class="arithmatex">\[
-J(\mathbf{w}) = -\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i) \log (1 - h_w(\mathbf{x}_i))]
+J(\mathbf{w}) = -\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1 - p_i)]
 \]</div>
 <p>Esta función tiene la propiedad de que es convexa (tiene un único mínimo global) y diferenciable, y como hemos comentado, penaliza las predicciones claramente incorrectas.</p>
 <h4 id="optimizacion">Optimización<a class="headerlink" href="#optimizacion" title="Permanent link">¶</a></h4>
@@ -665,16 +702,16 @@ J(\mathbf{w}) = -\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i
 \]</div>
 <p>Obtenemos el gradiente de la función, mediante la derivada parcial respecto a cada peso <span class="arithmatex">\(w_j\)</span>:</p>
 <div class="arithmatex">\[
-\frac{\partial J(\mathbf{w})}{\partial w_j} = \frac{1}{N} \sum_{i=1}^N (h_w(\mathbf{x}_i) - y_i) x_{ij}
+\frac{\partial J(\mathbf{w})}{\partial w_j} = \frac{1}{N} \sum_{i=1}^N (p_i - y_i) x_{ij}
 \]</div>
 <p>Podemos expresar el gradiente en forma vectorial, para todos los pesos, de la siguiente forma:</p>
 <div class="arithmatex">\[
-\nabla J(\mathbf{w}) = \frac{1}{N} \mathbf{x}^T (h_w(\mathbf{x}) - y) 
+\nabla J(\mathbf{w}) = \frac{1}{N} \mathbf{X}^T (\mathbf{p} - \mathbf{y}) 
 \]</div>
-<p>Donde <span class="arithmatex">\(\mathbf{x}\)</span> es una matriz de dimensión <span class="arithmatex">\(N \times d\)</span>, <span class="arithmatex">\(h_w(\mathbf{x})\)</span> es un vector de predicciones de dimensión <span class="arithmatex">\(N \times 1\)</span> y <span class="arithmatex">\(y\)</span> es un vector de etiquetas de dimensión <span class="arithmatex">\(N \times 1\)</span> (una fila para cada ejemplo de entrada). </p>
+<p>Donde <span class="arithmatex">\(\mathbf{X}\)</span> es una matriz de dimensión <span class="arithmatex">\(N \times d\)</span> (una fila para cada ejemplo de entrada), <span class="arithmatex">\(\mathbf{p}\)</span> es un vector de predicciones (<span class="arithmatex">\(p_i\)</span>) de dimensión <span class="arithmatex">\(N \times 1\)</span> y <span class="arithmatex">\(\mathbf{y}\)</span> es un vector de etiquetas de dimensión <span class="arithmatex">\(N \times 1\)</span>. </p>
 <p>De la misma forma, podemos obtener la derivada parcial respecto al sesgo (<span class="arithmatex">\(b\)</span>):</p>
 <div class="arithmatex">\[
-\frac{\partial J(\mathbf{w})}{\partial b} = \frac{1}{N} \sum_{i=1}^N (h_w(\mathbf{x}_i) - y_i)
+\frac{\partial J(\mathbf{w})}{\partial b} = \frac{1}{N} \sum_{i=1}^N (p_i - y_i)
 \]</div>
 <p>Con esto, podremos aplicar <strong>Descenso por Gradiente</strong> o <strong>Descenso por Gradiente estocástico (SGD)</strong> para optimizar los pesos. También tenemos otros algoritmos de optimización como <strong>Coordinate Descent</strong> (Hsieh et al., 2008)<sup id="fnref:hsieh2008dual"><a class="footnote-ref" href="#fn:hsieh2008dual">2</a></sup>, en el que en lugar de aplicar descenso por gradiente a la vez sobre todas las coordenadas, se selecciona de forma iterativa una coordenada, se congela el resto, y se optimiza para la coordenada seleccionada. El algoritmo itera por las diferentes coordenadas hasta la convergencia. Encontramos también otros métodos de optimización, como el método de <strong>Newton</strong> (Nocedal &amp; Wright, 2006)<sup id="fnref:nocedal2006numerical"><a class="footnote-ref" href="#fn:nocedal2006numerical">3</a></sup> que utiliza segundas derivadas y presenta la ventaja de una convergencia más rápida, aunque resulta algo costoso. Tenemos también <strong>L-BFGS</strong> (Liu &amp; Nocedal, 1989)<sup id="fnref:liu1989limited"><a class="footnote-ref" href="#fn:liu1989limited">4</a></sup> que es una aproximación eficiente del método de Newton y es el utilizado por defecto en la <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html">implementación de <code>LogisticRegression</code> en sklearn</a>. Esta implementación  incluye diferentes <em>solvers</em> alternativos que podemos utilizar para la optimización. </p>
 <h4 id="regularizacion">Regularización<a class="headerlink" href="#regularizacion" title="Permanent link">¶</a></h4>
@@ -683,7 +720,7 @@ J(\mathbf{w}) = -\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i
 <p>Busca penalizar pesos grandes, para favorecer soluciones más simples:</p>
 <div class="arithmatex">\[
 \begin{align*}
-J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i) \log (1 - h_w(\mathbf{x}_i))] +
+J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1 - p_i)] +
 \\
 &amp; + \frac{\lambda}{2N} \sum_{k=1}^d w_k^2
 \end{align*}
@@ -692,7 +729,7 @@ J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (
 <p>Favorece que algunos pesos puedan ser exactamente <span class="arithmatex">\(0\)</span>, actuando de esta forma como una selección de características:</p>
 <div class="arithmatex">\[
 \begin{align*}
-J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i) \log (1 - h_w(\mathbf{x}_i))] +
+J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1 - p_i)] +
 \\
 &amp; + \frac{\lambda}{N} \sum_{k=1}^d | w_k |
 \end{align*}
@@ -701,12 +738,46 @@ J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (
 <p>Combina L1 y L2:</p>
 <div class="arithmatex">\[
 \begin{align*}
-J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (h_w(\mathbf{x}_i)) + (1-y_i) \log (1 - h_w(\mathbf{x}_i))] +
+J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1 - p_i)] +
 \\
 &amp; + \frac{\lambda_1}{N} \sum_{k=1}^d | w_k | + \frac{\lambda_2}{2N} \sum_{k=1}^d w_k^2 
 \end{align*}
 \]</div>
 <p>En todos estos casos tenemos un hiper-parámetro <span class="arithmatex">\(\lambda\)</span> con el que podemos ajustar la regularización. Con <span class="arithmatex">\(\lambda = 0\)</span> no aplicamos regularización, con lo que tendremos mayor riesgo de <em>overfitting</em>, mientras que con valores muy altos podríamos tener mayor riesgo de <em>underfitting</em>. </p>
+<h4 id="clasificacion-multi-clase">Clasificación multi-clase<a class="headerlink" href="#clasificacion-multi-clase" title="Permanent link">¶</a></h4>
+<p>Hemos visto hasta ahora el caso binomial (2 clases), pero como hemos comentado, podemos aplicar Regresión Logística también a problemas de clasificación multi-clase. </p>
+<p>Consideramos ahora que debemos clasificar los ejemplos de entrada en <span class="arithmatex">\(K\)</span> clases. Tenemos dos formas para hacer esto:</p>
+<ul>
+<li><strong>One-vs-Rest (OvR)</strong>: Creamos <span class="arithmatex">\(K\)</span> clasificadores binarios, uno para cada clase.</li>
+<li><strong>Multinomial</strong>: Se entrana un único modelo que modela la distribución de probabilidad sobre todas las clases. </li>
+</ul>
+<p>Vamos a ver cada uno de estos casos.</p>
+<h5 id="one-vs-rest">One-vs-Rest<a class="headerlink" href="#one-vs-rest" title="Permanent link">¶</a></h5>
+<p>Podemos aplicar cualquier clasificador binario a problemas multiclase utilizando la estrategia <em>One-vs-Rest</em> (OvR). </p>
+<p>Esta estrategia consiste en crear <span class="arithmatex">\(K\)</span> clasificadores binarios, uno para cada clase. Cada clasificador binario <span class="arithmatex">\(k\)</span>, con <span class="arithmatex">\(k = 1, 2, \ldots, K\)</span>, clasifica los ejemplos en dos categorías: los que pertenecen a la clase <span class="arithmatex">\(k\)</span> y los que pertenecen a cualquier de las otras clases.</p>
+<p>Para la predicción, se calcula la probabilidad de pertenencia con cada uno de los clasificadores <span class="arithmatex">\(k = 1, 2, \ldots, K\)</span>. Cada clasificador <span class="arithmatex">\(k\)</span> nos dará la probabilidad de que el ejemplo pertenezca a la correspondiente clase <span class="arithmatex">\(k\)</span>:</p>
+<div class="arithmatex">\[
+P(y=k | \mathbf{x}) = \frac{1}{1 + e^{-(\mathbf{x}^T \mathbf{w}_k + b_k)}}
+\]</div>
+<p>Aquel que obtenga una mayor probabilidad será la clase seleccionada como predicción:</p>
+<div class="arithmatex">\[
+\hat{k} = \arg \max_k P(y=k | \mathbf{x})
+\]</div>
+<p>En sklearn podemos utilizar este enfoque utilizando la clase <a href="https://scikit-learn.org/stable/modules/generated/sklearn.multiclass.OneVsRestClassifier.html#sklearn.multiclass.OneVsRestClassifier">OneVsRestClassifier</a>. Podemos aplicar este método a cualquier clasificador binario. También encontramos <a href="https://scikit-learn.org/stable/modules/generated/sklearn.multiclass.OneVsOneClassifier.html#sklearn.multiclass.OneVsOneClassifier">OneVsOneClassifier</a> que entrena un clasificador para cada par de clases. Aunque <em>One-vs-One</em> (OvO) es más robusto frente a desbalanceo que OvR, requiere entrenar <span class="arithmatex">\(K(K-1)/2\)</span> clasificadores, lo que puede ser prohibitivo cuando <span class="arithmatex">\(K\)</span> es grande. En OvO, cada clasificador votará por una clase, y la clase que reciba más votos será la seleccionada.</p>
+<p>Aunque OvR es un modelo sencillo, fácil de implementar y rápido de entrenar, tiene una serie de desventajas. Encontramos en primer lugar que los datos de entrenamiento de cada clasificador están fuertemente desbalanceados, ya que hay muchos menos ejemplos de la clase <span class="arithmatex">\(k\)</span> correspondiente al clasificador que del resto de clases.</p>
+<p>Por otro lado, este enfoque no nos da probabilidades bien calibradas: los <em>scores</em> de los <span class="arithmatex">\(K\)</span> clasificadores no suman necesariamente 1, ya que cada clasificador se entrena de forma independiente. Si necesitamos contar con probabilidades bien calibradas, podemos utilizar el enfoque de clasificación multinomial.</p>
+<h5 id="multinomial">Multinomial<a class="headerlink" href="#multinomial" title="Permanent link">¶</a></h5>
+<p>En este caso, las probabilidades de pertenencia a cada clase en lugar de modelarse con una función sigmoide se modelan mediante la función <em>softmax</em>:</p>
+<div class="arithmatex">\[
+P(y=k | \mathbf{x}) = \frac{ e^{(\mathbf{x}^T \mathbf{w}_k + b_k)} } { \sum_{j=1}^K e^{(\mathbf{x}^T \mathbf{w}_j + b_j)}}
+\]</div>
+<p>Con esto garantizamos que las probabilidades estén entre <span class="arithmatex">\(0\)</span> y <span class="arithmatex">\(1\)</span> y que todas ellas sumen exactamente <span class="arithmatex">\(1\)</span>:</p>
+<ul>
+<li><span class="arithmatex">\(P(y = k | \mathbf{x}) \in  [0, 1]\)</span></li>
+<li><span class="arithmatex">\(\sum_{k=1}^{K} P(y = k | \mathbf{x}) = 1\)</span> </li>
+</ul>
+<p>En este caso la función a optimizar será <em>cross-entropy</em> multiclase (o <em>categorical cross-entropy</em>). Este enfoque modela las relaciones entre clases y nos proporciona probabilidades bien calibradas, aunque es más costoso que el anterior.</p>
+<p>Si tenemos un gran número de clases y necesitamos más velocidad, puede ser conveniente utilizar el enfoque OvR, mientras que si el número de clases es menor, o necesitamos probabilidades calibradas será más apropiado el método multinomial. En la implementación <code>LogisticRegression</code> de <em>sklearn</em>, todos los <em>solvers</em> utilizarán el enfoque multinomial en problemas multi-clase excepto <code>liblinear</code>, que solo soporta clasificación binaria. En este último caso, si queremos aplicarlo a un problema multiclase, deberemos utilizar OvR. </p>
 <h2 id="limitaciones-de-los-modelos-lineales">Limitaciones de los modelos lineales<a class="headerlink" href="#limitaciones-de-los-modelos-lineales" title="Permanent link">¶</a></h2>
 <p>Como hemos visto, los modelos lineales como regresión logística buscan el hiperplano que mejor separe los datos de las diferentes clases. Sin embargo, esto no siempre será posible.</p>
 <h3 id="regresion-logistica-con-datos-linealmente-separables">Regresión logística con datos linealmente separables<a class="headerlink" href="#regresion-logistica-con-datos-linealmente-separables" title="Permanent link">¶</a></h3>
@@ -748,13 +819,14 @@ f(\mathbf{x}) = h(\mathbf{x})^T \mathbf{w} + b
 <p>Podemos observar que aunque el modelo sigue siendo lineal respecto a las características proyectadas <span class="arithmatex">\(h(\mathbf{x})\)</span>, puede que ya no lo sea en el espacio original de características de <span class="arithmatex">\(\mathbf{x}\)</span>. Esto es lo que ocurre en el caso del ejemplo anterior, en el que las características proyectadas son <span class="arithmatex">\(h(\mathbf{x}) = (x_1, x_2, x_1 x_2, x_1^2, x_2^2)\)</span>, y por lo tanto tenemos un polinomio de grado 2 en el espacio original.</p>
 <h2 id="modelos-parametricos-no-lineales">Modelos paramétricos no lineales<a class="headerlink" href="#modelos-parametricos-no-lineales" title="Permanent link">¶</a></h2>
 <p>Un tipo destacado modelo paramétrico no lineal son las Redes Neuronales. Vamos a establecer la relación de la Regresión Logística con las Redes Neuronales y a estudiar como estos modelos pueden resolver problemas no lineales como el planteado.</p>
-<p>Es fácil determinar que el modelo de regresión logística es equivalente a un perceptrón con <span class="arithmatex">\(N\)</span> entradas que aplique una función sigmoide como función de activación (ver <a href="#fig-perceptron">Figura 10</a>). </p>
+<p>Es fácil determinar que el modelo de regresión logística binomial es equivalente a un perceptrón con <span class="arithmatex">\(N\)</span> entradas que aplique una función sigmoide como función de activación (ver <a href="#fig-perceptron">Figura 10</a>) y función de pérdida <em>binary cross-entropy</em>. </p>
 <p></p><figure id="fig-perceptron"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_perceptron.png" data-desc-position="bottom"><img alt="" src="../images/t1_perceptron.png"></a><figcaption>Figura 10: Perceptrón con <span class="arithmatex">\(N\)</span> entradas y función de activación Sigmoide </figcaption></figure><p></p>
 <p>En este caso, la salida de la neurona sería:</p>
 <div class="arithmatex">\[
 y = \sigma(\sum_{i=1}^N w_i x_i + b)
 \]</div>
 <p>Donde <span class="arithmatex">\(x_i\)</span> son las entradas, <span class="arithmatex">\(w_b\)</span> los pesos para cada entrada y <span class="arithmatex">\(b\)</span> el sesgo o <em>bias</em>. </p>
+<p>De la misma forma, un modelo de regresión logística multinomial sería equivalente a una red con una única capa <em>softmax</em>.</p>
 <p>Cuando a la red le añadimos varias capas ocultas (ver <a href="#fig-deep">Figura 11</a>), lo que estaremos haciendo es aprender a transformar el espacio original de características <span class="arithmatex">\(\mathbf{X}\)</span> en un espacio latente <span class="arithmatex">\(\mathbf{H}\)</span> que facilite su clasificación. Podremos encontrar estas características en la última capa de la red, y sobre ellas se aplicará una clasificación equivalente a la regresión logística.</p>
 <p></p><figure id="fig-deep"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_perceptron_multicapa.png" data-desc-position="bottom"><img alt="" src="../images/t1_perceptron_multicapa.png"></a><figcaption>Figura 11: Red neuronal profunda con neurona de salida Sigmoidea </figcaption></figure><p></p>
 <p>Esta transformación del espacio de características nos podría permitir mapear nuestros datos de entrada no linealmente separables sobre un espacio en el que si que lo sean. En este caso tenemos un modelo <strong>paramétrico pero no lineal</strong>. </p>

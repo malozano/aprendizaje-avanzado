@@ -84,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#support-vector-machines-svm" class="md-skip">
+        <a href="#sesion-2-support-vector-machines-svm" class="md-skip">
           Saltar a contenido
         </a>
       
@@ -411,15 +411,15 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
+          <li class="md-nav__item">
   <a href="#primal-vs-dual" class="md-nav__link">
     Primal VS Dual
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -565,7 +565,7 @@
                   
 
 
-<h1 id="support-vector-machines-svm">Support Vector Machines (SVM)<a class="headerlink" href="#support-vector-machines-svm" title="Permanent link">¶</a></h1>
+<h1 id="sesion-2-support-vector-machines-svm">Sesión 2: Support Vector Machines (SVM)<a class="headerlink" href="#sesion-2-support-vector-machines-svm" title="Permanent link">¶</a></h1>
 <p>Las Support Vector Machines (SVM) (Cortes &amp; Vapnik, 1995)<sup id="fnref:cortes1995svm"><a class="footnote-ref" href="#fn:cortes1995svm">1</a></sup> son algoritmos de aprendizaje supervisado utilizados principalmente para clasificación, aunque también pueden aplicarse a regresión. </p>
 <h2 id="aplicaciones-de-svm">Aplicaciones de SVM<a class="headerlink" href="#aplicaciones-de-svm" title="Permanent link">¶</a></h2>
 <p>Aunque en la actualidad los modelos basados en aprendizaje profundo dominan en campos como la Visión por Computador (CV) o el Procesamiento del Lenguaje Natural (NLP), y en general cuando contamos con extensos conjuntos de datos y disponibilidad de gran capacidad de computación, modelos como SVM pueden ser competitivos cuando contemos con datos tabulares de tamaño pequeño o mediano.</p>
@@ -801,7 +801,7 @@ $$</p>
 <li>Con valores altos de <span class="arithmatex">\(C\)</span>, se penalizarán <span class="arithmatex">\(\xi_i\)</span> positivos, y podremos tender al <em>overfitting</em>. </li>
 <li>Por el contrario, con valores bajos de <span class="arithmatex">\(C\)</span> se tenderá a valores pequeños de <span class="arithmatex">\(\lVert \mathbf{w} \rVert\)</span>, lo que causará que la frontera sea más suave (ampliando el margen).</li>
 </ul>
-<h2 id="primal-vs-dual">Primal VS Dual<a class="headerlink" href="#primal-vs-dual" title="Permanent link">¶</a></h2>
+<h3 id="primal-vs-dual">Primal VS Dual<a class="headerlink" href="#primal-vs-dual" title="Permanent link">¶</a></h3>
 <p>Como hemos visto, SVM lineal puede resolverse de ambas formas. Son dos formas complementarias que resuelven el mismo problema. La clave está en que en cada caso cambian las variables a optimizar. En el caso de la forma primal optimizamos directamente los parámetros del modelo <span class="arithmatex">\((\mathbf{w}, b)\)</span>, donde <span class="arithmatex">\(\mathbf{w} \in \mathbb{R}^d\)</span> (siendo <span class="arithmatex">\(d\)</span> el número de <em>features</em>), mientras que en el caso de la forma dual estaremos optimizando los <span class="arithmatex">\(N\)</span> multiplicadores <span class="arithmatex">\(\alpha_i\)</span> (uno para cada ejemplo de entrenamiento).</p>
 <p>Por lo tanto, la conclusión más inmediata es que si <span class="arithmatex">\(N \gg d\)</span> convendría utilizar la forma primal, mientras que en el caso de tener <span class="arithmatex">\(N &lt; d\)</span> sería preferible la forma dual. </p>
 <p>La <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html">implementación SVCLinear de sklearn</a> nos permite elegir entre utilizar la forma dual o la forma primal, e incluso nos permite dejar que la implementación seleccione el problema automáticamente en función del número de <em>samples</em>, el número de <em>features</em> y otros parámetros. Esta implementación utiliza internamente como optimizador el método <strong>Coordinate Descent</strong> (Hsieh et al., 2008)<sup id="fnref:hsieh2008dual"><a class="footnote-ref" href="#fn:hsieh2008dual">5</a></sup>, implementado en la librería <a href="https://www.csie.ntu.edu.tw/~cjlin/liblinear/">LIBLINEAR</a>. Recordemos que es un método similar a descenso por gradiente, pero en el que se seleccionan características una a una. Se fijan todas las variables excepto una, se optimiza para esa variable, y repite iterativamente para cada variable, iterando hasta la convergencia. </p>
