@@ -675,8 +675,10 @@ p_i = \sigma(f(\mathbf{x}_i)) = \frac{1}{1 + e^{-(\mathbf{x}_i^T \mathbf{w} + b)
 \]</div>
 <p>Donde <span class="arithmatex">\(p_i\)</span> define la probabilidad estimada de que el ejemplo <span class="arithmatex">\(i\)</span> pertenezca a la clase <span class="arithmatex">\(1\)</span>. Tendremos por lo tanto:</p>
 <div class="arithmatex">\[
-P(y_i=1 | \mathbf{x}_i) = p_i \\
-P(y_i=0 | \mathbf{x}) = 1 - p_i 
+\begin{align*}
+P(y_i=1 | \mathbf{x}_i) &amp;= p_i \\
+P(y_i=0 | \mathbf{x}_i) &amp;= 1 - p_i 
+\end{align*}
 \]</div>
 <p>Considerando estos dos posibles valores para <span class="arithmatex">\(y_i\)</span>, podemos escribir ambos casos en una única fórmula, teniendo así la verosimilitud de observar <span class="arithmatex">\(y_i\)</span> cuando la entrada es <span class="arithmatex">\(\mathbf{x}_i\)</span>:</p>
 <div class="arithmatex">\[
@@ -722,7 +724,7 @@ J(\mathbf{w}) = -\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1 - p_
 \begin{align*}
 J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1 - p_i)] +
 \\
-&amp; + \frac{\lambda}{2N} \sum_{k=1}^d w_k^2
+&amp; + \frac{\lambda}{2N} \sum_{j=1}^d w_j^2
 \end{align*}
 \]</div>
 <h5 id="regularizacion-l1-lasso">Regularización L1 (Lasso)<a class="headerlink" href="#regularizacion-l1-lasso" title="Permanent link">¶</a></h5>
@@ -731,7 +733,7 @@ J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1
 \begin{align*}
 J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1 - p_i)] +
 \\
-&amp; + \frac{\lambda}{N} \sum_{k=1}^d | w_k |
+&amp; + \frac{\lambda}{N} \sum_{j=1}^d | w_j |
 \end{align*}
 \]</div>
 <h5 id="regularizacion-elastic-net">Regularización Elastic Net<a class="headerlink" href="#regularizacion-elastic-net" title="Permanent link">¶</a></h5>
@@ -740,7 +742,7 @@ J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1
 \begin{align*}
 J(\mathbf{w}) = &amp;-\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1 - p_i)] +
 \\
-&amp; + \frac{\lambda_1}{N} \sum_{k=1}^d | w_k | + \frac{\lambda_2}{2N} \sum_{k=1}^d w_k^2 
+&amp; + \frac{\lambda_1}{N} \sum_{j=1}^d | w_j | + \frac{\lambda_2}{2N} \sum_{k=1}^d w_k^2 
 \end{align*}
 \]</div>
 <p>En todos estos casos tenemos un hiper-parámetro <span class="arithmatex">\(\lambda\)</span> con el que podemos ajustar la regularización. Con <span class="arithmatex">\(\lambda = 0\)</span> no aplicamos regularización, con lo que tendremos mayor riesgo de <em>overfitting</em>, mientras que con valores muy altos podríamos tener mayor riesgo de <em>underfitting</em>. </p>
@@ -819,11 +821,11 @@ f(\mathbf{x}) = h(\mathbf{x})^T \mathbf{w} + b
 <p>Podemos observar que aunque el modelo sigue siendo lineal respecto a las características proyectadas <span class="arithmatex">\(h(\mathbf{x})\)</span>, puede que ya no lo sea en el espacio original de características de <span class="arithmatex">\(\mathbf{x}\)</span>. Esto es lo que ocurre en el caso del ejemplo anterior, en el que las características proyectadas son <span class="arithmatex">\(h(\mathbf{x}) = (x_1, x_2, x_1 x_2, x_1^2, x_2^2)\)</span>, y por lo tanto tenemos un polinomio de grado 2 en el espacio original.</p>
 <h2 id="modelos-parametricos-no-lineales">Modelos paramétricos no lineales<a class="headerlink" href="#modelos-parametricos-no-lineales" title="Permanent link">¶</a></h2>
 <p>Un tipo destacado modelo paramétrico no lineal son las Redes Neuronales. Vamos a establecer la relación de la Regresión Logística con las Redes Neuronales y a estudiar como estos modelos pueden resolver problemas no lineales como el planteado.</p>
-<p>Es fácil determinar que el modelo de regresión logística binomial es equivalente a un perceptrón con <span class="arithmatex">\(N\)</span> entradas que aplique una función sigmoide como función de activación (ver <a href="#fig-perceptron">Figura 10</a>) y función de pérdida <em>binary cross-entropy</em>. </p>
-<p></p><figure id="fig-perceptron"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_perceptron.png" data-desc-position="bottom"><img alt="" src="../images/t1_perceptron.png"></a><figcaption>Figura 10: Perceptrón con <span class="arithmatex">\(N\)</span> entradas y función de activación Sigmoide </figcaption></figure><p></p>
+<p>Es fácil determinar que el modelo de regresión logística binomial es equivalente a un perceptrón con <span class="arithmatex">\(d\)</span> entradas (tantas como <em>features</em>) que aplique una función sigmoide como función de activación (ver <a href="#fig-perceptron">Figura 10</a>) y función de pérdida <em>binary cross-entropy</em>. </p>
+<p></p><figure id="fig-perceptron"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t1_perceptron.png" data-desc-position="bottom"><img alt="" src="../images/t1_perceptron.png"></a><figcaption>Figura 10: Perceptrón con <span class="arithmatex">\(d\)</span> entradas y función de activación Sigmoide </figcaption></figure><p></p>
 <p>En este caso, la salida de la neurona sería:</p>
 <div class="arithmatex">\[
-y = \sigma(\sum_{i=1}^N w_i x_i + b)
+y = \sigma(\sum_{i=1}^d w_i x_i + b)
 \]</div>
 <p>Donde <span class="arithmatex">\(x_i\)</span> son las entradas, <span class="arithmatex">\(w_b\)</span> los pesos para cada entrada y <span class="arithmatex">\(b\)</span> el sesgo o <em>bias</em>. </p>
 <p>De la misma forma, un modelo de regresión logística multinomial sería equivalente a una red con una única capa <em>softmax</em>.</p>
