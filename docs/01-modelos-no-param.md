@@ -132,8 +132,10 @@ $$
 Donde $p_i$ define la probabilidad estimada de que el ejemplo $i$ pertenezca a la clase $1$. Tendremos por lo tanto:
 
 $$
-P(y_i=1 | \mathbf{x}_i) = p_i \\
-P(y_i=0 | \mathbf{x}) = 1 - p_i 
+\begin{align*}
+P(y_i=1 | \mathbf{x}_i) &= p_i \\
+P(y_i=0 | \mathbf{x}_i) &= 1 - p_i 
+\end{align*}
 $$
 
 Considerando estos dos posibles valores para $y_i$, podemos escribir ambos casos en una única fórmula, teniendo así la verosimilitud de observar $y_i$ cuando la entrada es $\mathbf{x}_i$:
@@ -208,7 +210,7 @@ $$
 \begin{align*}
 J(\mathbf{w}) = &-\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1 - p_i)] +
 \\
-& + \frac{\lambda}{2N} \sum_{k=1}^d w_k^2
+& + \frac{\lambda}{2N} \sum_{j=1}^d w_j^2
 \end{align*}
 $$
 
@@ -220,7 +222,7 @@ $$
 \begin{align*}
 J(\mathbf{w}) = &-\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1 - p_i)] +
 \\
-& + \frac{\lambda}{N} \sum_{k=1}^d | w_k |
+& + \frac{\lambda}{N} \sum_{j=1}^d | w_j |
 \end{align*}
 $$
 
@@ -232,7 +234,7 @@ $$
 \begin{align*}
 J(\mathbf{w}) = &-\frac{1}{N} \sum_{i=1}^N [y_i \log (p_i) + (1-y_i) \log (1 - p_i)] +
 \\
-& + \frac{\lambda_1}{N} \sum_{k=1}^d | w_k | + \frac{\lambda_2}{2N} \sum_{k=1}^d w_k^2 
+& + \frac{\lambda_1}{N} \sum_{j=1}^d | w_j | + \frac{\lambda_2}{2N} \sum_{k=1}^d w_k^2 
 \end{align*}
 $$
 
@@ -369,16 +371,16 @@ Podemos observar que aunque el modelo sigue siendo lineal respecto a las caracte
 
 Un tipo destacado modelo paramétrico no lineal son las Redes Neuronales. Vamos a establecer la relación de la Regresión Logística con las Redes Neuronales y a estudiar como estos modelos pueden resolver problemas no lineales como el planteado.
 
-Es fácil determinar que el modelo de regresión logística binomial es equivalente a un perceptrón con $N$ entradas que aplique una función sigmoide como función de activación (ver [](#fig-perceptron)) y función de pérdida _binary cross-entropy_. 
+Es fácil determinar que el modelo de regresión logística binomial es equivalente a un perceptrón con $d$ entradas (tantas como _features_) que aplique una función sigmoide como función de activación (ver [](#fig-perceptron)) y función de pérdida _binary cross-entropy_. 
 
-Figure: Perceptrón con $N$ entradas y función de activación Sigmoide {#fig-perceptron}
+Figure: Perceptrón con $d$ entradas y función de activación Sigmoide {#fig-perceptron}
 
 ![](images/t1_perceptron.png)
 
 En este caso, la salida de la neurona sería:
 
 $$
-y = \sigma(\sum_{i=1}^N w_i x_i + b)
+y = \sigma(\sum_{i=1}^d w_i x_i + b)
 $$
 
 Donde $x_i$ son las entradas, $w_b$ los pesos para cada entrada y $b$ el sesgo o _bias_. 
