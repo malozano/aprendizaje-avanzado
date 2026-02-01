@@ -470,6 +470,8 @@ Figure: Tubo de tolerancia en SVM para regresión {#fig-svr}
 
 ![](images/t2_svr.png)
 
+### Tubo $\epsilon$-_insensitive_
+
 Una de las claves será un parámetro $\epsilon$, que regulará la anchura del tubo de tolerancia (ver [](#fig-svr)). La anchura total del tubo será de $2 \epsilon$, y todos los puntos que estén contenidos dentro de este tubo no supondrán ninguna penalización en la función de pérdida (es decir, los puntos que estén a una distancia máxima $\epsilon$ del la función de predicción).
 
 Tendremos la siguiente función de pérdida:
@@ -479,6 +481,8 @@ L(y, f(\mathbf{x})) = \max (0, |y - f(\mathbf{x})| - \epsilon)
 $$
 
 Tal como vemos en la función, no se penalizarán los errores menores que $\epsilon$. Por este motivo se conoce esta función como _epsilon-insensitive loss_. Solo los puntos fuera del tubo contribuirán a la pérdida, permitiendo de esta forma cierta tolerancia al ruido.
+
+### Forma primal
 
 Queremos en este caso encontrar la función de predicción $f(\mathbf{x}) = \mathbf{x}^T \mathbf{w} + b$ minimizando $\lVert \mathbf{w} \rVert^2$ para reducir la complejidad del modelo, buscando que la mayor parte de los puntos estén dentro del tubo $\epsilon$:
 
@@ -501,6 +505,8 @@ $$
 
 Donde $\xi_i$ y $\xi_i^*$ son las holguras para desviaciones por arriba y por abajo del tubo, respectivamente, y el parámetro $C$ controla el _trade-off_ entre complejidad del modelo y tolerancia a errores. Aquellos puntos que estén fuera del tubo $\epsilon$ penalizarán con $\xi_i$ o $\xi_i^*$ según estén arriba o debajo del tubo, mientras que los que estén dentro del tubo no penalizarán.
 
+### Forma dual
+
 El problema dual asociado es el siguiente (expresado de forma matricial):
 
 $$
@@ -520,7 +526,10 @@ En el caso de regresión, los vectores de soporte serán:
 
 Los puntos dentro del tubo no influirán en la solución final, al igual que ocurría en el caso de la clasificación con los puntos al lado correcto del margen. 
 
-Tenemos en este caso dos hiperparámetros clave: $C$ y $\epsilon$. 
+### Ajuste de hiper-parámetros
+
+Tenemos en este caso dos hiperparámetros clave: $C$ y $\epsilon$.
+
 - $C$: Penalización por quedar fuera del tubo. A mayor $C$, habrá menos tolerancia a errores fuera del tubo, y con un $C$ menor el modelo será más robusto frente a _outliers_.
 - $\epsilon$: Ancho del tubo de tolerancia. A mayor $\epsilon$ tendremos un modelo más simple, con menos vectores de soporte, mientras que con un $\epsilon$ menor el ajuste será más preciso y habrá más vectores de soporte.
 
