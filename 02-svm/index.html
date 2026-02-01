@@ -464,6 +464,54 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#problemas-multi-clase" class="md-nav__link">
+    Problemas multi-clase
+  </a>
+  
+    <nav class="md-nav" aria-label="Problemas multi-clase">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementacion-con-svc" class="md-nav__link">
+    Implementación con SVC
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementacion-con-linearsvc" class="md-nav__link">
+    Implementación con LinearSVC
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estrategia-crammer-singer" class="md-nav__link">
+    Estrategia Crammer-Singer
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#svm-para-regresion" class="md-nav__link">
+    SVM para regresión
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consideraciones-finales" class="md-nav__link">
+    Consideraciones finales
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -866,6 +914,82 @@ K(\mathbf{x}_i, \mathbf{x}_j) = \tanh (\gamma  \mathbf{x}_i^T \mathbf{x}_j + r)
 \]</div>
 <p>Donde, al igual que en los casos anteriores, <span class="arithmatex">\(\gamma\)</span> controla la influencia de cada <em>sample</em> en la frontera de decisión y <span class="arithmatex">\(r\)</span> es un término de sesgo que desplaza los datos en una dirección y otra.</p>
 <p>Es menos utilizado actualmente, y su uso se limita a casos muy concretos en los que los datos tienen una forma sigmoidal. </p>
+<h2 id="problemas-multi-clase">Problemas multi-clase<a class="headerlink" href="#problemas-multi-clase" title="Permanent link">¶</a></h2>
+<p>Las SVM son originalmente clasificadores binarios, pero podemos aplicarlos a problemas multiclase siguiendo estrategias como <em>One-vs-Rest</em> (OvR) o <em>One-vs-One</em> (OvO), como vimos en la sesión anterior.</p>
+<h3 id="implementacion-con-svc">Implementación con <code>SVC</code><a class="headerlink" href="#implementacion-con-svc" title="Permanent link">¶</a></h3>
+<p>En sklearn, cuando presentamos a <code>SVC</code> un problema multi-clase, internamente siempre entrenará utilizando la estrategia OvO, es decir, en caso de tener <span class="arithmatex">\(K\)</span> posibles clases, entrenará <span class="arithmatex">\(K (K-1) / 2\)</span> clasificadores binarios.</p>
+<p>Sin embargo, con el parámetro <code>decision_function_shape</code> podemos decidir la forma de salida de la función de decisión (función <code>decision_function()</code>). Esta función nos dice, para cada ejemplo de entrada y para cada clasificador binario, la distancia (o un valor proporcional a la distancia si el vector <span class="arithmatex">\(\mathbf{w}\)</span> no es unitario) del ejemplo de entrada al hiperplano de separación. </p>
+<p>Si el parámetro <code>decision_function_shape</code> toma como valor <code>'ovo'</code>, entonces <code>decision_function()</code> nos devolverá un array de dimensión <span class="arithmatex">\((N, K(K-1)/2)\)</span>. Es decir, para cada ejemplo de entrada (filas), tendremos una columna para cada clasificador binario, y habrá un clasificador binario para cada par de clases. </p>
+<p>Sin embargo, si <code>decision_function_shape</code> toma como valor <code>'ovr'</code>, la función de decisión interna de OvO se transformará en OvR, y pasará a tener dimensión <span class="arithmatex">\((N, K)\)</span>, es decir, tendremos un valor para cada clase.</p>
+<p>Es importante remarcar que este parámetro solo afecta la forma de salida de <code>decision_function()</code>, pero no cambia la estrategia de entrenamiento interna, que siempre es OvO.</p>
+<h3 id="implementacion-con-linearsvc">Implementación con <code>LinearSVC</code><a class="headerlink" href="#implementacion-con-linearsvc" title="Permanent link">¶</a></h3>
+<p>Si utilizamos la versión lineal de SVC, con la clase <code>LinearSVC</code>, el comportamiento será diferente. En este caso contamos con un parámetro <code>multi_class</code> que nos permite determinar la estrategia a seguir si tenemos más de dos clases. En este caso tenemos dos opciones: <code>ovr</code>, para utilizar la estrategia <em>One-vs-Rest</em>, y <code>crammer_singer</code> para utilizar la estrategia Crammer-Singer, que optimiza una función objetivo conjunta para todas las clases.</p>
+<h3 id="estrategia-crammer-singer">Estrategia <strong>Crammer-Singer</strong><a class="headerlink" href="#estrategia-crammer-singer" title="Permanent link">¶</a></h3>
+<p>La estrategia <strong>Crammer-Singer</strong> tiene interés fundamentalmente a nivel teórico, pero es poco utilizada en la práctica. Esta estrategia se basa en optimizar simultáneamente <span class="arithmatex">\(K\)</span> funciones de decisión, como se muestra a continuación:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\min_{ \mathbf{w}, \xi} \quad  &amp; \frac{1}{2} \sum_{k=1}^K \lVert \mathbf{w}_k \rVert^2  + C \sum^N_{i=1} \xi_i \\
+\text{s.a.} \quad &amp; \mathbf{x}_i^T \mathbf{w}_{y_i} - \mathbf{x}_i^T\mathbf{w}_k \geq  1 - \xi_i , \quad \forall k \neq y_i
+\end{align*}
+\]</div>
+<p>En este caso tendremos un único modelo, pero que contendrá <span class="arithmatex">\(K\)</span> funciones de clasificación, lo cual supone un significante incremento del coste del entrenamiento. </p>
+<h2 id="svm-para-regresion">SVM para regresión<a class="headerlink" href="#svm-para-regresion" title="Permanent link">¶</a></h2>
+<p>En regresión, las SVM funcionan de forma conceptualmente similar a la clasificación, pero en este caso el objetivo cambiará.</p>
+<p>Si bien en el caso de la clasificación buscábamos maximizar el margen de separación de las dos clases, en el caso de regresión buscamos un "tubo" de tolarancia alrededor de la función de predicción. Intentaremos que la gran mayoría de puntos estén contenidos dentro de este tubo.</p>
+<p></p><figure id="fig-svr"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t2_svr.png" data-desc-position="bottom"><img alt="" src="../images/t2_svr.png"></a><figcaption>Figura 6: Tubo de tolerancia en SVM para regresión </figcaption></figure><p></p>
+<p>Una de las claves será un parámetro <span class="arithmatex">\(\epsilon\)</span>, que regulará la anchura del tubo de tolerancia (ver <a href="#fig-svr">Figura 6</a>). La anchura total del tubo será de <span class="arithmatex">\(2 \epsilon\)</span>, y todos los puntos que estén contenidos dentro de este tubo no supondrán ninguna penalización en la función de pérdida (es decir, los puntos que estén a una distancia máxima <span class="arithmatex">\(\epsilon\)</span> del la función de predicción).</p>
+<p>Tendremos la siguiente función de pérdida:</p>
+<div class="arithmatex">\[
+L(y, f(\mathbf{x})) = \max (0, |y - f(\mathbf{x})| - \epsilon)
+\]</div>
+<p>Tal como vemos en la función, no se penalizarán los errores menores que <span class="arithmatex">\(\epsilon\)</span>. Por este motivo se conoce esta función como <em>epsilon-insensitive loss</em>. Solo los puntos fuera del tubo contribuirán a la pérdida, permitiendo de esta forma cierta tolerancia al ruido.</p>
+<p>Queremos en este caso encontrar la función de predicción <span class="arithmatex">\(f(\mathbf{x}) = \mathbf{x}^T \mathbf{w} + b\)</span> minimizando <span class="arithmatex">\(\lVert \mathbf{w} \rVert^2\)</span> para reducir la complejidad del modelo, buscando que la mayor parte de los puntos estén dentro del tubo <span class="arithmatex">\(\epsilon\)</span>:</p>
+<div class="arithmatex">\[
+\min_{\mathbf{w}, b} \quad   \frac{1}{2}  \lVert \mathbf{w} \rVert^2  + C \sum^N_{i=1} \max (0, |y_i - f(\mathbf{x}_i)| - \epsilon) 
+\]</div>
+<p>Este problema primal es optimizado directamente por la implementación <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVR.html#sklearn.svm.LinearSVR">LinearSVR</a>. </p>
+<p>El problema anterior puede ser expresado como un problema de optimización sujeto a restricciones, dando lugar a la siguiente forma primal:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\min_{ \mathbf{w}, b, \xi, \xi^*} \quad  &amp; \frac{1}{2}  \lVert \mathbf{w} \rVert^2  + C \sum^N_{i=1} (\xi_i + \xi_i^*) \\
+\text{s.a.} \quad &amp; y_i - (\mathbf{x}^T \mathbf{w} + b) \leq \epsilon + \xi_i \\
+&amp; (\mathbf{x}^T \mathbf{w} + b) - y_i \leq \epsilon + \xi_i^* \\
+&amp; \xi_i, \xi_i^* \geq 0
+\end{align*}
+\]</div>
+<p>Donde <span class="arithmatex">\(\xi_i\)</span> y <span class="arithmatex">\(\xi_i^*\)</span> son las holguras para desviaciones por arriba y por abajo del tubo, respectivamente, y el parámetro <span class="arithmatex">\(C\)</span> controla el <em>trade-off</em> entre complejidad del modelo y tolerancia a errores. Aquellos puntos que estén fuera del tubo <span class="arithmatex">\(\epsilon\)</span> penalizarán con <span class="arithmatex">\(\xi_i\)</span> o <span class="arithmatex">\(\xi_i^*\)</span> según estén arriba o debajo del tubo, mientras que los que estén dentro del tubo no penalizarán.</p>
+<p>El problema dual asociado es el siguiente (expresado de forma matricial):</p>
+<div class="arithmatex">\[
+\begin{align*}
+\min_{ \alpha, \alpha^*} \quad  &amp; \frac{1}{2} (\alpha - \alpha^*)^T Q(\alpha - \alpha^*) + \epsilon e^T (\alpha + \alpha^*) - \mathbf{y}^T(\alpha - \alpha^*) \\
+\text{s.a.} \quad &amp; e^T (\alpha - \alpha^*) = 0 \\
+&amp; 0 \leq \alpha_i, \alpha_i^* \leq C, \quad i=1, \ldots, N
+\end{align*}
+\]</div>
+<p>Donde <span class="arithmatex">\(e\)</span> es un vector de unos, y <span class="arithmatex">\(Q\)</span> es una matriz semi-definida positiva, donde <span class="arithmatex">\(Q_{ij} = K(\mathbf{x}_i, \mathbf{x}_j)\)</span> es el valor del <em>kernel</em> entre los puntos <span class="arithmatex">\(\mathbf{x}_i\)</span> y <span class="arithmatex">\(\mathbf{x}_j\)</span>. De esta forma, podremos aplicar diferentes <em>kernels</em> al igual que en el caso de clasificación.</p>
+<p>En el caso de regresión, los vectores de soporte serán:</p>
+<ul>
+<li>Puntos que están exactamente en el borde del tubo: <span class="arithmatex">\((|y-f(\mathbf{x})| = \epsilon)\)</span></li>
+<li>Puntos que quedan fuera del tubo: <span class="arithmatex">\((|y-f(\mathbf{x})| &gt; \epsilon)\)</span></li>
+</ul>
+<p>Los puntos dentro del tubo no influirán en la solución final, al igual que ocurría en el caso de la clasificación con los puntos al lado correcto del margen. </p>
+<p>Tenemos en este caso dos hiperparámetros clave: <span class="arithmatex">\(C\)</span> y <span class="arithmatex">\(\epsilon\)</span>. 
+- <span class="arithmatex">\(C\)</span>: Penalización por quedar fuera del tubo. A mayor <span class="arithmatex">\(C\)</span>, habrá menos tolerancia a errores fuera del tubo, y con un <span class="arithmatex">\(C\)</span> menor el modelo será más robusto frente a <em>outliers</em>.
+- <span class="arithmatex">\(\epsilon\)</span>: Ancho del tubo de tolerancia. A mayor <span class="arithmatex">\(\epsilon\)</span> tendremos un modelo más simple, con menos vectores de soporte, mientras que con un <span class="arithmatex">\(\epsilon\)</span> menor el ajuste será más preciso y habrá más vectores de soporte.</p>
+<p>La implementación <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html">SVR</a> optimizará el problema dual y permitirá utilizar los <em>kernels</em> <code>'linear'</code>, <code>'poly'</code>, <code>'rbf'</code> y <code>'sigmoid'</code> al igual que en el caso de clasificación.</p>
+<h2 id="consideraciones-finales">Consideraciones finales<a class="headerlink" href="#consideraciones-finales" title="Permanent link">¶</a></h2>
+<p>Hemos visto que las SVM representan un enfoque elegante y con rigor matemático para abordar problemas tanto de clasificación como de regresión:</p>
+<ul>
+<li>Busca el <strong>hiperplano óptimo</strong> que maximiza el margen entre clases en caso de clasificación, o el <strong>tubo</strong> que contiene la mayor parte de ejemplos en caso de regresión.</li>
+<li>Permite utilizar el <strong>kernel trick</strong> para resolver problemas no lineales sin necesidad de calcular de forma explícita transformaciones de alta dimensionalidad.</li>
+<li>La solución se calcula a partir únicamente de un reducido subconjunto de los puntos de entrada, los conocidos como <strong>vectores de soporte</strong> que dan nombre al método.</li>
+</ul>
+<p>Las SVM han sido durante décadas uno de los algoritmos dominantes en el campo del Machine Learning, ofreciendo excelentes resultados en problemas de dimensionalidad media y alta y con <em>datasets</em> de tamaño moderado. Sin embargo, presentan también una serie de limitaciones prácticas que comentaremos a continuación.</p>
+<p>Una cuestión a tener muy en cuenta es la <strong>sensibilidad al preprocesamiento</strong>. Realizar un correcto <strong>escalado</strong> de los datos es crítico. Supongamos que una de las características maneja valores de orden muy superior al resto. Por ejemplo, consideremos que nuestras características de entrada son <em>edad</em> y <em>salario</em>. La primera se situará normalmente en el rango de <span class="arithmatex">\([0, 100]\)</span>, mientras que la segunda tomará habitualmente valores en el rango de <span class="arithmatex">\([1000, 5000]\)</span>. La característica con mayor rango dominará el cálculo de las distancias, y esto puede causar que las de menor rango sean ignoradas. Por ello, importante realizar un escalado previo de los datos para conseguir que todas las características tengan media <span class="arithmatex">\(\mu = 0\)</span> y desviación típica <span class="arithmatex">\(\sigma = 1\)</span>, de forma que contribuyan de forma equitativa a las distancias. Con esto conseguiremos que el modelo necesite menos vectores de soporte y que generalice mejor.</p>
+<p>Al utilizar SVM también será importante <strong>seleccionar el <em>kernel</em> adecuado</strong> y sus parámetros, lo cual no siempre es intuitivo. Habrá que ajusta de forma cuidadosa los diferentes parámetros. El caso más común es el encontrar el <em>trade-off</em> entre <span class="arithmatex">\((C, \gamma)\)</span> en el caso del <em>kernel</em> RBF. </p>
+<p>Otra limitación del método es su <strong>escalabilidad computacional</strong>, con complejidades <span class="arithmatex">\(O(N^3)\)</span> o <span class="arithmatex">\(O(N^2d)\)</span> según la implementación. Esto puede hacer que el coste computacional sea prohibitivo en caso de contar con <em>datasets</em> grandes que contengan millones de muestras. Además, el coste espacial en memoria también crece cuadráticamente por la necesidad de almacenar el <em>kernel</em>.</p>
+<p>También podemos encontrar una <strong>interpretabilidad limitada</strong>, especialmente con <em>kernels</em> no lineales, en los que el modelo se convierte en una "caja negra". En estos casos es complicado establecer qué características son más importantes, y el motivo por el que el modelo ha tomado una decisión. </p>
+<p>En los próximos temas vamos a abordar una familia diferente de modelos: los Árboles de Decisión. Mientras que Regresión Logísitica y SVM son algoritmos basados en geometría (hiperplano de separación), los Árboles de Decisión están basados en reglas. Como veremos, estos modelos nos darán una serie de ventajas como su alta interpretabilidad, la no necesidad de escalar los datos, la posibilidad de manejar datos categóricos de forma natural y la eficiencia computacional incluso con <em>datasets</em> grandes.</p>
 <div class="footnote">
 <hr>
 <ol>
