@@ -503,6 +503,40 @@
     SVM para regresión
   </a>
   
+    <nav class="md-nav" aria-label="SVM para regresión">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tubo-epsilon-insensitive" class="md-nav__link">
+    Tubo \(\epsilon\)-insensitive
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forma-primal_2" class="md-nav__link">
+    Forma primal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forma-dual_2" class="md-nav__link">
+    Forma dual
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ajuste-de-hiper-parametros" class="md-nav__link">
+    Ajuste de hiper-parámetros
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -937,12 +971,14 @@ K(\mathbf{x}_i, \mathbf{x}_j) = \tanh (\gamma  \mathbf{x}_i^T \mathbf{x}_j + r)
 <p>En regresión, las SVM funcionan de forma conceptualmente similar a la clasificación, pero en este caso el objetivo cambiará.</p>
 <p>Si bien en el caso de la clasificación buscábamos maximizar el margen de separación de las dos clases, en el caso de regresión buscamos un "tubo" de tolarancia alrededor de la función de predicción. Intentaremos que la gran mayoría de puntos estén contenidos dentro de este tubo.</p>
 <p></p><figure id="fig-svr"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t2_svr.png" data-desc-position="bottom"><img alt="" src="../images/t2_svr.png"></a><figcaption>Figura 6: Tubo de tolerancia en SVM para regresión </figcaption></figure><p></p>
+<h3 id="tubo-epsilon-insensitive">Tubo <span class="arithmatex">\(\epsilon\)</span>-<em>insensitive</em><a class="headerlink" href="#tubo-epsilon-insensitive" title="Permanent link">¶</a></h3>
 <p>Una de las claves será un parámetro <span class="arithmatex">\(\epsilon\)</span>, que regulará la anchura del tubo de tolerancia (ver <a href="#fig-svr">Figura 6</a>). La anchura total del tubo será de <span class="arithmatex">\(2 \epsilon\)</span>, y todos los puntos que estén contenidos dentro de este tubo no supondrán ninguna penalización en la función de pérdida (es decir, los puntos que estén a una distancia máxima <span class="arithmatex">\(\epsilon\)</span> del la función de predicción).</p>
 <p>Tendremos la siguiente función de pérdida:</p>
 <div class="arithmatex">\[
 L(y, f(\mathbf{x})) = \max (0, |y - f(\mathbf{x})| - \epsilon)
 \]</div>
 <p>Tal como vemos en la función, no se penalizarán los errores menores que <span class="arithmatex">\(\epsilon\)</span>. Por este motivo se conoce esta función como <em>epsilon-insensitive loss</em>. Solo los puntos fuera del tubo contribuirán a la pérdida, permitiendo de esta forma cierta tolerancia al ruido.</p>
+<h3 id="forma-primal_2">Forma primal<a class="headerlink" href="#forma-primal_2" title="Permanent link">¶</a></h3>
 <p>Queremos en este caso encontrar la función de predicción <span class="arithmatex">\(f(\mathbf{x}) = \mathbf{x}^T \mathbf{w} + b\)</span> minimizando <span class="arithmatex">\(\lVert \mathbf{w} \rVert^2\)</span> para reducir la complejidad del modelo, buscando que la mayor parte de los puntos estén dentro del tubo <span class="arithmatex">\(\epsilon\)</span>:</p>
 <div class="arithmatex">\[
 \min_{\mathbf{w}, b} \quad   \frac{1}{2}  \lVert \mathbf{w} \rVert^2  + C \sum^N_{i=1} \max (0, |y_i - f(\mathbf{x}_i)| - \epsilon) 
@@ -958,6 +994,7 @@ L(y, f(\mathbf{x})) = \max (0, |y - f(\mathbf{x})| - \epsilon)
 \end{align*}
 \]</div>
 <p>Donde <span class="arithmatex">\(\xi_i\)</span> y <span class="arithmatex">\(\xi_i^*\)</span> son las holguras para desviaciones por arriba y por abajo del tubo, respectivamente, y el parámetro <span class="arithmatex">\(C\)</span> controla el <em>trade-off</em> entre complejidad del modelo y tolerancia a errores. Aquellos puntos que estén fuera del tubo <span class="arithmatex">\(\epsilon\)</span> penalizarán con <span class="arithmatex">\(\xi_i\)</span> o <span class="arithmatex">\(\xi_i^*\)</span> según estén arriba o debajo del tubo, mientras que los que estén dentro del tubo no penalizarán.</p>
+<h3 id="forma-dual_2">Forma dual<a class="headerlink" href="#forma-dual_2" title="Permanent link">¶</a></h3>
 <p>El problema dual asociado es el siguiente (expresado de forma matricial):</p>
 <div class="arithmatex">\[
 \begin{align*}
@@ -973,9 +1010,12 @@ L(y, f(\mathbf{x})) = \max (0, |y - f(\mathbf{x})| - \epsilon)
 <li>Puntos que quedan fuera del tubo: <span class="arithmatex">\((|y-f(\mathbf{x})| &gt; \epsilon)\)</span></li>
 </ul>
 <p>Los puntos dentro del tubo no influirán en la solución final, al igual que ocurría en el caso de la clasificación con los puntos al lado correcto del margen. </p>
-<p>Tenemos en este caso dos hiperparámetros clave: <span class="arithmatex">\(C\)</span> y <span class="arithmatex">\(\epsilon\)</span>. 
-- <span class="arithmatex">\(C\)</span>: Penalización por quedar fuera del tubo. A mayor <span class="arithmatex">\(C\)</span>, habrá menos tolerancia a errores fuera del tubo, y con un <span class="arithmatex">\(C\)</span> menor el modelo será más robusto frente a <em>outliers</em>.
-- <span class="arithmatex">\(\epsilon\)</span>: Ancho del tubo de tolerancia. A mayor <span class="arithmatex">\(\epsilon\)</span> tendremos un modelo más simple, con menos vectores de soporte, mientras que con un <span class="arithmatex">\(\epsilon\)</span> menor el ajuste será más preciso y habrá más vectores de soporte.</p>
+<h3 id="ajuste-de-hiper-parametros">Ajuste de hiper-parámetros<a class="headerlink" href="#ajuste-de-hiper-parametros" title="Permanent link">¶</a></h3>
+<p>Tenemos en este caso dos hiperparámetros clave: <span class="arithmatex">\(C\)</span> y <span class="arithmatex">\(\epsilon\)</span>.</p>
+<ul>
+<li><span class="arithmatex">\(C\)</span>: Penalización por quedar fuera del tubo. A mayor <span class="arithmatex">\(C\)</span>, habrá menos tolerancia a errores fuera del tubo, y con un <span class="arithmatex">\(C\)</span> menor el modelo será más robusto frente a <em>outliers</em>.</li>
+<li><span class="arithmatex">\(\epsilon\)</span>: Ancho del tubo de tolerancia. A mayor <span class="arithmatex">\(\epsilon\)</span> tendremos un modelo más simple, con menos vectores de soporte, mientras que con un <span class="arithmatex">\(\epsilon\)</span> menor el ajuste será más preciso y habrá más vectores de soporte.</li>
+</ul>
 <p>La implementación <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html">SVR</a> optimizará el problema dual y permitirá utilizar los <em>kernels</em> <code>'linear'</code>, <code>'poly'</code>, <code>'rbf'</code> y <code>'sigmoid'</code> al igual que en el caso de clasificación.</p>
 <h2 id="consideraciones-finales">Consideraciones finales<a class="headerlink" href="#consideraciones-finales" title="Permanent link">¶</a></h2>
 <p>Hemos visto que las SVM representan un enfoque elegante y con rigor matemático para abordar problemas tanto de clasificación como de regresión:</p>
