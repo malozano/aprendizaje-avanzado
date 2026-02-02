@@ -508,7 +508,7 @@
         
           <li class="md-nav__item">
   <a href="#tubo-epsilon-insensitive" class="md-nav__link">
-    Tubo \(\epsilon\)-insensitive
+    Tubo epsilon-insensitive
   </a>
   
 </li>
@@ -782,7 +782,11 @@ $$  </p>
 </li>
 </ul>
 <p>Es importante destacar que solo los puntos con <span class="arithmatex">\(\alpha_i &gt; 0\)</span> (vectores de soporte) contribuyen a la solución. El resto de puntos no afectarán al hiperplano. </p>
-<p>Podemos observar que <span class="arithmatex">\(\mathbf{w}\)</span> se obtendrá como combinación lineal de los vectores de soporte <span class="arithmatex">\(\mathbf{x}_i\)</span> (aquellos con <span class="arithmatex">\(\alpha_i &gt; 0\)</span>). El parámetro <span class="arithmatex">\(b\)</span> se puede obtener resolviendo la condición de complementariedad para cualquiera de los vectores de soporte.</p>
+<p>A partir de la función obtenida al calcular la derivada parcial respecto a cada uno de los coeficientes, podemos observar que <span class="arithmatex">\(\mathbf{w}\)</span> se obtendrá como combinación lineal de los vectores de soporte <span class="arithmatex">\(\mathbf{x}_i\)</span> (aquellos con <span class="arithmatex">\(\alpha_i &gt; 0\)</span>):</p>
+<div class="arithmatex">\[
+\mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i 
+\]</div>
+<p>El parámetro <span class="arithmatex">\(b\)</span> se puede obtener resolviendo la condición de complementariedad para cualquiera de los vectores de soporte.</p>
 <h3 id="margen-blando">Margen blando<a class="headerlink" href="#margen-blando" title="Permanent link">¶</a></h3>
 <p>Todo lo anterior es válido bajo la suposición de que los datos son linealmente separables, pero si esto no se cumple entonces el problema primal no tendrá solución. </p>
 <p>Supongamos ahora que existe un solape entre los datos. Una forma de tratar con este solape es maximizar <span class="arithmatex">\(M\)</span> permitiendo que algunos datos estén en el lado incorrecto del margen, para lo cual se definen las variables <span class="arithmatex">\(\xi = (\xi_1, \xi_2, \ldots, \xi_N)\)</span>, relajando la restricción del primal de la siguiente forma:</p>
@@ -838,25 +842,31 @@ s.a.\quad  &amp; \sum_{i=1}^N \alpha_i y_i  = 0
 <li>
 <p><strong>Factibilidad</strong>. Deben cumplirse las restricciones originales del problema primal:
 $$ 
-y_i(\mathbf{x}_i^T\mathbf{w} + b) \geq 1 - \xi_i \quad \forall i
+\begin{align<em>}
+y_i(\mathbf{x}_i^T\mathbf{w} + b) &amp; \geq 1 - \xi_i \quad \forall i
 \
-\xi_i \geq 0 \quad \forall i
+\xi_i &amp; \geq 0 \quad \forall i
+\end{align</em>}
 $$</p>
 </li>
 <li>
 <p><strong>Signo</strong>. Los multiplicadores asociados a restricciones de desigualdad no deben ser negativos:
 $$ 
-\alpha_i \geq 0 \quad \forall i
+\begin{align<em>}
+\alpha_i &amp; \geq 0 \quad \forall i
 \
-\mu_i \geq 0 \quad \forall i
+\mu_i &amp; \geq 0 \quad \forall i
+\end{align</em>}
 $$</p>
 </li>
 <li>
 <p><strong>Complementariedad</strong>. Esta es la más importante a tener en cuenta, ya que define qué restricciones son activas (aquellas con parámetros <span class="arithmatex">\(\alpha_i &gt; 0\)</span> y <span class="arithmatex">\(\mu_i &gt; 0\)</span>), indicando de esta forma cuáles son los <strong>vectores de soporte</strong>. 
 $$
-\alpha_i[y_i(\mathbf{x}_i^T \mathbf{w} + b) - 1 + \xi_i] = 0 \quad \forall i
+\begin{align<em>}
+\alpha_i[y_i(\mathbf{x}_i^T \mathbf{w} + b) - 1 + \xi_i] &amp;= 0 \quad \forall i
 \
-\mu_i \xi_i = 0 \Rightarrow (C-\alpha_i) \xi_i = 0 \quad \forall i 
+\mu_i \xi_i = 0 \Rightarrow (C-\alpha_i) \xi_i &amp;= 0 \quad \forall i 
+\end{align</em>}
 $$</p>
 </li>
 </ol>
@@ -958,7 +968,7 @@ K(\mathbf{x}_i, \mathbf{x}_j) = \tanh (\gamma  \mathbf{x}_i^T \mathbf{x}_j + r)
 <p>Es importante remarcar que este parámetro solo afecta la forma de salida de <code>decision_function()</code>, pero no cambia la estrategia de entrenamiento interna, que siempre es OvO.</p>
 <h3 id="implementacion-con-linearsvc">Implementación con <code>LinearSVC</code><a class="headerlink" href="#implementacion-con-linearsvc" title="Permanent link">¶</a></h3>
 <p>Si utilizamos la versión lineal de SVC, con la clase <code>LinearSVC</code>, el comportamiento será diferente. En este caso contamos con un parámetro <code>multi_class</code> que nos permite determinar la estrategia a seguir si tenemos más de dos clases. En este caso tenemos dos opciones: <code>ovr</code>, para utilizar la estrategia <em>One-vs-Rest</em>, y <code>crammer_singer</code> para utilizar la estrategia Crammer-Singer, que optimiza una función objetivo conjunta para todas las clases.</p>
-<h3 id="estrategia-crammer-singer">Estrategia <strong>Crammer-Singer</strong><a class="headerlink" href="#estrategia-crammer-singer" title="Permanent link">¶</a></h3>
+<h3 id="estrategia-crammer-singer">Estrategia <em>Crammer-Singer</em><a class="headerlink" href="#estrategia-crammer-singer" title="Permanent link">¶</a></h3>
 <p>La estrategia <strong>Crammer-Singer</strong> tiene interés fundamentalmente a nivel teórico, pero es poco utilizada en la práctica. Esta estrategia se basa en optimizar simultáneamente <span class="arithmatex">\(K\)</span> funciones de decisión, como se muestra a continuación:</p>
 <div class="arithmatex">\[
 \begin{align*}
@@ -971,7 +981,7 @@ K(\mathbf{x}_i, \mathbf{x}_j) = \tanh (\gamma  \mathbf{x}_i^T \mathbf{x}_j + r)
 <p>En regresión, las SVM funcionan de forma conceptualmente similar a la clasificación, pero en este caso el objetivo cambiará.</p>
 <p>Si bien en el caso de la clasificación buscábamos maximizar el margen de separación de las dos clases, en el caso de regresión buscamos un "tubo" de tolarancia alrededor de la función de predicción. Intentaremos que la gran mayoría de puntos estén contenidos dentro de este tubo.</p>
 <p></p><figure id="fig-svr"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t2_svr.png" data-desc-position="bottom"><img alt="" src="../images/t2_svr.png"></a><figcaption>Figura 6: Tubo de tolerancia en SVM para regresión </figcaption></figure><p></p>
-<h3 id="tubo-epsilon-insensitive">Tubo <span class="arithmatex">\(\epsilon\)</span>-<em>insensitive</em><a class="headerlink" href="#tubo-epsilon-insensitive" title="Permanent link">¶</a></h3>
+<h3 id="tubo-epsilon-insensitive">Tubo <em>epsilon-insensitive</em><a class="headerlink" href="#tubo-epsilon-insensitive" title="Permanent link">¶</a></h3>
 <p>Una de las claves será un parámetro <span class="arithmatex">\(\epsilon\)</span>, que regulará la anchura del tubo de tolerancia (ver <a href="#fig-svr">Figura 6</a>). La anchura total del tubo será de <span class="arithmatex">\(2 \epsilon\)</span>, y todos los puntos que estén contenidos dentro de este tubo no supondrán ninguna penalización en la función de pérdida (es decir, los puntos que estén a una distancia máxima <span class="arithmatex">\(\epsilon\)</span> del la función de predicción).</p>
 <p>Tendremos la siguiente función de pérdida:</p>
 <div class="arithmatex">\[
@@ -1011,7 +1021,7 @@ L(y, f(\mathbf{x})) = \max (0, |y - f(\mathbf{x})| - \epsilon)
 </ul>
 <p>Los puntos dentro del tubo no influirán en la solución final, al igual que ocurría en el caso de la clasificación con los puntos al lado correcto del margen. </p>
 <h3 id="ajuste-de-hiper-parametros">Ajuste de hiper-parámetros<a class="headerlink" href="#ajuste-de-hiper-parametros" title="Permanent link">¶</a></h3>
-<p>Tenemos en este caso dos hiperparámetros clave: <span class="arithmatex">\(C\)</span> y <span class="arithmatex">\(\epsilon\)</span>.</p>
+<p>Tenemos en este caso dos hiperparámetros clave: </p>
 <ul>
 <li><span class="arithmatex">\(C\)</span>: Penalización por quedar fuera del tubo. A mayor <span class="arithmatex">\(C\)</span>, habrá menos tolerancia a errores fuera del tubo, y con un <span class="arithmatex">\(C\)</span> menor el modelo será más robusto frente a <em>outliers</em>.</li>
 <li><span class="arithmatex">\(\epsilon\)</span>: Ancho del tubo de tolerancia. A mayor <span class="arithmatex">\(\epsilon\)</span> tendremos un modelo más simple, con menos vectores de soporte, mientras que con un <span class="arithmatex">\(\epsilon\)</span> menor el ajuste será más preciso y habrá más vectores de soporte.</li>
@@ -1026,7 +1036,13 @@ L(y, f(\mathbf{x})) = \max (0, |y - f(\mathbf{x})| - \epsilon)
 </ul>
 <p>Las SVM han sido durante décadas uno de los algoritmos dominantes en el campo del Machine Learning, ofreciendo excelentes resultados en problemas de dimensionalidad media y alta y con <em>datasets</em> de tamaño moderado. Sin embargo, presentan también una serie de limitaciones prácticas que comentaremos a continuación.</p>
 <p>Una cuestión a tener muy en cuenta es la <strong>sensibilidad al preprocesamiento</strong>. Realizar un correcto <strong>escalado</strong> de los datos es crítico. Supongamos que una de las características maneja valores de orden muy superior al resto. Por ejemplo, consideremos que nuestras características de entrada son <em>edad</em> y <em>salario</em>. La primera se situará normalmente en el rango de <span class="arithmatex">\([0, 100]\)</span>, mientras que la segunda tomará habitualmente valores en el rango de <span class="arithmatex">\([1000, 5000]\)</span>. La característica con mayor rango dominará el cálculo de las distancias, y esto puede causar que las de menor rango sean ignoradas. Por ello, importante realizar un escalado previo de los datos para conseguir que todas las características tengan media <span class="arithmatex">\(\mu = 0\)</span> y desviación típica <span class="arithmatex">\(\sigma = 1\)</span>, de forma que contribuyan de forma equitativa a las distancias. Con esto conseguiremos que el modelo necesite menos vectores de soporte y que generalice mejor.</p>
-<p>Al utilizar SVM también será importante <strong>seleccionar el <em>kernel</em> adecuado</strong> y sus parámetros, lo cual no siempre es intuitivo. Habrá que ajusta de forma cuidadosa los diferentes parámetros. El caso más común es el encontrar el <em>trade-off</em> entre <span class="arithmatex">\((C, \gamma)\)</span> en el caso del <em>kernel</em> RBF. </p>
+<p>Al utilizar SVM también será importante <strong>seleccionar el <em>kernel</em> adecuado</strong> y sus parámetros, lo cual no siempre es intuitivo. Habrá que ajustar de forma cuidadosa los diferentes parámetros. El caso más común es el encontrar el <em>trade-off</em> entre <span class="arithmatex">\((C, \gamma)\)</span> en el caso del <em>kernel</em> RBF, ya que es el <em>kernel</em> que aporta una mayor flexibilidad para adaptarse a los datos de entrada, pero no siempre será la elección más adecuada:</p>
+<ul>
+<li>El <em>kernel</em> lineal será más adecuado en caso de contar con datos linealmente separables, ya que tendremos un modelo más sencillo, con menos vectores de soporte, y nos proporcionará una mayor interpretabilidad. Además, solo tendremos que ajustar el parámetro <span class="arithmatex">\(C\)</span> (y <span class="arithmatex">\(\epsilon\)</span> en caso de regresión).</li>
+<li>El <em>kernel</em> RBF, como hemos comentado, es el que proporciona una mayor flexibilidad, ya que se adapta a cualquier patrón no lineal, siendo la 
+opción por defecto recomendada cuando no conocemos la estructura de los datos, pero también cuenta con algunas desventajas: requiere normalmente más vectores de soporte, por lo que es más lento en predicción, y resulta menos interpretable. Además, requiere ajustar dos parámetros, <span class="arithmatex">\(C\)</span> y <span class="arithmatex">\(\gamma\)</span>, presentando tendencia al <em>overfitting</em> cuando <span class="arithmatex">\(\gamma\)</span> es alto.</li>
+<li>El <em>kernel</em> polinomial por otro lado, tiene como ventaja que es más interpretable que RBF, y resulta de utilidad para capturar relaciones polinómicas específicas. Como inconveniente encontramos que requiere elegir el grado correcto y también es sensible al parámetro <code>coef0</code>, y puede resultar muy costoso al aumentar el grado. Si conocemos que la relación de los datos es polinómica será interesante utilizar este <em>kernel</em>, pero si no conocemos la forma funcional de los datos entonces convendrá utilizar RBF. </li>
+</ul>
 <p>Otra limitación del método es su <strong>escalabilidad computacional</strong>, con complejidades <span class="arithmatex">\(O(N^3)\)</span> o <span class="arithmatex">\(O(N^2d)\)</span> según la implementación. Esto puede hacer que el coste computacional sea prohibitivo en caso de contar con <em>datasets</em> grandes que contengan millones de muestras. Además, el coste espacial en memoria también crece cuadráticamente por la necesidad de almacenar el <em>kernel</em>.</p>
 <p>También podemos encontrar una <strong>interpretabilidad limitada</strong>, especialmente con <em>kernels</em> no lineales, en los que el modelo se convierte en una "caja negra". En estos casos es complicado establecer qué características son más importantes, y el motivo por el que el modelo ha tomado una decisión. </p>
 <p>En los próximos temas vamos a abordar una familia diferente de modelos: los Árboles de Decisión. Mientras que Regresión Logísitica y SVM son algoritmos basados en geometría (hiperplano de separación), los Árboles de Decisión están basados en reglas. Como veremos, estos modelos nos darán una serie de ventajas como su alta interpretabilidad, la no necesidad de escalar los datos, la posibilidad de manejar datos categóricos de forma natural y la eficiencia computacional incluso con <em>datasets</em> grandes.</p>
