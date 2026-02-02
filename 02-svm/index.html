@@ -840,36 +840,33 @@ s.a.\quad  &amp; \sum_{i=1}^N \alpha_i y_i  = 0
 <p><strong>Estacionariedad</strong>. Se cumple habiendo igualado las derivadas a <span class="arithmatex">\(0\)</span>.</p>
 </li>
 <li>
-<p><strong>Factibilidad</strong>. Deben cumplirse las restricciones originales del problema primal:</p>
+<p><strong>Factibilidad</strong>. Deben cumplirse las restricciones originales del problema primal:
+$$ 
+y_i(\mathbf{x}_i^T\mathbf{w} + b)  \geq 1 - \xi_i \quad \forall i
+$$
+$$
+\xi_i  \geq 0 \quad \forall i
+$$</p>
+</li>
+<li>
+<p><strong>Signo</strong>. Los multiplicadores asociados a restricciones de desigualdad no deben ser negativos:
+$$ 
+\alpha_i  \geq 0 \quad \forall i
+$$
+$$
+\mu_i  \geq 0 \quad \forall i
+$$</p>
+</li>
+<li>
+<p><strong>Complementariedad</strong>. Esta es la más importante a tener en cuenta, ya que define qué restricciones son activas (aquellas con parámetros <span class="arithmatex">\(\alpha_i &gt; 0\)</span> y <span class="arithmatex">\(\mu_i &gt; 0\)</span>), indicando de esta forma cuáles son los <strong>vectores de soporte</strong>. 
+$$
+\alpha_i[y_i(\mathbf{x}_i^T \mathbf{w} + b) - 1 + \xi_i] = 0 \quad \forall i
+$$
+$$
+\mu_i \xi_i = 0 \Rightarrow (C-\alpha_i) \xi_i = 0 \quad \forall i 
+$$</p>
 </li>
 </ol>
-<div class="arithmatex">\[ 
-\begin{align*}
-y_i(\mathbf{x}_i^T\mathbf{w} + b) &amp; \geq 1 - \xi_i \quad \forall i
-\\
-\xi_i &amp; \geq 0 \quad \forall i
-\end{align*}
-\]</div>
-<ol>
-<li><strong>Signo</strong>. Los multiplicadores asociados a restricciones de desigualdad no deben ser negativos:</li>
-</ol>
-<div class="arithmatex">\[ 
-\begin{align*}
-\alpha_i &amp; \geq 0 \quad \forall i
-\\
-\mu_i &amp; \geq 0 \quad \forall i
-\end{align*}
-\]</div>
-<ol>
-<li><strong>Complementariedad</strong>. Esta es la más importante a tener en cuenta, ya que define qué restricciones son activas (aquellas con parámetros <span class="arithmatex">\(\alpha_i &gt; 0\)</span> y <span class="arithmatex">\(\mu_i &gt; 0\)</span>), indicando de esta forma cuáles son los <strong>vectores de soporte</strong>. </li>
-</ol>
-<div class="arithmatex">\[
-\begin{align*}
-\alpha_i[y_i(\mathbf{x}_i^T \mathbf{w} + b) - 1 + \xi_i] &amp;= 0 \quad \forall i
-\\
-\mu_i \xi_i = 0 \Rightarrow (C-\alpha_i) \xi_i &amp;= 0 \quad \forall i 
-\end{align*}
-\]</div>
 <p>Podemos distinguir varios casos:</p>
 <ul>
 <li>
