@@ -182,7 +182,13 @@ Esta última condición nos dice que:
 
 Es importante destacar que solo los puntos con $\alpha_i > 0$ (vectores de soporte) contribuyen a la solución. El resto de puntos no afectarán al hiperplano. 
 
-Podemos observar que $\mathbf{w}$ se obtendrá como combinación lineal de los vectores de soporte $\mathbf{x}_i$ (aquellos con $\alpha_i > 0$). El parámetro $b$ se puede obtener resolviendo la condición de complementariedad para cualquiera de los vectores de soporte.
+A partir de la función obtenida al calcular la derivada parcial respecto a cada uno de los coeficientes, podemos observar que $\mathbf{w}$ se obtendrá como combinación lineal de los vectores de soporte $\mathbf{x}_i$ (aquellos con $\alpha_i > 0$):
+
+$$
+\mathbf{w} = \sum_{i=1}^N \alpha_i y_i \mathbf{x}_i 
+$$
+
+ El parámetro $b$ se puede obtener resolviendo la condición de complementariedad para cualquiera de los vectores de soporte.
 
 
 
@@ -262,23 +268,29 @@ Además, se deben cumplir las diferentes condiciones KKT:
 
 2. **Factibilidad**. Deben cumplirse las restricciones originales del problema primal:
 $$ 
-y_i(\mathbf{x}_i^T\mathbf{w} + b) \geq 1 - \xi_i \quad \forall i
+\begin{align*}
+y_i(\mathbf{x}_i^T\mathbf{w} + b) & \geq 1 - \xi_i \quad \forall i
 \\
-\xi_i \geq 0 \quad \forall i
+\xi_i & \geq 0 \quad \forall i
+\end{align*}
 $$
 
 3. **Signo**. Los multiplicadores asociados a restricciones de desigualdad no deben ser negativos:
 $$ 
-\alpha_i \geq 0 \quad \forall i
+\begin{align*}
+\alpha_i & \geq 0 \quad \forall i
 \\
-\mu_i \geq 0 \quad \forall i
+\mu_i & \geq 0 \quad \forall i
+\end{align*}
 $$
 
 4. **Complementariedad**. Esta es la más importante a tener en cuenta, ya que define qué restricciones son activas (aquellas con parámetros $\alpha_i > 0$ y $\mu_i > 0$), indicando de esta forma cuáles son los **vectores de soporte**. 
 $$
-\alpha_i[y_i(\mathbf{x}_i^T \mathbf{w} + b) - 1 + \xi_i] = 0 \quad \forall i
+\begin{align*}
+\alpha_i[y_i(\mathbf{x}_i^T \mathbf{w} + b) - 1 + \xi_i] &= 0 \quad \forall i
 \\
-\mu_i \xi_i = 0 \Rightarrow (C-\alpha_i) \xi_i = 0 \quad \forall i 
+\mu_i \xi_i = 0 \Rightarrow (C-\alpha_i) \xi_i &= 0 \quad \forall i 
+\end{align*}
 $$
 
 Podemos distinguir varios casos:
@@ -447,7 +459,7 @@ Es importante remarcar que este parámetro solo afecta la forma de salida de `de
 
 Si utilizamos la versión lineal de SVC, con la clase `LinearSVC`, el comportamiento será diferente. En este caso contamos con un parámetro `multi_class` que nos permite determinar la estrategia a seguir si tenemos más de dos clases. En este caso tenemos dos opciones: `ovr`, para utilizar la estrategia _One-vs-Rest_, y `crammer_singer` para utilizar la estrategia Crammer-Singer, que optimiza una función objetivo conjunta para todas las clases.
 
-### Estrategia **Crammer-Singer**
+### Estrategia _Crammer-Singer_
 
 La estrategia **Crammer-Singer** tiene interés fundamentalmente a nivel teórico, pero es poco utilizada en la práctica. Esta estrategia se basa en optimizar simultáneamente $K$ funciones de decisión, como se muestra a continuación:
 
@@ -470,7 +482,7 @@ Figure: Tubo de tolerancia en SVM para regresión {#fig-svr}
 
 ![](images/t2_svr.png)
 
-### Tubo $\epsilon$-_insensitive_
+### Tubo _epsilon-insensitive_
 
 Una de las claves será un parámetro $\epsilon$, que regulará la anchura del tubo de tolerancia (ver [](#fig-svr)). La anchura total del tubo será de $2 \epsilon$, y todos los puntos que estén contenidos dentro de este tubo no supondrán ninguna penalización en la función de pérdida (es decir, los puntos que estén a una distancia máxima $\epsilon$ del la función de predicción).
 
@@ -528,7 +540,7 @@ Los puntos dentro del tubo no influirán en la solución final, al igual que ocu
 
 ### Ajuste de hiper-parámetros
 
-Tenemos en este caso dos hiperparámetros clave: $C$ y $\epsilon$.
+Tenemos en este caso dos hiperparámetros clave: 
 
 - $C$: Penalización por quedar fuera del tubo. A mayor $C$, habrá menos tolerancia a errores fuera del tubo, y con un $C$ menor el modelo será más robusto frente a _outliers_.
 - $\epsilon$: Ancho del tubo de tolerancia. A mayor $\epsilon$ tendremos un modelo más simple, con menos vectores de soporte, mientras que con un $\epsilon$ menor el ajuste será más preciso y habrá más vectores de soporte.
@@ -547,7 +559,13 @@ Las SVM han sido durante décadas uno de los algoritmos dominantes en el campo d
 
 Una cuestión a tener muy en cuenta es la **sensibilidad al preprocesamiento**. Realizar un correcto **escalado** de los datos es crítico. Supongamos que una de las características maneja valores de orden muy superior al resto. Por ejemplo, consideremos que nuestras características de entrada son _edad_ y _salario_. La primera se situará normalmente en el rango de $[0, 100]$, mientras que la segunda tomará habitualmente valores en el rango de $[1000, 5000]$. La característica con mayor rango dominará el cálculo de las distancias, y esto puede causar que las de menor rango sean ignoradas. Por ello, importante realizar un escalado previo de los datos para conseguir que todas las características tengan media $\mu = 0$ y desviación típica $\sigma = 1$, de forma que contribuyan de forma equitativa a las distancias. Con esto conseguiremos que el modelo necesite menos vectores de soporte y que generalice mejor.
 
-Al utilizar SVM también será importante **seleccionar el _kernel_ adecuado** y sus parámetros, lo cual no siempre es intuitivo. Habrá que ajusta de forma cuidadosa los diferentes parámetros. El caso más común es el encontrar el _trade-off_ entre $(C, \gamma)$ en el caso del _kernel_ RBF. 
+Al utilizar SVM también será importante **seleccionar el _kernel_ adecuado** y sus parámetros, lo cual no siempre es intuitivo. Habrá que ajustar de forma cuidadosa los diferentes parámetros. El caso más común es el encontrar el _trade-off_ entre $(C, \gamma)$ en el caso del _kernel_ RBF, ya que es el _kernel_ que aporta una mayor flexibilidad para adaptarse a los datos de entrada, pero no siempre será la elección más adecuada:
+
+- El _kernel_ lineal será más adecuado en caso de contar con datos linealmente separables, ya que tendremos un modelo más sencillo, con menos vectores de soporte, y nos proporcionará una mayor interpretabilidad. Además, solo tendremos que ajustar el parámetro $C$ (y $\epsilon$ en caso de regresión).
+- El _kernel_ RBF, como hemos comentado, es el que proporciona una mayor flexibilidad, ya que se adapta a cualquier patrón no lineal, siendo la 
+opción por defecto recomendada cuando no conocemos la estructura de los datos, pero también cuenta con algunas desventajas: requiere normalmente más vectores de soporte, por lo que es más lento en predicción, y resulta menos interpretable. Además, requiere ajustar dos parámetros, $C$ y $\gamma$, presentando tendencia al _overfitting_ cuando $\gamma$ es alto.
+- El _kernel_ polinomial por otro lado, tiene como ventaja que es más interpretable que RBF, y resulta de utilidad para capturar relaciones polinómicas específicas. Como inconveniente encontramos que requiere elegir el grado correcto y también es sensible al parámetro `coef0`, y puede resultar muy costoso al aumentar el grado. Si conocemos que la relación de los datos es polinómica será interesante utilizar este _kernel_, pero si no conocemos la forma funcional de los datos entonces convendrá utilizar RBF. 
+
 
 Otra limitación del método es su **escalabilidad computacional**, con complejidades $O(N^3)$ o $O(N^2d)$ según la implementación. Esto puede hacer que el coste computacional sea prohibitivo en caso de contar con _datasets_ grandes que contengan millones de muestras. Además, el coste espacial en memoria también crece cuadráticamente por la necesidad de almacenar el _kernel_.
 
