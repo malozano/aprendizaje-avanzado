@@ -267,33 +267,27 @@ Además, se deben cumplir las diferentes condiciones KKT:
 1. **Estacionariedad**. Se cumple habiendo igualado las derivadas a $0$.
 
 2. **Factibilidad**. Deben cumplirse las restricciones originales del problema primal:
-
 $$ 
-\begin{align*}
-y_i(\mathbf{x}_i^T\mathbf{w} + b) & \geq 1 - \xi_i \quad \forall i
-\\
-\xi_i & \geq 0 \quad \forall i
-\end{align*}
+y_i(\mathbf{x}_i^T\mathbf{w} + b)  \geq 1 - \xi_i \quad \forall i
+$$
+$$
+\xi_i  \geq 0 \quad \forall i
 $$
 
 3. **Signo**. Los multiplicadores asociados a restricciones de desigualdad no deben ser negativos:
-
 $$ 
-\begin{align*}
-\alpha_i & \geq 0 \quad \forall i
-\\
-\mu_i & \geq 0 \quad \forall i
-\end{align*}
+\alpha_i  \geq 0 \quad \forall i
+$$
+$$
+\mu_i  \geq 0 \quad \forall i
 $$
 
 4. **Complementariedad**. Esta es la más importante a tener en cuenta, ya que define qué restricciones son activas (aquellas con parámetros $\alpha_i > 0$ y $\mu_i > 0$), indicando de esta forma cuáles son los **vectores de soporte**. 
-
 $$
-\begin{align*}
-\alpha_i[y_i(\mathbf{x}_i^T \mathbf{w} + b) - 1 + \xi_i] &= 0 \quad \forall i
-\\
-\mu_i \xi_i = 0 \Rightarrow (C-\alpha_i) \xi_i &= 0 \quad \forall i 
-\end{align*}
+\alpha_i[y_i(\mathbf{x}_i^T \mathbf{w} + b) - 1 + \xi_i] = 0 \quad \forall i
+$$
+$$
+\mu_i \xi_i = 0 \Rightarrow (C-\alpha_i) \xi_i = 0 \quad \forall i 
 $$
 
 Podemos distinguir varios casos:
