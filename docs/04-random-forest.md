@@ -480,7 +480,7 @@ Una vez entrenado el modelo de _Random Forest_, podemos calcular la importancia 
 
 Podemos calcular la importancia de cada _feature_ de dos formas diferentes.
 
-#### Gini Importance (basada en impureza)
+#### Gini Importance
 
 Esta primera forma de medir la importancia, también conocida como _Mean Decrease in Impurity_ (MDI) está basada en la mejora promedio de la impureza cuando se usa esa feature:
 
@@ -558,7 +558,7 @@ El _OOB score_ es típicamente una buena aproximación del error de generalizaci
 
 
 
-## Extra Trees (Extremely Randomized Trees)
+### Extra Trees (Extremely Randomized Trees)
 
 Los _Extra Trees_ son una variante de _Random Forest_ en la que se introduce aún más aleatoriedad. Si bien en _Random Forest_ en cada nodo de los árboles se elige el mejor _split_ entre las _features_ seleccionadas, en _Extra Trees_ se elige un _split_ de forma aleatoria para cada _feature_, y nos quedamos con aquella que proporciona una mayor ganancia.   
 
@@ -591,7 +591,7 @@ Será conveniente utilizar _Extra Trees_ cuando busquemos reducir aún más la v
 
 
 
-## Consideraciones finales
+### Consideraciones finales
 
 Random Forest es **uno de los mejores algoritmos _out-of-the-box_**. Es decir, es capaz de funcionar correctamente sin necesidad de configuración o ajustes adicionales, funcionando bien con los hiperparámetros por defecto.
 
