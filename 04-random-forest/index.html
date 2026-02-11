@@ -928,25 +928,25 @@ P(y=k|\mathbf{x}) = \frac{1}{B} \sum_{b=1}^B P_b(y=k|\mathbf{x})
 <h3 id="out-of-bag-oob-error">Out-of-Bag (OOB) Error<a class="headerlink" href="#out-of-bag-oob-error" title="Permanent link">¶</a></h3>
 <p>Como hemos comentado anteriormente, aproximadamente el 37% de las muestras no aparecen en cada <em>bootstrap sample</em>. Estas muestras <strong>out-of-bag</strong> se pueden usar para validación sin necesidad de un conjunto separado.</p>
 <p>A continuación se muestra el algoritmo para el <strong>cálculo del OOB error:</strong></p>
-<p>$$
+<div class="arithmatex">\[
 \begin{align*}
-&amp; \text{Entrada: } \mathcal{D} \
-&amp; \text{Para cada } (\mathbf{x}<em _in="\in" _mathcal_b="\mathcal{B" b="b">i, y_i) \in \mathcal{D}\
-&amp; \quad \mathcal{B}_i \leftarrow {b: (\mathbf{x}_i, y_i) \notin \mathcal{D}_b  } \quad \text{(Modelos que no usaron } \mathbf({x}_i, y_i) \text{ en el entrenamiento)} \
-&amp; \quad \text{Si } |\mathcal{B}_i| &gt; 0: \quad \text{(Calcula predicciones para estos modelos) }\
+&amp; \text{Entrada: } \mathcal{D} \\
+&amp; \text{Para cada } (\mathbf{x}_i, y_i) \in \mathcal{D}\\
+&amp; \quad \mathcal{B}_i \leftarrow \{b: (\mathbf{x}_i, y_i) \notin \mathcal{D}_b  \} \quad \text{(Modelos que no usaron } \mathbf({x}_i, y_i) \text{ en el entrenamiento)} \\
+&amp; \quad \text{Si } |\mathcal{B}_i| &gt; 0: \quad \text{(Calcula predicciones para estos modelos) }\\
 &amp; \quad\quad  \hat{y}_i^{\text{OOB}} =
 \begin{cases}
-    \text{moda}{h_b(\mathbf{x}_i) : b \in \mathcal{B}_i} \quad \text{(Clasificación)} \
-    \frac{1}{|\mathcal{B}_i|} \sum</em><em oob="OOB">i} h_b(\mathbf{x}_i) \quad \text{(Regresión)}
+    \text{moda}\{h_b(\mathbf{x}_i) : b \in \mathcal{B}_i\} \quad \text{(Clasificación)} \\
+    \frac{1}{|\mathcal{B}_i|} \sum_{b \in \mathcal{B}_i} h_b(\mathbf{x}_i) \quad \text{(Regresión)}
 \end{cases}
- \
-&amp; \mathcal{I}</em> \leftarrow { i: |\mathcal{B}<em oob="OOB">i| &gt; 0 } \quad \text{(Índices de las muestras que fueron OOB para al menos un modelo)} \ 
+ \\
+&amp; \mathcal{I}_{OOB} \leftarrow \{ i: |\mathcal{B}_i| &gt; 0 \} \quad \text{(Índices de las muestras que fueron OOB para al menos un modelo)} \\ 
 &amp;OOBError \leftarrow \begin{cases}
-    \frac{1}{|\mathcal{I}</em>|} \sum_{i \in \mathcal{I}<em oob="OOB">{OOB}} \mathbb{1}(\hat{y}_i^{\text{OOB}} \neq y_i)  \quad \text{(Clasificación)} \
-    \frac{1}{|\mathcal{I}</em>|} \sum_{i \in \mathcal{I}_{OOB}} (y_i - \hat{y}_i^{\text{OOB}})^2 \quad \text{(Regresión)}
-\end{cases}</p>
-<p>\end{align*}
-$$</p>
+    \frac{1}{|\mathcal{I}_{OOB}|} \sum_{i \in \mathcal{I}_{OOB}} \mathbb{1}(\hat{y}_i^{\text{OOB}} \neq y_i)  \quad \text{(Clasificación)} \\
+    \frac{1}{|\mathcal{I}_{OOB}|} \sum_{i \in \mathcal{I}_{OOB}} (y_i - \hat{y}_i^{\text{OOB}})^2 \quad \text{(Regresión)}
+\end{cases}
+\end{align*}
+\]</div>
 <p>De esta forma podemos estimar el error de generalización sin necesitar un conjunto de validación separado y sin suponer un coste computacional adicional</p>
 <h3 id="analisis-del-metodo">Análisis del método<a class="headerlink" href="#analisis-del-metodo" title="Permanent link">¶</a></h3>
 <p>Vamos a analizar a continuación los motivos por los que la técnica de <em>Bagging</em> ayuda a reducir la varianza. Vamos a empezar haciendo un estudio a nivel teórico.</p>
