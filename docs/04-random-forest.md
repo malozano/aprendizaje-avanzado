@@ -352,8 +352,6 @@ $$
     \frac{1}{|\mathcal{I}_{OOB}|} \sum_{i \in \mathcal{I}_{OOB}} \mathbb{1}(\hat{y}_i^{\text{OOB}} \neq y_i)  \quad \text{(Clasificación)} \\
     \frac{1}{|\mathcal{I}_{OOB}|} \sum_{i \in \mathcal{I}_{OOB}} (y_i - \hat{y}_i^{\text{OOB}})^2 \quad \text{(Regresión)}
 \end{cases}
-
-
 \end{align*}
 $$
 
