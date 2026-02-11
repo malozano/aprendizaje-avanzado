@@ -1,6 +1,6 @@
 # Sesión 3: Árboles de decisión
 
-Los árboles de decisión son modelos de aprendizaje supervisado que nos permiten hacer tanto tareas de clasificación como de regresión. Se basan en una estructura jerárquica de decisiones, y su principal ventaja es la interpretabilidad del modelo, ya que podemos interpretarlos como un diagrama de flujo en el que en cada nodo debe tomarse una decisión (ver [](#fig-estructura)-izquierda).
+Los árboles de decisión [@breiman1984classification;@james2023introduction] son modelos de aprendizaje supervisado que nos permiten hacer tanto tareas de clasificación como de regresión. Se basan en una estructura jerárquica de decisiones, y su principal ventaja es la interpretabilidad del modelo, ya que podemos interpretarlos como un diagrama de flujo en el que en cada nodo debe tomarse una decisión (ver [](#fig-estructura)-izquierda).
 
 
 ## Estructura
@@ -21,7 +21,14 @@ Figure: Estructura del árbol de decisión (izquierda) y división del espacio d
 
 ![](images/t3_estructura_regiones.png)
 
-Esta división generará $J$ regiones $R_1, R_2, \ldots, R_J$ no solapadas, de forma que cada datos de entrada $\mathbf{x}$ pertenecerá a una, y solo una de estas regiones. Cada región $R_j$ corresponde a uno de los nodos hoja del árbol, y estará asociada a una categoría en el caso de los árboles de clasificación, o a un valor en el caso de árboles de regresión. Es importante destacar que la salida de los árboles de decisión estará estratificada, ya que dentro de cada región se generará siempre un valor constante. 
+Esta división generará $J$ regiones $R_1, R_2, \ldots, R_J$ no solapadas, de forma que cada datos de entrada $\mathbf{x}$ pertenecerá a una, y solo una de estas regiones. Cada región $R_j$ corresponde a uno de los nodos hoja del árbol, y estará asociada a una categoría en el caso de los árboles de clasificación, o a un valor en el caso de árboles de regresión. 
+
+Figure: Estratificación de la salida de los árboles de regresión. Aproximación de datos con forma de campana de Gauss {#fig-estratificacion}
+
+![](images/t3_estratificacion_3d.png)
+
+
+Es importante destacar que la salida de los árboles de decisión estará estratificada, ya que dentro de cada región se generará siempre un valor constante (ver [](#fig-estratificacion)). 
 
 
 ## Construcción
@@ -46,7 +53,14 @@ Dado que no es viable considerar todas las posibles particiones del espacio, se 
 4. Repetimos este proceso recursivamente para cada uno de los subconjuntos anteriores hasta cumplir un **criterio de parada** (por ejemplo hasta conseguir regiones suficientemente homogéneas).
 
 
-Una de las cuestiones más crítica es establecer un **criterio de división** de los datos para establecer cuáles son los mejores parámetros para particionar nuestros datos. Deberemos seleccionar tanto una característica $j \in \{1, 2, \ldots, d\}$ como un valor de corte $t$. De esta forma, la condición dividiría el espacio en dos subregiones y separará los datos en dos subconjuntos: 
+Figure: Proceso de construcción de un árbol de decisión paso a paso {#fig-construccion}
+
+![](images/t3_proceso_construccion.png)
+
+En la [](#fig-construccion) se ilustra el proceso de construcción paso a paso, en el que en cada iteración particionamos uno de los nodos en dos regiones.
+
+
+Una de las cuestiones más críticas es establecer un **criterio de división** de los datos para establecer cuáles son los mejores parámetros para particionar nuestros datos. Deberemos seleccionar tanto una característica $j \in \{1, 2, \ldots, d\}$ como un valor de corte $t$. De esta forma, la condición dividiría el espacio en dos subregiones y separará los datos en dos subconjuntos: 
 
 $$
 \mathcal{D}_L = \{ \{\mathbf{x}_i, y_i \} : x_{ij} \leq t \}
@@ -73,6 +87,12 @@ Vamos a continuación a ver de forma específica las principales funciones de im
 
 
 En caso de árboles de regresión, dentro de cada región se devolverá como predicción $\hat{y}_i$ siempre el mismo valor constante, que se calculará habitualmente como la **media de todas las observaciones** $\bar{y}_i$ del conjunto de entrenamiento que pertenezcan a dicha región. 
+
+Figure: Construcción de un árbol de regresión {#fig-construccion-reg}
+
+![](images/t3_estratificacion_progresivo.png)
+
+En la [](#fig-arbol1d) se muestra cómo se construye un árbol de regresión conforme aumenta la profundidad del árbol. En la parte inferior de la figura se muestra el particionamiento en regiones, mientras que en la parte superior se muestra en 3D la estratificación creada en cada caso, donde cada región tiene un valor constante correspondiente a la media de todas las observaciones de dicha región.
 
 Como función de impureza en árboles de regresión habitualmente se utiliza el **error cuadrático medio (MSE)**:
 
@@ -135,13 +155,26 @@ $$
 
 Se trata de una medida basada en teoría de la información, que mide la incertidumbre del conjunto. Nos dará máxima incertidumbre cuando las clases están equilibradas, y penaliza más que Gini. Se utiliza  en los algoritmos ID3 y C4.5.
 
+Figure: Forma de las diferentes funciones de impureza para clasificación {#fig-impureza}
+
+![](images/t3_funcion_impureza.png)
+
+En la [](#fig-impureza) podemos observar la forma de las diferentes funciones de impureza para el caso de clasificación binaria. Se muestra el valor de la función de impureza en función de la proporción de ejemplo de cada clase, pudiendo observar que es máxima en el centro (reparto equilibrado entre las dos clases) y mínima en los extremos (todas las observaciones de una misma clase).
+
+
+
+
 ## Poda de árboles
 
 Los árboles individuales tienen bajo sesgo pero alta varianza, ya que al construirse de forma voraz tienen una alta dependencia con los datos de entrada. Un pequeño cambio en los datos puede producir árboles muy diferentes. 
 
-Cuando con el algoritmo descrito el árbol se hace crecer en exceso, tendremos tendencia al _overfitting_. Clasificará bien los datos de entrenamiento, pero dará malos resultados de _test_. Reduciendo el número de regiones podemos reducir la varianza y mejorar la capacidad de generalización y la interpretabilidad.
+Cuando con el algoritmo descrito el árbol se hace crecer en exceso, tendremos tendencia al _overfitting_. Clasificará bien los datos de entrenamiento, pero dará malos resultados de _test_. Para ilustrar este efecto, en la [](#fig-arbol1d) se muestra la aproximación de una función de una sola variable (1D) mediante un árbol de regresión. Podemos observar la forma escalonada (estratificada) de la función, y como conforme aumenta la profundidad del árbol estos estratos se ajustan de forma más precisa a los datos. Sin embargo, cuando se aumenta demasiado la profundida del árbol, como se observa a la derecha de la figura, la aproximación se ajusta demasiado a los datos, teniendo estratos creados para una única observación (alta varianza).
 
-Una posible forma de abordar esta tarea es evitar que el árbol crezca en exceso, esto es lo que se conoce como **poda previa**.
+Figure: Efecto del _overfitting_ al construir un árbol de decisión {#fig-overfitting}
+
+![](images/t3_estratificacion_1d.png)
+
+Reduciendo el número de regiones podemos reducir la varianza y mejorar la capacidad de generalización y la interpretabilidad. Una posible forma de abordar esta tarea es evitar que el árbol crezca en exceso, esto es lo que se conoce como **poda previa**.
 
 ### Poda previa
 
@@ -280,14 +313,20 @@ Este algoritmo fue diseñado para la clasificación con atributos de entrada cat
 
 $$
 \begin{align*}
-\text{Viento} &\rightarrow \{ \text{Débil}, \text{Medio}, \text{Fuerte} \} \\
-\text{Clima} &\rightarrow \{ \text{Soleado}, \text{Nublado}, \text{Lluvia} \}
+\text{Viento} &\rightarrow \{ \text{Débil}, \text{Fuerte} \} \\
+\text{Temperatura} &\rightarrow \{ \text{Calor}, \text{Templado}, \text{Frio} \}
 \end{align*}
 $$
 
 En caso de contar con atributos numéricos, deberíamos discretizarlos previamente en una serie de categorías. 
 
-Este algoritmo construye árboles no binarios (multirama), ya que genera una subrama para cada cada posible valor del atributo seleccionado para la división. Por ejemplo, si en un nodo se selecciona el atributo $\text{Viento}$ como criterio de división, se crearán $3$ subramas: $\text{Débil}$, $\text{Medio}$ y $\text{Fuerte}$.
+Este algoritmo construye árboles no binarios (multirama), ya que genera una subrama para cada cada posible valor del atributo seleccionado para la división. Por ejemplo, si en un nodo se selecciona el atributo $\text{Temperatura}$ como criterio de división, se crearán $3$ subramas: $\text{Calor}$, $\text{Templado}$ y $\text{Frio}$.
+
+Figure: Comparación de árboles binarios (CART) con árboles multirama (ID3) {#fig-impureza}
+
+![](images/t3_cart_vs_id3.png)
+
+En la [](#fig-impureza) ilustramos la diferencia entre los árboles binarios, que utiliza CART, y los árboles multirama de ID3. En este último caso en lugar de atributos numéricos tenemos atributos categóricos, y al seleccionar un atributo se crean tantas subramas como posibles valores tenga dicha atributo.
 
 #### Criterio de selección
 
@@ -332,6 +371,8 @@ El algoritmo C4.5 [@quinlan1993c45] se presenta como una evolución de ID3, tamb
 - Aplica poda _post-pruning_ para reducir el _overfitting_.
 - Permine manejar valores perdidos.
 
+
+
 #### _Gain Ratio_
 
 ID3 utiliza la ganancia de información $GI(\mathcal{D}, j)$, pero esto produce un sesgo hacia atributos con muchos valores. Por ejemplo imaginemos un atributo que tiene un valor diferente para cada ejemplo de entrada. Este atributo sería seleccionado ya que genera nodos hoja puros, pero no generaliza. 
@@ -350,7 +391,13 @@ $$
 \text{GainRatio}(\mathcal{D}, x_j) = \frac{GI(\mathcal{D}, j)}{\text{SplitInfo}(\mathcal{D}, x_j)}
 $$
 
-De esta forma, el factor _Split Info_ se utiliza para penalizar subdivisiones excesivas y la falta de generalización. 
+De esta forma, el factor _Split Info_ se utiliza para penalizar subdivisiones excesivas y la falta de generalización. En la [](#fig-gain-ratio) se ilustra cómo _Gain Ratio_ penaliza la subdivisión excesiva frente a _Information Gain_.
+
+Figure: Comparación entre Information Gain (ID3) y Gain Ratio (C4.5) {#fig-gain-ratio}
+
+![](images/t3_id3_vs_c45.png)
+
+
 
 #### Atributos continuos
 

@@ -26,7 +26,7 @@ A continuación se detalla la planificación de sesiones de la asignatura:
 |-------|--------|-----------|
 | S1 (26 de enero) | I.1 Modelos paramétricos y no paramétricos. Modelos lineales. Regresión Logística. | P0. Datos y visualización |
 | S2 (3 de febrero) | I.2 SVM y _kernel trick_ | P0. Datos y visualización |
-| S3 (10 de febrero) | * _Charla mes cultural EPS_ | P1. Aprendizaje supervisado |
+| S3 (10 de febrero) | * _Charla mes cultural EPS_ | P0. Aprendizaje supervisado |
 | S4 (17 de febrero) | I.3 Árboles de decisión | P1. Aprendizaje supervisado |
 | S5 (24 de febrero) | I.4 Métodos de ensamble. Bagging. Random Forest | P1. Aprendizaje supervisado |
 | S6 (3 de marzo) | I.5 Boosting. AdaBoost. **Control 1** | P1. Aprendizaje supervisado |
