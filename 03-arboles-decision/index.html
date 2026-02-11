@@ -668,7 +668,7 @@
 
 
 <h1 id="sesion-3-arboles-de-decision">Sesión 3: Árboles de decisión<a class="headerlink" href="#sesion-3-arboles-de-decision" title="Permanent link">¶</a></h1>
-<p>Los árboles de decisión son modelos de aprendizaje supervisado que nos permiten hacer tanto tareas de clasificación como de regresión. Se basan en una estructura jerárquica de decisiones, y su principal ventaja es la interpretabilidad del modelo, ya que podemos interpretarlos como un diagrama de flujo en el que en cada nodo debe tomarse una decisión (ver <a href="#fig-estructura">Figura 1</a>-izquierda).</p>
+<p>Los árboles de decisión (Breiman et al., 1984; James et al., 2023)<sup id="fnref:breiman1984classification"><a class="footnote-ref" href="#fn:breiman1984classification">1</a></sup> <sup id="fnref:james2023introduction"><a class="footnote-ref" href="#fn:james2023introduction">2</a></sup> son modelos de aprendizaje supervisado que nos permiten hacer tanto tareas de clasificación como de regresión. Se basan en una estructura jerárquica de decisiones, y su principal ventaja es la interpretabilidad del modelo, ya que podemos interpretarlos como un diagrama de flujo en el que en cada nodo debe tomarse una decisión (ver <a href="#fig-estructura">Figura 1</a>-izquierda).</p>
 <h2 id="estructura">Estructura<a class="headerlink" href="#estructura" title="Permanent link">¶</a></h2>
 <p>El árbol tiene un <strong>nodo raíz</strong> que abarcará todo el espacio de características, conteniendo todo el conjunto de datos de entrada. </p>
 <p>Cada <strong>nodo interno</strong> del árbol divide el espacio de características mediante una  <strong>condición</strong> sobre los atributos. Considerando que nuestros datos tienen un conjunto de <span class="arithmatex">\(d\)</span> atributos o <em>features</em>  <span class="arithmatex">\(\{x_1, x_2, \ldots, x_d \}\)</span>, la condición de cada nodo tendrá habitualmente una forma del tipo <span class="arithmatex">\(x_i \leq \text{valor}\)</span>. Es decir, podemos ver cada nodo como un modelo sencillo que separa los datos en dos subramas.</p>
@@ -677,7 +677,9 @@
 <p>De este forma, para un determinado ejemplo de entrada, el árbol se recorrerá desde la raíz, tomando en cada nodo la subrama que corresponda al resultado de aplicar la condición del nodo al ejemplo, hasta llegar a un nodo hoja. El nodo hoja que alcancemos nos dará la predicción que devolverá el modelo.</p>
 <p>Desde el punto de vista de dos dimensiones, este árbol estará dividiendo el espacio de características en diferentes rectángulos (ver <a href="#fig-estructura">Figura 1</a>-centro). </p>
 <p></p><figure id="fig-estructura"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t3_estructura_regiones.png" data-desc-position="bottom"><img alt="" src="../images/t3_estructura_regiones.png"></a><figcaption>Figura 1: Estructura del árbol de decisión (izquierda) y división del espacio de características en regiones (centro y derecha) </figcaption></figure><p></p>
-<p>Esta división generará <span class="arithmatex">\(J\)</span> regiones <span class="arithmatex">\(R_1, R_2, \ldots, R_J\)</span> no solapadas, de forma que cada datos de entrada <span class="arithmatex">\(\mathbf{x}\)</span> pertenecerá a una, y solo una de estas regiones. Cada región <span class="arithmatex">\(R_j\)</span> corresponde a uno de los nodos hoja del árbol, y estará asociada a una categoría en el caso de los árboles de clasificación, o a un valor en el caso de árboles de regresión. Es importante destacar que la salida de los árboles de decisión estará estratificada, ya que dentro de cada región se generará siempre un valor constante. </p>
+<p>Esta división generará <span class="arithmatex">\(J\)</span> regiones <span class="arithmatex">\(R_1, R_2, \ldots, R_J\)</span> no solapadas, de forma que cada datos de entrada <span class="arithmatex">\(\mathbf{x}\)</span> pertenecerá a una, y solo una de estas regiones. Cada región <span class="arithmatex">\(R_j\)</span> corresponde a uno de los nodos hoja del árbol, y estará asociada a una categoría en el caso de los árboles de clasificación, o a un valor en el caso de árboles de regresión. </p>
+<p></p><figure id="fig-estratificacion"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t3_estratificacion_3d.png" data-desc-position="bottom"><img alt="" src="../images/t3_estratificacion_3d.png"></a><figcaption>Figura 2: Estratificación de la salida de los árboles de regresión. Aproximación de datos con forma de campana de Gauss </figcaption></figure><p></p>
+<p>Es importante destacar que la salida de los árboles de decisión estará estratificada, ya que dentro de cada región se generará siempre un valor constante (ver <a href="#fig-estratificacion">Figura 2</a>). </p>
 <h2 id="construccion">Construcción<a class="headerlink" href="#construccion" title="Permanent link">¶</a></h2>
 <p>Vamos a ver en este punto cómo construir el árbol a partir de un conjunto de datos. Consideramos que nuestro conjunto de datos <span class="arithmatex">\(\mathcal{D}\)</span> contiene <span class="arithmatex">\(N\)</span> ejemplos <span class="arithmatex">\((\mathbf{x}_i, y_i)\)</span> para <span class="arithmatex">\(i =&nbsp;\{1, 2, \ldots, N \}\)</span>, con <span class="arithmatex">\(\mathbf{x}_i = ( x_{i1}, x_{i2}, \ldots, x_{id} )\)</span>.</p>
 <p>Como hemos comentado, el árbol dividirá el espacio de características en <span class="arithmatex">\(J\)</span> regiones <span class="arithmatex">\(R_1, R_2, \ldots, R_J\)</span> no solapadas, de forma que cada dato <span class="arithmatex">\(\mathbf{x}_i\)</span> corresponderá a una de estas regiones.</p>
@@ -693,7 +695,9 @@
 <li>Particionamos el conjunto de datos en dos <strong>subconjuntos</strong>, en función del resultado de la condición anterior.</li>
 <li>Repetimos este proceso recursivamente para cada uno de los subconjuntos anteriores hasta cumplir un <strong>criterio de parada</strong> (por ejemplo hasta conseguir regiones suficientemente homogéneas).</li>
 </ol>
-<p>Una de las cuestiones más crítica es establecer un <strong>criterio de división</strong> de los datos para establecer cuáles son los mejores parámetros para particionar nuestros datos. Deberemos seleccionar tanto una característica <span class="arithmatex">\(j \in \{1, 2, \ldots, d\}\)</span> como un valor de corte <span class="arithmatex">\(t\)</span>. De esta forma, la condición dividiría el espacio en dos subregiones y separará los datos en dos subconjuntos: </p>
+<p></p><figure id="fig-construccion"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t3_proceso_construccion.png" data-desc-position="bottom"><img alt="" src="../images/t3_proceso_construccion.png"></a><figcaption>Figura 3: Proceso de construcción de un árbol de decisión paso a paso </figcaption></figure><p></p>
+<p>En la <a href="#fig-construccion">Figura 3</a> se ilustra el proceso de construcción paso a paso, en el que en cada iteración particionamos uno de los nodos en dos regiones.</p>
+<p>Una de las cuestiones más críticas es establecer un <strong>criterio de división</strong> de los datos para establecer cuáles son los mejores parámetros para particionar nuestros datos. Deberemos seleccionar tanto una característica <span class="arithmatex">\(j \in \{1, 2, \ldots, d\}\)</span> como un valor de corte <span class="arithmatex">\(t\)</span>. De esta forma, la condición dividiría el espacio en dos subregiones y separará los datos en dos subconjuntos: </p>
 <div class="arithmatex">\[
 \mathcal{D}_L = \{ \{\mathbf{x}_i, y_i \} : x_{ij} \leq t \}
 \\
@@ -709,6 +713,8 @@ H_{split}(j,t) = \frac{N_L}{N} H(\mathcal{D}_L) + \frac{N_R}{N} H(\mathcal{D}_R)
 <p>Vamos a continuación a ver de forma específica las principales funciones de impureza utilizadas en problemas de regresión y clasificación. </p>
 <h3 id="arboles-de-regresion">Árboles de regresión<a class="headerlink" href="#arboles-de-regresion" title="Permanent link">¶</a></h3>
 <p>En caso de árboles de regresión, dentro de cada región se devolverá como predicción <span class="arithmatex">\(\hat{y}_i\)</span> siempre el mismo valor constante, que se calculará habitualmente como la <strong>media de todas las observaciones</strong> <span class="arithmatex">\(\bar{y}_i\)</span> del conjunto de entrenamiento que pertenezcan a dicha región. </p>
+<p></p><figure id="fig-construccion-reg"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t3_estratificacion_progresivo.png" data-desc-position="bottom"><img alt="" src="../images/t3_estratificacion_progresivo.png"></a><figcaption>Figura 4: Construcción de un árbol de regresión </figcaption></figure><p></p>
+<p>En la <a href="#fig-arbol1d"></a> se muestra cómo se construye un árbol de regresión conforme aumenta la profundidad del árbol. En la parte inferior de la figura se muestra el particionamiento en regiones, mientras que en la parte superior se muestra en 3D la estratificación creada en cada caso, donde cada región tiene un valor constante correspondiente a la media de todas las observaciones de dicha región.</p>
 <p>Como función de impureza en árboles de regresión habitualmente se utiliza el <strong>error cuadrático medio (MSE)</strong>:</p>
 <div class="arithmatex">\[
 H_{MSE}(\mathcal{D}) = \frac{1}{N} \sum_{i=1}^N (y_i - \bar{y}_i)^2
@@ -746,10 +752,13 @@ H_{Gini} = 1 - \sum_{k=1}^K p_{mk}^2
 H_{Entropía} =  - \sum_{k=1}^K p_{mk} \log_2 (p_{mk})
 \]</div>
 <p>Se trata de una medida basada en teoría de la información, que mide la incertidumbre del conjunto. Nos dará máxima incertidumbre cuando las clases están equilibradas, y penaliza más que Gini. Se utiliza  en los algoritmos ID3 y C4.5.</p>
+<p></p><figure id="fig-impureza"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t3_funcion_impureza.png" data-desc-position="bottom"><img alt="" src="../images/t3_funcion_impureza.png"></a><figcaption>Figura 5: Forma de las diferentes funciones de impureza para clasificación </figcaption></figure><p></p>
+<p>En la <a href="#fig-impureza">Figura 5</a> podemos observar la forma de las diferentes funciones de impureza para el caso de clasificación binaria. Se muestra el valor de la función de impureza en función de la proporción de ejemplo de cada clase, pudiendo observar que es máxima en el centro (reparto equilibrado entre las dos clases) y mínima en los extremos (todas las observaciones de una misma clase).</p>
 <h2 id="poda-de-arboles">Poda de árboles<a class="headerlink" href="#poda-de-arboles" title="Permanent link">¶</a></h2>
 <p>Los árboles individuales tienen bajo sesgo pero alta varianza, ya que al construirse de forma voraz tienen una alta dependencia con los datos de entrada. Un pequeño cambio en los datos puede producir árboles muy diferentes. </p>
-<p>Cuando con el algoritmo descrito el árbol se hace crecer en exceso, tendremos tendencia al <em>overfitting</em>. Clasificará bien los datos de entrenamiento, pero dará malos resultados de <em>test</em>. Reduciendo el número de regiones podemos reducir la varianza y mejorar la capacidad de generalización y la interpretabilidad.</p>
-<p>Una posible forma de abordar esta tarea es evitar que el árbol crezca en exceso, esto es lo que se conoce como <strong>poda previa</strong>.</p>
+<p>Cuando con el algoritmo descrito el árbol se hace crecer en exceso, tendremos tendencia al <em>overfitting</em>. Clasificará bien los datos de entrenamiento, pero dará malos resultados de <em>test</em>. Para ilustrar este efecto, en la <a href="#fig-arbol1d"></a> se muestra la aproximación de una función de una sola variable (1D) mediante un árbol de regresión. Podemos observar la forma escalonada (estratificada) de la función, y como conforme aumenta la profundidad del árbol estos estratos se ajustan de forma más precisa a los datos. Sin embargo, cuando se aumenta demasiado la profundida del árbol, como se observa a la derecha de la figura, la aproximación se ajusta demasiado a los datos, teniendo estratos creados para una única observación (alta varianza).</p>
+<p></p><figure id="fig-overfitting"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t3_estratificacion_1d.png" data-desc-position="bottom"><img alt="" src="../images/t3_estratificacion_1d.png"></a><figcaption>Figura 6: Efecto del <em>overfitting</em> al construir un árbol de decisión </figcaption></figure><p></p>
+<p>Reduciendo el número de regiones podemos reducir la varianza y mejorar la capacidad de generalización y la interpretabilidad. Una posible forma de abordar esta tarea es evitar que el árbol crezca en exceso, esto es lo que se conoce como <strong>poda previa</strong>.</p>
 <h3 id="poda-previa">Poda previa<a class="headerlink" href="#poda-previa" title="Permanent link">¶</a></h3>
 <p>La poda previa consiste en detener el crecimiento del árbol antes de que alcance su tamaño máximo imponiendo criterior de parada. Algunos de estos criterios pueden ser:</p>
 <ul>
@@ -764,7 +773,7 @@ H_{Entropía} =  - \sum_{k=1}^K p_{mk} \log_2 (p_{mk})
 <p>El proceso de poda se hará siempre desde abajo hacia arriba, es decir, desde las hojas hacia la raíz. Para cada <strong>nodo interno</strong>, tendremos la opción de mantener el subárbol que depende de él, o bien podarlo y convertir dicho nodo en un nodo hoja.</p>
 <p>Tras aplicar la poda, buscaremos quedarnos con aquel subárbol <span class="arithmatex">\(T \subset T_0\)</span> que haga que no empeore, o incluso consiga que mejore, su error de generalización respecto a <span class="arithmatex">\(T_0\)</span>. Este error de generalización será el error obtenido con datos no vistos durante la construcción del árbol.</p>
 <p>Dado un subarbol, podemos estimar su error de generalización mediante un <strong>conjunto de validación separado</strong> o mediante <strong>validación cruzada</strong>. Sin embargo, dado que normalmente existirá un número muy elevado de posibles subárboles, no será posible computacionalmente evaluar el error de todos ellos. </p>
-<p>Necesitaremos tener un criterio que nos permita seleccionar un pequeño conjunto de subárboles para tener en consideración. Una forma de hacer esto es mediante la <strong>poda basada en complejidad de coste</strong> (Breiman et al., 1984)<sup id="fnref:breiman1984classification"><a class="footnote-ref" href="#fn:breiman1984classification">1</a></sup>.</p>
+<p>Necesitaremos tener un criterio que nos permita seleccionar un pequeño conjunto de subárboles para tener en consideración. Una forma de hacer esto es mediante la <strong>poda basada en complejidad de coste</strong> (Breiman et al., 1984)<sup id="fnref2:breiman1984classification"><a class="footnote-ref" href="#fn:breiman1984classification">1</a></sup>.</p>
 <h3 id="poda-basada-en-complejidad-de-coste">Poda basada en complejidad de coste<a class="headerlink" href="#poda-basada-en-complejidad-de-coste" title="Permanent link">¶</a></h3>
 <p>La idea es generar una secuencia de subárboles candidatos con la siguiente forma:</p>
 <div class="arithmatex">\[
@@ -796,7 +805,7 @@ R_\alpha (T_t) = R(T_t) + \alpha |\tilde{T}_t|
 <h2 id="algoritmos">Algoritmos<a class="headerlink" href="#algoritmos" title="Permanent link">¶</a></h2>
 <p>Vamos a ver a continuación los principales algoritmos para la construcción de árboles de decisión: CART, ID3 y C4.5.</p>
 <h3 id="cart">CART<a class="headerlink" href="#cart" title="Permanent link">¶</a></h3>
-<p>CART es un algoritmo para construir <strong>árboles de decisión binarios</strong>, aplicable tanto a clasificación como a regresión. Fue propuesto por Breiman et al. (1984) (Breiman et al., 1984)<sup id="fnref2:breiman1984classification"><a class="footnote-ref" href="#fn:breiman1984classification">1</a></sup> y es la base de métodos como Random Forests.</p>
+<p>CART es un algoritmo para construir <strong>árboles de decisión binarios</strong>, aplicable tanto a clasificación como a regresión. Fue propuesto por Breiman et al. (1984) (Breiman et al., 1984)<sup id="fnref3:breiman1984classification"><a class="footnote-ref" href="#fn:breiman1984classification">1</a></sup> y es la base de métodos como Random Forests.</p>
 <p>Es el algoritmo que encontramos implementado en las clases <a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html#sklearn.tree.DecisionTreeClassifier">DecisionTreeClassifier</a> y <a href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html#sklearn.tree.DecisionTreeRegressor">DecisionTreeRegressor</a> en <em>sklearn</em>.</p>
 <h4 id="criterio-de-division">Criterio de división<a class="headerlink" href="#criterio-de-division" title="Permanent link">¶</a></h4>
 <p>CART construye el árbol mediante un proceso recursivo y voraz, donde en cada nodo se selecciona la mejor división posible según los siguientes criterios de impureza:</p>
@@ -830,17 +839,19 @@ R_\alpha (T_t) = R(T_t) + \alpha |\tilde{T}_t|
 <h4 id="poda-del-arbol">Poda del árbol<a class="headerlink" href="#poda-del-arbol" title="Permanent link">¶</a></h4>
 <p>El algoritmo CART utiliza <strong>poda posterior basada en complejidad de coste</strong>. Tal como se ha comentado anteriormente, generará con este criterio una secuencia de subárboles y seleccionará el mejor aplicando validación cruzada.</p>
 <h3 id="id3">ID3<a class="headerlink" href="#id3" title="Permanent link">¶</a></h3>
-<p>ID3 (Quinlan, 1986)<sup id="fnref:quinlan1986induction"><a class="footnote-ref" href="#fn:quinlan1986induction">2</a></sup> es un algoritmo histórico para la construcción de árboles de decisión destinado únicamente a la construcción de árboles de clasificación.</p>
+<p>ID3 (Quinlan, 1986)<sup id="fnref:quinlan1986induction"><a class="footnote-ref" href="#fn:quinlan1986induction">3</a></sup> es un algoritmo histórico para la construcción de árboles de decisión destinado únicamente a la construcción de árboles de clasificación.</p>
 <h4 id="estructura-del-arbol">Estructura del árbol<a class="headerlink" href="#estructura-del-arbol" title="Permanent link">¶</a></h4>
 <p>Este algoritmo fue diseñado para la clasificación con atributos de entrada categóricos. Es decir, cada atributo de entrada puede tomar un conjunto finito de valores. Por ejemplo, podríamos tener como entrada los siguientes atributos:</p>
 <div class="arithmatex">\[
 \begin{align*}
-\text{Viento} &amp;\rightarrow \{ \text{Débil}, \text{Medio}, \text{Fuerte} \} \\
-\text{Clima} &amp;\rightarrow \{ \text{Soleado}, \text{Nublado}, \text{Lluvia} \}
+\text{Viento} &amp;\rightarrow \{ \text{Débil}, \text{Fuerte} \} \\
+\text{Temperatura} &amp;\rightarrow \{ \text{Calor}, \text{Templado}, \text{Frio} \}
 \end{align*}
 \]</div>
 <p>En caso de contar con atributos numéricos, deberíamos discretizarlos previamente en una serie de categorías. </p>
-<p>Este algoritmo construye árboles no binarios (multirama), ya que genera una subrama para cada cada posible valor del atributo seleccionado para la división. Por ejemplo, si en un nodo se selecciona el atributo <span class="arithmatex">\(\text{Viento}\)</span> como criterio de división, se crearán <span class="arithmatex">\(3\)</span> subramas: <span class="arithmatex">\(\text{Débil}\)</span>, <span class="arithmatex">\(\text{Medio}\)</span> y <span class="arithmatex">\(\text{Fuerte}\)</span>.</p>
+<p>Este algoritmo construye árboles no binarios (multirama), ya que genera una subrama para cada cada posible valor del atributo seleccionado para la división. Por ejemplo, si en un nodo se selecciona el atributo <span class="arithmatex">\(\text{Temperatura}\)</span> como criterio de división, se crearán <span class="arithmatex">\(3\)</span> subramas: <span class="arithmatex">\(\text{Calor}\)</span>, <span class="arithmatex">\(\text{Templado}\)</span> y <span class="arithmatex">\(\text{Frio}\)</span>.</p>
+<p></p><figure id="fig-impureza"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t3_cart_vs_id3.png" data-desc-position="bottom"><img alt="" src="../images/t3_cart_vs_id3.png"></a><figcaption>Figura 7: Comparación de árboles binarios (CART) con árboles multirama (ID3) </figcaption></figure><p></p>
+<p>En la <a href="#fig-impureza">Figura 5</a> ilustramos la diferencia entre los árboles binarios, que utiliza CART, y los árboles multirama de ID3. En este último caso en lugar de atributos numéricos tenemos atributos categóricos, y al seleccionar un atributo se crean tantas subramas como posibles valores tenga dicha atributo.</p>
 <h4 id="criterio-de-seleccion">Criterio de selección<a class="headerlink" href="#criterio-de-seleccion" title="Permanent link">¶</a></h4>
 <p>En este caso se utiliza la <strong>entropía</strong> como medida de impureza. Para un conjunto de datos <span class="arithmatex">\(\mathcal{D}\)</span> tenemos:</p>
 <div class="arithmatex">\[
@@ -865,7 +876,7 @@ GI(\mathcal{D},j) = H(\mathcal{D}) - \sum_{v \in \text{Valores}(x_j)} \frac{|\ma
 <li>Repite el proceso recursivamente en cada subrama.</li>
 </ol>
 <h3 id="c45">C4.5<a class="headerlink" href="#c45" title="Permanent link">¶</a></h3>
-<p>El algoritmo C4.5 (Quinlan, 1993)<sup id="fnref:quinlan1993c45"><a class="footnote-ref" href="#fn:quinlan1993c45">3</a></sup> se presenta como una evolución de ID3, también destinado únicamente a árboles de clasificación. Las principales mejoras introducidas sobre su predecesor son:</p>
+<p>El algoritmo C4.5 (Quinlan, 1993)<sup id="fnref:quinlan1993c45"><a class="footnote-ref" href="#fn:quinlan1993c45">4</a></sup> se presenta como una evolución de ID3, también destinado únicamente a árboles de clasificación. Las principales mejoras introducidas sobre su predecesor son:</p>
 <ul>
 <li>Introduce la medida <em>Gain Ratio</em> para evitar el sesgo de ID3 hacia atributos con muchos valores. </li>
 <li>Permite el uso de atributos continuos.</li>
@@ -883,7 +894,8 @@ GI(\mathcal{D},j) = H(\mathcal{D}) - \sum_{v \in \text{Valores}(x_j)} \frac{|\ma
 <div class="arithmatex">\[
 \text{GainRatio}(\mathcal{D}, x_j) = \frac{GI(\mathcal{D}, j)}{\text{SplitInfo}(\mathcal{D}, x_j)}
 \]</div>
-<p>De esta forma, el factor <em>Split Info</em> se utiliza para penalizar subdivisiones excesivas y la falta de generalización. </p>
+<p>De esta forma, el factor <em>Split Info</em> se utiliza para penalizar subdivisiones excesivas y la falta de generalización. En la <a href="#fig-gain-ratio">Figura 8</a> se ilustra cómo <em>Gain Ratio</em> penaliza la subdivisión excesiva frente a <em>Information Gain</em>.</p>
+<p></p><figure id="fig-gain-ratio"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t3_id3_vs_c45.png" data-desc-position="bottom"><img alt="" src="../images/t3_id3_vs_c45.png"></a><figcaption>Figura 8: Comparación entre Information Gain (ID3) y Gain Ratio (C4.5) </figcaption></figure><p></p>
 <h4 id="atributos-continuos">Atributos continuos<a class="headerlink" href="#atributos-continuos" title="Permanent link">¶</a></h4>
 <p>Aunque internamente el algoritmo sigue manejando atributos categóricos, permite introducir como entrada atributos continuas. En estos casos, el algoritmo discretizará de forma automática estos atributos. </p>
 <p>Para ello, dado un atributo numérico <span class="arithmatex">\(x_j\)</span>, realiza lo siguiente:</p>
@@ -916,13 +928,16 @@ GI(\mathcal{D},j) = H(\mathcal{D}) - \sum_{v \in \text{Valores}(x_j)} \frac{|\ma
 <hr>
 <ol>
 <li id="fn:breiman1984classification">
-<p>Breiman, L., Friedman, J., Stone, C. J., &amp; Olshen, R. A. (1984). <em>Classification and regression trees</em>. CRC Press.&nbsp;<a class="footnote-backref" href="#fnref:breiman1984classification" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref2:breiman1984classification" title="Jump back to footnote 1 in the text">↩</a></p>
+<p>Breiman, L., Friedman, J., Stone, C. J., &amp; Olshen, R. A. (1984). <em>Classification and regression trees</em>. CRC Press.&nbsp;<a class="footnote-backref" href="#fnref:breiman1984classification" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref2:breiman1984classification" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref3:breiman1984classification" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+<li id="fn:james2023introduction">
+<p>James, G., Witten, D., Hastie, T., Tibshirani, R., &amp; Taylor, J. E. (2023). <em>An introduction to statistical learning: With applications in python</em>. Springer. <a href="https://doi.org/10.1007/978-3-031-38747-0">https://doi.org/10.1007/978-3-031-38747-0</a>&nbsp;<a class="footnote-backref" href="#fnref:james2023introduction" title="Jump back to footnote 2 in the text">↩</a></p>
 </li>
 <li id="fn:quinlan1986induction">
-<p>Quinlan, J. R. (1986). Induction of decision trees. <em>Machine Learning</em>, <em>1</em>(1), 81--106. <a href="https://doi.org/10.1007/BF00116251">https://doi.org/10.1007/BF00116251</a>&nbsp;<a class="footnote-backref" href="#fnref:quinlan1986induction" title="Jump back to footnote 2 in the text">↩</a></p>
+<p>Quinlan, J. R. (1986). Induction of decision trees. <em>Machine Learning</em>, <em>1</em>(1), 81--106. <a href="https://doi.org/10.1007/BF00116251">https://doi.org/10.1007/BF00116251</a>&nbsp;<a class="footnote-backref" href="#fnref:quinlan1986induction" title="Jump back to footnote 3 in the text">↩</a></p>
 </li>
 <li id="fn:quinlan1993c45">
-<p>Quinlan, J. R. (1993). <em>C4.5: Programs for machine learning</em>. Morgan Kaufmann.&nbsp;<a class="footnote-backref" href="#fnref:quinlan1993c45" title="Jump back to footnote 3 in the text">↩</a></p>
+<p>Quinlan, J. R. (1993). <em>C4.5: Programs for machine learning</em>. Morgan Kaufmann.&nbsp;<a class="footnote-backref" href="#fnref:quinlan1993c45" title="Jump back to footnote 4 in the text">↩</a></p>
 </li>
 </ol>
 </div>
