@@ -12,13 +12,17 @@
         <link rel="canonical" href="https://malozano.github.io/aprendizaje-avanzado/04-random-forest/">
       
       
+        <link rel="prev" href="../03-arboles-decision/">
+      
+      
+        <link rel="next" href="../practicas/00-datos-y-visualizacion/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.1">
     
     
       
-        <title>Métodos de ensemble - Aprendizaje Avanzado</title>
+        <title>4. Métodos de ensemble. Random Forest - Aprendizaje Avanzado</title>
       
     
     
@@ -114,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Métodos de ensemble
+              4. Métodos de ensemble. Random Forest
             
           </span>
         </div>
@@ -236,20 +240,22 @@
 
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
       
       
         
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
-      
-      
+          
         
           
         
@@ -264,7 +270,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
           Bloque I. Aprendizaje supervisado
@@ -278,7 +284,7 @@
   
     <li class="md-nav__item">
       <a href="../01-modelos-no-param/" class="md-nav__link">
-        1. Modelos paramétricos y no paramétricos
+        1. Modelos paramétricos y no paramétricos. Logistic Regression
       </a>
     </li>
   
@@ -308,6 +314,280 @@
       <a href="../03-arboles-decision/" class="md-nav__link">
         3. Árboles de decisión
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          4. Métodos de ensemble. Random Forest
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        4. Métodos de ensemble. Random Forest
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#voting" class="md-nav__link">
+    Voting
+  </a>
+  
+    <nav class="md-nav" aria-label="Voting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hard-voting" class="md-nav__link">
+    Hard Voting
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#soft-voting" class="md-nav__link">
+    Soft Voting
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#soft-voting-ponderado" class="md-nav__link">
+    Soft Voting ponderado
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#promediado" class="md-nav__link">
+    Promediado
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementacion" class="md-nav__link">
+    Implementación
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consideraciones-finales-sobre-voting" class="md-nav__link">
+    Consideraciones finales sobre Voting
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stacking" class="md-nav__link">
+    Stacking
+  </a>
+  
+    <nav class="md-nav" aria-label="Stacking">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#algoritmo-de-entrenamiento" class="md-nav__link">
+    Algoritmo de entrenamiento
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementacion_1" class="md-nav__link">
+    Implementación
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variantes-de-stacking" class="md-nav__link">
+    Variantes de Stacking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consideraciones-finales-sobre-stacking" class="md-nav__link">
+    Consideraciones finales sobre Stacking
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bagging-bootstrap-aggregating" class="md-nav__link">
+    Bagging (Bootstrap Aggregating)
+  </a>
+  
+    <nav class="md-nav" aria-label="Bagging (Bootstrap Aggregating)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bootstrap-sampling" class="md-nav__link">
+    Bootstrap Sampling
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algoritmo-de-bagging" class="md-nav__link">
+    Algoritmo de Bagging
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#out-of-bag-oob-error" class="md-nav__link">
+    Out-of-Bag (OOB) Error
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analisis-del-metodo" class="md-nav__link">
+    Análisis del método
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementacion-de-bagging-generico" class="md-nav__link">
+    Implementación de Bagging Genérico
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consideraciones-finales-sobre-bagging" class="md-nav__link">
+    Consideraciones finales sobre Bagging
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#random-forest" class="md-nav__link">
+    Random Forest
+  </a>
+  
+    <nav class="md-nav" aria-label="Random Forest">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#algoritmo-de-random-forest" class="md-nav__link">
+    Algoritmo de Random Forest
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hiperparametros" class="md-nav__link">
+    Hiperparámetros
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-importance" class="md-nav__link">
+    Feature Importance
+  </a>
+  
+    <nav class="md-nav" aria-label="Feature Importance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gini-importance" class="md-nav__link">
+    Gini Importance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permutation-importance" class="md-nav__link">
+    Permutation Importance
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#out-of-bag-oob-error-en-random-forest" class="md-nav__link">
+    Out-of-Bag (OOB) Error en Random Forest
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extra-trees-extremely-randomized-trees" class="md-nav__link">
+    Extra Trees (Extremely Randomized Trees)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consideraciones-finales" class="md-nav__link">
+    Consideraciones finales
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -770,7 +1050,7 @@ $$</p>
 </li>
 </ul>
 <p>Podemos calcular la importancia de cada <em>feature</em> de dos formas diferentes.</p>
-<h4 id="gini-importance-basada-en-impureza">Gini Importance (basada en impureza)<a class="headerlink" href="#gini-importance-basada-en-impureza" title="Permanent link">¶</a></h4>
+<h4 id="gini-importance">Gini Importance<a class="headerlink" href="#gini-importance" title="Permanent link">¶</a></h4>
 <p>Esta primera forma de medir la importancia, también conocida como <em>Mean Decrease in Impurity</em> (MDI) está basada en la mejora promedio de la impureza cuando se usa esa feature:</p>
 <div class="arithmatex">\[\text{Importance}(x_j) = \frac{1}{B} \sum_{b=1}^{B} \sum_{t \in T_b} \Delta I_t \cdot \mathbb{1}(v_t = j)\]</div>
 <p>Donde <span class="arithmatex">\(\Delta I_t\)</span> es la reducción en impureza en el nodo <span class="arithmatex">\(t\)</span> y <span class="arithmatex">\(v_t\)</span> es la <em>feature</em> usada en el <em>split</em> del nodo <span class="arithmatex">\(t\)</span>. Esta medida suma toda la reducción de impureza de los nodos en los que se utiliza <span class="arithmatex">\(j\)</span> como <em>feature</em> para dividir, y promedia sobre todos los árboles <span class="arithmatex">\(B\)</span>. </p>
@@ -820,7 +1100,7 @@ $$</p>
 <a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Test Score: </span><span class="si">{</span><span class="n">rf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div>
 <p>El <em>OOB score</em> es típicamente una buena aproximación del error de generalización.</p>
-<h2 id="extra-trees-extremely-randomized-trees">Extra Trees (Extremely Randomized Trees)<a class="headerlink" href="#extra-trees-extremely-randomized-trees" title="Permanent link">¶</a></h2>
+<h3 id="extra-trees-extremely-randomized-trees">Extra Trees (Extremely Randomized Trees)<a class="headerlink" href="#extra-trees-extremely-randomized-trees" title="Permanent link">¶</a></h3>
 <p>Los <em>Extra Trees</em> son una variante de <em>Random Forest</em> en la que se introduce aún más aleatoriedad. Si bien en <em>Random Forest</em> en cada nodo de los árboles se elige el mejor <em>split</em> entre las <em>features</em> seleccionadas, en <em>Extra Trees</em> se elige un <em>split</em> de forma aleatoria para cada <em>feature</em>, y nos quedamos con aquella que proporciona una mayor ganancia.   </p>
 <p>En la siguiente tabla se resumen las principales diferencias estre estos modelos:</p>
 <table>
@@ -872,7 +1152,7 @@ $$</p>
 <a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="n">et</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </code></pre></div>
 <p>Será conveniente utilizar <em>Extra Trees</em> cuando busquemos reducir aún más la varianza, aunque sea con un ligero aumento del sesgo, y cuando necesitemos una mayor velocidad de entrenamiento. </p>
-<h2 id="consideraciones-finales">Consideraciones finales<a class="headerlink" href="#consideraciones-finales" title="Permanent link">¶</a></h2>
+<h3 id="consideraciones-finales">Consideraciones finales<a class="headerlink" href="#consideraciones-finales" title="Permanent link">¶</a></h3>
 <p>Random Forest es <strong>uno de los mejores algoritmos <em>out-of-the-box</em></strong>. Es decir, es capaz de funcionar correctamente sin necesidad de configuración o ajustes adicionales, funcionando bien con los hiperparámetros por defecto.</p>
 <p>Es un método <strong>robusto</strong>, que puede manejar bien datos con ruido, <em>outliers</em> y <em>features</em> irrelevantes. Puede manejar además valores faltantes (<em>missing values</em>). Mediante la evaluación OOB podemos validar el modelo sin requerir un conjunto de validación por separado. Una limitación que encontramos es que el modelo no extrapola, es decir, no puede predecir fuera del rango de entrenamiento.</p>
 <p>Es también <strong>versátil</strong>, dando buenos resultados tanto en problemas de clasificación como de regresión. Permite también tener <em>features</em> mixtas, numéricas y categóricas, y permite capturar relaciones complejas (no lineales) de los datos de entrada. También es invariante a la escala de las <em>features</em>, por lo que no necesita normalización. Sin embargo, con <em>datasets</em> pequeños puede haber algo de <em>overfitting</em>, y puede tener un peor rendimiento cuando tenemos <em>features</em> muy correlacionadas.</p>
