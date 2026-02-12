@@ -18,7 +18,7 @@
     
     
       
-        <title>AdaBoost - Aprendizaje Avanzado</title>
+        <title>Boosting - Aprendizaje Avanzado</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#adaboost" class="md-skip">
+        <a href="#boosting" class="md-skip">
           Saltar a contenido
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              AdaBoost
+              Boosting
             
           </span>
         </div>
@@ -358,6 +358,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -386,6 +388,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/01-aprendizaje-supervisado/" class="md-nav__link">
+        1. Aprendizaje supervisado
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -407,240 +423,285 @@
                   
 
 
-<h1 id="adaboost">AdaBoost<a class="headerlink" href="#adaboost" title="Permanent link">¶</a></h1>
-<h2 id="4-boosting">4. Boosting<a class="headerlink" href="#4-boosting" title="Permanent link">¶</a></h2>
-<p>Boosting entrena modelos secuencialmente, donde cada nuevo modelo se enfoca en corregir los errores cometidos por el ensemble actual.</p>
-<p><strong>Diferencias clave con los métodos anteriores:</strong>
-- Voting/Stacking/Bagging: Modelos <strong>independientes</strong> (paralelos)
-- Boosting: Modelos <strong>dependientes</strong> (secuenciales)</p>
-<p><strong>Características principales:</strong>
-- Reduce principalmente el <strong>sesgo</strong> (y también algo la varianza)
-- Los modelos se entrenan <strong>secuencialmente</strong>
-- Cada modelo se enfoca en los ejemplos mal clasificados o en los residuos
-- Los modelos se combinan mediante suma ponderada
-- Usa típicamente <strong>clasificadores débiles</strong></p>
-<h3 id="clasificadores-debiles-vs-clasificadores-fuertes">Clasificadores Débiles vs Clasificadores Fuertes<a class="headerlink" href="#clasificadores-debiles-vs-clasificadores-fuertes" title="Permanent link">¶</a></h3>
-<p><strong>Contexto: Un concepto específico de Boosting</strong></p>
-<p>El marco teórico de clasificadores débiles y fuertes es <strong>específico del paradigma de boosting</strong>. No se aplica de la misma manera a bagging, voting o stacking. Este concepto surge de la teoría de aprendizaje computacional (computational learning theory) y es fundamental para entender cómo y por qué funciona boosting.</p>
-<h4 id="definiciones">Definiciones<a class="headerlink" href="#definiciones" title="Permanent link">¶</a></h4>
-<p><strong>Clasificador débil (weak learner):</strong>
-Un clasificador que es solo ligeramente mejor que el azar. Formalmente, para clasificación binaria, un clasificador débil es aquel cuya tasa de error es:</p>
-<div class="arithmatex">\[\epsilon &lt; \frac{1}{2}\]</div>
-<p>Es decir, su accuracy debe ser mayor que 50% (mejor que lanzar una moneda). No necesita ser muy preciso, solo consistentemente mejor que adivinar al azar.</p>
-<p><strong>Clasificador fuerte (strong learner):</strong>
-Un clasificador con alta precisión, capaz de aproximarse arbitrariamente bien a la función objetivo. Su tasa de error puede ser tan pequeña como se desee con suficientes datos y capacidad del modelo.</p>
-<h4 id="ejemplos-practicos">Ejemplos Prácticos<a class="headerlink" href="#ejemplos-practicos" title="Permanent link">¶</a></h4>
-<p><strong>Clasificadores débiles típicos:</strong>
-- <strong>Decision stumps</strong>: Árboles de decisión con una única división (profundidad = 1)
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>  if x₁ &gt; 5:
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>      return +1
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  else:
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>      return -1
-</code></pre></div>
-- <strong>Árboles poco profundos</strong>: Árboles con profundidad máxima 2-3
-- <strong>Reglas simples</strong>: "Si feature &gt; threshold → clase positiva"
-- <strong>Clasificadores lineales</strong> en problemas no lineales<p></p>
-<p><strong>Clasificadores fuertes:</strong>
-- Redes neuronales profundas
-- Árboles de decisión muy profundos
-- SVMs con kernels complejos
-- Random Forests
-- Gradient Boosting Machines</p>
-<h4 id="el-teorema-fundamental-del-boosting">El Teorema Fundamental del Boosting<a class="headerlink" href="#el-teorema-fundamental-del-boosting" title="Permanent link">¶</a></h4>
-<p>Uno de los resultados más importantes en teoría de aprendizaje automático es que <strong>un conjunto de clasificadores débiles puede combinarse para formar un clasificador fuerte</strong>.</p>
-<p><strong>Teorema (Schapire, 1990):</strong>
-Si existe un clasificador débil que puede lograr error menor que 1/2 - γ (donde γ &gt; 0), entonces existe un algoritmo de boosting que puede combinarlo para lograr un error arbitrariamente pequeño en el conjunto de entrenamiento.</p>
-<p>Este teorema es revolucionario porque:
-1. Demuestra que la "debilidad" es suficiente para el aprendizaje
-2. Proporciona una garantía matemática sobre boosting
-3. Es constructivo: muestra cómo construir el clasificador fuerte</p>
-<h4 id="por-que-usar-clasificadores-debiles">¿Por qué usar clasificadores débiles?<a class="headerlink" href="#por-que-usar-clasificadores-debiles" title="Permanent link">¶</a></h4>
-<p>Aunque pueda parecer contraintuitivo usar modelos "débiles", hay razones importantes:</p>
-<ol>
-<li><strong>Prevención de overfitting:</strong> </li>
-<li>Modelos débiles tienen baja varianza</li>
-<li>Menos propensos a memorizar ruido</li>
+<h1 id="boosting">Boosting<a class="headerlink" href="#boosting" title="Permanent link">¶</a></h1>
+<p><em>Boosting</em> es un meta-algoritmo de aprendizaje automático, que busca <strong>reducir principalemente el sesgo</strong>, aunque también algo la varianza. </p>
+<p>A diferencia de los métodos de <em>ensemble</em> estudiados hasta el momento (<em>Voting</em>, <em>Stacking</em>, <em>Bagging</em>), en los que contábamos con modelos independientes que se entrenaban en paralelo, <em>Boosting</em> entrena los modelos secuencialmente, de forma que cada nuevo modelo se centra en corregir los errores cometidos por el <em>ensemble</em> actual.</p>
+<h2 id="combinacion-de-clasificadores">Combinación de clasificadores<a class="headerlink" href="#combinacion-de-clasificadores" title="Permanent link">¶</a></h2>
+<p>La idea que buscamos con <em>Boosting</em> es combinar una serie de <strong>clasificadores débiles</strong> para construir un <strong>clasificador fuerte</strong>. Los definimos de la siguiente forma:</p>
+<ul>
 <li>
-<p>La combinación reduce overfitting</p>
+<p><strong>Clasificador débil (weak learner):</strong> Se trata de clasificadores simples que funcionan mejor que la clasificación aleatoria. Es decir, su <em>accuracy</em> debe ser mayor que 50% (mejor que lanzar una moneda). Formalmente, para clasificación binaria, un clasificador débil debe cumplir que su tasa de error sea
+<span class="arithmatex">\(\epsilon &lt; \frac{1}{2}\)</span>.</p>
+</li>
+<li>
+<p><strong>Clasificador fuerte (strong learner):</strong> Se trata de un clasificador con alta precisión, capaz de aproximarse arbitrariamente bien a la función objetivo. Su tasa de error puede ser tan pequeña como se desee con suficientes datos y suficiente capacidad del modelo.</p>
+</li>
+</ul>
+<h3 id="clasificadores-debiles">Clasificadores débiles<a class="headerlink" href="#clasificadores-debiles" title="Permanent link">¶</a></h3>
+<p>Algunos de los ejemplos de clasificadores débiles típicos son los siguientes:</p>
+<ul>
+<li>
+<p><strong>Decision stumps</strong>: Árboles de decisión con una única división (profundidad <span class="arithmatex">\(1\)</span>). Equivale a una regla simple, como por ejemplo, "si <span class="arithmatex">\(x_1 &gt; 5\)</span> entonces clase positiva, si no, clase negativa".</p>
+</li>
+<li>
+<p><strong>Árboles poco profundos</strong>: Árboles con profundidad máxima <span class="arithmatex">\(2\)</span> o <span class="arithmatex">\(3\)</span>.</p>
+</li>
+<li>
+<p><strong>Clasificadores lineales</strong> en problemas no lineales.</p>
+</li>
+</ul>
+<h3 id="clasificadores-fuertes">Clasificadores fuertes<a class="headerlink" href="#clasificadores-fuertes" title="Permanent link">¶</a></h3>
+<p>A continuación mostramos algunos ejemplos de clasificadores fuertes típicos:</p>
+<ul>
+<li>Redes neuronales profundas</li>
+<li>Árboles de decisión muy profundos</li>
+<li>SVMs con <em>kernels</em> complejos</li>
+<li>Random Forests</li>
+<li>Gradient Boosting</li>
+</ul>
+<h2 id="teorema-fundamental-del-boosting">Teorema Fundamental del Boosting<a class="headerlink" href="#teorema-fundamental-del-boosting" title="Permanent link">¶</a></h2>
+<p>En 1988 y 1989 Kearns y Valiant (Kearns &amp; Valiant, 1988, 1989)<sup id="fnref:kearns1988cryptographic"><a class="footnote-ref" href="#fn:kearns1988cryptographic">1</a></sup> <sup id="fnref:kearns1989cryptographic"><a class="footnote-ref" href="#fn:kearns1989cryptographic">2</a></sup> plantearon la pregunta que constituye la fundación teórica del <em>Boosting</em>: <strong>"¿Puede un conjunto de clasificadores débiles crear un único clasificador fuerte?"</strong>. </p>
+<p>En 1990 Schapire (Schapire, 1990)<sup id="fnref:schapire1990strength"><a class="footnote-ref" href="#fn:schapire1990strength">3</a></sup> demuestra que esto es posible, lo cual supone uno de los resultados más importantes en teoría de aprendizaje automático. Lo que nos dice el teorema que plantea es que si existe un clasificador débil que puede lograr error menor que <span class="arithmatex">\(1/2 - \gamma\)</span> (donde <span class="arithmatex">\(\gamma &gt; 0\)</span>), entonces existe un algoritmo de <em>Boosting</em> que puede combinarlo para lograr un error arbitrariamente pequeño en el conjunto de entrenamiento.</p>
+<p>Este teorema es importante porque:</p>
+<ol>
+<li>Demuestra que la "debilidad" es suficiente para el aprendizaje.</li>
+<li>Proporciona una garantía matemática sobre los métodos de <em>Boosting</em>.</li>
+<li>Nos muestra cómo construir el clasificador fuerte.</li>
+</ol>
+<p>En este punto, nos podemos plantear la pregunta "¿Por qué usar clasificadores débiles?". Aunque pueda parecer contraintuitivo usar modelos "débiles", hay varios motivos para hacerlo:</p>
+<ol>
+<li><strong>Prevención del <em>overfitting</em>:</strong> </li>
+<li>Los modelos débiles tienen baja varianza</li>
+<li>Son menos propensos a aprender el ruido</li>
+<li>
+<p>La combinación de modelos reduce el <em>overfitting</em></p>
 </li>
 <li>
 <p><strong>Eficiencia computacional:</strong></p>
 </li>
-<li>Decision stumps son extremadamente rápidos</li>
+<li>Modelos sencillos como los <em>decision stumps</em> son extremadamente rápidos.</li>
 <li>
-<p>Podemos entrenar cientos o miles rápidamente</p>
+<p>Podemos entrenar cientos o miles de ellos de forma eficiente.</p>
 </li>
 <li>
 <p><strong>Interpretabilidad:</strong></p>
 </li>
-<li>Cada modelo débil es simple de entender</li>
+<li>Cada modelo débil es fácil de entender.</li>
 <li>
-<p>La combinación mantiene cierta trazabilidad</p>
+<p>La combinación de modelos mantiene cierta trazabilidad.</p>
 </li>
 <li>
 <p><strong>Teoría sólida:</strong></p>
 </li>
-<li>Garantías matemáticas de convergencia</li>
-<li>Bounds en el error de generalización</li>
+<li>Existen garantías matemáticas de convergencia.</li>
+<li>El error de generalización puede ser acotado.</li>
 </ol>
-<h4 id="visualizacion-conceptual">Visualización Conceptual<a class="headerlink" href="#visualizacion-conceptual" title="Permanent link">¶</a></h4>
-<p>Imaginemos un problema de clasificación binaria en 2D:
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Clasificador débil 1 (división vertical):  
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    |  +  -  |
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    |  +  -  |
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    |  -  +  |
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>Clasificador débil 2 (división horizontal):
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    --------
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    +  +  +
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    -  -  -
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    --------
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>Clasificador débil 3 (división diagonal):
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>      /  +  +
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>     /  +  -
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    /  -  -
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>Combinación (clasificador fuerte):
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>    Regiones complejas y precisas
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>    mediante la suma ponderada
-</code></pre></div><p></p>
-<p>Cada clasificador débil captura un patrón simple, pero su combinación puede representar fronteras de decisión arbitrariamente complejas.</p>
-<h4 id="analogia-con-la-vida-real">Analogía con la Vida Real<a class="headerlink" href="#analogia-con-la-vida-real" title="Permanent link">¶</a></h4>
-<p>Piensa en un panel de expertos versus un comité de conocedores:</p>
-<p><strong>Clasificador fuerte = Experto individual:</strong>
-- Una persona altamente capacitada
-- Puede cometer errores por sesgos personales
-- Costoso de formar/entrenar
-- Si se equivoca, el error es grande</p>
-<p><strong>Clasificadores débiles = Comité de personas:</strong>
-- Cada persona sabe algo útil pero limitado
-- Combinados, sus opiniones diversas capturan más información
-- Más económico formar muchas personas con conocimiento básico
-- Los errores individuales se compensan</p>
-<h4 id="requerimientos-para-clasificadores-debiles">Requerimientos para Clasificadores Débiles<a class="headerlink" href="#requerimientos-para-clasificadores-debiles" title="Permanent link">¶</a></h4>
-<p>Para que un clasificador débil sea útil en un ensemble debe cumplir:</p>
+<p>Para que un clasificador débil sea útil en un <em>ensemble</em> debe cumplir:</p>
 <ol>
-<li><strong>Mejor que el azar:</strong> <span class="arithmatex">\(P(\text{correcto}) &gt; 0.5\)</span></li>
-<li><strong>Diversidad:</strong> Cometer errores diferentes a otros clasificadores</li>
-<li><strong>Eficiencia:</strong> Ser rápido de entrenar</li>
-<li><strong>Estabilidad mínima:</strong> No ser extremadamente sensible a pequeños cambios</li>
+<li><strong>Mejor que el azar:</strong> Su error debe ser <span class="arithmatex">\(\epsilon &lt; 0.5\)</span>.</li>
+<li><strong>Diversidad:</strong> Debe cometer errores diferentes a los que cometen otros clasificadores.</li>
+<li><strong>Eficiencia:</strong> Debe ser rápido de entrenar.</li>
+<li><strong>Estabilidad:</strong> No debe ser extremadamente sensible a pequeños cambios en los datos.</li>
 </ol>
-<h4 id="clasificadores-debiles-en-la-practica">Clasificadores Débiles en la Práctica<a class="headerlink" href="#clasificadores-debiles-en-la-practica" title="Permanent link">¶</a></h4>
-<p><strong>AdaBoost típicamente usa:</strong>
-- Decision stumps (árboles de profundidad 1)
-- Accuracy individual: 55-70%
-- Combinación de 50-500 stumps → accuracy &gt; 95%</p>
-<p><strong>Gradient Boosting típicamente usa:</strong>
-- Árboles de profundidad 3-8
-- Cada árbol captura interacciones de bajo orden
-- Combinación de 100-1000 árboles</p>
-<h4 id="ejemplo-numerico">Ejemplo Numérico<a class="headerlink" href="#ejemplo-numerico" title="Permanent link">¶</a></h4>
-<p>Consideremos un problema donde queremos clasificar si un correo es spam:
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Clasificador débil 1: "Si contiene 'gratis' → spam"</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">accuracy_1</span> <span class="o">=</span> <span class="mf">0.60</span>  <span class="c1"># 60% correcto</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Clasificador débil 2: "Si tiene &gt;3 signos $ → spam"  </span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">accuracy_2</span> <span class="o">=</span> <span class="mf">0.58</span>  <span class="c1"># 58% correcto</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Clasificador débil 3: "Si todas mayúsculas → spam"</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">accuracy_3</span> <span class="o">=</span> <span class="mf">0.55</span>  <span class="c1"># 55% correcto</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Individualmente son débiles, pero...</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="c1"># Combinados con AdaBoost:</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="n">ensemble_accuracy</span> <span class="o">=</span> <span class="mf">0.94</span>  <span class="c1"># 94% correcto!</span>
-</code></pre></div><p></p>
-<p>Cada regla individual es imperfecta, pero la combinación inteligente de muchas reglas simples crea un clasificador robusto.</p>
-<h4 id="conexion-con-sesgo-varianza">Conexión con Sesgo-Varianza<a class="headerlink" href="#conexion-con-sesgo-varianza" title="Permanent link">¶</a></h4>
-<p>Los clasificadores débiles y fuertes se relacionan con el trade-off sesgo-varianza:</p>
-<p><strong>Clasificadores débiles:</strong>
-- Alto sesgo (no pueden capturar patrones complejos)
-- Baja varianza (estables ante cambios en datos)
-- Ejemplo: decision stump siempre divide igual</p>
-<p><strong>Clasificadores fuertes:</strong>
-- Bajo sesgo (pueden aprender patrones complejos)
-- Alta varianza (sensibles a datos de entrenamiento)
-- Ejemplo: árbol profundo memoriza detalles</p>
-<p><strong>Ensemble de clasificadores débiles (Boosting):</strong>
-- Reduce sesgo mediante combinación aditiva secuencial
-- Mantiene baja varianza de modelos individuales
-- <strong>Mejor de ambos mundos</strong></p>
-<hr>
-<h2 id="41-adaboost-adaptive-boosting">4.1. AdaBoost (Adaptive Boosting)<a class="headerlink" href="#41-adaboost-adaptive-boosting" title="Permanent link">¶</a></h2>
-<p>AdaBoost es el primer algoritmo de boosting exitoso y responde directamente a la pregunta: <strong>¿Podemos convertir clasificadores débiles en un clasificador fuerte?</strong></p>
-<p>Desarrollado por Freund y Schapire (1997), AdaBoost ganó el premio Gödel Prize por su importancia teórica y práctica.</p>
-<h3 id="idea-central">Idea Central<a class="headerlink" href="#idea-central" title="Permanent link">¶</a></h3>
-<p>AdaBoost funciona de forma adaptativa:
-1. Entrena un clasificador débil
-2. <strong>Aumenta el peso</strong> de los ejemplos mal clasificados
-3. Entrena el siguiente clasificador en datos <strong>ponderados</strong>
-4. Repite el proceso
-5. Combina todos los clasificadores con pesos según su accuracy</p>
-<p><strong>Metáfora:</strong> Es como un estudiante que identifica sus errores en un examen y se concentra más en estudiar esos temas para el siguiente examen.</p>
-<h3 id="algoritmo-detallado">Algoritmo Detallado<a class="headerlink" href="#algoritmo-detallado" title="Permanent link">¶</a></h3>
-<p><strong>Inicialización:</strong>
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Dataset: D = {(x₁,y₁), ..., (xₙ,yₙ)} donde yᵢ ∈ {-1, +1}
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Inicializar pesos uniformes: w₁(i) = 1/n para i = 1, ..., n
-</code></pre></div><p></p>
-<p><strong>Para t = 1 hasta T:</strong></p>
-<p><strong>Paso 1: Entrenar clasificador débil</strong>
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Entrenar clasificador hₜ en D con distribución de pesos wₜ
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>(Los ejemplos con mayor peso tienen más influencia)
-</code></pre></div><p></p>
+<p>Respecto a la relación con el problema <strong>sesgo-varianza</strong>, los clasificadores débiles tendrán un alto sesgo, pero baja varianza (deben ser estables ante cambios en los datos). Por el contrario, los clasificadores fuertes tendrán bajo sesgo, ya que pueden aprender patrones complejos, pero una alta varianza, ya que serán más sensibles a los datos de entrenamiento.</p>
+<p>Un <em>ensemble</em> de clasificadores débiles reducirá el sesgo, al combinar de forma secuencial los clasificadores, manteniendo la baja varianza de los modelos individuales, obteniendo así lo mejor de cada tipo de clasificador. </p>
+<h2 id="muestreo-y-votos-ponderados">Muestreo y votos ponderados<a class="headerlink" href="#muestreo-y-votos-ponderados" title="Permanent link">¶</a></h2>
+<p>Como hemos comentado, una de las principales diferencias de <em>Boosting</em> con los métodos de <em>ensemble</em> vistos anteriormente es que en lugar de entrenar los modelos en paralelo, <em>Boosting</em> realiza el entrenamiento secuencialmente, buscando que los nuevos clasificadores débiles corrijan los principales errores del <em>ensemble</em> actual. Para ello introduce ponderación a dos niveles: <strong>en el muestreo de ejemplos de entrenamiento</strong> y en <strong>la importancia de cada clasificador</strong>.</p>
+<p>Si recordamos las características de los métodos de <em>Bagging</em>, tenemos:</p>
+<ul>
+<li><em>Bagging</em> realiza un muestreo aleatorio de los ejemplos de entrada para entrenar cada clasificador, pero todos estos ejemplos de entrada reciben el mismo peso.</li>
+<li><em>Bagging</em> da la misma importancia a todos los clasificadores. El voto de cada clasificador vale lo mismo.</li>
+</ul>
+<p>A diferencia de esto, <em>Boosting</em> introduce:</p>
+<ul>
+<li>
+<p><strong>Muestreo ponderado</strong>: No se da el mismo peso a todos los ejemplos de entrenamiento. El entrenamiento se concentrará en los ejemplos más difíciles. Intuitivamente, podríamos considerar que aquellos ejemplos cercanos a la frontera de decisión son más difíciles de clasificar, y deberían por lo tanto recibir pesos más altos. Podemos establecer una relación entre esto y los vectores de soporte en SVM, ya que en ambos casos buscamos basarnos en los ejemplos más difíciles de clasificar para obtener el clasificador. </p>
+</li>
+<li>
+<p><strong>Votos ponderados</strong>: Se da diferente peso a los diferentes clasificadores, que al combinarlos se obtiene un "voto ponderado". Esto, junto a la estrategia de muestro anterior, ayudará a producir un clasificador más fuerte.</p>
+</li>
+</ul>
+<p>Considerando que contamos con un <em>dataset</em> <span class="arithmatex">\(\mathcal{D}\)</span> con <span class="arithmatex">\(N\)</span> ejemplos de entrenamiento <span class="arithmatex">\((\mathbf{x}_i, y_i)\)</span>, con <span class="arithmatex">\(i = 1, 2, \ldots, N\)</span>, y <span class="arithmatex">\(T\)</span> clasificadores débiles <span class="arithmatex">\(h_1, h_2, \ldots, h_T\)</span>, definimos:</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(w_i^{(t)}\)</span>: Peso del ejemplo de entrenamiento <span class="arithmatex">\((\mathbf{x}_i, y_i)\)</span> para entrenar el clasificador <span class="arithmatex">\(h_t\)</span>.</p>
+</li>
+<li>
+<p><span class="arithmatex">\(\alpha_t\)</span>: Peso del clasificador <span class="arithmatex">\(h_t\)</span> en la votación del <em>ensemble</em>.</p>
+</li>
+</ul>
+<h2 id="adaboost-adaptive-boosting">AdaBoost (<em>Adaptive Boosting</em>)<a class="headerlink" href="#adaboost-adaptive-boosting" title="Permanent link">¶</a></h2>
+<p>AdaBoost (Freund &amp; Schapire, 1997)<sup id="fnref:freund1997decision"><a class="footnote-ref" href="#fn:freund1997decision">4</a></sup> fue desarrollado por Freund y Schapire en 1997, y constituye el primer algoritmo de <em>Boosting</em> exitoso.</p>
+<p>La idea central de este algoritmo es:</p>
+<ol>
+<li>Entrenar un <strong>clasificador débil</strong>.</li>
+<li><strong>Aumentar el peso</strong> de los ejemplos mal clasificados.</li>
+<li>Entrenar el siguiente clasificador con los <strong>datos ponderados</strong>.</li>
+<li><strong>Repetir</strong> el proceso.</li>
+<li><strong>Combinar</strong> todos los clasificadores ajustando sus pesos según su <em>accuracy</em>.</li>
+</ol>
+<p>Considerando el caso de clasificación binaria, donde <span class="arithmatex">\(y_i \in \{ -1, 1\}\)</span>, el <strong>algoritmo AdaBoost</strong> a nivel general sería como se muestra a continuación:</p>
+<div class="arithmatex">\[
+\begin{align*}
+&amp; \text{Entrada: } \text{Conjunto de entrenamiento } \mathcal{D} \\
+&amp; w_i^1 \leftarrow 1 \quad \forall i \in 1, 2, \ldots, N \quad \text{(Inicializa todos los ejemplos con peso uniforme)} \\
+&amp; \text{Para  } t = 1, \ldots, T \\
+&amp; \quad h_t \leftarrow \text{Entrenar un clasificador débil con los pesos } \mathbf{w}^{(t)} \\
+&amp; \quad \alpha_t \leftarrow \text{Calcular el peso del clasificador} h_t \\
+&amp; \quad w_i^{(t+1)} \leftarrow w_i^{(t)} e^{-\alpha_t y_i h_t(x_i)} \quad \text{(Actualiza los pesos de los ejemplos para el siguiente clasificador)} \\
+&amp; \text{Devuelve: } H(\mathbf{x}) = \text{signo} \left( \sum_{t=1}^T \alpha_t h_t(\mathbf{x}) \right)
+\end{align*}
+\]</div>
+<p>Vamos a continuación a detallar los diferentes pasos de este algoritmo.</p>
+<h3 id="entrenar-un-clasificador-debil">Entrenar un clasificador débil<a class="headerlink" href="#entrenar-un-clasificador-debil" title="Permanent link">¶</a></h3>
+<p>Siguiendo el proceso del algoritmo anterior, podemos considerar que hasta la iteración <span class="arithmatex">\(t-1\)</span> tendremos un <strong>clasificador fuete</strong> <span class="arithmatex">\(H_{t-1}\)</span>, que se obtiene como:</p>
+<div class="arithmatex">\[
+H_{t-1}(\mathbf{x}) = \alpha_1 h_1(\mathbf{x}) + \alpha_2 h_2(\mathbf{x}) + \ldots + \alpha_{t-1} h_{t-1}(\mathbf{x})
+\]</div>
+<p>En la iteración <span class="arithmatex">\(t\)</span> buscaremos mejorarlo añadiendo un <strong>nuevo clasificador débil</strong> <span class="arithmatex">\(h_t\)</span>:</p>
+<div class="arithmatex">\[
+H_{t}(\mathbf{x}) = H_{t-1}(\mathbf{x}) + \alpha_t h_t(\mathbf{x}) 
+\]</div>
+<p>Buscaremos el clasificador que minimice el siguiente error:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\epsilon &amp; = \sum_{i=1}^N e^{-y_i H_t(\mathbf{x}_i)} = \sum_{i=1}^N e^{-y_i (H_{t-1}(\mathbf{x}_i) + \alpha_t h_t(\mathbf{x}_i))} = \\
+&amp; = \sum_{i=1}^N e^{-y_i H_{t-1}(\mathbf{x}_i) } e^{-y_i  \alpha_t h_t(\mathbf{x}_i)} = \sum_{i=1}^N w_i^{(t)} e^{-y_i  \alpha_t h_t(\mathbf{x}_i)}
+\end{align*}
+\]</div>
+<p>En el último paso del desarrollo anterior hemos de considerar la forma en la que se actualizan los pesos en cada iteración:</p>
+<div class="arithmatex">\[
+\begin{align*}
+w_i^{(t+1)} &amp;= w_i^{(t)} e^{-\alpha_t y_i h_t(\mathbf{x}_i)} = \prod_{j=1}^t e^{-\alpha_j y_i h_j(\mathbf{x}_i)} = \\
+&amp; = e^{-y_i \sum_{j=1}^t \alpha_j h_j(\mathbf{x}_i)} = e^{-y_i H_{t}(\mathbf{x}_i) }
+\end{align*}
+\]</div>
+<p>Por lo tanto, tenemos que el error que buscamos minimizar es:</p>
+<div class="arithmatex">\[
+\epsilon = \sum_{i=1}^N w_i^{(t)} e^{-y_i  \alpha_t h_t(\mathbf{x}_i)}
+\]</div>
+<p>Si en la función separamos los ejemplos que se clasifican correcta e incorrectamente, tendríamos:</p>
+<div class="arithmatex">\[
+\epsilon = \sum_{y_i = h_t(\mathbf{x}_i)} w_i^{(t)} e^{-\alpha_t } + \sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)} e^{\alpha_t }
+\]</div>
+<p>De forma equivalente, podría expresarse como:</p>
+<div class="arithmatex">\[
+\epsilon = \sum_{i=1}^N w_i^{(t)} e^{-\alpha_t } + \sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)} (e^{\alpha_t } - e^{-\alpha_t })
+\]</div>
+<p>En la ecuación anterior, vemos que sólo el segundo término depende de <span class="arithmatex">\(h_t\)</span>. Por lo tanto, el clasificador que minimizará el error será aquel que minimice <span class="arithmatex">\(\sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}\)</span>.</p>
+<h3 id="calcular-el-peso-del-clasificador">Calcular el peso del clasificador<a class="headerlink" href="#calcular-el-peso-del-clasificador" title="Permanent link">¶</a></h3>
+<p>Deberemos buscar el valor del peso de cada clasificador que <strong>minimice el error del <em>ensemble</em></strong>. Para hacer esto, en primer lugar derivaremos la función de error respecto al peso <span class="arithmatex">\(\alpha_t\)</span> de cada clasificador:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\frac{\partial \epsilon}{\partial \alpha_t} &amp;= \frac{\partial \left( \sum_{y_i = h_t(\mathbf{x}_i)} w_i^{(t)} e^{-\alpha_t } + \sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)} e^{\alpha_t } \right)}{\partial \alpha_t} = 
+\\
+&amp;= -\sum_{y_i = h_t(\mathbf{x}_i)} w_i^{(t)} e^{-\alpha_t } + \sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)} e^{\alpha_t }
+\end{align*}
+\]</div>
+<p>Teniendo en cuenta que la función de error es una función convexa, la igualaremos a <span class="arithmatex">\(0\)</span> para buscar el punto en la que es mínima:</p>
+<div class="arithmatex">\[
+-\sum_{y_i = h_t(\mathbf{x}_i)} w_i^{(t)} e^{-\alpha_t } + \sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)} e^{\alpha_t } = 0
+\]</div>
+<div class="arithmatex">\[
+\Downarrow
+\]</div>
+<div class="arithmatex">\[
+\sum_{y_i = h_t(\mathbf{x}_i)} w_i^{(t)} e^{-\alpha_t } = \sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)} e^{\alpha_t }
+\]</div>
+<div class="arithmatex">\[
+\Downarrow
+\]</div>
+<div class="arithmatex">\[
+\frac{\sum_{y_i = h_t(\mathbf{x}_i)} w_i^{(t)}}{\sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}} = \frac{e^{\alpha_t }}{e^{-\alpha_t }} = e^{2\alpha_t}
+\]</div>
+<p>Por lo tanto, tenemos:</p>
+<div class="arithmatex">\[
+\alpha_t = \frac{1}{2} \ln \frac{\sum_{y_i = h_t(\mathbf{x}_i)} w_i^{(t)}}{\sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}}
+\]</div>
+<p>Podemos definir el error del clasificador débil <span class="arithmatex">\(h_t\)</span> como <span class="arithmatex">\(\epsilon_t\)</span>, de la siguiente forma:</p>
+<div class="arithmatex">\[
+\epsilon_t = \frac{\sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}}{\sum_{i=1}^N w_i^{(t)}}
+\]</div>
+<p>Observamos que calculamos el error de <span class="arithmatex">\(h_t\)</span> como la suma de los pesos de los ejemplos mal clasificados por dicho clasificador débil, entre la suma de los pesos de todos los ejemplos. De esta forma, el clasificador tendrá error bajo cuando el peso total de los ejemplos mal clasificados sea bajo, y los ejemplos de mayor peso hayan sido correctamente clasificados. </p>
+<p>Teniendo esta definición en cuenta, tenemos:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\alpha_t &amp;= \frac{1}{2} \ln \frac{\sum_{y_i = h_t(\mathbf{x}_i)} w_i^{(t)}}{\sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}} = \\
+&amp;= \frac{1}{2} \ln \frac{\sum_{i=1}^N w_i^{(t)} - \sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}}{\sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}} = \\
+&amp;= \frac{1}{2} \ln \frac{ \frac{\sum_{i=1}^N w_i^{(t)}}{\sum_{i=1}^N w_i^{(t)}} - \frac{\sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}}{\sum_{i=1}^N w_i^{(t)}}}{\frac{\sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}}{\sum_{i=1}^N w_i^{(t)}}} = \\
+&amp;= \frac{1}{2} \ln \frac{1-\epsilon_t}{\epsilon_t}
+\end{align*}
+\]</div>
+<p>Con esto podemos observar que <span class="arithmatex">\(\alpha_t\)</span> será mayor cuanto menor error <span class="arithmatex">\(\epsilon_t\)</span> tenga el clasificador.</p>
+<h3 id="algoritmo-detallado">Algoritmo detallado<a class="headerlink" href="#algoritmo-detallado" title="Permanent link">¶</a></h3>
+<p>Con todo lo anterior, podemos escribir de forma completa el algoritmo AdaBoost detallando en cada paso la forma en la que se calculan los errores y los pesos:</p>
+<div class="arithmatex">\[
+\begin{align*}
+&amp; \text{Entrada: } \text{Conjunto de entrenamiento } \mathcal{D} \\
+&amp; w_i^1 \leftarrow 1 \quad \forall i \in 1, 2, \ldots, N \quad \text{(Inicializa todos los ejemplos con peso uniforme)} \\
+&amp; \text{Para  } t = 1, \ldots, T \\
+&amp; \quad h_t \leftarrow \text{Entrenar un clasificador débil que minimice } \sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)} \\
+&amp; \quad \epsilon_t \leftarrow \frac{\sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}}{\sum_{i=1}^N w_i^{(t)}} \quad \text{(Calcular el error del clasificador débil)} \\
+&amp; \quad \alpha_t \leftarrow \frac{1}{2} \ln \left( \frac{1-\epsilon_t}{\epsilon_t} \right) \quad \text{(Calcular el peso del clasificador)}  \\
+&amp; \quad w_i^{(t+1)} \leftarrow w_i^{(t)} e^{-\alpha_t y_i h_t(x_i)} \quad \text{(Actualiza los pesos de los ejemplos para el siguiente clasificador)} \\
+&amp; \text{Devuelve: } H(\mathbf{x}) = \text{signo} \left( \sum_{t=1}^T \alpha_t h_t(\mathbf{x}) \right)
+\end{align*}
+\]</div>
+<h3 id="ejemplo-paso-a-paso">Ejemplo paso a paso<a class="headerlink" href="#ejemplo-paso-a-paso" title="Permanent link">¶</a></h3>
 <p><strong>Paso 2: Calcular error ponderado</strong>
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>εₜ = Σᵢ wₜ(i) · 𝟙(hₜ(xᵢ) ≠ yᵢ)
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>Donde 𝟙 es la función indicadora (1 si error, 0 si correcto)
+</p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>εₜ = Σᵢ wₜ(i) · 𝟙(hₜ(xᵢ) ≠ yᵢ)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Donde 𝟙 es la función indicadora (1 si error, 0 si correcto)
 </code></pre></div><p></p>
 <p><strong>Paso 3: Calcular peso del clasificador</strong>
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>αₜ = (1/2) · ln((1 - εₜ) / εₜ)
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Interpretación:
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>- Si εₜ pequeño (buen clasificador) → αₜ grande (mucho peso)
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>- Si εₜ = 0.5 (azar) → αₜ = 0 (sin peso)
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>- Si εₜ &gt; 0.5 (peor que azar) → αₜ negativo (invertir predicción)
+</p><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>αₜ = (1/2) · ln((1 - εₜ) / εₜ)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Interpretación:
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>- Si εₜ pequeño (buen clasificador) → αₜ grande (mucho peso)
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>- Si εₜ = 0.5 (azar) → αₜ = 0 (sin peso)
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>- Si εₜ &gt; 0.5 (peor que azar) → αₜ negativo (invertir predicción)
 </code></pre></div><p></p>
 <p><strong>Paso 4: Actualizar pesos de ejemplos</strong>
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>wₜ₊₁(i) = wₜ(i) · exp(-αₜ · yᵢ · hₜ(xᵢ))
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Simplificado:
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>- Si hₜ clasifica correctamente xᵢ: wₜ₊₁(i) disminuye
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>- Si hₜ clasifica incorrectamente xᵢ: wₜ₊₁(i) aumenta
+</p><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>wₜ₊₁(i) = wₜ(i) · exp(-αₜ · yᵢ · hₜ(xᵢ))
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Simplificado:
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>- Si hₜ clasifica correctamente xᵢ: wₜ₊₁(i) disminuye
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>- Si hₜ clasifica incorrectamente xᵢ: wₜ₊₁(i) aumenta
 </code></pre></div><p></p>
 <p><strong>Paso 5: Normalizar pesos</strong>
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>wₜ₊₁(i) = wₜ₊₁(i) / Σⱼ wₜ₊₁(j)
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>(Para que los pesos sumen 1)
+</p><div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>wₜ₊₁(i) = wₜ₊₁(i) / Σⱼ wₜ₊₁(j)
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>(Para que los pesos sumen 1)
 </code></pre></div><p></p>
 <p><strong>Predicción final:</strong>
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>H(x) = sign(Σₜ₌₁ᵀ αₜ · hₜ(x))
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>Es decir, suma ponderada de todos los clasificadores
+</p><div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>H(x) = sign(Σₜ₌₁ᵀ αₜ · hₜ(x))
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>Es decir, suma ponderada de todos los clasificadores
 </code></pre></div><p></p>
-<h3 id="ejemplo-paso-a-paso">Ejemplo Paso a Paso<a class="headerlink" href="#ejemplo-paso-a-paso" title="Permanent link">¶</a></h3>
+<h3 id="ejemplo-paso-a-paso_1">Ejemplo paso a paso<a class="headerlink" href="#ejemplo-paso-a-paso_1" title="Permanent link">¶</a></h3>
 <p>Consideremos un ejemplo simple con 10 puntos:
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Dataset</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">x4</span><span class="p">,</span> <span class="n">x5</span><span class="p">,</span> <span class="n">x6</span><span class="p">,</span> <span class="n">x7</span><span class="p">,</span> <span class="n">x8</span><span class="p">,</span> <span class="n">x9</span><span class="p">,</span> <span class="n">x10</span><span class="p">]</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">]</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># Iteración 1:</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1"># Pesos iniciales: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]</span>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># Clasificador débil h₁: clasifica bien el 70% (ε₁ = 0.3)</span>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="c1"># α₁ = 0.5 * ln((1-0.3)/0.3) = 0.42</span>
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="c1"># </span>
-<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1"># Errores en: x4, x7, x9</span>
-<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="c1"># Nuevos pesos (normalizados):</span>
-<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="c1"># Correctos: peso disminuye a ~0.07</span>
-<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="c1"># Incorrectos: peso aumenta a ~0.17</span>
-<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>
-<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="c1"># Iteración 2:</span>
-<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="c1"># Ahora h₂ se entrena dando más importancia a x4, x7, x9</span>
-<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="c1"># h₂ clasifica bien el 80% en datos ponderados</span>
-<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="c1"># α₂ = 0.5 * ln((1-0.2)/0.2) = 0.69</span>
-<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="c1"># ...</span>
-<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>
-<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="c1"># Predicción final:</span>
-<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="c1"># H(x) = sign(0.42*h₁(x) + 0.69*h₂(x) + 0.54*h₃(x) + ...)</span>
+</p><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Dataset</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">x4</span><span class="p">,</span> <span class="n">x5</span><span class="p">,</span> <span class="n">x6</span><span class="p">,</span> <span class="n">x7</span><span class="p">,</span> <span class="n">x8</span><span class="p">,</span> <span class="n">x9</span><span class="p">,</span> <span class="n">x10</span><span class="p">]</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Iteración 1:</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># Pesos iniciales: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Clasificador débil h₁: clasifica bien el 70% (ε₁ = 0.3)</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># α₁ = 0.5 * ln((1-0.3)/0.3) = 0.42</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># </span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># Errores en: x4, x7, x9</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># Nuevos pesos (normalizados):</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1"># Correctos: peso disminuye a ~0.07</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1"># Incorrectos: peso aumenta a ~0.17</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="c1"># Iteración 2:</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="c1"># Ahora h₂ se entrena dando más importancia a x4, x7, x9</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="c1"># h₂ clasifica bien el 80% en datos ponderados</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="c1"># α₂ = 0.5 * ln((1-0.2)/0.2) = 0.69</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="c1"># ...</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="c1"># Predicción final:</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="c1"># H(x) = sign(0.42*h₁(x) + 0.69*h₂(x) + 0.54*h₃(x) + ...)</span>
 </code></pre></div><p></p>
 <h3 id="propiedades-importantes">Propiedades Importantes<a class="headerlink" href="#propiedades-importantes" title="Permanent link">¶</a></h3>
 <h4 id="training-error-bound">Training Error Bound<a class="headerlink" href="#training-error-bound" title="Permanent link">¶</a></h4>
@@ -654,23 +715,23 @@ Si existe un clasificador débil que puede lograr error menor que 1/2 - γ (dond
 - Se adapta automáticamente según el error observado
 - Funciona con cualquier clasificador débil válido</p>
 <h3 id="implementacion-en-scikit-learn">Implementación en scikit-learn<a class="headerlink" href="#implementacion-en-scikit-learn" title="Permanent link">¶</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">AdaBoostClassifier</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># AdaBoost con decision stumps (default)</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="n">ada</span> <span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">(</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">estimator</span><span class="o">=</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>  <span class="c1"># Decision stump</span>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>         <span class="c1"># Número de clasificadores débiles</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>       <span class="c1"># Peso en la actualización (default=1.0)</span>
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    <span class="n">algorithm</span><span class="o">=</span><span class="s1">'SAMME.R'</span><span class="p">,</span>     <span class="c1"># SAMME.R usa probabilidades (mejor)</span>
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="p">)</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>
-<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="n">ada</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>
-<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="c1"># Inspeccionar clasificadores y pesos</span>
-<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Pesos de clasificadores:"</span><span class="p">,</span> <span class="n">ada</span><span class="o">.</span><span class="n">estimator_weights_</span><span class="p">)</span>
-<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Errores de clasificadores:"</span><span class="p">,</span> <span class="n">ada</span><span class="o">.</span><span class="n">estimator_errors_</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">AdaBoostClassifier</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># AdaBoost con decision stumps (default)</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">ada</span> <span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">(</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="n">estimator</span><span class="o">=</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>  <span class="c1"># Decision stump</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>         <span class="c1"># Número de clasificadores débiles</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>       <span class="c1"># Peso en la actualización (default=1.0)</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="n">algorithm</span><span class="o">=</span><span class="s1">'SAMME.R'</span><span class="p">,</span>     <span class="c1"># SAMME.R usa probabilidades (mejor)</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="p">)</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="n">ada</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="c1"># Inspeccionar clasificadores y pesos</span>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Pesos de clasificadores:"</span><span class="p">,</span> <span class="n">ada</span><span class="o">.</span><span class="n">estimator_weights_</span><span class="p">)</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Errores de clasificadores:"</span><span class="p">,</span> <span class="n">ada</span><span class="o">.</span><span class="n">estimator_errors_</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="variantes-de-adaboost">Variantes de AdaBoost<a class="headerlink" href="#variantes-de-adaboost" title="Permanent link">¶</a></h3>
 <h4 id="samme-stagewise-additive-modeling-using-a-multiclass-exponential-loss">SAMME (Stagewise Additive Modeling using a Multiclass Exponential loss)<a class="headerlink" href="#samme-stagewise-additive-modeling-using-a-multiclass-exponential-loss" title="Permanent link">¶</a></h4>
@@ -712,87 +773,104 @@ Si existe un clasificador débil que puede lograr error menor que 1/2 - γ (dond
 - ❌ Dataset muy grande → LightGBM más eficiente
 - ❌ Muchas features categóricas → CatBoost</p>
 <h3 id="ejemplo-completo">Ejemplo Completo<a class="headerlink" href="#ejemplo-completo" title="Permanent link">¶</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_classification</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">learning_curve</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">AdaBoostClassifier</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c1"># Generar datos</span>
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_informative</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>                          <span class="n">n_redundant</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
-<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="c1"># Decision stump individual</span>
-<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="n">stump</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="n">stump</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Decision stump: </span><span class="si">{</span><span class="n">stump</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>
-<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="c1"># AdaBoost con stumps</span>
-<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="n">ada</span> <span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">(</span>
-<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>    <span class="n">estimator</span><span class="o">=</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-<a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-<a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
-<a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a><span class="p">)</span>
-<a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a><span class="n">ada</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"AdaBoost (100 stumps): </span><span class="si">{</span><span class="n">ada</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a>
-<a id="__codelineno-12-28" name="__codelineno-12-28" href="#__codelineno-12-28"></a><span class="c1"># Analizar evolución del error</span>
-<a id="__codelineno-12-29" name="__codelineno-12-29" href="#__codelineno-12-29"></a><span class="n">train_errors</span> <span class="o">=</span> <span class="p">[]</span>
-<a id="__codelineno-12-30" name="__codelineno-12-30" href="#__codelineno-12-30"></a><span class="n">test_errors</span> <span class="o">=</span> <span class="p">[]</span>
-<a id="__codelineno-12-31" name="__codelineno-12-31" href="#__codelineno-12-31"></a><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">):</span>
-<a id="__codelineno-12-32" name="__codelineno-12-32" href="#__codelineno-12-32"></a>    <span class="n">ada_temp</span> <span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">(</span>
-<a id="__codelineno-12-33" name="__codelineno-12-33" href="#__codelineno-12-33"></a>        <span class="n">estimator</span><span class="o">=</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-<a id="__codelineno-12-34" name="__codelineno-12-34" href="#__codelineno-12-34"></a>        <span class="n">n_estimators</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
-<a id="__codelineno-12-35" name="__codelineno-12-35" href="#__codelineno-12-35"></a>        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
-<a id="__codelineno-12-36" name="__codelineno-12-36" href="#__codelineno-12-36"></a>    <span class="p">)</span>
-<a id="__codelineno-12-37" name="__codelineno-12-37" href="#__codelineno-12-37"></a>    <span class="n">ada_temp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<a id="__codelineno-12-38" name="__codelineno-12-38" href="#__codelineno-12-38"></a>    <span class="n">train_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ada_temp</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
-<a id="__codelineno-12-39" name="__codelineno-12-39" href="#__codelineno-12-39"></a>    <span class="n">test_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ada_temp</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
-<a id="__codelineno-12-40" name="__codelineno-12-40" href="#__codelineno-12-40"></a>
-<a id="__codelineno-12-41" name="__codelineno-12-41" href="#__codelineno-12-41"></a><span class="c1"># Visualizar</span>
-<a id="__codelineno-12-42" name="__codelineno-12-42" href="#__codelineno-12-42"></a><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<a id="__codelineno-12-43" name="__codelineno-12-43" href="#__codelineno-12-43"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">),</span> <span class="n">train_errors</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Train Error'</span><span class="p">)</span>
-<a id="__codelineno-12-44" name="__codelineno-12-44" href="#__codelineno-12-44"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">),</span> <span class="n">test_errors</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Test Error'</span><span class="p">)</span>
-<a id="__codelineno-12-45" name="__codelineno-12-45" href="#__codelineno-12-45"></a><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Número de clasificadores'</span><span class="p">)</span>
-<a id="__codelineno-12-46" name="__codelineno-12-46" href="#__codelineno-12-46"></a><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Error'</span><span class="p">)</span>
-<a id="__codelineno-12-47" name="__codelineno-12-47" href="#__codelineno-12-47"></a><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<a id="__codelineno-12-48" name="__codelineno-12-48" href="#__codelineno-12-48"></a><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Evolución del error en AdaBoost'</span><span class="p">)</span>
-<a id="__codelineno-12-49" name="__codelineno-12-49" href="#__codelineno-12-49"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_classification</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">learning_curve</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">AdaBoostClassifier</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># Generar datos</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_informative</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>                          <span class="n">n_redundant</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="c1"># Decision stump individual</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="n">stump</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="n">stump</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Decision stump: </span><span class="si">{</span><span class="n">stump</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="c1"># AdaBoost con stumps</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="n">ada</span> <span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">(</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>    <span class="n">estimator</span><span class="o">=</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+<a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="p">)</span>
+<a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="n">ada</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"AdaBoost (100 stumps): </span><span class="si">{</span><span class="n">ada</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>
+<a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="c1"># Analizar evolución del error</span>
+<a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="n">train_errors</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="n">test_errors</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">):</span>
+<a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a>    <span class="n">ada_temp</span> <span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">(</span>
+<a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a>        <span class="n">estimator</span><span class="o">=</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+<a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a>        <span class="n">n_estimators</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
+<a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a>        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a>    <span class="p">)</span>
+<a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a>    <span class="n">ada_temp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a>    <span class="n">train_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ada_temp</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+<a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a>    <span class="n">test_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ada_temp</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+<a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a>
+<a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a><span class="c1"># Visualizar</span>
+<a id="__codelineno-7-42" name="__codelineno-7-42" href="#__codelineno-7-42"></a><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<a id="__codelineno-7-43" name="__codelineno-7-43" href="#__codelineno-7-43"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">),</span> <span class="n">train_errors</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Train Error'</span><span class="p">)</span>
+<a id="__codelineno-7-44" name="__codelineno-7-44" href="#__codelineno-7-44"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">101</span><span class="p">),</span> <span class="n">test_errors</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Test Error'</span><span class="p">)</span>
+<a id="__codelineno-7-45" name="__codelineno-7-45" href="#__codelineno-7-45"></a><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Número de clasificadores'</span><span class="p">)</span>
+<a id="__codelineno-7-46" name="__codelineno-7-46" href="#__codelineno-7-46"></a><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Error'</span><span class="p">)</span>
+<a id="__codelineno-7-47" name="__codelineno-7-47" href="#__codelineno-7-47"></a><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<a id="__codelineno-7-48" name="__codelineno-7-48" href="#__codelineno-7-48"></a><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Evolución del error en AdaBoost'</span><span class="p">)</span>
+<a id="__codelineno-7-49" name="__codelineno-7-49" href="#__codelineno-7-49"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <h3 id="comparacion-adaboost-vs-bagging">Comparación: AdaBoost vs Bagging<a class="headerlink" href="#comparacion-adaboost-vs-bagging" title="Permanent link">¶</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">BaggingClassifier</span><span class="p">,</span> <span class="n">AdaBoostClassifier</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="c1"># Bagging de stumps</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="n">bagging_stumps</span> <span class="o">=</span> <span class="n">BaggingClassifier</span><span class="p">(</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    <span class="n">estimator</span><span class="o">=</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="p">)</span>
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1"># AdaBoost de stumps</span>
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="n">adaboost_stumps</span> <span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">(</span>
-<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>    <span class="n">estimator</span><span class="o">=</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
-<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="p">)</span>
-<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>
-<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="n">bagging_stumps</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="n">adaboost_stumps</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>
-<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Bagging: </span><span class="si">{</span><span class="n">bagging_stumps</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"AdaBoost: </span><span class="si">{</span><span class="n">adaboost_stumps</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">BaggingClassifier</span><span class="p">,</span> <span class="n">AdaBoostClassifier</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># Bagging de stumps</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">bagging_stumps</span> <span class="o">=</span> <span class="n">BaggingClassifier</span><span class="p">(</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    <span class="n">estimator</span><span class="o">=</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="p">)</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1"># AdaBoost de stumps</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="n">adaboost_stumps</span> <span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">(</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    <span class="n">estimator</span><span class="o">=</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="p">)</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="n">bagging_stumps</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="n">adaboost_stumps</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Bagging: </span><span class="si">{</span><span class="n">bagging_stumps</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"AdaBoost: </span><span class="si">{</span><span class="n">adaboost_stumps</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div>
 <p><strong>Resultado típico:</strong>
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>Bagging: 0.78
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>AdaBoost: 0.92
+</p><div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Bagging: 0.78
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>AdaBoost: 0.92
 </code></pre></div><p></p>
 <p>AdaBoost supera a Bagging con clasificadores débiles porque:
 - Bagging reduce varianza (pero stumps ya tienen baja varianza)
 - AdaBoost reduce sesgo (stumps tienen alto sesgo)</p>
 <hr>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:kearns1988cryptographic">
+<p>Kearns, M., &amp; Valiant, L. G. (1988). <em>Learning Boolean formulae or finite automata is as hard as factoring</em> (Nos. TR-14-88). Harvard University Aiken Computation Laboratory.&nbsp;<a class="footnote-backref" href="#fnref:kearns1988cryptographic" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+<li id="fn:kearns1989cryptographic">
+<p>Kearns, M., &amp; Valiant, L. G. (1989). Cryptographic limitations on learning Boolean formulae and finite automata. <em>Proceedings of the 21st Annual ACM Symposium on Theory of Computing (STOC'89)</em>, 433--444. <a href="https://doi.org/10.1145/73007.73049">https://doi.org/10.1145/73007.73049</a>&nbsp;<a class="footnote-backref" href="#fnref:kearns1989cryptographic" title="Jump back to footnote 2 in the text">↩</a></p>
+</li>
+<li id="fn:schapire1990strength">
+<p>Schapire, R. E. (1990). The strength of weak learnability. <em>Machine Learning</em>, <em>5</em>(2), 197--227.&nbsp;<a class="footnote-backref" href="#fnref:schapire1990strength" title="Jump back to footnote 3 in the text">↩</a></p>
+</li>
+<li id="fn:freund1997decision">
+<p>Freund, Y., &amp; Schapire, R. E. (1997). A decision-theoretic generalization of on-line learning and an application to boosting. <em>Journal of Computer and System Sciences</em>, <em>55</em>(1), 119--139.&nbsp;<a class="footnote-backref" href="#fnref:freund1997decision" title="Jump back to footnote 4 in the text">↩</a></p>
+</li>
+</ol>
+</div>
 
 
 
