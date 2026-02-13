@@ -296,7 +296,6 @@ $$
 \begin{align*}
 \alpha_t &= \frac{1}{2} \ln \frac{\sum_{y_i = h_t(\mathbf{x}_i)} w_i^{(t)}}{\sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}} = \\
 &= \frac{1}{2} \ln \frac{\sum_{i=1}^N w_i^{(t)} - \sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}}{\sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}} = \\
-
 &= \frac{1}{2} \ln \frac{1-\epsilon_t}{\epsilon_t}
 \end{align*}
 $$
