@@ -674,31 +674,18 @@
 </ol>
 <p>En este punto, nos podemos plantear la pregunta "¿Por qué usar clasificadores débiles?". Aunque pueda parecer contraintuitivo usar modelos "débiles", hay varios motivos para hacerlo:</p>
 <ol>
-<li><strong>Prevención del <em>overfitting</em>:</strong> </li>
-<li>Los modelos débiles tienen baja varianza</li>
-<li>Son menos propensos a aprender el ruido</li>
 <li>
-<p>La combinación de modelos reduce el <em>overfitting</em></p>
+<p><strong>Prevención del <em>overfitting</em>:</strong>  Los modelos débiles tienen baja varianza, son menos propensos a aprender el ruido, y la combinación de modelos reduce el <em>overfitting</em>.</p>
 </li>
 <li>
-<p><strong>Eficiencia computacional:</strong></p>
-</li>
-<li>Modelos sencillos como los <em>decision stumps</em> son extremadamente rápidos.</li>
-<li>
-<p>Podemos entrenar cientos o miles de ellos de forma eficiente.</p>
+<p><strong>Eficiencia computacional:</strong> Modelos sencillos como los <em>decision stumps</em> son extremadamente rápidos. Podemos entrenar cientos o miles de ellos de forma eficiente.</p>
 </li>
 <li>
-<p><strong>Interpretabilidad:</strong></p>
-</li>
-<li>Cada modelo débil es fácil de entender.</li>
-<li>
-<p>La combinación de modelos mantiene cierta trazabilidad.</p>
+<p><strong>Interpretabilidad:</strong> Cada modelo débil es fácil de entender, y la combinación de modelos mantiene cierta trazabilidad.</p>
 </li>
 <li>
-<p><strong>Teoría sólida:</strong></p>
+<p><strong>Teoría sólida:</strong> Existen garantías matemáticas de convergencia y el error de generalización puede ser acotado.</p>
 </li>
-<li>Existen garantías matemáticas de convergencia.</li>
-<li>El error de generalización puede ser acotado.</li>
 </ol>
 <p>Para que un clasificador débil sea útil en un <em>ensemble</em> debe cumplir:</p>
 <ol>
