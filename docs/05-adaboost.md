@@ -48,22 +48,13 @@ Este teorema es importante porque:
 
 En este punto, nos podemos plantear la pregunta "¿Por qué usar clasificadores débiles?". Aunque pueda parecer contraintuitivo usar modelos "débiles", hay varios motivos para hacerlo:
 
-1. **Prevención del _overfitting_:** 
-   - Los modelos débiles tienen baja varianza
-   - Son menos propensos a aprender el ruido
-   - La combinación de modelos reduce el _overfitting_
+1. **Prevención del _overfitting_:**  Los modelos débiles tienen baja varianza, son menos propensos a aprender el ruido, y la combinación de modelos reduce el _overfitting_.
 
-2. **Eficiencia computacional:**
-   - Modelos sencillos como los _decision stumps_ son extremadamente rápidos.
-   - Podemos entrenar cientos o miles de ellos de forma eficiente.
+2. **Eficiencia computacional:** Modelos sencillos como los _decision stumps_ son extremadamente rápidos. Podemos entrenar cientos o miles de ellos de forma eficiente.
 
-3. **Interpretabilidad:**
-   - Cada modelo débil es fácil de entender.
-   - La combinación de modelos mantiene cierta trazabilidad.
+3. **Interpretabilidad:** Cada modelo débil es fácil de entender, y la combinación de modelos mantiene cierta trazabilidad.
 
-4. **Teoría sólida:**
-   - Existen garantías matemáticas de convergencia.
-   - El error de generalización puede ser acotado.
+4. **Teoría sólida:** Existen garantías matemáticas de convergencia y el error de generalización puede ser acotado.
 
 
 Para que un clasificador débil sea útil en un _ensemble_ debe cumplir:
