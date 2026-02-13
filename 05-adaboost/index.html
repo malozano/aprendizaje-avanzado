@@ -863,13 +863,13 @@ L(y, F_t) = \sum_{i=1}^N w_i^{(t)} e^{-\alpha_t } + \sum_{y_i \neq h_t(\mathbf{x
 \]</div>
 <p>Observamos que calculamos el error de <span class="arithmatex">\(h_t\)</span> como la suma de los pesos de los ejemplos mal clasificados por dicho clasificador débil. De esta forma, el clasificador tendrá error bajo cuando el peso total de los ejemplos mal clasificados sea bajo, y los ejemplos de mayor peso hayan sido correctamente clasificados. </p>
 <p>Teniendo esta definición en cuenta, y considerando que los pesos están normalizados y que por lo tanto <span class="arithmatex">\(\sum_{i=1}^N w_i^{(t)} = 1\)</span>, tenemos:</p>
-<p>$$
+<div class="arithmatex">\[
 \begin{align*}
-\alpha_t &amp;= \frac{1}{2} \ln \frac{\sum_{y_i = h_t(\mathbf{x}<em _neq="\neq" h_t_mathbf_x="h_t(\mathbf{x" y_i="y_i">i)} w_i^{(t)}}{\sum</em><em i="1">i)} w_i^{(t)}} = \
-&amp;= \frac{1}{2} \ln \frac{\sum</em>^N w_i^{(t)} - \sum_{y_i \neq h_t(\mathbf{x}<em _neq="\neq" h_t_mathbf_x="h_t(\mathbf{x" y_i="y_i">i)} w_i^{(t)}}{\sum</em>_i)} w_i^{(t)}} = \</p>
-<p>&amp;= \frac{1}{2} \ln \frac{1-\epsilon_t}{\epsilon_t}
+\alpha_t &amp;= \frac{1}{2} \ln \frac{\sum_{y_i = h_t(\mathbf{x}_i)} w_i^{(t)}}{\sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}} = \\
+&amp;= \frac{1}{2} \ln \frac{\sum_{i=1}^N w_i^{(t)} - \sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}}{\sum_{y_i \neq h_t(\mathbf{x}_i)} w_i^{(t)}} = \\
+&amp;= \frac{1}{2} \ln \frac{1-\epsilon_t}{\epsilon_t}
 \end{align*}
-$$</p>
+\]</div>
 <p>Con esto podemos observar que <span class="arithmatex">\(\alpha_t\)</span> será mayor cuanto menor error <span class="arithmatex">\(\epsilon_t\)</span> tenga el clasificador. Lo peor que pueda ocurrir es que <span class="arithmatex">\(\epsilon_t = 0.5\)</span>, ya que en ese caso el clasificador equivale a lanzar una moneda al aire, y en tal caso tendremos un peso <span class="arithmatex">\(\alpha_t = 0\)</span>. Podemos observar también que si <span class="arithmatex">\(\epsilon_t &gt; 0.5\)</span> (peor que el azar), el peso pasará a ser negativo, es decir, se invierte el clasificador para que así pase a ser algo mejor que el azar.  </p>
 <h3 id="algoritmo-detallado">Algoritmo detallado<a class="headerlink" href="#algoritmo-detallado" title="Permanent link">¶</a></h3>
 <p>Con todo lo anterior, podemos escribir de forma completa el algoritmo AdaBoost detallando en cada paso la forma en la que se calculan los errores y los pesos:</p>
