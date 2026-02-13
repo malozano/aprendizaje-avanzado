@@ -140,6 +140,8 @@ El algoritmo construye el _ensemble_ de forma voraz, iteración a iteración. En
 
 Vamos a continuación a detallar cada uno de los pasos de este algoritmo.
 
+> **Nota**: La derivación que presentamos aquí, basada en la minimización de la pérdida exponencial, corresponde a la reinterpretación estadística que realizan Friedman, Hastie y Tibshirani en el año 2000 [@friedman2000special]. La formulación original de Freund y Schapire [@freund1997decision] partía de un marco de teoría de juegos y aprendizaje PAC (_Probably Approximately Correct_), llegando al mismo algoritmo desde una perspectiva diferente.
+
 ### Actualización de los pesos
 
 Como hemos comentado, al final de cada iteración deberán ajustarse los pesos de cada ejemplo de entrenamiento, de forma que se le dé mayor peso a los ejemplos más difíciles (los peor clasificados hasta el momento), para que el siguiente clasificador se centre en mejorar su clasificación. 
