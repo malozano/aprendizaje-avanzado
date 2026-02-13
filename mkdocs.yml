@@ -105,11 +105,11 @@ nav:
   - 2. SVM: '02-svm.md'
   - 3. Árboles de decisión: '03-arboles-decision.md'
   - 4. Métodos de ensemble. Random Forest: '04-random-forest.md'
+  - 5. Boosting. Adaboost: '05-adaboost.md'
 - Prácticas: 
   - 0. Datos y visualización: 'practicas/00-datos-y-visualizacion.md'
   - 1. Aprendizaje supervisado: 'practicas/01-aprendizaje-supervisado.md'
 
-#  - 5. Boosting. Adaboost: '05-adaboost.md'
 #- Bloque II. Aprendizaje no supervisado:
 #  - 5. Modelos probabilísticos: '05-clustering.md'
 #  - 6. Métodos de clustering: '05-clustering.md'
