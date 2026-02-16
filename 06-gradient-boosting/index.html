@@ -440,10 +440,9 @@
 
 
 <h1 id="gradient-boosting">Gradient Boosting<a class="headerlink" href="#gradient-boosting" title="Permanent link">¶</a></h1>
-<h1 id="xgboost">XGBoost<a class="headerlink" href="#xgboost" title="Permanent link">¶</a></h1>
 <h2 id="42-gradient-boosting">4.2. Gradient Boosting<a class="headerlink" href="#42-gradient-boosting" title="Permanent link">¶</a></h2>
-<p>Gradient Boosting generaliza la idea de boosting mediante una perspectiva de <strong>optimización numérica</strong>. En lugar de ajustar pesos de ejemplos (como AdaBoost), cada nuevo modelo se ajusta al <strong>gradiente negativo de la función de pérdida</strong>.</p>
-<p>Desarrollado por Jerome Friedman (1999-2001), Gradient Boosting es la base teórica de métodos modernos como XGBoost, LightGBM y CatBoost.</p>
+<p>Gradient Boosting (Friedman, 2001)<sup id="fnref:friedman2001greedy"><a class="footnote-ref" href="#fn:friedman2001greedy">1</a></sup> generaliza la idea de boosting mediante una perspectiva de <strong>optimización numérica</strong>. En lugar de ajustar pesos de ejemplos (como AdaBoost), cada nuevo modelo se ajusta al <strong>gradiente negativo de la función de pérdida</strong>.</p>
+<p>Desarrollado por Jerome Friedman (1999-2001) , Gradient Boosting es la base teórica de métodos modernos como XGBoost, LightGBM y CatBoost.</p>
 <h3 id="marco-conceptual">Marco Conceptual<a class="headerlink" href="#marco-conceptual" title="Permanent link">¶</a></h3>
 <p><strong>Idea clave:</strong> Ver boosting como un problema de optimización en el espacio de funciones.</p>
 <p>Queremos encontrar una función <span class="arithmatex">\(F(x)\)</span> que minimice la pérdida esperada:</p>
@@ -1068,6 +1067,14 @@ Considerar alternativas cuando:</p>
 ❌ Necesitas features categóricas robustas → CatBoost
 ❌ Máximo rendimiento en competición → XGBoost/LightGBM
 ❌ Necesitas GPU → XGBoost/LightGBM/CatBoost</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:friedman2001greedy">
+<p>Friedman, J. H. (2001). Greedy function approximation: A gradient boosting machine. <em>Annals of Statistics</em>, <em>29</em>(5), 1189--1232.&nbsp;<a class="footnote-backref" href="#fnref:friedman2001greedy" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+</ol>
+</div>
 
 
 

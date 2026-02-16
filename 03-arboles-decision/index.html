@@ -725,9 +725,9 @@
 <p>De este forma, para un determinado ejemplo de entrada, el árbol se recorrerá desde la raíz, tomando en cada nodo la subrama que corresponda al resultado de aplicar la condición del nodo al ejemplo, hasta llegar a un nodo hoja. El nodo hoja que alcancemos nos dará la predicción que devolverá el modelo.</p>
 <p>Desde el punto de vista de dos dimensiones, este árbol estará dividiendo el espacio de características en diferentes rectángulos (ver <a href="#fig-estructura">Figura 1</a>-centro). </p>
 <p></p><figure id="fig-estructura"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t3_estructura_regiones.png" data-desc-position="bottom"><img alt="" src="../images/t3_estructura_regiones.png"></a><figcaption>Figura 1: Estructura del árbol de decisión (izquierda) y división del espacio de características en regiones (centro y derecha) </figcaption></figure><p></p>
-<p>Esta división generará <span class="arithmatex">\(J\)</span> regiones <span class="arithmatex">\(R_1, R_2, \ldots, R_J\)</span> no solapadas, de forma que cada datos de entrada <span class="arithmatex">\(\mathbf{x}\)</span> pertenecerá a una, y solo una de estas regiones. Cada región <span class="arithmatex">\(R_j\)</span> corresponde a uno de los nodos hoja del árbol, y estará asociada a una categoría en el caso de los árboles de clasificación, o a un valor en el caso de árboles de regresión. </p>
+<p>Esta división generará <span class="arithmatex">\(J\)</span> regiones <span class="arithmatex">\(R_1, R_2, \ldots, R_J\)</span> no solapadas, de forma que cada dato de entrada <span class="arithmatex">\(\mathbf{x}\)</span> pertenecerá a una, y solo una de estas regiones. Cada región <span class="arithmatex">\(R_j\)</span> corresponde a uno de los nodos hoja del árbol, y estará asociada a una categoría en el caso de los árboles de clasificación, o a un valor en el caso de árboles de regresión. </p>
 <p></p><figure id="fig-estratificacion"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t3_estratificacion_3d.png" data-desc-position="bottom"><img alt="" src="../images/t3_estratificacion_3d.png"></a><figcaption>Figura 2: Estratificación de la salida de los árboles de regresión. Aproximación de datos con forma de campana de Gauss </figcaption></figure><p></p>
-<p>Es importante destacar que la salida de los árboles de decisión estará estratificada, ya que dentro de cada región se generará siempre un valor constante (ver <a href="#fig-estratificacion">Figura 2</a>). </p>
+<p>Es importante destacar que la salida de los árboles de decisión para regresión estará estratificada, ya que dentro de cada región se generará siempre un valor constante (ver <a href="#fig-estratificacion">Figura 2</a>). </p>
 <h2 id="construccion">Construcción<a class="headerlink" href="#construccion" title="Permanent link">¶</a></h2>
 <p>Vamos a ver en este punto cómo construir el árbol a partir de un conjunto de datos. Consideramos que nuestro conjunto de datos <span class="arithmatex">\(\mathcal{D}\)</span> contiene <span class="arithmatex">\(N\)</span> ejemplos <span class="arithmatex">\((\mathbf{x}_i, y_i)\)</span> para <span class="arithmatex">\(i =&nbsp;\{1, 2, \ldots, N \}\)</span>, con <span class="arithmatex">\(\mathbf{x}_i = ( x_{i1}, x_{i2}, \ldots, x_{id} )\)</span>.</p>
 <p>Como hemos comentado, el árbol dividirá el espacio de características en <span class="arithmatex">\(J\)</span> regiones <span class="arithmatex">\(R_1, R_2, \ldots, R_J\)</span> no solapadas, de forma que cada dato <span class="arithmatex">\(\mathbf{x}_i\)</span> corresponderá a una de estas regiones.</p>
@@ -747,9 +747,11 @@
 <p>En la <a href="#fig-construccion">Figura 3</a> se ilustra el proceso de construcción paso a paso, en el que en cada iteración particionamos uno de los nodos en dos regiones.</p>
 <p>Una de las cuestiones más críticas es establecer un <strong>criterio de división</strong> de los datos para establecer cuáles son los mejores parámetros para particionar nuestros datos. Deberemos seleccionar tanto una característica <span class="arithmatex">\(j \in \{1, 2, \ldots, d\}\)</span> como un valor de corte <span class="arithmatex">\(t\)</span>. De esta forma, la condición dividiría el espacio en dos subregiones y separará los datos en dos subconjuntos: </p>
 <div class="arithmatex">\[
-\mathcal{D}_L = \{ \{\mathbf{x}_i, y_i \} : x_{ij} \leq t \}
+\begin{align*}
+\mathcal{D}_L &amp;= \{ \{\mathbf{x}_i, y_i \} : x_{ij} \leq t \}
 \\
-\mathcal{D}_R = \{ \{\mathbf{x}_i, y_i \} : x_{ij} \gt t \}
+\mathcal{D}_R &amp;= \{ \{\mathbf{x}_i, y_i \} : x_{ij} \gt t \}
+\end{align*}
 \]</div>
 <p>Definimos una función de impureza <span class="arithmatex">\(H\)</span> que nos indicará la calidad de la partición. Buscamos minimizar esta función para conseguir que la división genere regiones lo más homogéneas posible. Las posibles funciones alternativas de impureza diferirán según si las orientamos a problemas de clasificación o de regresión. Veremos más adelante las funciones utilizadas comúnmente para ambos tipos de problemas.</p>
 <p>Con esta función <span class="arithmatex">\(H\)</span>, podemos calcular la impureza de la división (<em>split</em>) con parámetros <span class="arithmatex">\((j, t)\)</span> de la siguiente forma:</p>
@@ -767,7 +769,7 @@ H_{split}(j,t) = \frac{N_L}{N} H(\mathcal{D}_L) + \frac{N_R}{N} H(\mathcal{D}_R)
 <div class="arithmatex">\[
 H_{MSE}(\mathcal{D}) = \frac{1}{N} \sum_{i=1}^N (y_i - \bar{y}_i)^2
 \]</div>
-<p>Vemos que en la función calculamos la diferencia entre el valor observado <span class="arithmatex">\(y_i\)</span> y la predicción, que en este caso es la media <span class="arithmatex">\(\bar{y}_i\)</span>. Podemos observar también que esta función coincide con la <strong>varianza</strong> de las salidas esperadas del conjunto <span class="arithmatex">\(\mathcal{D}\)</span>. </p>
+<p>Vemos que en la función calculamos la diferencia entre el valor observado <span class="arithmatex">\(y_i\)</span> y la predicción, que en este caso es la media <span class="arithmatex">\(\bar{y}_i\)</span>. Podemos observar también que esta función coincide con la <strong>varianza</strong> de las salidas observadas del conjunto <span class="arithmatex">\(\mathcal{D}\)</span>. </p>
 <p>En la práctica se utiliza también habitualmente la suma de los cuadrados de los errores (SSE), que es equivalente a la formulación anterior, ya que la única diferencia es que el valor no está promediado:</p>
 <div class="arithmatex">\[
 H_{SSE}(\mathcal{D}) = \sum_{i=1}^N (y_i - \bar{y}_i)^2
@@ -804,7 +806,7 @@ H_{Entropía} =  - \sum_{k=1}^K p_{mk} \log_2 (p_{mk})
 <p>En la <a href="#fig-impureza">Figura 5</a> podemos observar la forma de las diferentes funciones de impureza para el caso de clasificación binaria. Se muestra el valor de la función de impureza en función de la proporción de ejemplo de cada clase, pudiendo observar que es máxima en el centro (reparto equilibrado entre las dos clases) y mínima en los extremos (todas las observaciones de una misma clase).</p>
 <h2 id="poda-de-arboles">Poda de árboles<a class="headerlink" href="#poda-de-arboles" title="Permanent link">¶</a></h2>
 <p>Los árboles individuales tienen bajo sesgo pero alta varianza, ya que al construirse de forma voraz tienen una alta dependencia con los datos de entrada. Un pequeño cambio en los datos puede producir árboles muy diferentes. </p>
-<p>Cuando con el algoritmo descrito el árbol se hace crecer en exceso, tendremos tendencia al <em>overfitting</em>. Clasificará bien los datos de entrenamiento, pero dará malos resultados de <em>test</em>. Para ilustrar este efecto, en la <a href="#fig-arbol1d"></a> se muestra la aproximación de una función de una sola variable (1D) mediante un árbol de regresión. Podemos observar la forma escalonada (estratificada) de la función, y como conforme aumenta la profundidad del árbol estos estratos se ajustan de forma más precisa a los datos. Sin embargo, cuando se aumenta demasiado la profundida del árbol, como se observa a la derecha de la figura, la aproximación se ajusta demasiado a los datos, teniendo estratos creados para una única observación (alta varianza).</p>
+<p>Cuando con el algoritmo descrito el árbol se hace crecer en exceso, tendremos tendencia al <em>overfitting</em>. Clasificará bien los datos de entrenamiento, pero dará malos resultados de <em>test</em>. Para ilustrar este efecto, en la <a href="#fig-overfitting">Figura 6</a> se muestra la aproximación de una función de una sola variable (1D) mediante un árbol de regresión. Podemos observar la forma escalonada (estratificada) de la función, y como conforme aumenta la profundidad del árbol estos estratos se ajustan de forma más precisa a los datos. Sin embargo, cuando se aumenta demasiado la profundida del árbol, como se observa a la derecha de la figura, la aproximación se ajusta demasiado a los datos, teniendo estratos creados para una única observación (alta varianza).</p>
 <p></p><figure id="fig-overfitting"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t3_estratificacion_1d.png" data-desc-position="bottom"><img alt="" src="../images/t3_estratificacion_1d.png"></a><figcaption>Figura 6: Efecto del <em>overfitting</em> al construir un árbol de decisión </figcaption></figure><p></p>
 <p>Reduciendo el número de regiones podemos reducir la varianza y mejorar la capacidad de generalización y la interpretabilidad. Una posible forma de abordar esta tarea es evitar que el árbol crezca en exceso, esto es lo que se conoce como <strong>poda previa</strong>.</p>
 <h3 id="poda-previa">Poda previa<a class="headerlink" href="#poda-previa" title="Permanent link">¶</a></h3>
@@ -839,8 +841,10 @@ R_{\alpha}(T) = R(T)+ \alpha |\tilde{T}|
 <p>Para cada nodo interno del árbol <span class="arithmatex">\(t\)</span>, consideraremos el error <span class="arithmatex">\(R(t)\)</span> (o impureza) dentro del propio nodo <span class="arithmatex">\(t\)</span>, como si se tratara de un hoja, y la suma de los errores <span class="arithmatex">\(R(T_t)\)</span> de todas las hojas del subárbol con raíz en <span class="arithmatex">\(t\)</span>. Es decir, comparamos el error empírico <span class="arithmatex">\(R(T_t)\)</span> del subárbol completo con raíz en <span class="arithmatex">\(t\)</span>, con el error empírico <span class="arithmatex">\(R(t)\)</span> si dicho subárbol se reemplazase por una hoja, aplicando la poda. </p>
 <p>En general, <span class="arithmatex">\(R(T_t) &lt; R(t)\)</span>, ya que de no ser así no deberían haberse seguido generando hijos durante la construcción del árbol. Sin embargo, si introducimos la penalización con el parámetro <span class="arithmatex">\(\alpha\)</span> entonces tenemos:</p>
 <div class="arithmatex">\[
-R_\alpha (t) = R(t) + \alpha \\
-R_\alpha (T_t) = R(T_t) + \alpha |\tilde{T}_t|
+\begin{align*}
+R_\alpha (t) &amp;= R(t) + \alpha \\
+R_\alpha (T_t) &amp;= R(T_t) + \alpha |\tilde{T}_t|
+\end{align*}
 \]</div>
 <p>En este caso podemos buscar el valor de <span class="arithmatex">\(\alpha\)</span> que haga <span class="arithmatex">\(R_{\alpha}(T_t) = R_\alpha (t)\)</span>. Para cada uno de los nodos internos calculamos:</p>
 <div class="arithmatex">\[
