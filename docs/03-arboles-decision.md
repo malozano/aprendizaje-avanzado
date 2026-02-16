@@ -21,14 +21,14 @@ Figure: Estructura del árbol de decisión (izquierda) y división del espacio d
 
 ![](images/t3_estructura_regiones.png)
 
-Esta división generará $J$ regiones $R_1, R_2, \ldots, R_J$ no solapadas, de forma que cada datos de entrada $\mathbf{x}$ pertenecerá a una, y solo una de estas regiones. Cada región $R_j$ corresponde a uno de los nodos hoja del árbol, y estará asociada a una categoría en el caso de los árboles de clasificación, o a un valor en el caso de árboles de regresión. 
+Esta división generará $J$ regiones $R_1, R_2, \ldots, R_J$ no solapadas, de forma que cada dato de entrada $\mathbf{x}$ pertenecerá a una, y solo una de estas regiones. Cada región $R_j$ corresponde a uno de los nodos hoja del árbol, y estará asociada a una categoría en el caso de los árboles de clasificación, o a un valor en el caso de árboles de regresión. 
 
 Figure: Estratificación de la salida de los árboles de regresión. Aproximación de datos con forma de campana de Gauss {#fig-estratificacion}
 
 ![](images/t3_estratificacion_3d.png)
 
 
-Es importante destacar que la salida de los árboles de decisión estará estratificada, ya que dentro de cada región se generará siempre un valor constante (ver [](#fig-estratificacion)). 
+Es importante destacar que la salida de los árboles de decisión para regresión estará estratificada, ya que dentro de cada región se generará siempre un valor constante (ver [](#fig-estratificacion)). 
 
 
 ## Construcción
@@ -63,9 +63,11 @@ En la [](#fig-construccion) se ilustra el proceso de construcción paso a paso, 
 Una de las cuestiones más críticas es establecer un **criterio de división** de los datos para establecer cuáles son los mejores parámetros para particionar nuestros datos. Deberemos seleccionar tanto una característica $j \in \{1, 2, \ldots, d\}$ como un valor de corte $t$. De esta forma, la condición dividiría el espacio en dos subregiones y separará los datos en dos subconjuntos: 
 
 $$
-\mathcal{D}_L = \{ \{\mathbf{x}_i, y_i \} : x_{ij} \leq t \}
+\begin{align*}
+\mathcal{D}_L &= \{ \{\mathbf{x}_i, y_i \} : x_{ij} \leq t \}
 \\
-\mathcal{D}_R = \{ \{\mathbf{x}_i, y_i \} : x_{ij} \gt t \}
+\mathcal{D}_R &= \{ \{\mathbf{x}_i, y_i \} : x_{ij} \gt t \}
+\end{align*}
 $$
 
 Definimos una función de impureza $H$ que nos indicará la calidad de la partición. Buscamos minimizar esta función para conseguir que la división genere regiones lo más homogéneas posible. Las posibles funciones alternativas de impureza diferirán según si las orientamos a problemas de clasificación o de regresión. Veremos más adelante las funciones utilizadas comúnmente para ambos tipos de problemas.
@@ -100,7 +102,7 @@ $$
 H_{MSE}(\mathcal{D}) = \frac{1}{N} \sum_{i=1}^N (y_i - \bar{y}_i)^2
 $$
 
-Vemos que en la función calculamos la diferencia entre el valor observado $y_i$ y la predicción, que en este caso es la media $\bar{y}_i$. Podemos observar también que esta función coincide con la **varianza** de las salidas esperadas del conjunto $\mathcal{D}$. 
+Vemos que en la función calculamos la diferencia entre el valor observado $y_i$ y la predicción, que en este caso es la media $\bar{y}_i$. Podemos observar también que esta función coincide con la **varianza** de las salidas observadas del conjunto $\mathcal{D}$. 
 
 En la práctica se utiliza también habitualmente la suma de los cuadrados de los errores (SSE), que es equivalente a la formulación anterior, ya que la única diferencia es que el valor no está promediado:
 
@@ -168,7 +170,7 @@ En la [](#fig-impureza) podemos observar la forma de las diferentes funciones de
 
 Los árboles individuales tienen bajo sesgo pero alta varianza, ya que al construirse de forma voraz tienen una alta dependencia con los datos de entrada. Un pequeño cambio en los datos puede producir árboles muy diferentes. 
 
-Cuando con el algoritmo descrito el árbol se hace crecer en exceso, tendremos tendencia al _overfitting_. Clasificará bien los datos de entrenamiento, pero dará malos resultados de _test_. Para ilustrar este efecto, en la [](#fig-arbol1d) se muestra la aproximación de una función de una sola variable (1D) mediante un árbol de regresión. Podemos observar la forma escalonada (estratificada) de la función, y como conforme aumenta la profundidad del árbol estos estratos se ajustan de forma más precisa a los datos. Sin embargo, cuando se aumenta demasiado la profundida del árbol, como se observa a la derecha de la figura, la aproximación se ajusta demasiado a los datos, teniendo estratos creados para una única observación (alta varianza).
+Cuando con el algoritmo descrito el árbol se hace crecer en exceso, tendremos tendencia al _overfitting_. Clasificará bien los datos de entrenamiento, pero dará malos resultados de _test_. Para ilustrar este efecto, en la [](#fig-overfitting) se muestra la aproximación de una función de una sola variable (1D) mediante un árbol de regresión. Podemos observar la forma escalonada (estratificada) de la función, y como conforme aumenta la profundidad del árbol estos estratos se ajustan de forma más precisa a los datos. Sin embargo, cuando se aumenta demasiado la profundida del árbol, como se observa a la derecha de la figura, la aproximación se ajusta demasiado a los datos, teniendo estratos creados para una única observación (alta varianza).
 
 Figure: Efecto del _overfitting_ al construir un árbol de decisión {#fig-overfitting}
 
@@ -229,8 +231,10 @@ Para cada nodo interno del árbol $t$, consideraremos el error $R(t)$ (o impurez
 En general, $R(T_t) < R(t)$, ya que de no ser así no deberían haberse seguido generando hijos durante la construcción del árbol. Sin embargo, si introducimos la penalización con el parámetro $\alpha$ entonces tenemos:
 
 $$
-R_\alpha (t) = R(t) + \alpha \\
-R_\alpha (T_t) = R(T_t) + \alpha |\tilde{T}_t|
+\begin{align*}
+R_\alpha (t) &= R(t) + \alpha \\
+R_\alpha (T_t) &= R(T_t) + \alpha |\tilde{T}_t|
+\end{align*}
 $$
 
 En este caso podemos buscar el valor de $\alpha$ que haga $R_{\alpha}(T_t) = R_\alpha (t)$. Para cada uno de los nodos internos calculamos:
