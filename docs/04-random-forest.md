@@ -35,9 +35,14 @@ La idea tras los modelos de _Voting_ [@kittler1998combining] es la de entrenar m
 
 En este caso los modelos se entrenan de forma independiente con el **mismo conjunto de datos**, y no hay dependencia entre modelos, por lo que pueden entrenarse en paralelo. Además, podemos **combinar diferentes tipos de modelos**. 
 
-Por ejemplo, podríamos combinar un modelo de Regresión Logística, con KNN y SVM, obtener la predicción que devuelve cada uno de ellos, y devolver aquella que obtenga más votos. 
+Por ejemplo, podríamos combinar un modelo de Regresión Logística, con KNN y SVM, obtener la predicción que devuelve cada uno de ellos, y devolver aquella que obtenga más votos. En la [](#fig-voting) podemos ver un ejemplo de arquitectura de un _ensemble_ de Voting. 
 
-Encontramos diferentes formas de abordar la votación, que podremos aplicar según se trate de un problema de clasificación o de regresión.
+Figure: Arquitectura de un _ensemble_ de Voting {#fig-voting}
+
+![](images/t4_voting.png)
+
+
+Encontramos diferentes formas de abordar la combinación, que podremos aplicar según se trate de un problema de clasificación o de regresión.
 
 Vamos a considerar que combinamos $M$ clasificadores $\{h_1(\mathbf{x}), h_2(\mathbf{x}), \ldots, h_M(\mathbf{x}) \}$. A continuación veremos cómo combinar sus predicciones con cada enfoque de votación.
 
@@ -47,16 +52,12 @@ Se trata de un enfoque dirigido al problema de clasificación. Con el enfoque _H
 
 $$\hat{y} = \text{mode}(h_1(\mathbf{x}), h_2(\mathbf{x}), ..., h_M(\mathbf{x}))$$
 
-**Ejemplo:**
-```
-Problema: Clasificar un email como spam o no-spam
-Modelo 1 (Logistic Regression): spam
-Modelo 2 (Decision Tree):       spam  
-Modelo 3 (SVM):                 no-spam
-Modelo 4 (KNN):                 spam
+En la [](#fig-hard-voting) mostramos un ejemplo en el que buscamos clasificar un _email_ como _spam_ o como _no-spam_. Aplicando Hard Voting, si $3$ de los modelos predicen _spam_ frente a $1$ modelo que predice _no-spam_, la predicción final del _ensemble_ será _spam_ (3 votos contra 1). 
 
-Resultado final: spam (3 votos contra 1)
-```
+Figure: Ejemplo de Hard Voting {#fig-hard-voting}
+
+![](images/t4_hard_voting.png)
+
 
 ### Soft Voting
 
@@ -65,15 +66,13 @@ A diferencia del caso anterior, con el enfoque _Soft Voting_ lo que tendremos en
 
 $$\hat{y} = \arg\max_k \frac{1}{M} \sum_{i=1}^{M} P_i(y = k | \mathbf{x})$$
 
-**Ejemplo:**
-```
-Modelo 1: P(spam) = 0.9, P(no-spam) = 0.1
-Modelo 2: P(spam) = 0.6, P(no-spam) = 0.4
-Modelo 3: P(spam) = 0.4, P(no-spam) = 0.6
+En la [](#fig-soft-voting) mostramos cómo cada modelo nos da una probabilidad de que sea _spam_ o _no-spam_. Promediando estas probabilidades obtenemos la predicción final del _ensemble_. Como la probilidad promedio de que sea _spam_ es mayor que la de que sea _no-spam_, la predicción final será _spam_. 
 
-Promedio: P(spam) = 0.633, P(no-spam) = 0.367
-Resultado: spam
-```
+Figure: Ejemplo de Soft Voting {#fig-soft-voting}
+
+![](images/t4_soft_voting.png)
+
+
 
 Es importante destacar que para poder utilizar este enfoque, los modelos individuales deben poder proporcionarnos la probabilidad de la predicción. Este enfoque tiene la ventaja de que considera la confianza de cada modelo en la predicción realizada.
 
@@ -86,14 +85,13 @@ $$\hat{y} = \arg\max_k \sum_{i=1}^{M} w_i \cdot P_i(y = k | \mathbf{x})$$
 
 Donde $\sum w_i = 1$ y $w_i$ nos permite dar mayor peso a los modelos en los que tengamos mayor confianza. Estos valores se pueden determinar a partir de la precisión de los modelos individuales en la validación, de métricas como F1-score o el inverso del error cometido.
 
-**Ejemplo:**
-```
-Modelo 1 (accuracy=0.85): w1 = 0.4
-Modelo 2 (accuracy=0.80): w2 = 0.35  
-Modelo 3 (accuracy=0.75): w3 = 0.25
+La [](#fig-voting-ponderado) muestra un ejemplo en el que podemos observar que los pesos asignados a cada predicción guardan relación con la _accurary_ de cada modelo. .
 
-La votación ponderada da más peso al mejor modelo
-```
+Figure: Ejemplo de Soft Voting ponderado {#fig-voting-ponderado}
+
+![](images/t4_voting_ponderado.png)
+
+
 
 ### Promediado
 
@@ -115,6 +113,20 @@ En el caso de la clasificación, podemos elegir el tipo de votación con el par�
 
 En el caso de la regresión, también contamos con un parámetro `weights` para especificar los pesos de cada predicción.
 
+A continuación vemos un fragmento de código de ejemplo en el que se crear un clasificador de tipo Soft Voting con cuatro modelos base. Destacamos que para utilizar este tipo de votación los modelos base deben proporcionar como salida probabilidades. Por ese motivo, en `SVC` incluimos el parámetro `probability=True`, ya que por defecto no nos estaría proporcionando esa salida.
+
+```python
+estimators = [
+    ("svm", SVC(probability=True)),
+    ("lr",  LogisticRegression()),
+    ("knn", KNeighborsClassifier()),
+    ("dt",  DecisionTreeClassifier()),
+]
+
+voting = VotingClassifier(estimators=estimators, voting="soft")
+voting.fit(X_train, y_train)
+```
+
 ### Consideraciones finales sobre _Voting_
 
 Se trata de un método muy fácil de entender y sencillo de implementar, que se basa en modelos existentes que no es necesario modificar. Todos los modelos base se entrenan independientemente y podría hacerse en paralelo. 
@@ -131,20 +143,13 @@ Voting es la forma más básica de modelo de _ensemble_, en la que se utiliza un
 
 En el caso de _Stacking_ [@wolpert1992stacked], al igual que en _Voting_ tenemos una serie de modelos base heterogéneos que entrenamos de forma independiente, pero a diferencia del caso anterior, no tendremos una combinación fija, sino que utilizaremos un **meta-modelo** para aprender la forma de combinar los diferentes modelos base. 
 
-De esta forma, se podrán capturar relaciones complejas entre las diferentes predicciones. Tendremos una arquitectura en dos niveles, en la que en el nivel inferior tendremos los $M$ diferentes modelos base, cada uno de los cuales producirá una predicción $p_i$ y en el nivel superior tendremos el meta-modelo, que recibirá como entrada las diferentes predicciones $\{ p_1, p_2, \ldots, p_M \}$ y producirá como salida la predicción del _ensemble_.
+De esta forma, se podrán capturar relaciones complejas entre las diferentes predicciones. Tendremos una arquitectura en dos niveles, en la que en el nivel inferior tendremos los $M$ diferentes modelos base, cada uno de los cuales producirá una predicción $p_i$ y en el nivel superior tendremos el meta-modelo, que recibirá como entrada las diferentes predicciones $\{ p_1, p_2, \ldots, p_M \}$ y producirá como salida la predicción del _ensemble_. Un ejemplo de esta arquitectura se muestra en la [](#fig-stacking).
 
-```
-NIVEL 0 (Modelos base):
-├─ Modelo 1 (ej: DT)               → predicción p1
-├─ Modelo 2 (ej: SVM)              → predicción p2
-├─ Modelo 3 (ej: Logistic Reg)     → predicción p3
-└─ Modelo 4 (ej: KNN)              → predicción p4
+Figure: Arquitectura de un _ensemble_ de tipo Stacking {#fig-stacking}
 
-NIVEL 1 (Meta-modelo):
-└─ Recibe [p1, p2, p3, p4] como features
-   → aprende la mejor combinación
-   → predicción final
-```
+![](images/t4_stacking.png)
+
+
 
 ### Algoritmo de entrenamiento
 
@@ -159,7 +164,14 @@ Supongamos que contamos con $M$ modelos base $m_j$, con $j=1, 2, \ldots, M$. Ent
 - Se generan predicciones para los datos del conjunto de validación. Estas son predicciones **out-of-fold** (OOF), ya que han sido generadas para cada observación utilizando un modelo que no ha sido entrenado con dicha observación.
 - Guardamos las predicciones OOF generadas.
 
-De esta forma, obtendremos un nuevo conjunto de datos compuesto por las predicciones OOF generadas por cada modelo base para cada ejemplo de entrada. 
+De esta forma, obtendremos un nuevo conjunto de datos compuesto por las predicciones OOF generadas por cada modelo base para cada ejemplo de entrada. Ver [](#fig-stacking-oof).
+
+Figure: Generación de predicciones OOF mediante validación cruzada como características de entrada para el _meta-modelo_ (_meta-features_) {#fig-stacking-oof}
+
+![](images/t4_stacking_oof.png)
+
+
+
 
 Considerando que tenemos $N$ ejemplos de entrada en nuestro _dataset_ y $M$ modelos, tendremos una matriz como la siguiente:
 
@@ -278,7 +290,13 @@ Con esta técnica se busca principalmente **reducir la varianza**, con lo que va
 
 ### Bootstrap Sampling
 
-El término _Bootstrap_ se refiere a una técnica estadística de remuestreo con reemplazo. A partir de un _dataset_ original $\mathcal{D}$ con $N$ ejemplos obtenemos $B$ _bootstrap samples_ $\mathcal{D}_b$, con $b=1, 2, \ldots, B$. Cada _bootstrap sample_ tendrá también $N$ ejemplos, pero podrá haber ejemplos del conjunto original repetidos o ausentes (_out-of-bag_). 
+El término _Bootstrap_ se refiere a una técnica estadística de remuestreo con reemplazo. A partir de un _dataset_ original $\mathcal{D}$ con $N$ ejemplos obtenemos $B$ _bootstrap samples_ $\mathcal{D}_b$, con $b=1, 2, \ldots, B$. Cada _bootstrap sample_ tendrá también $N$ ejemplos, pero podrá haber ejemplos del conjunto original repetidos o ausentes (_out-of-bag_), como se muestra en la [](#fig-bootstrap). 
+
+Figure: Ejemplo de selección de características con reemplazo (_bootstrap_) {#fig-bootstrap}
+
+![](images/t4_bootstrap.png)
+
+
 
 Por ejemplo, considerando $N=10$, podríamos tener:
 
@@ -369,7 +387,13 @@ La varianza se reduce por un factor de B. Sin embargo, en la práctica los model
 
 $$\text{Var}(\text{ensemble}) = \rho\sigma^2 + \frac{1-\rho}{B}\sigma^2$$
 
-Si los modelos predicen exactamente lo mismo entonces tendremos correlación $\rho=1$, y no obtendremos ninguna ganancia con el _ensemble_. Sin embargo, conforme consigamos reducir la correlación podremos reducir la varianza del modelo. Vemos que el primer término de la función anterior solo se puede reducir reduciendo la correlación, mientras que el segundo término se podría reducir aumentando el número de modelos. El caso ideal teórico sería conseguir $\rho=0$, pero es difícil conseguirlo en la práctica. Lo principal a tener en cuenta es que a mayor correlación, la ganancia será menor, y por ello es importante la **diversidad** de los modelos.
+Si los modelos predicen exactamente lo mismo entonces tendremos correlación $\rho=1$, y no obtendremos ninguna ganancia con el _ensemble_. Sin embargo, conforme consigamos reducir la correlación podremos reducir la varianza del modelo. Vemos que el primer término de la función anterior solo se puede reducir reduciendo la correlación, mientras que el segundo término se podría reducir aumentando el número de modelos. El caso ideal teórico sería conseguir $\rho=0$, pero es difícil conseguirlo en la práctica. Lo principal a tener en cuenta es que a mayor correlación, la ganancia será menor, y por ello es importante la **diversidad** de los modelos. En la [](#fig-correlacion) mostramos el efecto que tendría sobre la varianza aumentar el número $B$ de modelos para diferentes valores de correlación $\rho$.
+
+
+Figure: Efecto del número de modelos $B$ sobre la varianza del _ensemble_, en función de la correlación entre modelos {#fig-correlacion}
+
+![](images/t4_correlacion.png)
+
 
 
 ### Implementación de Bagging Genérico
@@ -423,6 +447,14 @@ Para aumentar la diversidad entre los árboles, Random Forest introduce **dos fu
 1. **Bootstrap sampling (como Bagging estándar):**: Cada árbol se entrena en una muestra _bootstrap_ diferente, con lo que aproximadamente el 37% de ejemplos quedan _out-of-bag_ en cada árbol.
 
 2. **Random feature selection:**: En el _split_ de cada nodo solo se considera un subconjunto aleatorio de $m$ _features_, ayudando a reducir la correlación entre árboles.
+
+En la [](#fig-bagging-rf) se ilustra la diferencia entre Bagging básico y Random Forest, mostrando cómo se aplica la selección aleatoria de _features_. Observamos que en lugar de considerar el conjunto completo de $8$ _features_ para buscar el _split_ óptimo, en Random Forest sólo considera un subconjunto de ellas. En el caso concreto del ejemplo, se seleccionan de forma aleatoria $3$ _features_, y se busca el mejor _split_ entre ellas. 
+
+Figure: Comparativa de Bagging básico y Random Forest respecto a la forma de buscar el mejor _split_. {#fig-bagging-rf}
+
+![](images/t4_bagging_vs_rf.png)
+
+
 
 ### Algoritmo de Random Forest
 
@@ -534,6 +566,13 @@ for i in np.argsort(importances)[::-1]:
 
 Este tipo de cálculo de la importancia es más fiable cuando contamos con características correlacionadas, y no existe sesgo por la cardinalidad, pero tiene un mayor coste computacional y requiere un conjunto de _test_ o validación.
 
+En la [](#fig-importance) vemos un ejemplo de estimación de la importancia de las características con cada uno de los dos métodos anteriores para el _dataset_ Wine. 
+
+Figure: Importancia de características en Random Forest {#fig-importance}
+
+![](images/t4_feature_importance.png)
+
+
 
 
 ### Out-of-Bag (OOB) Error en Random Forest
@@ -552,13 +591,22 @@ print(f"OOB Score: {rf.oob_score_:.4f}")
 print(f"Test Score: {rf.score(X_test, y_test):.4f}")
 ```
 
-El _OOB score_ es típicamente una buena aproximación del error de generalización.
+El _OOB score_ es típicamente una buena aproximación del error de generalización. En la [](#fig-oob) observamos un ejemplo de evolución del error OOB y del error de _text_ para el _dataset_ Digits. Vemos como ambos errores evolucionan de forma similar, por lo que el OOB puede ser un buen indicativo del error de generalización.
+
+Figure: Error OOB frente a error de test en Random Forest {#fig-oob}
+
+![](images/t4_oob_rf.png)
+
 
 
 
 ### Extra Trees (Extremely Randomized Trees)
 
-Los _Extra Trees_ son una variante de _Random Forest_ en la que se introduce aún más aleatoriedad. Si bien en _Random Forest_ en cada nodo de los árboles se elige el mejor _split_ entre las _features_ seleccionadas, en _Extra Trees_ se elige un _split_ de forma aleatoria para cada _feature_, y nos quedamos con aquella que proporciona una mayor ganancia.   
+Los _Extra Trees_ son una variante de _Random Forest_ en la que se introduce aún más aleatoriedad. Si bien en _Random Forest_ en cada nodo de los árboles se elige el mejor _split_ entre las _features_ seleccionadas, en _Extra Trees_ se elige un _split_ de forma aleatoria para cada _feature_, y nos quedamos con aquella que proporciona una mayor ganancia (ver [](#fig-rf-et))
+
+Figure: Comparativa de Random Forest y Extra Trees respecto a la forma de seleccionar el mejor umbral para dividir cada nodo {#fig-rt-et}
+
+![](images/t4_rf_vs_extra.png)
 
 En la siguiente tabla se resumen las principales diferencias estre estos modelos:
 
@@ -569,6 +617,8 @@ En la siguiente tabla se resumen las principales diferencias estre estos modelos
 | **Varianza** | Bajo | Aún menor |
 | **Sesgo** | Bajo | Ligeramente mayor |
 | **Velocidad** | Más lento | Más rápido (_splits_ aleatorios) |
+
+
 
 En sklearn tenemos las clase [ExtraTreesClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html) y [ExtraTreesRegressor](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesRegressor.html). A continuación vemos un ejemplo de implementación:
 
