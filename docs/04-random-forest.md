@@ -31,7 +31,7 @@ A continuación estudiaremos en detalle cada una de estas categorías, y los pri
 
 ## Voting
 
-La idea tras los modelos de _Voting_ [@kittler1998combining] es la de entrenar múltiples modelos independientes y combinar sus predicciones mediante votación (en el caso de clasifiación) o mediante promediado (en el caso de regresión). 
+La idea tras los modelos de _Voting_ [@kittler1998combining] es la de entrenar múltiples modelos independientes y combinar sus predicciones mediante votación (en el caso de clasificación) o mediante promediado (en el caso de regresión). 
 
 En este caso los modelos se entrenan de forma independiente con el **mismo conjunto de datos**, y no hay dependencia entre modelos, por lo que pueden entrenarse en paralelo. Además, podemos **combinar diferentes tipos de modelos**. 
 
@@ -243,16 +243,11 @@ Podemos encontrar diferentes variantes de _Stacking_. Vamos a continuación a de
 
 Una de las variantes es la conocida como **Blending**. Se diferencia de _Stacking_ básicamente en que en lugar de utilizar un _K-Fold_ para generar predicciones OOF para el entrenamiento del meta-modelo, utiliza un único particionamiento en conjunto de entrenamiento y conjunto de validación. Por ejemplo, podemos particionar con un 80% de los datos para entrenamiento y 20% para validación, con lo cual, sólo se estarían generando predicciones con el 20% de los datos. _Blending_ resulta más sencillo y rápido, pero estaremos entrenando el meta-modelo con menos datos. Con un _dataset_ pequeño podemos perder rendimiento y tendremos mayor varianza, pero en caso de tener un _dataset_ grande y buscar reducir el coste computacional _blending_ puede ser una opción adecuada.
 
-Otra variante a considerar es el **Stacking multi-nivel**. Este método consiste en apilar múltiples niveles de meta-modelos:
-```
-NIVEL 0: Modelos base 
-    ↓ (predicciones)
-NIVEL 1: Primer grupo de meta-modelos
-    ↓ (predicciones)
-NIVEL 2: Meta-meta-modelo final
-    ↓
-Predicción final
-```
+Otra variante a considerar es el **Stacking multi-nivel**. Este método consiste en apilar múltiples niveles de meta-modelos (ver [](#fig-stacking-multi)).
+
+Figure: Arquitectura de un _ensemble_ de Stacking multi-nivel {#fig-stacking-multi}
+
+![](images/t4_stacking_multi.png)
 
 Esta técnica tiene como ventaja que puede ser capaz de capturar relaciones muy complejas, pero tiene mayor riesgo de _overfitting_ y resulta difícil de interpretar. 
 
@@ -404,7 +399,7 @@ Deberemos proporcionar el modelo base que queremos entrenar en el parámetro `es
 
 Es interesante observar que esta implementación nos da gran flexibilidad para la implementación del método. Por ejemplo, con `max_samples` podemos indicar el número de ejemplos que tendrá cada muestra generada (por defecto tendrá $N$ ejemplos, tantos como el conjunto de entrada original), y también podemos indicar con el parámetro `bootstrap` si queremos que muestree con reemplazo o sin reemplazo. Es recomendable que este parámetro tenga siempre valor `True`, que es la opción por defecto. También tenemos el parámetro `oob_score` que nos permite indicar si queremos utilizar los ejemplos _out-of-bag_ para estimar el error de generalización (esto solo es posible si se utiliza muestre con reemplazo).
 
-Además, no solo nos permite muestrear con reemplazo los ejemplos de entrada, sino que también nos permite hacer lo mismo con las _features_ (esto como veremos a continuación es algo que incorporan los _Randon Forest_). Con `max_features` y `bootstrap_feature` podemos indicar el número de _features_ que queremos seleccionar en cada muestra y si queremos que se puedan seleccionar con reemplazo, respectivamente. En este caso por defecto está establecido que no se realice muestreo con reemplazo de las _features_. 
+Además, no solo nos permite muestrear con reemplazo los ejemplos de entrada, sino que también nos permite hacer lo mismo con las _features_ (esto como veremos a continuación es algo que incorporan los _Random Forest_). Con `max_features` y `bootstrap_feature` podemos indicar el número de _features_ que queremos seleccionar en cada muestra y si queremos que se puedan seleccionar con reemplazo, respectivamente. En este caso por defecto está establecido que no se realice muestreo con reemplazo de las _features_. 
 
 
 ```python
@@ -444,9 +439,9 @@ Random Forest [@breiman2001random] es el método de _Bagging_ más popular, espe
 
 Para aumentar la diversidad entre los árboles, Random Forest introduce **dos fuentes de aletoriedad**:
 
-1. **Bootstrap sampling (como Bagging estándar):**: Cada árbol se entrena en una muestra _bootstrap_ diferente, con lo que aproximadamente el 37% de ejemplos quedan _out-of-bag_ en cada árbol.
+1. **Bootstrap sampling (como Bagging estándar):** Cada árbol se entrena en una muestra _bootstrap_ diferente, con lo que aproximadamente el 37% de ejemplos quedan _out-of-bag_ en cada árbol.
 
-2. **Random feature selection:**: En el _split_ de cada nodo solo se considera un subconjunto aleatorio de $m$ _features_, ayudando a reducir la correlación entre árboles.
+2. **Random feature selection:** En el _split_ de cada nodo solo se considera un subconjunto aleatorio de $m$ _features_, ayudando a reducir la correlación entre árboles.
 
 En la [](#fig-bagging-rf) se ilustra la diferencia entre Bagging básico y Random Forest, mostrando cómo se aplica la selección aleatoria de _features_. Observamos que en lugar de considerar el conjunto completo de $8$ _features_ para buscar el _split_ óptimo, en Random Forest sólo considera un subconjunto de ellas. En el caso concreto del ejemplo, se seleccionan de forma aleatoria $3$ _features_, y se busca el mejor _split_ entre ellas. 
 
@@ -462,9 +457,9 @@ Detallamos a continuación el algoritmo para el **entrenamiento** de un modelo d
 
 $$
 \begin{align*}
-& \text{Entrada: Dataset } \mathcal{D} \text{, número de árboles } B \text{, número de feature } m \\
+& \text{Entrada: Dataset } \mathcal{D} \text{, número de árboles } B \text{, número de features } m \\
 & \text{Para } b=1 \text{ hasta } B:\\
-& \quad \mathcal{D}_b \leftarrow \text{Seleccionar, con reemplazo } N \text{ ejemplos del conjunto } \mathcal{D} \\
+& \quad \mathcal{D}_b \leftarrow \text{Seleccionar, con reemplazo, } N \text{ ejemplos del conjunto } \mathcal{D} \\
 & \quad T_b \leftarrow \text{Crear árbol} \\
 & \quad \text{Para cada nodo en } T_b: \\
 & \quad \quad \text{Seleccionar } m \text{ features al azar del total } d  \\
@@ -604,7 +599,7 @@ Figure: Error OOB frente a error de test en Random Forest {#fig-oob}
 
 Los _Extra Trees_ son una variante de _Random Forest_ en la que se introduce aún más aleatoriedad. Si bien en _Random Forest_ en cada nodo de los árboles se elige el mejor _split_ entre las _features_ seleccionadas, en _Extra Trees_ se elige un _split_ de forma aleatoria para cada _feature_, y nos quedamos con aquella que proporciona una mayor ganancia (ver [](#fig-rf-et))
 
-Figure: Comparativa de Random Forest y Extra Trees respecto a la forma de seleccionar el mejor umbral para dividir cada nodo {#fig-rt-et}
+Figure: Comparativa de Random Forest y Extra Trees respecto a la forma de seleccionar el mejor umbral para dividir cada nodo {#fig-rf-et}
 
 ![](images/t4_rf_vs_extra.png)
 
@@ -652,6 +647,7 @@ En cuanto a la **interpretabilidad**, tenemos la posibilidad de obtener una medi
 Respecto al **coste**, el entrenamiento es muy rápido y es paralelizable, pero cuando tenemos muchos árboles la predicción puede ser más lenta. Además, tiene un alto coste espacial en memoria, ya que debe almacenar muchos árboles profundos. El tamaño de los modelos puede ser grande. 
 
 En resumen, _Random Forest_ es robusto y versátil, siendo el método de _Bagging_ más popular y uno de los algoritmos más importantes en _Machine Learning_. Combina:
+
 - _Bootstrap sampling_ (como _Bagging_)
 - _Random feature selection_
 - Árboles profundos sin poda
