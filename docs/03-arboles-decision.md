@@ -94,7 +94,7 @@ Figure: Construcción de un árbol de regresión {#fig-construccion-reg}
 
 ![](images/t3_estratificacion_progresivo.png)
 
-En la [](#fig-arbol1d) se muestra cómo se construye un árbol de regresión conforme aumenta la profundidad del árbol. En la parte inferior de la figura se muestra el particionamiento en regiones, mientras que en la parte superior se muestra en 3D la estratificación creada en cada caso, donde cada región tiene un valor constante correspondiente a la media de todas las observaciones de dicha región.
+En la [](#fig-construccion-reg) se muestra cómo se construye un árbol de regresión conforme aumenta la profundidad del árbol. En la parte inferior de la figura se muestra el particionamiento en regiones, mientras que en la parte superior se muestra en 3D la estratificación creada en cada caso, donde cada región tiene un valor constante correspondiente a la media de todas las observaciones de dicha región.
 
 Como función de impureza en árboles de regresión habitualmente se utiliza el **error cuadrático medio (MSE)**:
 

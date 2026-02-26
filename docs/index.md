@@ -1,6 +1,6 @@
 # Aprendizaje Avanzado
 
-Este material se proporciona como apuntes para la asignatura [Aprendizaje Avanzado](https://cvnet.cpd.ua.es/Guia-Docente/GuiaDocente/Index?wcodest=C213&wcodasi=33680&wlengua=es) del [Grado en Ingeniería en Inteligencia Artificial](https://web.ua.es/es/grados/grado-en-ingenieria-en-inteligencia-artificial/) de la [Universidad de Alicante](www.ua.es/). 
+Este material se proporciona como apuntes para la asignatura [Aprendizaje Avanzado](https://cvnet.cpd.ua.es/Guia-Docente/GuiaDocente/Index?wcodest=C213&wcodasi=33680&wlengua=es) del [Grado en Ingeniería en Inteligencia Artificial](https://web.ua.es/es/grados/grado-en-ingenieria-en-inteligencia-artificial/) de la [Universidad de Alicante](https://www.ua.es/). 
 
 ## Contexto de la asignatura
 
