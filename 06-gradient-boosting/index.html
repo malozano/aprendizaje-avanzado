@@ -12,13 +12,17 @@
         <link rel="canonical" href="https://malozano.github.io/aprendizaje-avanzado/06-gradient-boosting/">
       
       
+        <link rel="prev" href="../05-adaboost/">
+      
+      
+        <link rel="next" href="../practicas/00-datos-y-visualizacion/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.1">
     
     
       
-        <title>Gradient Boosting - Aprendizaje Avanzado</title>
+        <title>6. Gradient Boosting - Aprendizaje Avanzado</title>
       
     
     
@@ -114,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Gradient Boosting
+              6. Gradient Boosting
             
           </span>
         </div>
@@ -236,20 +240,22 @@
 
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
       
       
         
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
-      
-      
+          
         
           
         
@@ -268,7 +274,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
           Bloque I. Aprendizaje supervisado
@@ -340,6 +346,661 @@
       <a href="../05-adaboost/" class="md-nav__link">
         5. Boosting. Adaboost
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          6. Gradient Boosting
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        6. Gradient Boosting
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#algoritmo-de-gradient-boosting" class="md-nav__link">
+    Algoritmo de Gradient Boosting
+  </a>
+  
+    <nav class="md-nav" aria-label="Algoritmo de Gradient Boosting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inicializacion" class="md-nav__link">
+    Inicialización
+  </a>
+  
+    <nav class="md-nav" aria-label="Inicialización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regresion" class="md-nav__link">
+    Regresión
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clasificacion-binaria" class="md-nav__link">
+    Clasificación binaria
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clasificacion-multiclase" class="md-nav__link">
+    Clasificación multiclase
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#obtencion-del-siguiente-modelo" class="md-nav__link">
+    Obtención del siguiente modelo
+  </a>
+  
+    <nav class="md-nav" aria-label="Obtención del siguiente modelo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calcular-los-pseudo-residuos" class="md-nav__link">
+    Calcular los pseudo-residuos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ajuste-del-modelo-a-los-pseudo-residuos" class="md-nav__link">
+    Ajuste del modelo a los pseudo-residuos
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#actualizacion-del-modelo" class="md-nav__link">
+    Actualización del modelo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algoritmo-completo" class="md-nav__link">
+    Algoritmo completo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prediccion-final" class="md-nav__link">
+    Predicción final
+  </a>
+  
+    <nav class="md-nav" aria-label="Predicción final">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regresion_1" class="md-nav__link">
+    Regresión
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clasificacion-binaria_1" class="md-nav__link">
+    Clasificación binaria
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clasificacion-multiclase_1" class="md-nav__link">
+    Clasificación multiclase
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funciones-de-perdida" class="md-nav__link">
+    Funciones de pérdida
+  </a>
+  
+    <nav class="md-nav" aria-label="Funciones de pérdida">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regresion_2" class="md-nav__link">
+    Regresión
+  </a>
+  
+    <nav class="md-nav" aria-label="Regresión">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mse-l2" class="md-nav__link">
+    MSE (L2)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mae-l1" class="md-nav__link">
+    MAE (L1)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#huber" class="md-nav__link">
+    Huber
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantile-loss" class="md-nav__link">
+    Quantile Loss
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clasificacion-binaria_2" class="md-nav__link">
+    Clasificación Binaria
+  </a>
+  
+    <nav class="md-nav" aria-label="Clasificación Binaria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#logistic-loss-deviance-binomial" class="md-nav__link">
+    Logistic Loss (Deviance binomial)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exponential-loss" class="md-nav__link">
+    Exponential Loss
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clasificacion-multiclase_2" class="md-nav__link">
+    Clasificación Multiclase
+  </a>
+  
+    <nav class="md-nav" aria-label="Clasificación Multiclase">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#softmax-deviance-multinomial" class="md-nav__link">
+    Softmax (Deviance multinomial)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#regularizacion" class="md-nav__link">
+    Regularización
+  </a>
+  
+    <nav class="md-nav" aria-label="Regularización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#learning-rate-shrinkage" class="md-nav__link">
+    Learning Rate (Shrinkage)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stochastic-gradient-boosting" class="md-nav__link">
+    Stochastic Gradient Boosting
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profundidad-maxima-del-arbol" class="md-nav__link">
+    Profundidad máxima del árbol
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#column-subsampling" class="md-nav__link">
+    Column subsampling
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regularizacion-l1-y-l2-sobre-hojas" class="md-nav__link">
+    Regularización L1 y L2 sobre hojas
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementacion" class="md-nav__link">
+    Implementación
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clasificacion" class="md-nav__link">
+    Clasificación
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regresion_3" class="md-nav__link">
+    Regresión
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regularizacion_1" class="md-nav__link">
+    Regularización
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#early-stopping" class="md-nav__link">
+    Early stopping
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#histogram-based-gradient-boosting" class="md-nav__link">
+    Histogram-based Gradient Boosting
+  </a>
+  
+    <nav class="md-nav" aria-label="Histogram-based Gradient Boosting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#algoritmo-basado-en-histogramas" class="md-nav__link">
+    Algoritmo basado en Histogramas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#manejo-de-valores-faltantes" class="md-nav__link">
+    Manejo de valores faltantes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#soporte-para-features-categoricas" class="md-nav__link">
+    Soporte para features categóricas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ajuste-de-hiperparametros" class="md-nav__link">
+    Ajuste de hiperparámetros
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xgboost" class="md-nav__link">
+    XGBoost
+  </a>
+  
+    <nav class="md-nav" aria-label="XGBoost">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#funcion-objetivo-regularizada" class="md-nav__link">
+    Función objetivo regularizada
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aproximacion-de-segundo-orden" class="md-nav__link">
+    Aproximación de segundo orden
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementacion_1" class="md-nav__link">
+    Implementación
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hiperparametros-principales" class="md-nav__link">
+    Hiperparámetros principales
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimizaciones-computacionales" class="md-nav__link">
+    Optimizaciones computacionales
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lightgbm" class="md-nav__link">
+    LightGBM
+  </a>
+  
+    <nav class="md-nav" aria-label="LightGBM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#crecimiento-del-arbol-por-hojas-leaf-wise" class="md-nav__link">
+    Crecimiento del árbol por hojas (Leaf-wise)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#goss-gradient-based-one-side-sampling" class="md-nav__link">
+    GOSS: Gradient-based One-Side Sampling
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#efb-exclusive-feature-bundling" class="md-nav__link">
+    EFB: Exclusive Feature Bundling
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#histogramas-de-caracteristicas" class="md-nav__link">
+    Histogramas de características
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#soporte-nativo-para-variables-categoricas" class="md-nav__link">
+    Soporte nativo para variables categóricas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementacion_2" class="md-nav__link">
+    Implementación
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hiperparametros-principales_1" class="md-nav__link">
+    Hiperparámetros principales
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#catboost" class="md-nav__link">
+    CatBoost
+  </a>
+  
+    <nav class="md-nav" aria-label="CatBoost">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-problema-del-prediction-shift" class="md-nav__link">
+    El problema del prediction shift
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#codificacion-de-variables-categoricas" class="md-nav__link">
+    Codificación de variables categóricas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arboles-simetricos-oblivious-trees" class="md-nav__link">
+    Árboles simétricos (Oblivious Trees)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementacion_3" class="md-nav__link">
+    Implementación
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hiperparametros-principales_2" class="md-nav__link">
+    Hiperparámetros principales
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#importancia-de-caracteristicas-en-gradient-boosting" class="md-nav__link">
+    Importancia de características en Gradient Boosting
+  </a>
+  
+    <nav class="md-nav" aria-label="Importancia de características en Gradient Boosting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#importancia-por-ganancia-gain" class="md-nav__link">
+    Importancia por ganancia (Gain)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#importancia-por-frecuencia-split-count" class="md-nav__link">
+    Importancia por frecuencia (Split count)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#importancia-por-cobertura-coverage" class="md-nav__link">
+    Importancia por cobertura (Coverage)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#importancia-shap" class="md-nav__link">
+    Importancia SHAP
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consideraciones-finales" class="md-nav__link">
+    Consideraciones finales
+  </a>
+  
+    <nav class="md-nav" aria-label="Consideraciones finales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fortalezas-de-los-metodos-de-gradient-boosting" class="md-nav__link">
+    Fortalezas de los métodos de Gradient Boosting
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitaciones-de-los-metodos-de-gradient-boosting" class="md-nav__link">
+    Limitaciones de los métodos de Gradient Boosting
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparativa-de-metodos-de-gradient-boosting" class="md-nav__link">
+    Comparativa de métodos de Gradient Boosting
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sesgo-varianza-y-diversidad" class="md-nav__link">
+    Sesgo, varianza y diversidad
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#de-la-teoria-a-la-practica" class="md-nav__link">
+    De la teoría a la práctica
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusión
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -441,7 +1102,6 @@
 
 <h1 id="gradient-boosting">Gradient Boosting<a class="headerlink" href="#gradient-boosting" title="Permanent link">¶</a></h1>
 <p>Gradient Boosting (Friedman, 2001)<sup id="fnref:friedman2001greedy"><a class="footnote-ref" href="#fn:friedman2001greedy">1</a></sup> generaliza la idea de boosting mediante una perspectiva de <strong>optimización numérica</strong>. En lugar de ajustar pesos de ejemplos (como AdaBoost), cada nuevo modelo se ajusta al <strong>gradiente negativo de la función de pérdida</strong>. Gradient Boosting es la base teórica de métodos modernos como XGBoost (Chen &amp; Guestrin, 2016)<sup id="fnref:chen2016xgboost"><a class="footnote-ref" href="#fn:chen2016xgboost">2</a></sup>, LightGBM (Ke et al., 2017)<sup id="fnref:ke2017lightgbm"><a class="footnote-ref" href="#fn:ke2017lightgbm">3</a></sup> y CatBoost (Prokhorenkova et al., 2018)<sup id="fnref:prokhorenkova2018catboost"><a class="footnote-ref" href="#fn:prokhorenkova2018catboost">4</a></sup>.</p>
-<h2 id="marco-conceptual">Marco Conceptual<a class="headerlink" href="#marco-conceptual" title="Permanent link">¶</a></h2>
 <p>La idea clave tras Gradient Boosting es considerar el <em>boosting</em> como un problema de optimización en el espacio de funciones. Tratamos de encontrar una función <span class="arithmatex">\(F(x)\)</span> que minimice la pérdida esperada:</p>
 <div class="arithmatex">\[F^* = \arg\min_F \mathbb{E}_{x,y}[L(y, F(x))]\]</div>
 <p>Donde <span class="arithmatex">\(L\)</span> es una función de pérdida diferenciable.</p>
@@ -463,10 +1123,11 @@
 &amp;F \leftarrow F_0 \quad \text{(Inicializamos el ensemble)} \\
 &amp; \text{Para cada } m \in \{1, \ldots, M\} \\
 &amp; \quad G \leftarrow \nabla L(F) \quad \text{(Gradiente respecto a las predicciones)}\\
-&amp; \quad f_m \leftarrow fit(G) \quad \text{(Ajustamos un nuevo modelo a los gradientes)}\\
+&amp; \quad h_m \leftarrow fit(G) \quad \text{(Ajustamos un nuevo modelo a los gradientes)}\\
 &amp; \quad F \leftarrow F - \eta h_m \quad \text{(Actualizamos el ensemble)}
 \end{align*}
 \]</div>
+<p>Donde <span class="arithmatex">\(\eta \in (0, 1]\)</span> es el <em>learning rate</em>, que gradúa la contribución de cada modelo al <em>ensemble</em>. </p>
 <h2 id="algoritmo-de-gradient-boosting">Algoritmo de Gradient Boosting<a class="headerlink" href="#algoritmo-de-gradient-boosting" title="Permanent link">¶</a></h2>
 <p>Vamos a continuación a detallar los diferentes pasos del algoritmo.</p>
 <h3 id="inicializacion">Inicialización<a class="headerlink" href="#inicializacion" title="Permanent link">¶</a></h3>
@@ -503,7 +1164,7 @@ F_0^{(k)}  = \ln \frac{N_k}{N}, \quad k = 1, \ldots, K
 <div class="arithmatex">\[
 F_{m-1}(\mathbf{x}) = F_0 + \sum_{j=1}^{m-1} \eta h_j(\mathbf{x}) 
 \]</div>
-<p>Donde <span class="arithmatex">\(\eta \in (0, 1]\)</span> es el <strong><em>learning rate</em></strong>, conocido como <em>shrinkage</em>, debido a que tiene el efecto de "encoger" la contribución de cada modelo. Cuando el valor es alto, cercano a <span class="arithmatex">\(1\)</span>, el algoritmo convergerá rápido con pocos estimadores, con lo cual tendremos riesgo de <em>overfitting</em>. Sin embargo, si tenemos un valor pequeño, cercano a <span class="arithmatex">\(0\)</span>, cada estimador contribuirá muy poco y al necesitar más estimadores para converger tendremos también mejor generalización. Básicamente, con <em>learning rates</em> más pequeños tendremos modelos más robustos, pero a costa de un mayor tiempo de entrenamiento. </p>
+<p>Donde <span class="arithmatex">\(\eta \in (0, 1]\)</span> es el <strong><em>learning rate</em></strong>, como hemos visto anteriormente, que permite reducir la contribución de cada modelo al <em>ensemble</em>, y así dar pasos más pequeños en cada actualización para reducir el <em>overfitting</em>.  </p>
 <p>Vamos a continuación a ver los pasos a seguir para obtener el siguiente modelo <span class="arithmatex">\(h_m\)</span>. Nótese que en la primera iteración <span class="arithmatex">\(m=1\)</span> nuestro modelo anterior será unicamente <span class="arithmatex">\(F_0\)</span>, tal como se ha inicializado en el paso anterior.</p>
 <h4 id="calcular-los-pseudo-residuos">Calcular los pseudo-residuos<a class="headerlink" href="#calcular-los-pseudo-residuos" title="Permanent link">¶</a></h4>
 <p>Cuando hablamos de pseudo-residuos nos referiremos a los errores que el siguiente modelo <span class="arithmatex">\(h_m\)</span> debe corregir, y que obtendremos a partir del gradiente negativo. Para cada ejemplo de entrada <span class="arithmatex">\(i \in \{1, 2, \ldots, N\}\)</span> tenemos:</p>
@@ -550,6 +1211,24 @@ $$
 \rho_m = \arg \min_\rho \sum_{i=1}^N L(y_i, F_{m-1}(\mathbf{x}_i) + \rho h_m(\mathbf{x}_i)) $$
 Es decir, una vez entrenado el árbol h_m se busca el escalar óptimo que más reduce la pérdida en esa dirección. Sin embargo, en la práctica la optimización por hoja <span class="arithmatex">\(\gamma_{jm}\)</span> lo hace redundante. Si ya ajustamos un valor óptimo por hoja, el multiplicador global no añade nada, por lo que habitualmente en la práctica se fija <span class="arithmatex">\(\rho_m = 1\)</span>.</p>
 </blockquote>
+<h3 id="algoritmo-completo">Algoritmo completo<a class="headerlink" href="#algoritmo-completo" title="Permanent link">¶</a></h3>
+<p>Con todo lo anterior, podemos escribir de forma completa el algoritmo de Gradient Boosting como se muestra a continuación:</p>
+<div class="arithmatex">\[
+\begin{align*}
+&amp; \text{Entrada: } \text{Conjunto de entrenamiento } \mathcal{D} = \{(\mathbf{x}_i, y_i)\}_{i=1}^N, \text{ Tasa de aprendizaje } \eta \\
+&amp;F_0(\mathbf{x}) \leftarrow \arg \min_\gamma \sum_{i=1}^N L(y_i, \gamma) \quad \text{(Inicializamos el ensemble)} \\
+&amp; \text{Para cada } m \in \{1, \ldots, M\}: \\
+&amp; \quad r_{im} \leftarrow - \left[ \frac{\partial L(y_i, F(\mathbf{x}_i))}{ \partial F(\mathbf{x}_i)} \right]_{F=F_{m-1}}, \quad \forall i \text{ (Obtenemos los pseudo-residuos)}
+\\
+&amp; \quad 
+h_m \leftarrow \arg \min_h \sum_{i=1}^N (r_{im} - h(\mathbf{x}_i))^2 \quad \text{ (Entrenamos un nuevo modelo que aprenda los residuos)} \\
+&amp; \quad 
+\gamma_{jm} \leftarrow \arg \min_\gamma \sum_{\mathbf{x}_i \in R_{jm}} L(y_i, F_{m-1}(\mathbf{x}_i)+ \gamma) \quad \forall j \text{ (Optimizamos el valor de cada hoja del nuevo modelo)} \\
+&amp; \quad 
+F_m(\mathbf{x}) \leftarrow F_{m-1}(\mathbf{x}) + \eta \sum_{j=1}^J \gamma_{jm} 1[\mathbf{x} \in R_{jm}] \quad  \text{ (Actualizamos el modelo)} \\
+&amp; \text{Devuelve: } F_M(\mathbf{x})
+\end{align*}
+\]</div>
 <h3 id="prediccion-final">Predicción final<a class="headerlink" href="#prediccion-final" title="Permanent link">¶</a></h3>
 <p>Una vez obtenidos los <span class="arithmatex">\(M\)</span> árboles, el modelo final será la suma de todas las contribuciones:</p>
 <div class="arithmatex">\[
@@ -572,24 +1251,6 @@ Es decir, una vez entrenado el árbol h_m se busca el escalar óptimo que más r
 \hat{p}_k = \frac{e^{F_M^{(k)}(\mathbf{x})}}{\sum_{j=1}^K e^{F_M^{(j)}(\mathbf{x})}}
 \]</div>
 <p>Se predecirá la clase con mayor probabilidad.</p>
-<h3 id="algoritmo-completo">Algoritmo completo<a class="headerlink" href="#algoritmo-completo" title="Permanent link">¶</a></h3>
-<p>Con todo lo anterior, podemos escribir de forma completa el algoritmo de Gradient Boosting como se muestra a continuación:</p>
-<div class="arithmatex">\[
-\begin{align*}
-&amp; \text{Entrada: } \text{Conjunto de entrenamiento } \mathcal{D} = \{(\mathbf{x}_i, y_i)\}_{i=1}^N, \text{ Tasa de aprendizaje } \eta \\
-&amp;F_0(\mathbf{x}) \leftarrow \arg \min_\gamma \sum_{i=1}^N L(y_i, \gamma) \quad \text{(Inicializamos el ensemble)} \\
-&amp; \text{Para cada } m \in \{1, \ldots, M\}: \\
-&amp; \quad r_{im} \leftarrow - \left[ \frac{\partial L(y_i, F(\mathbf{x}_i))}{ \partial F(\mathbf{x}_i)} \right]_{F=F_{m-1}}, \quad \forall i \text{ (Obtenemos los pseudo-residuos)}
-\\
-&amp; \quad 
-h_m \leftarrow \arg \min_h \sum_{i=1}^N (r_{im} - h(\mathbf{x}_i))^2 \quad \text{ (Entrenamos un nuevo modelo que aprenda los residuos)} \\
-&amp; \quad 
-\gamma_{jm} \leftarrow \arg \min_\gamma \sum_{\mathbf{x}_i \in R_{jm}} L(y_i, F_{m-1}(\mathbf{x}_i)+ \gamma) \quad \forall j \text{ (Optimizamos el valor de cada hoja del nuevo modelo)} \\
-&amp; \quad 
-F_m(\mathbf{x}) \leftarrow F_{m-1}(\mathbf{x}) + \eta \sum_{j=1}^J \gamma_{jm} 1[\mathbf{x} \in R_{jm}] \quad  \text{ (Actualizamos el modelo)} \\
-&amp; \text{Devuelve: } F_M(\mathbf{x})
-\end{align*}
-\]</div>
 <h2 id="funciones-de-perdida">Funciones de pérdida<a class="headerlink" href="#funciones-de-perdida" title="Permanent link">¶</a></h2>
 <p>Hemos visto el caso de dos funciones de pérdida típicas como son MSE en caso de regresión y <em>log-loss</em> para clasificación binaria. Vamos a ver ahora con mayor detalle las diferentes funciones de pérdida utilizadas comúnmente en Gradiente Boosting.</p>
 <h3 id="regresion_2">Regresión<a class="headerlink" href="#regresion_2" title="Permanent link">¶</a></h3>
@@ -615,7 +1276,7 @@ r_i = y_i-F_{m-1}(\mathbf{x}_i)
 <li><strong>Valor óptimo por hoja</strong> (media de los residuos):</li>
 </ul>
 <div class="arithmatex">\[
-\gamma_{jm} = \frac{1}{|R_{jm}|} r_i
+\gamma_{jm} = \frac{1}{|R_{jm}|} \sum_{\mathbf{x}_i \in R_{jm}} r_{i}
 \]</div>
 <h4 id="mae-l1">MAE (L1)<a class="headerlink" href="#mae-l1" title="Permanent link">¶</a></h4>
 <p>Es más robusta a <em>outliers</em>, pero no es diferenciable en <span class="arithmatex">\(0\)</span>, lo que complica su optimización. Es menos utilizada en la práctica.</p>
@@ -676,7 +1337,7 @@ L_{\tau}(y_i, F(\mathbf{x}_i)) = \begin{cases}
 (1-\tau)&nbsp;(F(\mathbf{x}_i)-y_i) &amp; \text{si } y_i &lt; F(\mathbf{x}_i)
 \end{cases} 
 \]</div>
-<p>Donde <span class="arithmatex">\(\tau \in (0,1)\)</span> es el cuantil objetivo. Por ejemplo, con <span class="arithmatex">\(\tau=0.5\)</span> tendríamos la mediana (equivale a MAE), mientras que con <span class="arithmatex">\(\tau=0.9\)</span> estimaríamos el percentil <span class="arithmatex">\(90\)</span> (es decir, penaliza más la infravaloraciones que laqs sobrevaloraciones, por lo que forzará al modelo a predecir alto). </p>
+<p>Donde <span class="arithmatex">\(\tau \in (0,1)\)</span> es el cuantil objetivo. Por ejemplo, con <span class="arithmatex">\(\tau=0.5\)</span> tendríamos la mediana (equivale a MAE), mientras que con <span class="arithmatex">\(\tau=0.9\)</span> estimaríamos el percentil <span class="arithmatex">\(90\)</span> (es decir, penaliza más la infravaloraciones que las sobrevaloraciones, por lo que forzará al modelo a predecir alto). </p>
 <ul>
 <li><strong>Inicialización</strong> (de forma coherente con el caso del MAE que correspondería a <span class="arithmatex">\(\tau=0.5\)</span>, se inicializa como el cuantil de la variable objetivo): </li>
 </ul>
@@ -771,14 +1432,26 @@ r_i^{(k)} = y_i^{(k)} - p_i^{(k)}, \quad p_i^{(k)} = \frac{e^{F_{m-1}^{(k)} (\ma
 <div class="arithmatex">\[
 \gamma_{jm}^{(k)} = \frac{K-1}{K} \cdot \frac{\sum_{\mathbf{x}_i \in R_{jm}}r_i^{(k)}}{\sum_{\mathbf{x}_i \in R_{jm}} p_i^{(k)} (1-p_i^{(k)}) }
 \]</div>
-<h2 id="stochastic-gradient-boosting">Stochastic Gradient Boosting<a class="headerlink" href="#stochastic-gradient-boosting" title="Permanent link">¶</a></h2>
+<h2 id="regularizacion">Regularización<a class="headerlink" href="#regularizacion" title="Permanent link">¶</a></h2>
+<p>Vamos a ver diferentes estrategias de regularización en Gradient Boosting que nos permitan reducir el <em>overfitting</em>. Una de ellas, que ya hemos adelantado anteriormente, es el <strong><em>learning rate</em></strong> <span class="arithmatex">\(\eta\)</span>. También existe una <strong>variante estocástica</strong> del algoritmo para buscar más diversidad entre los diferentes modelos, haciendo <strong>subsampling</strong> aleatorio de los datos en cada iteración. Además de estas estrategias, tenemos otros mecanismos, existen otros mecanismos de regularización habituales en Gradient Boosting.</p>
+<h3 id="learning-rate-shrinkage">Learning Rate (Shrinkage)<a class="headerlink" href="#learning-rate-shrinkage" title="Permanent link">¶</a></h3>
+<p>Como hemos visto, el <strong>learning rate</strong> <span class="arithmatex">\(\eta\)</span> controla la contribución de cada árbol <span class="arithmatex">\(h_m\)</span> al <em>ensemble</em>:</p>
+<div class="arithmatex">\[F_m(\mathbf{x}) = F_{m-1}(\mathbf{x}) + \eta  h_m(\mathbf{x})\]</div>
+<p>El <strong><em>learning rate</em></strong> es conocido también como <em>shrinkage</em>, debido a que tiene el efecto de "encoger" la contribución de cada modelo, pudiendo tomar valores en el intervalo <span class="arithmatex">\((0,1]\)</span>:</p>
+<ul>
+<li>Cuando el <strong>valor es alto</strong>, cercano a <span class="arithmatex">\(1\)</span>, el algoritmo convergerá rápido con pocos estimadores, con lo cual tendremos riesgo de <em>overfitting</em>. </li>
+<li>Sin embargo, si tenemos un <strong>valor pequeño</strong>, cercano a <span class="arithmatex">\(0\)</span>, cada estimador contribuirá muy poco y al necesitar más estimadores para converger tendremos también mejor generalización.</li>
+</ul>
+<p>Básicamente, con <em>learning rates</em> más pequeños tendremos modelos más robustos, pero a costa de un mayor tiempo de entrenamiento. Se trata de avanzar con pasos más pequeños pero más seguros. </p>
+<p>Por lo tanto, será recomendable utilizar valores pequeños (por ejemplo <span class="arithmatex">\(\eta = 0.01\)</span> o <span class="arithmatex">\(0.1\)</span>), aumentar el número de estimadores y utilizar <em>early stopping</em> para encontrar el punto óptimo. </p>
+<h3 id="stochastic-gradient-boosting">Stochastic Gradient Boosting<a class="headerlink" href="#stochastic-gradient-boosting" title="Permanent link">¶</a></h3>
 <p>El algoritmo original de Gradient Boosting utiliza en cada iteración todos los ejemplos de entrenamiento para calcular los pseudo-residuos y ajustar el nuevo modelo. Aunque esto garantiza una estimación precisa del gradiente, tiene dos inconvenientes:</p>
 <ul>
 <li>Tiene un alto coste computacional si el <em>dataset</em> es grande.</li>
 <li>Al ver siempre los mismos datos, tiende a haber una alta correlación entre árboles sucesivos, lo cual puede llevar al <em>overfitting</em>.</li>
 </ul>
-<p>Para abordar estos problemas, se propuso una variante estocástica (Friedman, 2002)<sup id="fnref:friedman2002stochastic"><a class="footnote-ref" href="#fn:friedman2002stochastic">5</a></sup>: <strong>Stochastic Gradient Descent (SGB)</strong>. </p>
-<p>La modificación es conceptualmente sencilla. En cada iteración <span class="arithmatex">\(m\)</span>, en lugar de usar el conjunto de entrenamiento completo se selecciona una <strong>muestra aleatoria sin reemplazo</strong> <span class="arithmatex">\(\mathcal{S_m} \subset \{1, \ldots, N\}\)</span> cuyo tamaño <span class="arithmatex">\(N'\)</span> se calcula como:</p>
+<p>Para abordar estos problemas, se propuso una variante estocástica (Friedman, 2002)<sup id="fnref:friedman2002stochastic"><a class="footnote-ref" href="#fn:friedman2002stochastic">5</a></sup>: <strong>Stochastic Gradient Boosting (SGB)</strong>. </p>
+<p>La modificación es conceptualmente sencilla: en cada iteración <span class="arithmatex">\(m\)</span>, en lugar de usar el conjunto de entrenamiento completo se selecciona una <strong>muestra aleatoria sin reemplazo</strong> <span class="arithmatex">\(\mathcal{S_m} \subset \{1, \ldots, N\}\)</span> con tamaño <span class="arithmatex">\(N'\)</span>:</p>
 <div class="arithmatex">\[
 N' = \lfloor fN \rfloor
 \]</div>
@@ -795,21 +1468,38 @@ N' = \lfloor fN \rfloor
 &amp; \quad 
 h_m \leftarrow \arg \min_h \sum_{i \in \mathcal{S}_m} (r_{im} - h(\mathbf{x}_i))^2 \quad \text{ (Entrenamos un nuevo modelo que aprenda los residuos)} \\
 &amp; \quad 
-\gamma_{jm} \leftarrow \arg \min_\gamma \sum_{\mathbf{x}_i \in R_{jm}: i \in \mathcal{S}_m} L(y_i, F_{m-1}(\mathbf{x}_i)+ \gamma) \quad \forall j \text{ (Optimizamos el valor de cada hoja del nuevo modelo)} \\
+\gamma_{jm} \leftarrow \arg \min_\gamma \sum_{\substack{\mathbf{x}_i \in R_{jm} \\ i \in \mathcal{S}_m}} L(y_i, F_{m-1}(\mathbf{x}_i)+ \gamma) \quad \forall j \text{ (Optimizamos el valor de cada hoja del nuevo modelo)} \\
 &amp; \quad 
 F_m(\mathbf{x}) \leftarrow F_{m-1}(\mathbf{x}) + \eta \sum_{j=1}^J \gamma_{jm} 1[\mathbf{x} \in R_{jm}] \quad  \text{ (Actualizamos el modelo)} \\
 &amp; \text{Devuelve: } F_M(\mathbf{x})
 \end{align*}
 \]</div>
-<p>El subsampling </p>
-<p><strong>Ventajas:</strong>
-- ✅ Reduce overfitting (más regularización)
-- ✅ Más rápido (menos datos por árbol)
-- ✅ Introduce diversidad entre árboles</p>
-<p><strong>Subsample típico:</strong> 0.5-0.8</p>
+<p>El subsampling ayudará a reducir el <em>overfitting</em>, introduciendo diversidad, y hará más eficiente el proceso, ya que habrá menos datos por árbol. </p>
+<h3 id="profundidad-maxima-del-arbol">Profundidad máxima del árbol<a class="headerlink" href="#profundidad-maxima-del-arbol" title="Permanent link">¶</a></h3>
+<p>Limitar la profundidad máxima de los árboles base es una de las formas más efectivas de controlar la complejidad del modelo. Con profundidad <span class="arithmatex">\(1\)</span> tendríamos <em>decision stumps</em>, que solo capturan efectos individuales de cada variable. Con profundidad <span class="arithmatex">\(2\)</span> o <span class="arithmatex">\(3\)</span> ya podemos capturar interacciones de segundo y tercer orden. En la práctica se suelen utilizar valores entre <span class="arithmatex">\(3\)</span> y <span class="arithmatex">\(8\)</span>.</p>
+<p>De esta forma, al contrario que en métodos como Random Forest en los que no limitamos la profundidad, en Gradient Boosting utilizaremos normalmente <strong>árboles poco profundos</strong>, que resulten más rápidos de entrenar y que sean complementarios, capturando cada árbol un patrón residual diferente. </p>
+<h3 id="column-subsampling">Column subsampling<a class="headerlink" href="#column-subsampling" title="Permanent link">¶</a></h3>
+<p>Análogo al <em>subsampling</em> de filas, podemos muestrear también un subconjunto de características en cada iteración (o incluso en cada división del árbol). Si denotamos por <span class="arithmatex">\(c \in (0, 1]\)</span> la fracción de columnas seleccionadas, en cada iteración <span class="arithmatex">\(m\)</span> el árbol <span class="arithmatex">\(h_m\)</span> solo tendrá acceso a <span class="arithmatex">\(\lfloor cd \rfloor\)</span> de las <span class="arithmatex">\(d\)</span> características originales. Esto reduce la correlación entre árboles y mejora la generalización.</p>
+<h3 id="regularizacion-l1-y-l2-sobre-hojas">Regularización L1 y L2 sobre hojas<a class="headerlink" href="#regularizacion-l1-y-l2-sobre-hojas" title="Permanent link">¶</a></h3>
+<p>Podemos añadir términos de regularización sobre los valores de hoja <span class="arithmatex">\(\gamma_{jm}\)</span>. Con regularización L2 (<em>ridge</em>), el valor óptimo de cada hoja se modifica de la siguiente forma para evitar valores extremos:</p>
+<div class="arithmatex">\[
+\gamma_{jm} = \arg \min_\gamma \sum_{\mathbf{x}_i \in R_{jm}} L(y_i, F_{m-1}(\mathbf{x}_i)+ \gamma) + \lambda \gamma^2 
+\]</div>
+<p>Donde <span class="arithmatex">\(\lambda \geq 0\)</span> es el parámetro de regularización L2. El término <span class="arithmatex">\(\lambda \gamma^2\)</span> penaliza valores extremos de <span class="arithmatex">\(\gamma\)</span> forzando predicciones más conservadoras:</p>
+<ul>
+<li>Con <span class="arithmatex">\(\lambda = 0\)</span> no se aplica regularización y el valor óptimo por hoja es la media de los residuos.</li>
+<li>Con <span class="arithmatex">\(\lambda\)</span> grande las predicciones por hoja de acercarán a <span class="arithmatex">\(0\)</span>, y el modelo aprende más despacio y de forma más conservadora. Actúa de forma similar a <span class="arithmatex">\(\eta\)</span>, pero a nivel individual de hoja en lugar de a nivel global.</li>
+</ul>
+<p>Con regularización L1 (<em>lasso</em>) se añade una penalización proporcional al valor absoluto de la hoja:</p>
+<div class="arithmatex">\[
+\gamma_{jm} = \arg \min_\gamma \sum_{\mathbf{x}_i \in R_{jm}} L(y_i, F_{m-1}(\mathbf{x}_i)+ \gamma) + \alpha | \gamma |
+\]</div>
+<p>Donde <span class="arithmatex">\(\alpha \geq 0\)</span> es el parámetro de regularización L1. Este tipo de regularización produce <em>sparsity</em>, es decir, que hojas con poca evidencia (suma de residuos baja) no contribuyan nada al modelo. Es útil cuando el modelo tenga muchas hojas y solo queremos que contribuyan las más informativas.</p>
+<p>Estos tipos de regularización son uno de los elementos que XGBoost introduce en su formulación.</p>
 <h2 id="implementacion">Implementación<a class="headerlink" href="#implementacion" title="Permanent link">¶</a></h2>
-<p>En sklearn contamos con las clases <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html">GradientBoostingClassifier</a> y <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html">GradientBoostingRegressor</a> para problemas de clasificación y regresión respectivamente.</p>
-<p>A continuación mostramos un ejemplo para el casi de clasificación:</p>
+<p>En sklearn contamos con las clases <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html">GradientBoostingClassifier</a> y <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html">GradientBoostingRegressor</a> para problemas de clasificación y regresión respectivamente. </p>
+<h3 id="clasificacion">Clasificación<a class="headerlink" href="#clasificacion" title="Permanent link">¶</a></h3>
+<p>A continuación mostramos un ejemplo para el caso de <strong>clasificación</strong>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Gradient Boosting para clasificación</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">gb_clf</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">(</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>         <span class="c1"># Número de árboles</span>
@@ -818,457 +1508,536 @@ F_m(\mathbf{x}) \leftarrow F_{m-1}(\mathbf{x}) + \eta \sum_{j=1}^J \gamma_{jm} 1
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>     <span class="c1"># Mínimo para split</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>      <span class="c1"># Mínimo en hojas</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">subsample</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>            <span class="c1"># Stochastic GB (fracción de muestras)</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">max_features</span><span class="o">=</span><span class="s1">'sqrt'</span><span class="p">,</span>      <span class="c1"># Features por split</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">loss</span><span class="o">=</span><span class="s1">'log_loss'</span>          <span class="c1"># Función de pérdida (por defecto)</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">)</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">gb_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">loss</span><span class="o">=</span><span class="s1">'log_loss'</span>          <span class="c1"># Función de pérdida (por defecto)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">gb_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </code></pre></div>
-<p>Una de las cuestiones a destacar es que en Gradient Boosting utilizamos normalmente <strong>árboles poco profundos</strong> (típicamente entre 3 y 8 niveles), lo cual contrasta con Random Forest que utiliza árboles con profundidad máxima. Vemos que en la implementación por defecto tenemos una profundidad máxima (<code>max_depth</code>) de 3 niveles.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a># Gradient Boosting para regresión
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>gb_reg = GradientBoostingRegressor(
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    n_estimators=100,
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    learning_rate=0.1,
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    max_depth=3,
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    loss='squared_error',     # Para regresión (default)
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    random_state=42
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>)
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>gb_reg.fit(X_train, y_train)
+<p>Destacamos el parámetro <code>loss</code>, que nos permite elegir entre las funciones de pérdida <code>log_loss</code> y <code>exponential</code>.</p>
+<h3 id="regresion_3">Regresión<a class="headerlink" href="#regresion_3" title="Permanent link">¶</a></h3>
+<p>En caso de <strong>regresión</strong> tenemos:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Gradient Boosting para regresión</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">gb_reg</span> <span class="o">=</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">loss</span><span class="o">=</span><span class="s1">'squared_error'</span>     <span class="c1"># Para regresión (default)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">gb_reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 </code></pre></div>
-<p>`</p>
-<h2 id="learning-rate-shrinkage">Learning Rate (Shrinkage)<a class="headerlink" href="#learning-rate-shrinkage" title="Permanent link">¶</a></h2>
-<p>El learning rate <span class="arithmatex">\(\eta\)</span> controla la contribución de cada árbol:</p>
-<div class="arithmatex">\[F_m(x) = F_{m-1}(x) + \nu \cdot h_m(x)\]</div>
-<p><strong>Efecto:</strong>
-- <strong>ν grande (ej: 1.0):</strong> Convergencia rápida, riesgo de overfitting
-- <strong>ν pequeño (ej: 0.01-0.1):</strong> Convergencia lenta, mejor generalización</p>
-<p><strong>Trade-off learning rate vs número de árboles:</strong>
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ν = 1.0 → 50 árboles suficientes, pero puede overfit
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>ν = 0.1 → 500 árboles necesarios, mejor generalización
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>ν = 0.01 → 5000 árboles necesarios, excelente generalización
-</code></pre></div><p></p>
-<p><strong>Recomendación práctica:</strong>
-- Usar ν pequeño (0.01-0.1)
-- Aumentar n_estimators proporcionalmente
-- Usar early stopping para encontrar el número óptimo</p>
-<h3 id="arboles-de-decision-en-gradient-boosting">Árboles de Decisión en Gradient Boosting<a class="headerlink" href="#arboles-de-decision-en-gradient-boosting" title="Permanent link">¶</a></h3>
-<p><strong>Características típicas:</strong>
-- <strong>Poco profundos:</strong> max_depth = 3-8 (vs Random Forest: sin límite)
-- <strong>Capturam interacciones:</strong> Profundidad k → interacciones de orden k
-- <strong>Rápidos de entrenar:</strong> Árboles pequeños
-- <strong>Complementarios:</strong> Cada árbol captura un patrón residual diferente</p>
-<p><strong>Ejemplo:</strong>
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># Árbol típico en Gradient Boosting</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">tree</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">(</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>           <span class="c1"># Poco profundo</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>  <span class="c1"># Evitar splits en pocas muestras</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">10</span>    <span class="c1"># Hojas razonablemente grandes</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">)</span>
-</code></pre></div><p></p>
-<h3 id="hiperparametros-importantes">Hiperparámetros Importantes<a class="headerlink" href="#hiperparametros-importantes" title="Permanent link">¶</a></h3>
-<h4 id="control-de-complejidad">Control de complejidad:<a class="headerlink" href="#control-de-complejidad" title="Permanent link">¶</a></h4>
-<p><strong>1. n_estimators:</strong> Número de árboles
-- Más árboles → más capacidad
-- Usar con learning_rate bajo y early stopping
-- Típico: 100-1000</p>
-<p><strong>2. learning_rate:</strong> Tasa de aprendizaje
-- Controla contribución de cada árbol
-- Típico: 0.01-0.1
-- Trade-off con n_estimators</p>
-<p><strong>3. max_depth:</strong> Profundidad máxima de árboles
-- Controla interacciones capturadas
-- Típico: 3-8
-- Profundidad k → interacciones de orden k</p>
-<p><strong>4. min_samples_split / min_samples_leaf:</strong>
-- Previene splits en pocas muestras
-- Regularización importante
-- Típico: 20/10</p>
-<p><strong>5. subsample:</strong> Fracción de muestras por árbol
-- Stochastic GB
-- Típico: 0.8
-- Reduce overfitting</p>
-<p><strong>6. max_features:</strong> Features consideradas por split
-- Similar a Random Forest
-- Típico: 'sqrt' o None
-- Añade diversidad</p>
-<h3 id="early-stopping">Early Stopping<a class="headerlink" href="#early-stopping" title="Permanent link">¶</a></h3>
-<p>Detener el entrenamiento cuando el rendimiento en validación deja de mejorar:
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">gb</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">(</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>        <span class="c1"># Número grande</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>       <span class="c1"># Learning rate bajo</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">validation_fraction</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>  <span class="c1"># Fracción para validación</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">n_iter_no_change</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>      <span class="c1"># Parar si no mejora en 50 iteraciones</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>                 <span class="c1"># Tolerancia de mejora</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">)</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="n">gb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1"># Número óptimo de árboles encontrado</span>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Número óptimo de árboles: </span><span class="si">{</span><span class="n">gb</span><span class="o">.</span><span class="n">n_estimators_</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</code></pre></div><p></p>
-<h3 id="ventajas-de-gradient-boosting">Ventajas de Gradient Boosting<a class="headerlink" href="#ventajas-de-gradient-boosting" title="Permanent link">¶</a></h3>
-<ul>
-<li><strong>Muy efectivo:</strong> Estado del arte en muchos problemas</li>
-<li><strong>Flexible:</strong> Cualquier función de pérdida diferenciable</li>
-<li><strong>Reduce sesgo y varianza:</strong> Mejor que bagging o boosting básico</li>
-<li><strong>Maneja features mixtas:</strong> Numéricas y categóricas</li>
-<li><strong>Robusto:</strong> Con funciones de pérdida apropiadas</li>
-<li><strong>Interpretable:</strong> Feature importance disponible</li>
-</ul>
-<h3 id="limitaciones-de-gradient-boosting">Limitaciones de Gradient Boosting<a class="headerlink" href="#limitaciones-de-gradient-boosting" title="Permanent link">¶</a></h3>
-<ul>
-<li><strong>Propenso a overfitting:</strong> Requiere tuning cuidadoso</li>
-<li><strong>No paralelizable:</strong> Entrenamiento secuencial</li>
-<li><strong>Lento:</strong> Comparado con Random Forest</li>
-<li><strong>Sensible a hiperparámetros:</strong> Más que Random Forest</li>
-<li><strong>Sensible a outliers:</strong> Con squared loss</li>
-</ul>
-<h3 id="prevencion-de-overfitting">Prevención de Overfitting<a class="headerlink" href="#prevencion-de-overfitting" title="Permanent link">¶</a></h3>
-<p>Estrategias múltiples:
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">gb</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">(</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="c1"># 1. Reduce learning rate, aumenta árboles</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="c1"># 2. Limita complejidad de árboles</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="n">min_samples_split</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="c1"># 3. Stochastic GB</span>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="n">subsample</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>    <span class="n">max_features</span><span class="o">=</span><span class="s1">'sqrt'</span><span class="p">,</span>
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
-<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    <span class="c1"># 4. Early stopping</span>
-<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>    <span class="n">validation_fraction</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>    <span class="n">n_iter_no_change</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
-<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
-<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
-<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="p">)</span>
-</code></pre></div><p></p>
-<h3 id="comparacion-adaboost-vs-gradient-boosting">Comparación: AdaBoost vs Gradient Boosting<a class="headerlink" href="#comparacion-adaboost-vs-gradient-boosting" title="Permanent link">¶</a></h3>
-<table>
-<thead>
-<tr>
-<th>Aspecto</th>
-<th>AdaBoost</th>
-<th>Gradient Boosting</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Actualización</strong></td>
-<td>Pesos de ejemplos</td>
-<td>Ajuste a residuos/gradientes</td>
-</tr>
-<tr>
-<td><strong>Función de pérdida</strong></td>
-<td>Exponential (fija)</td>
-<td>Cualquiera (flexible)</td>
-</tr>
-<tr>
-<td><strong>Clasificador débil</strong></td>
-<td>Cualquiera</td>
-<td>Típicamente árboles</td>
-</tr>
-<tr>
-<td><strong>Robustez a outliers</strong></td>
-<td>Baja</td>
-<td>Media-Alta (depende de loss)</td>
-</tr>
-<tr>
-<td><strong>Flexibilidad</strong></td>
-<td>Menor</td>
-<td>Mayor</td>
-</tr>
-<tr>
-<td><strong>Teoría</strong></td>
-<td>Más simple</td>
-<td>Más general</td>
-</tr>
-<tr>
-<td><strong>Rendimiento</strong></td>
-<td>Bueno</td>
-<td>Excelente</td>
-</tr>
-</tbody>
-</table>
-<h3 id="ejemplo-completo">Ejemplo Completo<a class="headerlink" href="#ejemplo-completo" title="Permanent link">¶</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_classification</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span><span class="p">,</span> <span class="n">cross_val_score</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingClassifier</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># Datos</span>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1"># Modelo</span>
-<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="n">gb</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">(</span>
-<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>    <span class="n">subsample</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
-<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
-<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>    <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span>  <span class="c1"># Mostrar progreso</span>
-<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="p">)</span>
-<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>
-<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="c1"># Entrenar</span>
-<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="n">gb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>
-<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="c1"># Evaluar</span>
-<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Train score: </span><span class="si">{</span><span class="n">gb</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span><span class="w"> </span><span class="n">y_train</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Test score: </span><span class="si">{</span><span class="n">gb</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>
-<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="c1"># Feature importance</span>
-<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="n">importances</span> <span class="o">=</span> <span class="n">gb</span><span class="o">.</span><span class="n">feature_importances_</span>
-<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="n">top_features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">importances</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span>
-<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Top 5 features:"</span><span class="p">)</span>
-<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">top_features</span><span class="p">:</span>
-<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Feature </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">importances</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a>
-<a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="c1"># Learning curves</span>
-<a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="n">train_scores</span> <span class="o">=</span> <span class="p">[]</span>
-<a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a><span class="n">test_scores</span> <span class="o">=</span> <span class="p">[]</span>
-<a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">train_pred</span><span class="p">,</span> <span class="n">test_pred</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span>
-<a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a>    <span class="n">gb</span><span class="o">.</span><span class="n">staged_predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span>
-<a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a>    <span class="n">gb</span><span class="o">.</span><span class="n">staged_predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-<a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a><span class="p">)):</span>
-<a id="__codelineno-6-41" name="__codelineno-6-41" href="#__codelineno-6-41"></a>    <span class="n">train_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">train_pred</span> <span class="o">==</span> <span class="n">y_train</span><span class="p">))</span>
-<a id="__codelineno-6-42" name="__codelineno-6-42" href="#__codelineno-6-42"></a>    <span class="n">test_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_pred</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">))</span>
-<a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a>
-<a id="__codelineno-6-44" name="__codelineno-6-44" href="#__codelineno-6-44"></a><span class="c1"># El error converge gradualmente</span>
-<a id="__codelineno-6-45" name="__codelineno-6-45" href="#__codelineno-6-45"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Scores cada 25 árboles:"</span><span class="p">)</span>
-<a id="__codelineno-6-46" name="__codelineno-6-46" href="#__codelineno-6-46"></a><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">24</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">74</span><span class="p">,</span> <span class="mi">99</span><span class="p">]:</span>
-<a id="__codelineno-6-47" name="__codelineno-6-47" href="#__codelineno-6-47"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Árboles </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: Train=</span><span class="si">{</span><span class="n">train_scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, Test=</span><span class="si">{</span><span class="n">test_scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</code></pre></div>
-<hr>
-<h2 id="43-histgradientboosting-scikit-learn">4.3. HistGradientBoosting (scikit-learn)<a class="headerlink" href="#43-histgradientboosting-scikit-learn" title="Permanent link">¶</a></h2>
-<p>HistGradientBoosting es la implementación moderna de Gradient Boosting en scikit-learn, inspirada en LightGBM y disponible desde la versión 0.21.</p>
-<p><strong>Innovación principal:</strong> Usar <strong>histogramas</strong> para discretizar features continuas, acelerando enormemente la búsqueda de splits.</p>
-<h3 id="diferencias-con-gradientboosting-tradicional">Diferencias con GradientBoosting tradicional<a class="headerlink" href="#diferencias-con-gradientboosting-tradicional" title="Permanent link">¶</a></h3>
-<table>
-<thead>
-<tr>
-<th>Aspecto</th>
-<th>GradientBoosting</th>
-<th>HistGradientBoosting</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Búsqueda de splits</strong></td>
-<td>Exacta (todos los valores)</td>
-<td>Histogramas (valores discretizados)</td>
-</tr>
-<tr>
-<td><strong>Velocidad</strong></td>
-<td>Lenta</td>
-<td><strong>10-100x más rápida</strong></td>
-</tr>
-<tr>
-<td><strong>Escalabilidad</strong></td>
-<td>Dataset mediano</td>
-<td><strong>Dataset grande</strong></td>
-</tr>
-<tr>
-<td><strong>Missing values</strong></td>
-<td>No soportado</td>
-<td><strong>Soporte nativo</strong></td>
-</tr>
-<tr>
-<td><strong>Features categóricas</strong></td>
-<td>Manual encoding</td>
-<td><strong>Soporte experimental</strong></td>
-</tr>
-<tr>
-<td><strong>API</strong></td>
-<td>n_estimators</td>
-<td><strong>max_iter</strong></td>
-</tr>
-</tbody>
-</table>
+<p>En este caso el parámetro <code>loss</code> nos permite elegir entre las funciones de pérdida <code>squared_error</code> (MSE),  y <code>absolute_error</code> (MAE), <code>huber</code> y <code>quantile</code>. Para esta última, deberemos utilizar el parámetro <code>alpha</code> para seleccionar el cuantil. </p>
+<h3 id="regularizacion_1">Regularización<a class="headerlink" href="#regularizacion_1" title="Permanent link">¶</a></h3>
+<p>Una de las cuestiones a destacar en los dos casos anteriores es que, como hemos visto anteriormente, en Gradient Boosting utilizamos normalmente <strong>árboles poco profundos</strong> (típicamente entre 3 y 8 niveles), lo cual contrasta con Random Forest que utiliza árboles con profundidad máxima. Vemos que en la implementación por defecto tenemos una profundidad máxima (<code>max_depth</code>) de 3 niveles.</p>
+<p>Destacamos también el parámetro <code>learning_rate</code> que por defecto toma valor <span class="arithmatex">\(\eta = 0.1\)</span> (tipicamente se utiliza <span class="arithmatex">\(0.1\)</span> o <span class="arithmatex">\(0.01\)</span>). Con un valor más bajo de <span class="arithmatex">\(\eta\)</span>, debemos aumentar el número de árboles (<code>n_estimators</code>) para compensar los pasos más pequeños en el aprendizaje (típicamente utilizaremos entre <span class="arithmatex">\(100\)</span> y <span class="arithmatex">\(1000\)</span> árboles). </p>
+<p>Observamos también que podemos utilizar la versión estocástica de Gradient Descent mediante el parámetro <code>subsample</code> para prevenir el <em>overfitting</em>. Otra forma de regularización es utilizar <code>min_samples_split</code> y <code>min_samples_leaf</code> para prevenir <em>splits</em> con pocas muestras.</p>
+<p>Debemos destacar que la implementación <code>GradientBoosting</code> de <em>sklearn</em> no soporta regularización L1 ni L2. </p>
+<h3 id="early-stopping"><em>Early stopping</em><a class="headerlink" href="#early-stopping" title="Permanent link">¶</a></h3>
+<p>Como hemos comentado, es conveniente utilizar <strong><em>early stopping</em></strong> junto a un valor bajo de <span class="arithmatex">\(\eta\)</span> y un alto número de árboles. La idea es monitorizar la función de pérdida sobre un conjunto de validación durante el entrenamiento y detenerlo cuando dicha pérdida deja de mejorar.</p>
+<p>Formalmente, dado un conjunto de validación <span class="arithmatex">\(\mathcal{V}\)</span> y una ventana de paciencia <span class="arithmatex">\(k\)</span>, el entrenamiento se detiene en la iteración <span class="arithmatex">\(m^*\)</span> tal que:</p>
+<div class="arithmatex">\[
+m^* = \min\left\{m : \mathcal{L}_\mathcal{V}(F_{m'}) \geq \mathcal{L}_\mathcal{V}(F_m), \forall m' \in \{m+1, \ldots, m+k\}\right\}
+\]</div>
+<p>Es decir, si la pérdida de validación no mejora durante <span class="arithmatex">\(k\)</span> iteraciones consecutivas, se detiene el entrenamiento y se devuelve el modelo <span class="arithmatex">\(F_{m^*}\)</span>.</p>
+<p>Para activar este criterio der parada en la implementación debemos indicar la fracción de datos que utilizaremos como conjunto de validación <span class="arithmatex">\(\mathcal{V}\)</span> (parámetro <code>validation_fraction</code>), el tamaño de la ventana de paciencia <span class="arithmatex">\(k\)</span> en el parámetro  <code>n_iter_no_change</code>, y una tolerancia de mejora (parámetro <code>tol</code>). De esta forma, cuando el rendimiento de validación deje de mejorar el valor de tolerancia indicado durante <span class="arithmatex">\(k\)</span> iteraciones , el algoritmo terminará de forma temprana.</p>
+<p>El <em>early stopping</em> nos permitirá usar un valor de <span class="arithmatex">\(M\)</span> (<code>n_estimators</code>) alto como límite superior y dejar que el algoritmo determine el número óptimo de árboles automáticamente. En la práctica, típicamente se suele reservar entre un <span class="arithmatex">\(10\%\)</span> y un <span class="arithmatex">\(20\%\)</span> de los datos para validación, o bien usar validación cruzada.</p>
+<h2 id="histogram-based-gradient-boosting"><em>Histogram-based Gradient Boosting</em><a class="headerlink" href="#histogram-based-gradient-boosting" title="Permanent link">¶</a></h2>
+<p><a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.HistGradientBoostingClassifier.html">HistGradientBoostingClassifier</a> y <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.HistGradientBoostingRegressor.html">HistGradientBoostingRegressor</a> es la implementación moderna de Gradient Boosting en sklearn, inspirada en <a href="https://github.com/Microsoft/LightGBM">LightGBM</a>.</p>
+<p>Su principal innovación es el uso de  <strong>histogramas</strong> para discretizar <em>features</em> continuas, acelerando de esta forma la búsqueda de <em>splits</em>. Esto hará que esta implementación sea mucho más rápida cuando tengamos <em>datasets</em> grandes (por encima de <span class="arithmatex">\(10.000\)</span> ejemplos), y además añade soporte para valores faltantes (NaNs) y soporte para variables categóricas. </p>
 <h3 id="algoritmo-basado-en-histogramas">Algoritmo basado en Histogramas<a class="headerlink" href="#algoritmo-basado-en-histogramas" title="Permanent link">¶</a></h3>
-<p><strong>Idea:</strong> En lugar de considerar todos los posibles valores para splits, discretizar features en bins (histogramas).
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Feature continua: [0.1, 0.3, 0.5, 0.7, 0.9, 1.2, 1.5, ...]
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Tradicional: Considerar todos los valores como candidatos a split
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>→ O(n * p) comparaciones por nivel
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>Histogramas: Discretizar en 255 bins
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>→ O(255 * p) comparaciones por nivel (independiente de n!)
-</code></pre></div><p></p>
-<p><strong>Construcción de histogramas:</strong>
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>1. Para cada feature:
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>   - Calcular quantiles para crear bins
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>   - Mapear valores continuos → índices de bins (0-254)
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>2. Para encontrar mejor split:
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>   - Solo considerar los 255 bins como candidatos
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>   - Acumulación eficiente de gradientes por bin
-</code></pre></div><p></p>
-<p><strong>Ventaja masiva:</strong> Complejidad independiente del número de ejemplos.</p>
-<h3 id="implementacion-en-scikit-learn">Implementación en scikit-learn<a class="headerlink" href="#implementacion-en-scikit-learn" title="Permanent link">¶</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">HistGradientBoostingClassifier</span><span class="p">,</span> <span class="n">HistGradientBoostingRegressor</span>
+<p>La idea tras este algoritmo es, en lugar de considerar todos los posibles valores para los <em>splits</em>, discretizar las <em>features</em> en una serie de <em>bins</em> (compartimentos), formando un histograma.</p>
+<p>Por ejemplo, imaginemos una <em>feature</em> continua con <span class="arithmatex">\(1.000\)</span> valores distintos. En este caso deberemos considerar <span class="arithmatex">\(999\)</span> posibles <em>splits</em>.</p>
+<p>En lugar de esto, podemos discretizar los valores de la <em>feature</em> en <span class="arithmatex">\(255\)</span> posibles valores (este es el valor por defecto del parámetro <code>max_bins</code>, y además es el valor máximo que puede tomar). Además, se creará un <em>bin</em> adicional para los ejemplos con valores faltantes. De esta forma, únicamente deberemos considerar <span class="arithmatex">\(255\)</span> posibles <em>splits</em>. </p>
+<p>Con esto hemos independizado la complejidad del número de ejemplos de entrada. </p>
+<h3 id="manejo-de-valores-faltantes">Manejo de valores faltantes<a class="headerlink" href="#manejo-de-valores-faltantes" title="Permanent link">¶</a></h3>
+<p>Otra de las ventajas de esta implementación es el manejo de valores faltantes (<em>missing values</em> o NaNs). Como hemos visto, el algoritmo trata los NaN como un valor especial en el histograma. </p>
+<p>Durante el entrenamiento, el modelo aprende si los ejemplos con valores faltantes de una <em>feature</em> deben ir al <em>split</em> derecho_ o al <em>izquierdo</em>, basándose en la ganancia de cada decisión. De esta forma, no requiere imputación manual.</p>
+<p>En la predicción, aplicará siempre la decisión aprendida durante el entrenamiento cuando encuentre un valor faltante para una <em>feature</em>. </p>
+<p>Vemos a continuación un ejemplo de implementación con valores NaN:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Datos con valores faltantes</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">X_train</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">X_train</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># GradientBoosting: ERROR</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># gb = GradientBoostingClassifier()</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># gb.fit(X_train, y_train)  # ValueError: Input contains NaN</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># HistGradientBoosting</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">hgb</span> <span class="o">=</span> <span class="n">HistGradientBoostingClassifier</span><span class="p">()</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">hgb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>  <span class="c1"># Aprende dirección óptima para NaN</span>
+</code></pre></div>
+<h3 id="soporte-para-features-categoricas">Soporte  para features categóricas<a class="headerlink" href="#soporte-para-features-categoricas" title="Permanent link">¶</a></h3>
+<p>Con el parámetro <code>categorical_features</code> podemos indicar el listado de <em>features</em> que queremos que trate como categóricas. De esta forma no será necesaria una codificación manual, y manejará las categorías de forma eficiente. </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Marcar features categóricas</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">categorical_features</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>  <span class="c1"># Índices de columnas categóricas</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">hgb</span> <span class="o">=</span> <span class="n">HistGradientBoostingClassifier</span><span class="p">(</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">categorical_features</span><span class="o">=</span><span class="n">categorical_features</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">)</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">hgb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="ajuste-de-hiperparametros">Ajuste de hiperparámetros<a class="headerlink" href="#ajuste-de-hiperparametros" title="Permanent link">¶</a></h3>
+<p>Para controlar el número de árboles generados (número de iteraciones del proceso de <em>boosting</em>), en lugar de utilizar un parámetro <code>n_estimators</code> en este caso utilizaremos <code>max_iter</code>.</p>
+<p>Como hemos comentado, el parámetro <code>max_bins</code> nos permite ajusta el número de <em>bins</em> en los que se dividirán el histograma (<span class="arithmatex">\(255\)</span> es el valor por defecto y máximo).</p>
+<p>Además, a diferencia de <code>GradientBoosting</code>, en la implementación <code>HistGradientBoosting</code> si que contamos con la posibilidad de aplicar regularización L2 en las hojas. Contamos para ello con el parámetro <code>l2_regularization</code> .</p>
+<p>Otra diferencia que encontramos es que para controlar la complejidad, en lugar de <code>max_depth</code> por defecto utiliza <code>max_leaf_nodes</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Clasificación</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">hgb</span> <span class="o">=</span> <span class="n">HistGradientBoostingClassifier</span><span class="p">(</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>              <span class="c1"># Número de árboles (equivalente a n_estimators)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>         <span class="c1"># Tasa de aprendizaje</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>            <span class="c1"># Sin límite por defecto (usa max_leaf_nodes)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span>         <span class="c1"># Máximo número de hojas (default)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>       <span class="c1"># Mínimo en hojas</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">l2_regularization</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>     <span class="c1"># Regularización L2</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="n">max_bins</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span>              <span class="c1"># Número de bins (default)</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="n">categorical_features</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="c1"># Índices de features categóricas</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="n">early_stopping</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span>     <span class="c1"># Early stopping automático</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="n">scoring</span><span class="o">=</span><span class="s1">'loss'</span><span class="p">,</span>            <span class="c1"># Métrica para early stopping</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="n">validation_fraction</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>   <span class="c1"># Fracción para validación</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="n">n_iter_no_change</span><span class="o">=</span><span class="mi">10</span>       <span class="c1"># Parar si no mejora</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="p">)</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="n">hgb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</code></pre></div>
+<p>Podemos observar que se incluye también un parámetro adicional para controlar el <code>early_stopping</code>. Nos permite desactivarlo siempre, activarlo, o que se active o desactive de forma automática en función del número de ejemplos de entrenamiento.</p>
+<h2 id="xgboost">XGBoost<a class="headerlink" href="#xgboost" title="Permanent link">¶</a></h2>
+<p>XGBoost (<em>eXtreme Gradient Boosting</em>) (Chen &amp; Guestrin, 2016)<sup id="fnref2:chen2016xgboost"><a class="footnote-ref" href="#fn:chen2016xgboost">2</a></sup> es una implementación altamente optimizada de Gradient Boosting que introduce mejoras tanto teóricas como computacionales. Fue desarrollado por Tianqi Chen en 2014 y se convirtió rápidamente en el método dominante en competiciones de <em>machine learning</em> como Kaggle.</p>
+<h3 id="funcion-objetivo-regularizada">Función objetivo regularizada<a class="headerlink" href="#funcion-objetivo-regularizada" title="Permanent link">¶</a></h3>
+<p>La principal contribución teórica de XGBoost es la introducción explícita de regularización en la función objetivo. En la iteración <span class="arithmatex">\(m\)</span>, la función objetivo a minimizar para el nuevo árbol <span class="arithmatex">\(h_m\)</span> es:</p>
+<div class="arithmatex">\[
+\mathcal{L}^{(m)} = \sum_{i=1}^N L(y_i, F_{m-1}(\mathbf{x}_i) + h_m(\mathbf{x}_i)) + \Omega(h_m)
+\]</div>
+<p>Donde el término de regularización <span class="arithmatex">\(\Omega\)</span> penaliza la complejidad del árbol de la siguiente forma:</p>
+<div class="arithmatex">\[
+\Omega(h_m) = \mu J + \frac{\lambda}{2} \sum_{j=1}^J \gamma_{jm}^2 + \alpha \sum_{j=1}^J |\gamma_{jm}|
+\]</div>
+<p>Donde:</p>
+<ul>
+<li><span class="arithmatex">\(J\)</span> es el número de hojas del árbol.</li>
+<li><span class="arithmatex">\(\mu\)</span> penaliza el número de hojas (controla la complejidad estructural del árbol).</li>
+<li><span class="arithmatex">\(\lambda\)</span> es el parámetro de regularización L2 sobre los valores de hoja.</li>
+<li><span class="arithmatex">\(\alpha\)</span> es el parámetro de regularización L1 sobre los valores de hoja.</li>
+</ul>
+<h3 id="aproximacion-de-segundo-orden">Aproximación de segundo orden<a class="headerlink" href="#aproximacion-de-segundo-orden" title="Permanent link">¶</a></h3>
+<p>Gradient Boosting estándar utiliza únicamente el gradiente de primer orden (pseudo-residuos) para construir el siguiente árbol. XGBoost utiliza también la <strong>segunda derivada</strong> (Hessiana) de la función de pérdida para obtener una aproximación de Taylor de segundo orden más precisa:</p>
+<div class="arithmatex">\[
+L(y_i, F_{m-1}(\mathbf{x}_i) + h_m(\mathbf{x}_i)) \approx L(y_i, F_{m-1}(\mathbf{x}_i)) + g_i h_m(\mathbf{x}_i) + \frac{1}{2} s_i h_m(\mathbf{x}_i)^2
+\]</div>
+<p>Donde definimos:</p>
+<div class="arithmatex">\[
+g_i = \frac{\partial L(y_i, F_{m-1}(\mathbf{x}_i))}{\partial F_{m-1}(\mathbf{x}_i)}, \quad s_i = \frac{\partial^2 L(y_i, F_{m-1}(\mathbf{x}_i))}{\partial F_{m-1}(\mathbf{x}_i)^2}
+\]</div>
+<p>Es decir, <span class="arithmatex">\(g_i\)</span> es el gradiente (análogo a los pseudo-residuos) y <span class="arithmatex">\(s_i\)</span> es la curvatura local de la pérdida (segunda derivada).</p>
+<blockquote>
+<p><strong>Simil intuitivo:</strong> Imaginemos que queremos estimar donde estará nuestro coche en el próximo instante. Si únicamente conocemos su posición actual será muy difícil hacer una estimación aproximada. Si además conocemos el ritmo al que está cambiando la posición (velocidad, primera derivada de la posición), podremos dar una estimación más precisa. Pero si además sabemos a qué ritmo está cambiando la velocidad (aceleración, segunda derivada de la posición) la estimación será todavía bastante más precisa. Esto es precisamente lo que buscamos con <span class="arithmatex">\(g_i\)</span> y <span class="arithmatex">\(s_i\)</span>, que serían análogas a la "velocidad" y a la "aceleración", respectivamente, con la que cambia la función de pérdida. </p>
+</blockquote>
+<p>Para cada hoja <span class="arithmatex">\(j\)</span>, la función objetivo queda como:</p>
+<div class="arithmatex">\[
+\mathcal{L}_j = \left(\sum_{i \in R_j} g_i\right) \gamma_j + \frac{1}{2}\left(\sum_{i \in R_j} s_i + \lambda\right) \gamma_j^2 + \mu
+\]</div>
+<blockquote>
+<p><strong>Nota:</strong> En esta función se ha excluído la regularización L1 (\multiplicador <span class="arithmatex">\(\alpha\)</span>), ya que con el término L1 la solución analítica se complica. La regularización L1 no aparecía en el artículo original de XGBoost, sino que fue incorporada posteriormente en la implementación software.</p>
+</blockquote>
+<p>Minimizando analíticamente respecto a <span class="arithmatex">\(\gamma_j\)</span>, el valor óptimo de cada hoja es:</p>
+<div class="arithmatex">\[
+\gamma_j^* = -\frac{\sum_{i \in R_j} g_i}{\sum_{i \in R_j} s_i + \lambda}
+\]</div>
+<p>Y el valor mínimo de la función objetivo para esa hoja es:</p>
+<div class="arithmatex">\[
+\mathcal{L}_j^* = -\frac{1}{2} \frac{\left(\sum_{i \in R_j} g_i\right)^2}{\sum_{i \in R_j} s_i + \lambda} + \mu
+\]</div>
+<p>Esta expresión resulta especialmente útil para evaluar la <strong>ganancia</strong> de una división del árbol. Para un nodo que se divide en hijo izquierdo <span class="arithmatex">\(L\)</span> e hijo derecho <span class="arithmatex">\(R\)</span>:</p>
+<div class="arithmatex">\[
+\text{Ganancia} = \frac{1}{2}\left[\frac{\left(\sum_{i \in R_L} g_i\right)^2}{\sum_{i \in R_L} s_i + \lambda} + \frac{\left(\sum_{i \in R_R} g_i\right)^2}{\sum_{i \in R_R} s_i + \lambda} - \frac{\left(\sum_{i \in R_j} g_i\right)^2}{\sum_{i \in R_j} s_i + \lambda}\right] - \mu
+\]</div>
+<p>Si la ganancia es negativa, la división no merece la pena dado el coste de regularización <span class="arithmatex">\(\mu\)</span>.</p>
+<p>Con todo esto, el proceso para construir el árbol es el siguiente:</p>
+<ol>
+<li>Calculamos <span class="arithmatex">\(g_i\)</span> y <span class="arithmatex">\(s_i\)</span>.</li>
+<li>Buscamos la mejor estructura del árbol por <strong>Ganancia</strong>. Dividiremos mientras encontremos algún <em>split</em> con ganancia positiva, en caso contrario dejaremos de dividir y el nodo se convertirá en hoja.</li>
+<li>Asignamos a cada hoja su valor óptimo <span class="arithmatex">\(\gamma_j^*\)</span> calculado anteriormente de forma analítica.</li>
+<li>Actualizamos el modelo como en cualquier <em>gradient boosting</em>. 
+$$
+F_m(\mathbf{x}) = F_{m-1}(\mathbf{x}) + \eta h_m(\mathbf{x}) $$</li>
+</ol>
+<p>Gracias a esta formulación, el algoritmo XGBoost solo necesita los valores <span class="arithmatex">\(g_i\)</span> y <span class="arithmatex">\(s_i\)</span> en cada iteración, lo que permite adaptar la función de pérdida sin modificar el motor interno, siempre que dicha función sea dos veces diferenciable. De esta forma, el usuario podrá proporcionar su propia función de pérdida, siempre que proporcione una función que devuelva los gradientes (<span class="arithmatex">\(g_i\)</span>) y <em>hessianas</em> (<span class="arithmatex">\(s_i\)</span>) correspondientes. </p>
+<blockquote>
+<p><strong>Nota:</strong> En el artículo original de XGBoost, así como en la documentación de la librería y en la mayoría de fuentes bibliográfica se hace referencia a los gradientes y hessianas como <span class="arithmatex">\(g_i\)</span> y <span class="arithmatex">\(h_i\)</span> respectivamente. En estos apuntes se ha optado por la notación <span class="arithmatex">\(g_i\)</span> y <span class="arithmatex">\(s_i\)</span> para evitar la confusión con la notación de los clasificadores débiles <span class="arithmatex">\(h_m\)</span> en <em>boosting</em>. </p>
+</blockquote>
+<h3 id="implementacion_1">Implementación<a class="headerlink" href="#implementacion_1" title="Permanent link">¶</a></h3>
+<p>XGBoost no se encuentra implementado en <em>sklearn</em>, pero podemos instalar e importar su propia librería:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pip install xgboost
+</code></pre></div>
+<p>En esta librería encontramos las clases <a href="https://xgboost.readthedocs.io/en/latest/python/python_api.html#xgboost.XGBClassifier">XGBClassifier</a> y <a href="https://xgboost.readthedocs.io/en/latest/python/python_api.html#xgboost.XGBRegressor">XGBRegressor</a> que se utilizan de forma similar a los modelos de <em>sklearn</em>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">import</span> <span class="nn">xgboost</span> <span class="k">as</span> <span class="nn">xgb</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">modelo</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBRegressor</span><span class="p">(</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>   <span class="c1"># número de árboles (M)</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>  <span class="c1"># tasa de aprendizaje (nu)</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>        <span class="c1"># profundidad máxima de cada árbol</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="n">reg_lambda</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>     <span class="c1"># regularización L2 (lambda)</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="n">reg_alpha</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>      <span class="c1"># regularización L1 (alpha)</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="n">subsample</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>      <span class="c1"># fracción de muestras por árbol</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">colsample_bytree</span><span class="o">=</span><span class="mf">0.8</span> <span class="c1"># fracción de características por árbol</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="p">)</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="n">modelo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="n">y_pred</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</code></pre></div>
+<p>Estos estimadores tienen un parámetro <code>objective</code> que nos permite indicar la función de pérdida a utilizar. Por defecto toma el valor <code>binary:logistic</code> en caso de clasificación, y <code>reg:squarederror</code> en caso de regresión. Podemos tanto seleccionar una de las funciones implementadas en la librería, como indicar nuestra propia función. Si indicamos una función propia, deberemos devolver tanto sus gradientes (<span class="arithmatex">\(g_i\)</span>) como sus Hessianas (<span class="arithmatex">\(s_i\)</span>). A continuación vemos un ejemplo con una función MSE personalizada:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">def</span> <span class="nf">mse_personalizada</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="sd">"""</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="sd">    Pérdida MSE: L(y, F) = 0.5 * (y - F)^2</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="sd">      g_i = dL/dF =  F - y    (gradiente)</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="sd">      s_i = d²L/dF² = 1       (hessiana, constante para MSE)</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="sd">    """</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="n">g</span> <span class="o">=</span> <span class="n">y_pred</span> <span class="o">-</span> <span class="n">y_true</span>   <span class="c1"># gradiente</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span>  <span class="c1"># hessiana</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="k">return</span> <span class="n">g</span><span class="p">,</span> <span class="n">s</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="n">modelo_custom</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">XGBRegressor</span><span class="p">(</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>    <span class="n">reg_lambda</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>    <span class="n">objective</span><span class="o">=</span><span class="n">mse_personalizada</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="p">)</span>
+</code></pre></div>
+<h3 id="hiperparametros-principales">Hiperparámetros principales<a class="headerlink" href="#hiperparametros-principales" title="Permanent link">¶</a></h3>
+<p>Los hiperparámetros más relevantes de XGBoost se pueden agrupar en:</p>
+<ul>
+<li><strong>Boosting</strong>: <code>n_estimators</code> (número de árboles <span class="arithmatex">\(M\)</span>), <code>learning_rate</code> (<span class="arithmatex">\(\eta\)</span>), <code>subsample</code> (<span class="arithmatex">\(f\)</span>).</li>
+<li><strong>Árbol</strong>: Tenemos algunos parámetros que controlan el crecimientio máximo del árbol, como <code>max_depth</code> y <code>min_child_weight</code> (mínimo de <span class="arithmatex">\(\sum s_i\)</span> por hoja). También podemos controlar qué fracción de columnas se consideran en cada división, con <code>colsample_bytree</code> (fracción de columnas por árbol), <code>colsample_bylevel</code> (fracción de columnas por nivel) y <code>colsample_bynode</code>(fracción de columnas por nodo).</li>
+<li><strong>Crecimiento</strong>: El orden de crecimiento del árbol puede ser de dos formas, según el parámetro <code>grow_policy</code>. Podemos hacerlo por niveles (por defecto), de forma que el árbol crece nivel a nivel como un árbol tradicional (<code>depthwise</code>), o bien expandiendo siempre el nodo con mayor ganancia potencial (<code>lossguide</code>). Esta segunda es la estrategia que utiliza por defecto LightGBM y produce árboles más asimétricos pero en ocasiones más eficientes. </li>
+<li><strong>Regularización</strong>: <code>reg_lambda</code> (<span class="arithmatex">\(\lambda\)</span>, L2), <code>reg_alpha</code> (<span class="arithmatex">\(\alpha\)</span>, L1), <code>gamma</code> (<span class="arithmatex">\(\mu\)</span>, penalización por hoja).</li>
+</ul>
+<h3 id="optimizaciones-computacionales">Optimizaciones computacionales<a class="headerlink" href="#optimizaciones-computacionales" title="Permanent link">¶</a></h3>
+<p>XGBoost incorpora varias técnicas para acelerar el entrenamiento:</p>
+<ul>
+<li>
+<p><strong>Algoritmo exacto o aproximado para las divisiones:</strong> El algoritmo exacto evalúa todos los posibles puntos de corte para cada característica, lo cual es óptimo pero costoso. El algoritmo aproximado construye histogramas de percentiles sobre las características y solo evalúa los puntos de corte propuestos por estos histogramas. El algoritmo a utilizar se puede seleccionar con el parámetro <code>tree_method</code>, que puede tomar como valor <code>exact</code> (algoritmo exacto), <code>approx</code> (utiliza histogramas recalculados en cada iteración, es decir, para cada árbol) y <code>hist</code>, que es la opción por defecto y la más eficiente, ya que los histogramas se construyen una vez y se van actualizando de forma incremental (este es el método que LightGBM popularizó y en el que también se inspira la implementación <code>HistGradientBoosting</code> de <em>sklearn</em>). Cuando utilizamos <code>approx</code> o <code>hist</code>, con el parámetro <code>max_bin</code> podemos controlar el tamaño del histograma (por defecto <span class="arithmatex">\(256\)</span>).</p>
+</li>
+<li>
+<p><strong>Column Block:</strong> Los datos se almacenan en bloques ordenados por característica, de forma que la búsqueda de divisiones óptimas se realiza de forma eficiente mediante acceso secuencial a memoria.</p>
+</li>
+<li>
+<p><strong>Cache-aware access_</strong> Optimiza el acceso a caché durante el cálculo de gradientes y Hessianas, minimizando los <em>cache misses</em>.</p>
+</li>
+<li>
+<p><strong>Soporte nativo para valores perdidos:</strong> XGBoost aprende automáticamente la dirección óptima (izquierda o derecha) para los valores perdidos en cada nodo durante el entrenamiento, sin necesidad de imputación previa. Por defecto, se considerarán valores perdidos aquellos que tomen valor <code>np.nan</code>, pero con el parámetro <code>missing</code> podemos indicar qué valores de la variable consideramos como valores perdidos,</p>
+</li>
+</ul>
+<h2 id="lightgbm">LightGBM<a class="headerlink" href="#lightgbm" title="Permanent link">¶</a></h2>
+<p>LightGBM (<em>Light Gradient Boosting Machine</em>) (Ke et al., 2017)<sup id="fnref2:ke2017lightgbm"><a class="footnote-ref" href="#fn:ke2017lightgbm">3</a></sup> fue desarrollado por Microsoft en 2017 con el objetivo principal de reducir el tiempo de entrenamiento y el consumo de memoria de Gradient Boosting manteniendo una precisión comparable. Para ello introduce dos técnicas originales: <strong>GOSS</strong> y <strong>EFB</strong>.</p>
+<h3 id="crecimiento-del-arbol-por-hojas-leaf-wise">Crecimiento del árbol por hojas (<em>Leaf-wise</em>)<a class="headerlink" href="#crecimiento-del-arbol-por-hojas-leaf-wise" title="Permanent link">¶</a></h3>
+<p>La diferencia fundamental en la construcción de los árboles respecto a XGBoost es la estrategia de crecimiento. XGBoost crece los árboles <strong>nivel a nivel</strong> (<em>level-wise</em> o <em>depth-wise</em>): en cada nivel expande todos los nodos del mismo nivel antes de pasar al siguiente. LightGBM crece los árboles <strong>hoja a hoja</strong> (<em>leaf-wise</em>): en cada paso selecciona la hoja con mayor ganancia potencial y la divide, independientemente del nivel en que se encuentre.</p>
+<p>Formalmente, en cada paso se elige la hoja <span class="arithmatex">\(j^*\)</span> tal que:</p>
+<div class="arithmatex">\[
+j^* = \arg\max_j \text{Ganancia}(j)
+\]</div>
+<p>Esto permite conseguir una mayor reducción de la función de pérdida con el mismo número de hojas, pero con el riesgo de generar árboles muy desbalanceados. Por ello LightGBM añade el parámetro <code>num_leaves</code> como control principal de la complejidad en lugar de <code>max_depth</code>.</p>
+<h3 id="goss-gradient-based-one-side-sampling">GOSS: Gradient-based One-Side Sampling<a class="headerlink" href="#goss-gradient-based-one-side-sampling" title="Permanent link">¶</a></h3>
+<p>En Gradient Boosting, los ejemplos con gradientes pequeños ya están bien predichos por el modelo actual y contribuyen poco al aprendizaje del siguiente árbol. La idea de GOSS es retener todos los ejemplos con gradiente grande y muestrear solo una fracción de los ejemplos con gradiente pequeño.</p>
+<p>El procedimiento concreto es el siguiente. En cada iteración <span class="arithmatex">\(m\)</span>:</p>
+<ol>
+<li>Se ordenan los ejemplos por el valor absoluto de su gradiente <span class="arithmatex">\(|g_i|\)</span>.</li>
+<li>Se retienen los <span class="arithmatex">\(\lfloor a N \rfloor\)</span> ejemplos con mayor gradiente (fracción <span class="arithmatex">\(a\)</span>).</li>
+<li>Se muestrea aleatoriamente una fracción <span class="arithmatex">\(b\)</span> de los <span class="arithmatex">\(N - \lfloor aN \rfloor\)</span> ejemplos restantes.</li>
+<li>Para compensar el sesgo introducido al muestrear menos los ejemplos de gradiente pequeño, estos últimos se multiplican por un factor <span class="arithmatex">\(\frac{1-a}{b}\)</span> al calcular la ganancia de cada división.</li>
+</ol>
+<p>De esta forma, los datos de entrenamiento de cada iteración pasan de <span class="arithmatex">\(N\)</span> a <span class="arithmatex">\(\lfloor aN \rfloor + \lfloor bN(1-a) \rfloor\)</span> ejemplos, con una reducción significativa del coste computacional.</p>
+<h3 id="efb-exclusive-feature-bundling">EFB: Exclusive Feature Bundling<a class="headerlink" href="#efb-exclusive-feature-bundling" title="Permanent link">¶</a></h3>
+<p>En <em>datasets</em> con muchas características, especialmente cuando son dispersas (<em>sparse</em>), es frecuente que muchas características raramente tomen valores distintos de cero de forma simultánea. EFB aprovecha esta exclusividad para combinar varias características en un único <em>bundle</em> sin pérdida significativa de información.</p>
+<p>Formalmente, dos características <span class="arithmatex">\(f_1\)</span> y <span class="arithmatex">\(f_2\)</span> son <strong>exclusivas</strong> si <span class="arithmatex">\(f_1 \neq 0\)</span> y <span class="arithmatex">\(f_2 \neq 0\)</span> raramente ocurren al mismo tiempo. El problema de agrupar características para minimizar el número de <em>bundles</em> es NP-difícil en general, pero LightGBM utiliza una heurística eficiente basada en el grado de los nodos de un grafo de conflictos.</p>
+<p>Una vez formados los <em>bundles</em>, las características se fusionan mediante un desplazamiento de sus rangos de valores, de forma que los valores originales sean recuperables. Si <span class="arithmatex">\(f_1 \in [0, b_1)\)</span> y <span class="arithmatex">\(f_2 \in [0, b_2)\)</span>, la característica fusionada tomará valores <span class="arithmatex">\(f_1\)</span> o <span class="arithmatex">\(f_2 + b_1\)</span> según cuál sea no nula. Es decir, si <span class="arithmatex">\(f_1\)</span> fuera la característica no nula, la característica fusionada tomaría valores entre <span class="arithmatex">\([0, b_1)\)</span>, mientras que si la característica no nula fuera <span class="arithmatex">\(f_2\)</span>, entonces la fusionada tomaría valores entre <span class="arithmatex">\([b_1, b_1+b_2)\)</span> (hemos desplazado sus valores para fusionarlas). Esto reduce el número efectivo de características de <span class="arithmatex">\(d\)</span> a <span class="arithmatex">\(m \ll d\)</span>.</p>
+<h3 id="histogramas-de-caracteristicas">Histogramas de características<a class="headerlink" href="#histogramas-de-caracteristicas" title="Permanent link">¶</a></h3>
+<p>LightGBM discretiza cada característica continua en <span class="arithmatex">\(K\)</span> <em>bins</em> (típicamente <span class="arithmatex">\(K=255\)</span>) construyendo un histograma de valores. La búsqueda del punto de corte óptimo se realiza sobre los <span class="arithmatex">\(K\)</span> <em>bins</em> en lugar de sobre los <span class="arithmatex">\(N\)</span> valores distintos, lo que reduce la complejidad de cada búsqueda de <span class="arithmatex">\(O(N)\)</span> a <span class="arithmatex">\(O(K)\)</span>.</p>
+<p>Además, LightGBM aprovecha una propiedad de los histogramas: el histograma del hijo derecho puede obtenerse restando el del hijo izquierdo del histograma del nodo padre, lo que ahorra la mitad de los cálculos en cada división.</p>
+<h3 id="soporte-nativo-para-variables-categoricas">Soporte nativo para variables categóricas<a class="headerlink" href="#soporte-nativo-para-variables-categoricas" title="Permanent link">¶</a></h3>
+<p>A diferencia de otros métodos que requieren codificación previa (<em>one-hot encoding</em>, <em>label encoding</em>, etc.), la implementación de LightGBM incluye soporte nativo para variables categóricas. En cada nodo, busca la partición óptima del conjunto de categorías en dos subconjuntos mediante un algoritmo eficiente basado en ordenar las categorías por <span class="arithmatex">\(\sum g_i / \sum s_i\)</span> y buscar el mejor punto de corte en ese orden.</p>
+<h3 id="implementacion_2">Implementación<a class="headerlink" href="#implementacion_2" title="Permanent link">¶</a></h3>
+<p>Al igual que XGBoost, la implementación de LightGBM se encuentra en una librería independiente que debemos instalar previamente:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>pip install lightgbm
+</code></pre></div>
+<p>Con ello, los estimadores <a href="https://lightgbm.readthedocs.io/en/stable/pythonapi/lightgbm.LGBMClassifier.html#lightgbm.LGBMClassifier">LGBMClassifier</a> y <a href="">LGBMRegressor</a> siguen la misma interfaz que los estimadores de <em>sklearn</em>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">import</span> <span class="nn">lightgbm</span> <span class="k">as</span> <span class="nn">lgb</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># Clasificación</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">hgb</span> <span class="o">=</span> <span class="n">HistGradientBoostingClassifier</span><span class="p">(</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>              <span class="c1"># Número de árboles (equivalente a n_estimators)</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>         <span class="c1"># Tasa de aprendizaje</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>            <span class="c1"># Sin límite (usa max_leaf_nodes)</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span>         <span class="c1"># Máximo número de hojas (default)</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    <span class="n">min_samples_leaf</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>       <span class="c1"># Mínimo en hojas</span>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="n">l2_regularization</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>     <span class="c1"># Regularización L2</span>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    <span class="n">max_bins</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span>              <span class="c1"># Número de bins (default)</span>
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>    <span class="n">categorical_features</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="c1"># Índices de features categóricas</span>
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>    <span class="n">early_stopping</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span>     <span class="c1"># Early stopping automático</span>
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>    <span class="n">scoring</span><span class="o">=</span><span class="s1">'loss'</span><span class="p">,</span>            <span class="c1"># Métrica para early stopping</span>
-<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>    <span class="n">validation_fraction</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>   <span class="c1"># Fracción para validación</span>
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>    <span class="n">n_iter_no_change</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>       <span class="c1"># Parar si no mejora</span>
-<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
-<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="p">)</span>
-<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>
-<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="n">hgb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">modelo</span> <span class="o">=</span> <span class="n">lgb</span><span class="o">.</span><span class="n">LGBMRegressor</span><span class="p">(</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>        <span class="c1"># número de árboles (M)</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>       <span class="c1"># tasa de aprendizaje (nu)</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="n">max_depth</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>            <span class="c1"># profundidad máxima (-1 = sin límite)</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="n">num_leaves</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span>           <span class="c1"># número máximo de hojas por árbol (parámetro clave en LightGBM)</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="n">min_child_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>    <span class="c1"># mínimo de muestras por hoja</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>    <span class="n">reg_lambda</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>          <span class="c1"># regularización L2</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="n">reg_alpha</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>           <span class="c1"># regularización L1</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    <span class="n">subsample</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>           <span class="c1"># fracción de muestras por árbol (bagging)</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>    <span class="n">colsample_bytree</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>    <span class="c1"># fracción de características por árbol</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>    <span class="n">boosting_type</span><span class="o">=</span><span class="s1">'gbdt'</span>     <span class="c1"># tipo de boosting </span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="p">)</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="n">modelo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="n">y_pred</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 </code></pre></div>
-<h3 id="diferencias-de-api-importantes">Diferencias de API importantes<a class="headerlink" href="#diferencias-de-api-importantes" title="Permanent link">¶</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># GradientBoosting tradicional</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingClassifier</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">gb</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">(</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="c1"># ← Nombre del parámetro</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="p">)</span>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="c1"># HistGradientBoosting</span>
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">HistGradientBoostingClassifier</span>
-<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="n">hgb</span> <span class="o">=</span> <span class="n">HistGradientBoostingClassifier</span><span class="p">(</span>
-<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>    <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>      <span class="c1"># ← Diferente nombre!</span>
-<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>    <span class="n">max_leaf_nodes</span><span class="o">=</span><span class="mi">31</span>  <span class="c1"># ← Controla complejidad diferente</span>
-<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="p">)</span>
+<p>Llama la atención en primer lugar el parámetro <code>boosting_type</code>, que nos permite controlar el algoritmo de <em>boosting</em> utilizado para construir los árboles secuencialmente. Acepta tres valores:</p>
+<ul>
+<li><code>gbdt</code> (por defecto): <em>Gradient Boosting Decision Trees</em> estándar. Es el algoritmo base descrito anteriormente: cada árbol se entrena sobre los gradientes y hessianas del modelo actual. Es la opción la recomendada en general.</li>
+<li><code>dart</code>: <em>Dropouts meet Multiple Additive Regression Trees</em>. Adapta la idea del <em>dropout</em> de las redes neuronales al <em>boosting</em>: en cada iteración, en lugar de usar todos los árboles anteriores para calcular los residuos, descarta aleatoriamente un subconjunto de ellos. Esto reduce el sobreajuste que puede producirse cuando los primeros árboles dominan demasiado el modelo. </li>
+<li><code>rf</code>: <em>Random Forest</em>. En este modo LightGBM no hace <em>boosting</em> sino que entrena un Random Forest, usando <em>bagging</em> en lugar de aprendizaje secuencial. </li>
+</ul>
+<h3 id="hiperparametros-principales_1">Hiperparámetros principales<a class="headerlink" href="#hiperparametros-principales_1" title="Permanent link">¶</a></h3>
+<p>A continuación enumeramos algunos de los principales hiperparámetros con los que contamos:</p>
+<ul>
+<li><strong>Boosting</strong>: <code>n_estimators</code>, <code>learning_rate</code>, <code>subsample</code> (fracción GOSS o subsampling clásico).</li>
+<li><strong>Árbol</strong>: <code>num_leaves</code> (control principal de complejidad), <code>max_depth</code>, <code>min_child_samples</code>, <code>colsample_bytree</code>.</li>
+<li><strong>Histograma</strong>: <code>max_bin</code> (<span class="arithmatex">\(K\)</span>).</li>
+<li><strong>Regularización</strong>: <code>reg_lambda</code>, <code>reg_alpha</code>, <code>min_split_gain</code> (equivale a <span class="arithmatex">\(\nu\)</span> en XGBoost).</li>
+</ul>
+<h2 id="catboost">CatBoost<a class="headerlink" href="#catboost" title="Permanent link">¶</a></h2>
+<p>CatBoost (<em>Categorical Boosting</em>) (Prokhorenkova et al., 2018)<sup id="fnref2:prokhorenkova2018catboost"><a class="footnote-ref" href="#fn:prokhorenkova2018catboost">4</a></sup> fue desarrollado por Yandex en 2018 con un doble objetivo: manejar variables categóricas de forma nativa y eficiente, y abordar un problema teórico conocido como <strong><em>target leakage</em></strong> presente en las implementaciones clásicas de Gradient Boosting.</p>
+<h3 id="el-problema-del-prediction-shift">El problema del <em>prediction shift</em><a class="headerlink" href="#el-problema-del-prediction-shift" title="Permanent link">¶</a></h3>
+<p>En Gradient Boosting estándar, los pseudo-residuos <span class="arithmatex">\(r_{im}\)</span> del árbol <span class="arithmatex">\(m\)</span> se calculan usando el modelo <span class="arithmatex">\(F_{m-1}\)</span>, que fue entrenado con los mismos ejemplos <span class="arithmatex">\((\mathbf{x}_i, y_i)\)</span>. Esto introduce un sesgo: el modelo <span class="arithmatex">\(F_{m-1}\)</span> ha visto el ejemplo <span class="arithmatex">\(i\)</span> durante su entrenamiento, por lo que los residuos calculados sobre ese mismo ejemplo tienden a ser menores de lo que serían sobre datos nuevos. Este sesgo acumulado a lo largo de las <span class="arithmatex">\(M\)</span> iteraciones se denomina <strong><em>prediction shift</em></strong> y puede conducir a <em>overfitting</em>.</p>
+<p>CatBoost aborda este problema mediante dos variantes del algoritmo:</p>
+<ul>
+<li><strong>Ordered Boosting.</strong> Para calcular el residuo del ejemplo <span class="arithmatex">\(i\)</span> en la iteración <span class="arithmatex">\(m\)</span>, se construye un modelo <span class="arithmatex">\(F_{m-1}^{\setminus i}\)</span> entrenado únicamente con los ejemplos anteriores a <span class="arithmatex">\(i\)</span> (siguiendo un orden aleatorio de los datos). De esta forma, el residuo <span class="arithmatex">\(r_{im}\)</span> se calcula siempre sobre un ejemplo que el modelo no ha visto, eliminando el sesgo. En la práctica, CatBoost aproxima esto manteniendo <span class="arithmatex">\(s\)</span> permutaciones aleatorias del conjunto de entrenamiento y construyendo los modelos de forma incremental.</li>
+<li><strong>Ordered TS para variables categóricas.</strong> Una solución análoga se aplica a la codificación de variables categóricas, como se verá a continuación.</li>
+</ul>
+<h3 id="codificacion-de-variables-categoricas">Codificación de variables categóricas<a class="headerlink" href="#codificacion-de-variables-categoricas" title="Permanent link">¶</a></h3>
+<p>CatBoost introduce una codificación basada en estadísticos de la variable objetivo condicionados a la categoría. Si tenemos una <em>feature</em> categórica <span class="arithmatex">\(k\)</span>, la idea es sustituir la categoría <span class="arithmatex">\(x_i^k\)</span> del <span class="arithmatex">\(i\)</span>-ésimo ejemplo de entrada por una <em>feature</em> numérica igual a una determinada estadística objetivo (<em>Target Statistic</em>, TS) <span class="arithmatex">\(\hat{x}_i^k\)</span>. Comúnmente, esta TS estima la variable objetivo <span class="arithmatex">\(y\)</span> condicionada por la categoría: $\hat{x}_i^j \approx E(y | x^k = x_i^k) $. Una forma de estimar esta TS es tomar el valor medio de <span class="arithmatex">\(y\)</span> para todos los ejemplos que comparten la misma categoría de <span class="arithmatex">\(x_i^k\)</span>:</p>
+<div class="arithmatex">\[
+\hat{x}_i^k = \frac{\sum_{j=1}^N \mathbf{1}[x_j^k = x_i^k]  y_j + a p}{\sum_{j=1}^N \mathbf{1}[x_j^k = x_i^k] + a}
+\]</div>
+<p>Donde <span class="arithmatex">\(p\)</span> es la media global de <span class="arithmatex">\(y\)</span> y <span class="arithmatex">\(a &gt; 0\)</span> es un parámetro de suavizado. El problema de esta codificación es que usa <span class="arithmatex">\(y_i\)</span> para calcular <span class="arithmatex">\(\hat{x}_i^k\)</span>, introduciendo <em>target leakage</em>.</p>
+<p>CatBoost resuelve esto con la variante <strong>Ordered TS</strong> (<em>Ordered Target Statistics</em>): para calcular el estadístico del ejemplo <span class="arithmatex">\(i\)</span>, solo se utilizan los ejemplos que aparecen antes de <span class="arithmatex">\(i\)</span> en una permutación aleatoria <span class="arithmatex">\(\sigma\)</span> del conjunto de entrenamiento. De esta forma, para un ejemplo utilizaremos toda su "historia" disponible para calcular su TS, es decir, tomaremos como conjunto de datos <span class="arithmatex">\(\mathcal{D}_i = \{\mathbf{x}_j: \sigma(j) &lt; \sigma(i)\}\)</span>. </p>
+<p>Se utilizan múltiples permutaciones para estabilizar la estimación. Esta codificación evita el <em>leakage</em> y es especialmente efectiva para categorías con alta cardinalidad.</p>
+<h3 id="arboles-simetricos-oblivious-trees">Árboles simétricos (<em>Oblivious Trees</em>)<a class="headerlink" href="#arboles-simetricos-oblivious-trees" title="Permanent link">¶</a></h3>
+<p>A diferencia de XGBoost y LightGBM, CatBoost utiliza por defecto <strong>árboles simétricos</strong> (<em>oblivious trees</em> o <em>symmetric trees</em>). Esto es, en cada nivel del árbol todos los nodos del mismo nivel utilizan exactamente la misma condición de división (misma característica y mismo umbral). Esto produce árboles completamente balanceados con <span class="arithmatex">\(2^\text{profundidad}\)</span> hojas.</p>
+<p>Aunque esta restricción puede parecer una limitación, en la práctica tiene ventajas importantes: los árboles simétricos son más rápidos de evaluar, ya que para cada ejemplo tendremos que evaluar siempre tantas condiciones como profundidad tenga el árbol, son menos propensos al <em>overfitting</em>, y permiten cálculos vectorizados muy eficientes.</p>
+<h3 id="implementacion_3">Implementación<a class="headerlink" href="#implementacion_3" title="Permanent link">¶</a></h3>
+<p>Al igual que en los casos anteriores, en primer lugar debemos instalar la librería CatBoost:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>pip install catboost
 </code></pre></div>
-<h3 id="manejo-nativo-de-missing-values">Manejo Nativo de Missing Values<a class="headerlink" href="#manejo-nativo-de-missing-values" title="Permanent link">¶</a></h3>
-<p>Una de las grandes ventajas:
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1"># Datos con valores faltantes</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">X_train</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="n">X_train</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># GradientBoosting: ERROR</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="c1"># gb = GradientBoostingClassifier()</span>
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="c1"># gb.fit(X_train, y_train)  # ValueError: Input contains NaN</span>
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="c1"># HistGradientBoosting: Funciona!</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="n">hgb</span> <span class="o">=</span> <span class="n">HistGradientBoostingClassifier</span><span class="p">()</span>
-<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="n">hgb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>  <span class="c1"># OK, aprende dirección óptima para NaN</span>
-</code></pre></div><p></p>
-<p><strong>Cómo maneja NaN:</strong>
-- Trata NaN como un valor especial en el histograma
-- Aprende la mejor dirección (izquierda o derecha) para NaN en cada split
-- No requiere imputación manual</p>
-<h3 id="soporte-experimental-para-features-categoricas">Soporte Experimental para Features Categóricas<a class="headerlink" href="#soporte-experimental-para-features-categoricas" title="Permanent link">¶</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Marcar features categóricas</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">categorical_features</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>  <span class="c1"># Índices de columnas categóricas</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="n">hgb</span> <span class="o">=</span> <span class="n">HistGradientBoostingClassifier</span><span class="p">(</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="n">categorical_features</span><span class="o">=</span><span class="n">categorical_features</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="p">)</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c1"># O pasar un boolean mask</span>
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="n">categorical_mask</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="n">hgb</span> <span class="o">=</span> <span class="n">HistGradientBoostingClassifier</span><span class="p">(</span>
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>    <span class="n">categorical_features</span><span class="o">=</span><span class="n">categorical_mask</span>
-<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="p">)</span>
-<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>
-<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="n">hgb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<p>Como en los casos anteriores, tenemos las clases <a href="https://catboost.ai/docs/en/concepts/python-reference_catboostclassifier">CatBoostClassifier</a> y <a href="https://catboost.ai/docs/en/concepts/python-reference_catboostregressor">CatBoostRegressor</a> que siguen la misma interfaz que los estimadores de <em>sklearn</em>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">modelo</span> <span class="o">=</span> <span class="n">CatBoostRegressor</span><span class="p">(</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="n">iterations</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>             <span class="c1"># número de árboles (equivalente a n_estimators)</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>          <span class="c1"># tasa de aprendizaje</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="n">depth</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>                    <span class="c1"># profundidad máxima del árbol</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="n">l2_leaf_reg</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>            <span class="c1"># regularización L2 (equivalente a lambda)</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">cat_features</span><span class="o">=</span><span class="n">cat_features</span>  <span class="c1"># columnas categóricas: sin codificación previa</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="p">)</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="n">modelo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="n">y_pred</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 </code></pre></div>
-<p><strong>Ventaja:</strong> No requiere one-hot encoding manual, maneja categorías de forma eficiente.</p>
-<h3 id="early-stopping-automatico">Early Stopping Automático<a class="headerlink" href="#early-stopping-automatico" title="Permanent link">¶</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">hgb</span> <span class="o">=</span> <span class="n">HistGradientBoostingClassifier</span><span class="p">(</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>            <span class="c1"># Número máximo de iteraciones</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="n">early_stopping</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span>    <span class="c1"># Activar early stopping</span>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    <span class="n">validation_fraction</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>  <span class="c1"># 10% para validación</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    <span class="n">n_iter_no_change</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>      <span class="c1"># Parar si no mejora en 10 iteraciones</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span>                  <span class="c1"># Tolerancia de mejora</span>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="p">)</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>
-<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="n">hgb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
-<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="c1"># Número real de iteraciones usadas</span>
-<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Iteraciones usadas: </span><span class="si">{</span><span class="n">hgb</span><span class="o">.</span><span class="n">n_iter_</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="comparacion-de-velocidad">Comparación de Velocidad<a class="headerlink" href="#comparacion-de-velocidad" title="Permanent link">¶</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">import</span> <span class="nn">time</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_classification</span>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Dataset grande</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>
-<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="c1"># GradientBoosting tradicional</span>
-<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="n">gb</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="n">gb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="n">gb_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
-<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>
-<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="c1"># HistGradientBoosting</span>
-<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="n">hgb</span> <span class="o">=</span> <span class="n">HistGradientBoostingClassifier</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="n">hgb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="n">hgb_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
-<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>
-<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"GradientBoosting: </span><span class="si">{</span><span class="n">gb_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s, Score: </span><span class="si">{</span><span class="n">gb</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"HistGradientBoosting: </span><span class="si">{</span><span class="n">hgb_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s, Score: </span><span class="si">{</span><span class="n">hgb</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Speedup: </span><span class="si">{</span><span class="n">gb_time</span><span class="o">/</span><span class="n">hgb_time</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">x"</span><span class="p">)</span>
-</code></pre></div>
-<p><strong>Resultado típico:</strong></p>
-<p>GradientBoosting: 45.23s, Score: 0.8756
-HistGradientBoosting: 2.14s, Score: 0.8812
-Speedup: 21.1x</p>
-<h3 id="hiperparametros-clave">Hiperparámetros Clave<a class="headerlink" href="#hiperparametros-clave" title="Permanent link">¶</a></h3>
-<p><strong>Control de iteraciones:</strong>
-- <code>max_iter</code>: Número de boosting iterations (100-1000)
-- <code>learning_rate</code>: Shrinkage (0.01-0.1)</p>
-<p><strong>Control de complejidad:</strong>
-- <code>max_leaf_nodes</code>: Máximo número de hojas (31 default)
-- <code>max_depth</code>: Profundidad máxima (None = sin límite)
-- <code>min_samples_leaf</code>: Mínimo de muestras en hojas (20 default)Regularización:</p>
-<p>l2_regularization: Regularización L2 en hojas (0.0 default)
-Histogramas:</p>
-<p>max_bins: Número de bins para histogramas (255 default, máximo)
-Early stopping:</p>
-<p>early_stopping: 'auto', True, False
-validation_fraction: Fracción para validación (0.1 default)
-n_iter_no_change: Paciencia para early stopping (10 default)
-Ventajas de HistGradientBoosting
-✅ Mucho más rápido que GradientBoosting tradicional (10-100x)
-✅ Escala a datasets grandes (millones de ejemplos)
-✅ Manejo nativo de missing values
-✅ Soporte para categóricas (experimental)
-✅ Early stopping incorporado
-✅ Incluido en sklearn (sin instalación adicional)
-✅ API similar a GradientBoosting tradicional
-✅ Rendimiento comparable a XGBoost/LightGBM
-Limitaciones
-⚠️ Features categóricas aún experimental
-⚠️ API ligeramente diferente (max_iter vs n_estimators)
-⚠️ Menos features que XGBoost/LightGBM/CatBoost
-⚠️ Sin soporte GPU
-⚠️ Comunidad más pequeña que XGBoost
-Cuándo usar HistGradientBoostingUsar HistGradientBoosting cuando:</p>
-<p>✅ Quieres rapidez de LightGBM sin instalación extra
-✅ Dataset grande (&gt;10k ejemplos, &gt;50 features)
-✅ Tienes missing values (soporte nativo)
-✅ Quieres quedarte dentro de sklearn (sin dependencias)
-✅ No necesitas features avanzadas de XGBoost
-Considerar alternativas cuando:</p>
-<p>❌ Dataset pequeño → GradientBoosting tradicional está bien
-❌ Necesitas features categóricas robustas → CatBoost
-❌ Máximo rendimiento en competición → XGBoost/LightGBM
-❌ Necesitas GPU → XGBoost/LightGBM/CatBoost</p>
+<h3 id="hiperparametros-principales_2">Hiperparámetros principales<a class="headerlink" href="#hiperparametros-principales_2" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Boosting</strong>: <code>iterations</code> (<span class="arithmatex">\(M\)</span>), <code>learning_rate</code> (<span class="arithmatex">\(\eta\)</span>), <code>subsample</code>.</li>
+<li><strong>Árbol</strong>: <code>depth</code> (máximo <span class="arithmatex">\(16\)</span> para árboles simétricos), <code>min_data_in_leaf</code>.</li>
+<li><strong>Categorías</strong>: <code>cat_features</code> (lista de índices de variables categóricas), <code>one_hot_max_size</code> (umbral de número de valores para usar <em>one-hot</em> en vez de <em>target statistics</em>).</li>
+<li><strong>Ordered Boosting</strong>: <code>boosting_type</code>. Para <em>datasets</em> pequeños toma como valor por defecto <code>'Ordered'</code> para utilizar <em>Ordered Boosting</em>. Para <em>datasets</em> grandes por defecto utilizará <code>'Plain'</code> que es equivalente a Gradient Boosting estándar.</li>
+<li><strong>Regularización</strong>: <code>l2_leaf_reg</code> (<span class="arithmatex">\(\lambda\)</span>), <code>random_strength</code> (ruido añadido a las ganancias para reducir el <em>overfitting</em>).</li>
+</ul>
+<h2 id="importancia-de-caracteristicas-en-gradient-boosting">Importancia de características en Gradient Boosting<a class="headerlink" href="#importancia-de-caracteristicas-en-gradient-boosting" title="Permanent link">¶</a></h2>
+<p>Los métodos de Gradient Boosting ofrecen varias métricas para evaluar la importancia de cada característica <span class="arithmatex">\(f\)</span> en el modelo final. </p>
+<p>Gradient Boosting en <em>sklearn</em> soporta los mismos tipos de importancia que ya vimos con Random Forest (MDI y permutación). Los frameworks especializados XGBoost y LightGBM añaden además los siguientes tipos:</p>
+<h3 id="importancia-por-ganancia-gain">Importancia por ganancia (<em>Gain</em>)<a class="headerlink" href="#importancia-por-ganancia-gain" title="Permanent link">¶</a></h3>
+<p>Es la más informativa. Mide la reducción media de la función de pérdida atribuida a las divisiones que usan la característica <span class="arithmatex">\(f\)</span>:</p>
+<div class="arithmatex">\[
+\text{Importance}_{\text{gain}}(f) = \frac{1}{|\mathcal{T}_f|} \sum_{t \in \mathcal{T}_f} \sum_{s \in \mathcal{S}_t(f)} \text{Ganancia}(s)
+\]</div>
+<p>donde <span class="arithmatex">\(\mathcal{T}_f\)</span> es el conjunto de árboles donde aparece la <em>feature</em> <span class="arithmatex">\(f\)</span> y <span class="arithmatex">\(\mathcal{S}_t(f)\)</span> es el conjunto de <em>splits</em> del árbol <span class="arithmatex">\(t\)</span> que usan la <em>feature</em> <span class="arithmatex">\(f\)</span>.</p>
+<h3 id="importancia-por-frecuencia-split-count">Importancia por frecuencia (<em>Split count</em>)<a class="headerlink" href="#importancia-por-frecuencia-split-count" title="Permanent link">¶</a></h3>
+<p>Cuenta simplemente cuántas veces se utiliza la característica <span class="arithmatex">\(f\)</span> como criterio de división en todos los árboles:</p>
+<div class="arithmatex">\[
+\text{Importance}_{\text{split}}(f) =   |\mathcal{S}(f)|
+\]</div>
+<p>Donde \mathcal{S}(f) es el conjunto de todos los <em>splits</em> de todos los árboles que utilizan la <em>feature</em> <span class="arithmatex">\(f\)</span>. Es fácil de calcular pero puede ser engañosa: una característica puede dividirse muchas veces con ganancias pequeñas.</p>
+<h3 id="importancia-por-cobertura-coverage">Importancia por cobertura (<em>Coverage</em>)<a class="headerlink" href="#importancia-por-cobertura-coverage" title="Permanent link">¶</a></h3>
+<p>Mide el número total de ejemplos de entrenamiento que pasan por los nodos donde se usa la característica <span class="arithmatex">\(f\)</span>, promediado sobre todas las divisiones:</p>
+<div class="arithmatex">\[
+\text{Importance}_{\text{cover}}(f) = \frac{1}{|\mathcal{S}(f)|} \sum_{s \in \mathcal{S}(f)} |p(s)|
+\]</div>
+<p>Donde <span class="arithmatex">\(p(s)\)</span> es el nodo donde se realiza el <em>split</em> <span class="arithmatex">\(s\)</span>, y <span class="arithmatex">\(|p(s)|\)</span> es el número de ejemplos en dicho nodo. </p>
+<h3 id="importancia-shap">Importancia SHAP<a class="headerlink" href="#importancia-shap" title="Permanent link">¶</a></h3>
+<p>Las importancias anteriores son intrínsecas al modelo y pueden ser inconsistentes. Una alternativa más fundamentada teóricamente son los valores SHAP (<em>SHapley Additive exPlanations</em>), que distribuyen la predicción del modelo entre las características de acuerdo con la teoría de juegos cooperativos. XGBoost, LightGBM y CatBoost calculan los valores SHAP de forma exacta y eficiente aprovechando la estructura de árbol.</p>
+<p>Para una predicción <span class="arithmatex">\(F(\mathbf{x})\)</span>, los valores SHAP <span class="arithmatex">\(\phi_f(\mathbf{x})\)</span> satisfacen:</p>
+<div class="arithmatex">\[
+F(\mathbf{x}) = \mathbb{E}[F(\mathbf{x})] + \sum_{f=1}^d \phi_f(\mathbf{x})
+\]</div>
+<p>Es decir, la predicción se descompone como la suma de la predicción base más la contribución de cada característica. A diferencia de las importancias globales anteriores, los valores SHAP son <strong>locales</strong> (específicos para cada ejemplo) y permiten explicar predicciones individuales, aunque también pueden agregarse para obtener importancias globales.</p>
+<h2 id="consideraciones-finales">Consideraciones finales<a class="headerlink" href="#consideraciones-finales" title="Permanent link">¶</a></h2>
+<p>En este tema hemos tratado desde los fundamentos 
+teóricos del <em>boosting</em> hasta sus implementaciones más modernas. </p>
+<p>Gradient Boosting presenta un conjunto de fortalezas que  explican su popularidad, pero también limitaciones que conviene tener presentes  a la hora de aplicarlo.</p>
+<h3 id="fortalezas-de-los-metodos-de-gradient-boosting">Fortalezas de los métodos de Gradient Boosting<a class="headerlink" href="#fortalezas-de-los-metodos-de-gradient-boosting" title="Permanent link">¶</a></h3>
+<p>Las principales fortalezas que encontramos en los métodos de Gradient Boosting son:</p>
+<ul>
+<li>
+<p><strong>Alto rendimiento predictivo:</strong> En datos tabulares los métodos de Gradient Boosting son los más competitivos, dominando históricamente las competiciones de <em>machine learning</em> sobre este tipo de datos.</p>
+</li>
+<li>
+<p><strong>Flexibilidad en la función de pérdida:</strong> Al formular el problema como una  optimización numérica, es posible adaptar el algoritmo a cualquier función de  pérdida diferenciable: regresión, clasificación binaria y multiclase, regresión por cuantiles, pérdida de Huber, o incluso funciones de pérdida personalizadas (especialmente en XGBoost y LightGBM).</p>
+</li>
+<li>
+<p><strong>Manejo nativo de tipos de datos heterogéneos:</strong> Las implementaciones modernas (LightGBM, CatBoost) incluyen soporte nativo para variables categóricas y valores faltantes, reduciendo la necesidad de preprocesamiento manual.</p>
+</li>
+<li>
+<p><strong>Interpretabilidad relativa:</strong> A diferencia de las redes neuronales profundas, los métodos basados en árboles ofrecen métricas de importancia de características (MDI, ganancia, cobertura, valores SHAP) que facilitan la interpretación del modelo y el análisis de su comportamiento.</p>
+</li>
+<li>
+<p><strong>Robustez frente a variables irrelevantes y escalado:</strong> Al estar basados en árboles de decisión, no requieren normalización de las variables de entrada y  son relativamente insensibles a la presencia de características irrelevantes o redundantes.</p>
+</li>
+</ul>
+<h3 id="limitaciones-de-los-metodos-de-gradient-boosting">Limitaciones de los métodos de Gradient Boosting<a class="headerlink" href="#limitaciones-de-los-metodos-de-gradient-boosting" title="Permanent link">¶</a></h3>
+<p>De la misma forma, enumeramos a continuación sus principales limitaciones:</p>
+<ul>
+<li>
+<p><strong>Entrenamiento secuencial:</strong> La naturaleza iterativa del <em>boosting</em> impide la  paralelización directa entre árboles, a diferencia de Random Forest. Aunque  XGBoost y LightGBM paralelizan la búsqueda de <em>splits</em> dentro de cada árbol, el entrenamiento sigue siendo más lento que el de métodos <em>bagging</em> a igual 
+número de estimadores.</p>
+</li>
+<li>
+<p><strong>Mayor sensibilidad al <em>overfitting</em>:</strong> Comparado con Random Forest, Gradient  Boosting es más propenso al sobreajuste, especialmente con <em>learning rates</em> altos, árboles profundos o ruido en las etiquetas. Una configuración cuidadosa  de los hiperparámetros de regularización y el uso de <em>early stopping</em> son 
+imprescindibles.</p>
+</li>
+<li>
+<p><strong>Coste de ajuste de hiperparámetros:</strong> El rendimiento de estos métodos depende fuertemente de la combinación de <code>learning_rate</code>, <code>n_estimators</code>, 
+<code>max_depth</code> y los distintos parámetros de regularización. Encontrar una buena configuración requiere búsqueda sistemática (como validación cruzada y <em>random search</em>), lo que puede ser costoso computacionalmente.</p>
+</li>
+<li>
+<p><strong>Rendimiento degradado en datos no estructurados:</strong> Gradient Boosting no es adecuado para imágenes, texto o señales en crudo, donde las redes neuronales profundas son claramente superiores gracias a su capacidad para aprender representaciones jerárquicas. Su dominio se centra esencialmente en datos tabulares.</p>
+</li>
+<li>
+<p><strong>Extrapolación limitada:</strong> Al estar basados en árboles de decisión, estos métodos no extrapolan fuera del rango de valores observados durante el entrenamiento. En problemas donde las variables de entrada en producción pueden tomar valores fuera de ese rango, el modelo devolverá predicciones constantes (el valor de la hoja más extrema), lo que puede ser problemático.</p>
+</li>
+</ul>
+<h3 id="comparativa-de-metodos-de-gradient-boosting">Comparativa de métodos de Gradient Boosting<a class="headerlink" href="#comparativa-de-metodos-de-gradient-boosting" title="Permanent link">¶</a></h3>
+<p>Los cinco métodos presentados (Gradient Boosting, Histogram-based Gradient Boosting, XGBoost, LightGBM y CatBoost) comparten la misma base teórica pero difieren en sus opciones de diseño, lo que los hace más o menos adecuados según el contexto.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>GBM</strong></th>
+<th><strong>HistGBM</strong></th>
+<th><strong>XGBoost</strong></th>
+<th><strong>LightGBM</strong></th>
+<th><strong>CatBoost</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Crecimiento árbol</strong></td>
+<td>Nivel a nivel</td>
+<td>Hoja a hoja</td>
+<td>Nivel a nivel</td>
+<td>Hoja a hoja</td>
+<td>Simétrico</td>
+</tr>
+<tr>
+<td><strong>Expansión de Taylor</strong></td>
+<td>1er orden</td>
+<td>2º orden</td>
+<td>2º orden</td>
+<td>2º orden</td>
+<td>2º orden</td>
+</tr>
+<tr>
+<td><strong>Muestreo de filas</strong></td>
+<td>Subsampling</td>
+<td>Subsampling</td>
+<td>Subsampling</td>
+<td>GOSS</td>
+<td>Subsampling</td>
+</tr>
+<tr>
+<td><strong>Muestreo de columnas</strong></td>
+<td>Sí</td>
+<td>No</td>
+<td>Sí</td>
+<td>Sí</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td><strong>Histogramas</strong></td>
+<td>No</td>
+<td>Sí</td>
+<td>Sí (<code>hist</code>)</td>
+<td>Sí</td>
+<td>No</td>
+</tr>
+<tr>
+<td><strong>Categóricas nativo</strong></td>
+<td>No</td>
+<td>Sí</td>
+<td>No</td>
+<td>Sí</td>
+<td>Sí (Ordered TS)</td>
+</tr>
+<tr>
+<td><strong>Valores perdidos</strong></td>
+<td>No</td>
+<td>Sí</td>
+<td>Sí</td>
+<td>Sí</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td><strong>Regularización L2 hoja</strong></td>
+<td>No</td>
+<td>Sí</td>
+<td>Sí</td>
+<td>Sí</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td><strong>Soporte GPU</strong></td>
+<td>No</td>
+<td>No</td>
+<td>Sí</td>
+<td>Sí</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td><strong>Velocidad entrenamiento</strong></td>
+<td>Lenta</td>
+<td>Muy rápida</td>
+<td>Media</td>
+<td>Muy rápida</td>
+<td>Media</td>
+</tr>
+<tr>
+<td><strong>Memoria</strong></td>
+<td>Alta</td>
+<td>Baja</td>
+<td>Alta</td>
+<td>Baja</td>
+<td>Media</td>
+</tr>
+</tbody>
+</table>
+<p>En términos generales, <strong>LightGBM</strong> es la opción preferida cuando el <em>dataset</em> es grande y el tiempo de entrenamiento es una restricción crítica. <strong>CatBoost</strong> destaca cuando hay muchas variables categóricas de alta cardinalidad y se quiere minimizar la necesidad de preprocesamiento. <strong>XGBoost</strong> es una opción equilibrada con una comunidad muy madura y gran cantidad de recursos. Dentro del ecosistema de <em>sklearn</em>, <strong>Histogram-based Gradient Boosting</strong> es la alternativa recomendada frente a <strong>GBM</strong> en cuanto el <em>dataset</em> supera unos pocos miles de ejemplos, ya que ofrece velocidad y soporte para valores faltantes y variables categóricas sin salir de la librería, aunque no tiene tantas prestaciones y versatilidad como los métodos mencionados anteriormente, y no tiene soporte para GPU. <strong>GBM</strong> queda reservado para conjuntos de datos pequeños o como herramienta didáctica para comprender los fundamentos del algoritmo sin capas de optimización adicionales.</p>
+<h3 id="sesgo-varianza-y-diversidad">Sesgo, varianza y diversidad<a class="headerlink" href="#sesgo-varianza-y-diversidad" title="Permanent link">¶</a></h3>
+<p>Todos los métodos de <em>ensemble</em> que hemos estudiado en este bloque comparten una misma motivación:  combinar múltiples modelos permite compensar sus debilidades individuales. Sin embargo, los distintos métodos lo abordan de diferentes formas:</p>
+<p><strong>Bagging y Random Forest</strong> reducen la varianza promediando modelos entrenados en paralelo de forma independiente. La clave está en la diversidad entre los  árboles, conseguida mediante el muestreo con reemplazamiento y la selección aleatoria de características. Como consecuencia, son robustos y difíciles de sobreajustar, pero su capacidad para reducir el sesgo es limitada.</p>
+<p><strong>Boosting</strong>, en cambio, se centra en reducir el sesgo. Los modelos se construyen de forma secuencial, y cada uno se centra en corregir los errores 
+del anterior. AdaBoost lo hace reponderando los ejemplos mal clasificados, mientras que Gradient Boosting lo hace ajustando cada nuevo modelo al gradiente negativo de la función de pérdida, convirtiendo el <em>boosting</em> en un problema de optimización en el espacio de funciones. Esta potencia para reducir el sesgo tiene como 
+contrapartida una mayor sensibilidad al ruido y al <em>overfitting</em>, lo que hace que la regularización sea un componente esencial de estos modelos.</p>
+<h3 id="de-la-teoria-a-la-practica">De la teoría a la práctica<a class="headerlink" href="#de-la-teoria-a-la-practica" title="Permanent link">¶</a></h3>
+<p>Comprender los fundamentos matemáticos de estos métodos tiene un valor que va más allá de su aplicación directa. La perspectiva de Gradient Boosting como descenso por gradiente en el espacio de 
+funciones, la conexión entre AdaBoost y la pérdida exponencial, o la relación entre la profundidad de los árboles y el orden de las interacciones que el modelo puede capturar, son ideas que nos ayudan a comprender el comportamiento de los algoritmos y 
+permiten identificar y resolver problemas de forma fundamentada.</p>
+<p>Entender por qué XGBoost usa la aproximación de segundo orden, o por qué CatBoost introduce el <em>Ordered Boosting</em> para evitar el <em>prediction shift</em>, nos aporta una ventaja fundamental: nos permite adaptar estos métodos a situaciones nuevas, interpretar sus resultados con conocimiento y no limitarse a usar la librería como una caja negra.</p>
+<p>Desde el punto de vista práctico, la elección entre métodos depende del problema concreto, pero algunas orientaciones generales son útiles. Random Forest es una opción sólida como primer intento, ya que requiere poca configuración, es robusto y da 
+información sobre la importancia de las variables. Los métodos de Gradient Boosting, especialmente XGBoost, LightGBM y CatBoost, suelen superar a Random 
+Forest en rendimiento cuando se ajustan correctamente, pero exigen más cuidado en la selección de hiperparámetros y en el uso de técnicas como el <em>early stopping</em>, valores bajos de  <em>learning rate</em> y la regularización.</p>
+<p>Un esquema razonable de trabajo sería el siguiente: </p>
+<ol>
+<li>Comenzar con un Random Forest para obtener una línea base y una primera estimación de la importancia de las variables.</li>
+<li>A continuación, explorar Gradient Boosting con LightGBM o XGBoost para mejorar el rendimiento. Considerar CatBoost si el conjunto de datos 
+contiene muchas variables categóricas de alta cardinalidad. </li>
+</ol>
+<p>En todos los casos, la validación cruzada y el análisis de los resultados del aprendizaje son herramientas indispensables para evaluar el balance entre sesgo y varianza.</p>
+<h3 id="conclusion">Conclusión<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h3>
+<p>Con este tema finalizamos el bloque dedicado a los métodos de <em>ensemble</em>. Hemos visto que la idea de combinar modelos simples para obtener uno más potente es extraordinariamente útil, dando lugar a métodos con garantías teóricas sólidas (como los resultados de Schapire sobre <em>boosting</em>), a algoritmos de referencia en la práctica industrial (como XGBoost y LightGBM) y a técnicas que siguen siendo objeto de investigación. Los métodos de <em>ensemble</em> basados en árboles siguen siendo, junto con las redes neuronales profundas, la familia de modelos más utilizada en aprendizaje automático sobre datos tabulares, y su dominio es una herramienta fundamental para cualquier profesional del ámbito de la Inteligencia Artificial.</p>
 <div class="footnote">
 <hr>
 <ol>
@@ -1276,13 +2045,13 @@ Considerar alternativas cuando:</p>
 <p>Friedman, J. H. (2001). Greedy function approximation: A gradient boosting machine. <em>Annals of Statistics</em>, <em>29</em>(5), 1189--1232.&nbsp;<a class="footnote-backref" href="#fnref:friedman2001greedy" title="Jump back to footnote 1 in the text">↩</a></p>
 </li>
 <li id="fn:chen2016xgboost">
-<p>Chen, T., &amp; Guestrin, C. (2016). XGBoost: A scalable tree boosting system. <em>Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 785--794.&nbsp;<a class="footnote-backref" href="#fnref:chen2016xgboost" title="Jump back to footnote 2 in the text">↩</a></p>
+<p>Chen, T., &amp; Guestrin, C. (2016). XGBoost: A scalable tree boosting system. <em>Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 785--794.&nbsp;<a class="footnote-backref" href="#fnref:chen2016xgboost" title="Jump back to footnote 2 in the text">↩</a><a class="footnote-backref" href="#fnref2:chen2016xgboost" title="Jump back to footnote 2 in the text">↩</a></p>
 </li>
 <li id="fn:ke2017lightgbm">
-<p>Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., &amp; Liu, T.-Y. (2017). LightGBM: A highly efficient gradient boosting decision tree. <em>Advances in Neural Information Processing Systems</em>, <em>30</em>, 3146--3154.&nbsp;<a class="footnote-backref" href="#fnref:ke2017lightgbm" title="Jump back to footnote 3 in the text">↩</a></p>
+<p>Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., &amp; Liu, T.-Y. (2017). LightGBM: A highly efficient gradient boosting decision tree. <em>Advances in Neural Information Processing Systems</em>, <em>30</em>, 3146--3154.&nbsp;<a class="footnote-backref" href="#fnref:ke2017lightgbm" title="Jump back to footnote 3 in the text">↩</a><a class="footnote-backref" href="#fnref2:ke2017lightgbm" title="Jump back to footnote 3 in the text">↩</a></p>
 </li>
 <li id="fn:prokhorenkova2018catboost">
-<p>Prokhorenkova, L., Gusev, G., Vorobev, A., Dorogush, A. V., &amp; Gulin, A. (2018). CatBoost: Unbiased boosting with categorical features. <em>Advances in Neural Information Processing Systems</em>, <em>31</em>, 6638--6648.&nbsp;<a class="footnote-backref" href="#fnref:prokhorenkova2018catboost" title="Jump back to footnote 4 in the text">↩</a></p>
+<p>Prokhorenkova, L., Gusev, G., Vorobev, A., Dorogush, A. V., &amp; Gulin, A. (2018). CatBoost: Unbiased boosting with categorical features. <em>Advances in Neural Information Processing Systems</em>, <em>31</em>, 6638--6648.&nbsp;<a class="footnote-backref" href="#fnref:prokhorenkova2018catboost" title="Jump back to footnote 4 in the text">↩</a><a class="footnote-backref" href="#fnref2:prokhorenkova2018catboost" title="Jump back to footnote 4 in the text">↩</a></p>
 </li>
 <li id="fn:friedman2002stochastic">
 <p>Friedman, J. H. (2002). Stochastic gradient boosting. <em>Computational Statistics\ &amp; Data Analysis</em>, <em>38</em>(4), 367--378. <a href="https://doi.org/10.1016/S0167-9473(01)00065-2">https://doi.org/10.1016/S0167-9473(01)00065-2</a>&nbsp;<a class="footnote-backref" href="#fnref:friedman2002stochastic" title="Jump back to footnote 5 in the text">↩</a></p>

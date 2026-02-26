@@ -18,7 +18,7 @@
         <link rel="next" href="../04-random-forest/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.1">
     
     
       
@@ -254,6 +254,8 @@
       <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
       
       
+        
+          
         
           
         
@@ -621,6 +623,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-gradient-boosting/" class="md-nav__link">
+        6. Gradient Boosting
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -764,7 +780,7 @@ H_{split}(j,t) = \frac{N_L}{N} H(\mathcal{D}_L) + \frac{N_R}{N} H(\mathcal{D}_R)
 <h3 id="arboles-de-regresion">Árboles de regresión<a class="headerlink" href="#arboles-de-regresion" title="Permanent link">¶</a></h3>
 <p>En caso de árboles de regresión, dentro de cada región se devolverá como predicción <span class="arithmatex">\(\hat{y}_i\)</span> siempre el mismo valor constante, que se calculará habitualmente como la <strong>media de todas las observaciones</strong> <span class="arithmatex">\(\bar{y}_i\)</span> del conjunto de entrenamiento que pertenezcan a dicha región. </p>
 <p></p><figure id="fig-construccion-reg"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t3_estratificacion_progresivo.png" data-desc-position="bottom"><img alt="" src="../images/t3_estratificacion_progresivo.png"></a><figcaption>Figura 4: Construcción de un árbol de regresión </figcaption></figure><p></p>
-<p>En la <a href="#fig-arbol1d"></a> se muestra cómo se construye un árbol de regresión conforme aumenta la profundidad del árbol. En la parte inferior de la figura se muestra el particionamiento en regiones, mientras que en la parte superior se muestra en 3D la estratificación creada en cada caso, donde cada región tiene un valor constante correspondiente a la media de todas las observaciones de dicha región.</p>
+<p>En la <a href="#fig-construccion-reg">Figura 4</a> se muestra cómo se construye un árbol de regresión conforme aumenta la profundidad del árbol. En la parte inferior de la figura se muestra el particionamiento en regiones, mientras que en la parte superior se muestra en 3D la estratificación creada en cada caso, donde cada región tiene un valor constante correspondiente a la media de todas las observaciones de dicha región.</p>
 <p>Como función de impureza en árboles de regresión habitualmente se utiliza el <strong>error cuadrático medio (MSE)</strong>:</p>
 <div class="arithmatex">\[
 H_{MSE}(\mathcal{D}) = \frac{1}{N} \sum_{i=1}^N (y_i - \bar{y}_i)^2
