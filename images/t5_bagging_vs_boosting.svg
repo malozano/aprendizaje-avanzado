@@ -1,0 +1,887 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  Figura 8 – Bagging vs. Boosting: comparación conceptual
+  Equivalente SVG de la figura matplotlib.
+  Editable con Inkscape, Illustrator, Figma o cualquier editor SVG.
+-->
+
+<svg
+   width="900"
+   height="580"
+   viewBox="0 0 900 580"
+   font-family="Georgia, serif"
+   version="1.1"
+   id="svg48"
+   sodipodi:docname="fig8_bagging_vs_boosting.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview48"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.4594367"
+     inkscape:cx="399.81179"
+     inkscape:cy="336.77377"
+     inkscape:window-width="1920"
+     inkscape:window-height="1080"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg48" />
+  <defs
+     id="defs4">
+    <!-- Marcadores de flecha -->
+    <marker
+       id="arr-gray"
+       markerWidth="8"
+       markerHeight="8"
+       refX="6"
+       refY="3"
+       orient="auto">
+      <path
+         d="M0,0 L0,6 L8,3 z"
+         fill="#888888"
+         id="path1" />
+    </marker>
+    <marker
+       id="arr-blue"
+       markerWidth="8"
+       markerHeight="8"
+       refX="6"
+       refY="3"
+       orient="auto">
+      <path
+         d="M0,0 L0,6 L8,3 z"
+         fill="#2166ac"
+         id="path2" />
+    </marker>
+    <marker
+       id="arr-green"
+       markerWidth="8"
+       markerHeight="8"
+       refX="6"
+       refY="3"
+       orient="auto">
+      <path
+         d="M0,0 L0,6 L8,3 z"
+         fill="#4dac26"
+         id="path3" />
+    </marker>
+    <marker
+       id="arr-orange"
+       markerWidth="8"
+       markerHeight="8"
+       refX="6"
+       refY="3"
+       orient="auto">
+      <path
+         d="M0,0 L0,6 L8,3 z"
+         fill="#d6604d"
+         id="path4" />
+    </marker>
+  </defs>
+  <!-- ── Fondo general ─────────────────────────────────────────────────────── -->
+  <rect
+     width="900"
+     height="580"
+     fill="white"
+     id="rect4" />
+  <g
+     id="bagging">
+    <!-- Título panel -->
+    <text
+       x="225"
+       y="72"
+       text-anchor="middle"
+       font-size="14"
+       font-weight="bold"
+       fill="#111827"
+       id="text5">Bagging</text>
+    <!-- ── Dataset original ───────────────────────────────────────────────── -->
+    <rect
+       x="140"
+       y="85"
+       width="170"
+       height="50"
+       rx="8"
+       fill="#E8F4F8"
+       stroke="#2166ac"
+       stroke-width="1.8"
+       id="rect5" />
+    <text
+       x="225"
+       y="115"
+       text-anchor="middle"
+       font-size="12"
+       font-weight="bold"
+       fill="#1a1a2e"
+       id="text6">
+      Dataset 𝒟
+    </text>
+    <!-- ── Flechas dataset → bootstraps ──────────────────────────────────── -->
+    <line
+       x1="225"
+       y1="135"
+       x2="72"
+       y2="178"
+       stroke="#888"
+       stroke-width="1.3"
+       marker-end="url(#arr-gray)"
+       id="line6" />
+    <line
+       x1="225"
+       y1="135"
+       x2="225"
+       y2="178"
+       stroke="#888"
+       stroke-width="1.3"
+       marker-end="url(#arr-gray)"
+       id="line7" />
+    <line
+       x1="225"
+       y1="135"
+       x2="378"
+       y2="178"
+       stroke="#888"
+       stroke-width="1.3"
+       marker-end="url(#arr-gray)"
+       id="line8" />
+    <!-- ── Bootstrap 1 ────────────────────────────────────────────────────── -->
+    <rect
+       x="22"
+       y="178"
+       width="100"
+       height="52"
+       rx="7"
+       fill="#D1E5F0"
+       stroke="#2166ac"
+       stroke-width="1.2"
+       id="rect8" />
+    <text
+       x="72"
+       y="199"
+       text-anchor="middle"
+       font-size="9"
+       fill="#1a1a2e"
+       id="text8">Bootstrap</text>
+    <text
+       x="72"
+       y="214"
+       text-anchor="middle"
+       font-size="10"
+       font-weight="bold"
+       fill="#1a1a2e"
+       id="text9">𝒟₁</text>
+    <!-- ── Bootstrap 2 ────────────────────────────────────────────────────── -->
+    <rect
+       x="175"
+       y="178"
+       width="100"
+       height="52"
+       rx="7"
+       fill="#D1E5F0"
+       stroke="#2166ac"
+       stroke-width="1.2"
+       id="rect9" />
+    <text
+       x="225"
+       y="199"
+       text-anchor="middle"
+       font-size="9"
+       fill="#1a1a2e"
+       id="text10">Bootstrap</text>
+    <text
+       x="225"
+       y="214"
+       text-anchor="middle"
+       font-size="10"
+       font-weight="bold"
+       fill="#1a1a2e"
+       id="text11">𝒟₂</text>
+    <!-- ── Bootstrap 3 ────────────────────────────────────────────────────── -->
+    <rect
+       x="328"
+       y="178"
+       width="100"
+       height="52"
+       rx="7"
+       fill="#D1E5F0"
+       stroke="#2166ac"
+       stroke-width="1.2"
+       id="rect11" />
+    <text
+       x="378"
+       y="199"
+       text-anchor="middle"
+       font-size="9"
+       fill="#1a1a2e"
+       id="text12">Bootstrap</text>
+    <text
+       x="378"
+       y="214"
+       text-anchor="middle"
+       font-size="10"
+       font-weight="bold"
+       fill="#1a1a2e"
+       id="text13">𝒟₃</text>
+    <!-- ── Flechas bootstraps → modelos ──────────────────────────────────── -->
+    <line
+       x1="72"
+       y1="230"
+       x2="72"
+       y2="280"
+       stroke="#d6604d"
+       stroke-width="1.3"
+       marker-end="url(#arr-orange)"
+       id="line13" />
+    <line
+       x1="225"
+       y1="230"
+       x2="225"
+       y2="280"
+       stroke="#d6604d"
+       stroke-width="1.3"
+       marker-end="url(#arr-orange)"
+       id="line14" />
+    <line
+       x1="378"
+       y1="230"
+       x2="378"
+       y2="280"
+       stroke="#d6604d"
+       stroke-width="1.3"
+       marker-end="url(#arr-orange)"
+       id="line15" />
+    <!-- ── Modelo 1 ───────────────────────────────────────────────────────── -->
+    <rect
+       x="22"
+       y="280"
+       width="100"
+       height="48"
+       rx="7"
+       fill="#FDDBC7"
+       stroke="#d6604d"
+       stroke-width="1.2"
+       id="rect15" />
+    <text
+       x="72"
+       y="309"
+       text-anchor="middle"
+       font-size="13"
+       fill="#7f1d1d"
+       id="text15">h₁(x)</text>
+    <!-- ── Modelo 2 ───────────────────────────────────────────────────────── -->
+    <rect
+       x="175"
+       y="280"
+       width="100"
+       height="48"
+       rx="7"
+       fill="#FDDBC7"
+       stroke="#d6604d"
+       stroke-width="1.2"
+       id="rect16" />
+    <text
+       x="225"
+       y="309"
+       text-anchor="middle"
+       font-size="13"
+       fill="#7f1d1d"
+       id="text16">h₂(x)</text>
+    <!-- ── Modelo 3 ───────────────────────────────────────────────────────── -->
+    <rect
+       x="328"
+       y="280"
+       width="100"
+       height="48"
+       rx="7"
+       fill="#FDDBC7"
+       stroke="#d6604d"
+       stroke-width="1.2"
+       id="rect17" />
+    <text
+       x="378"
+       y="309"
+       text-anchor="middle"
+       font-size="13"
+       fill="#7f1d1d"
+       id="text17">h₃(x)</text>
+    <!-- Etiqueta paralelo -->
+    <!-- ── Flechas modelos → votación ─────────────────────────────────────── -->
+    <line
+       x1="72"
+       y1="328"
+       x2="175"
+       y2="388"
+       stroke="#888"
+       stroke-width="1.2"
+       marker-end="url(#arr-gray)"
+       id="line18" />
+    <line
+       x1="225"
+       y1="328"
+       x2="225"
+       y2="388"
+       stroke="#888"
+       stroke-width="1.2"
+       marker-end="url(#arr-gray)"
+       id="line19" />
+    <line
+       x1="378"
+       y1="328"
+       x2="275"
+       y2="388"
+       stroke="#888"
+       stroke-width="1.2"
+       marker-end="url(#arr-gray)"
+       id="line20" />
+    <!-- ── Votación uniforme ──────────────────────────────────────────────── -->
+    <rect
+       x="140"
+       y="388"
+       width="170"
+       height="58"
+       rx="8"
+       fill="#E0F3DB"
+       stroke="#4dac26"
+       stroke-width="2"
+       id="rect20" />
+    <text
+       x="225"
+       y="411"
+       text-anchor="middle"
+       font-size="11"
+       font-weight="bold"
+       fill="#4dac26"
+       id="text20">Votación</text>
+    <text
+       x="225"
+       y="430"
+       text-anchor="middle"
+       font-size="11"
+       font-weight="bold"
+       fill="#4dac26"
+       id="text21">uniforme</text>
+    <!-- ── Nota pesos ─────────────────────────────────────────────────────── -->
+    <rect
+       x="72.119057"
+       y="454.84119"
+       width="134.46289"
+       height="28.280289"
+       rx="2.6892579"
+       fill="#f5f5f5"
+       stroke="#bbbbbb"
+       stroke-width="1.11778"
+       id="rect21" />
+    <!-- ── Predicción final ───────────────────────────────────────────────── -->
+    <line
+       x1="225"
+       y1="446"
+       x2="225"
+       y2="500"
+       stroke="#4dac26"
+       stroke-width="1.8"
+       marker-end="url(#arr-green)"
+       id="line22" />
+    <text
+       x="225"
+       y="520"
+       text-anchor="middle"
+       font-size="12"
+       font-weight="bold"
+       fill="#14532d"
+       id="text23">ŷ</text>
+    <text
+       xml:space="preserve"
+       style="writing-mode:lr-tb;direction:ltr;fill:#3d3d3d;fill-opacity:1"
+       x="73.315956"
+       y="481.00751"
+       id="text54"><tspan
+         sodipodi:role="line"
+         id="tspan54"
+         x="73.315956"
+         y="481.00751" /></text>
+    <text
+       x="137.98012"
+       y="466.68695"
+       text-anchor="middle"
+       font-size="9px"
+       fill="#888888"
+       font-style="italic"
+       id="text56"><tspan
+         sodipodi:role="line"
+         id="tspan55"
+         x="137.98012"
+         y="466.68695"
+         style="fill:#3d3d3d;fill-opacity:1">Entrenamiento independiente</tspan><tspan
+         sodipodi:role="line"
+         id="tspan56"
+         x="137.98012"
+         y="477.93695"
+         style="fill:#3d3d3d;fill-opacity:1">(paralelo)</tspan></text>
+  </g>
+  <!-- ── Título general ───────────────────────────────────────────────────── -->
+  <text
+     x="450"
+     y="34"
+     text-anchor="middle"
+     font-size="16px"
+     font-weight="bold"
+     fill="#111827"
+     id="text4" />
+  <!-- ── Línea divisoria central ──────────────────────────────────────────── -->
+  <line
+     x1="450"
+     y1="55"
+     x2="450"
+     y2="555"
+     stroke="#E5E7EB"
+     stroke-width="1.5"
+     stroke-dasharray="6,4"
+     id="line4" />
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       PANEL IZQUIERDO — BAGGING
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <!-- ══════════════════════════════════════════════════════════════════════════
+       PANEL DERECHO — BOOSTING
+       ══════════════════════════════════════════════════════════════════════════ -->
+  <g
+     id="boosting">
+    <!-- Título panel -->
+    <text
+       x="675"
+       y="72"
+       text-anchor="middle"
+       font-size="14"
+       font-weight="bold"
+       fill="#111827"
+       id="text24">Boosting</text>
+    <!-- ── Dataset original ───────────────────────────────────────────────── -->
+    <rect
+       x="590"
+       y="85"
+       width="170"
+       height="50"
+       rx="8"
+       fill="#E8F4F8"
+       stroke="#2166ac"
+       stroke-width="1.8"
+       id="rect24" />
+    <text
+       x="675"
+       y="115"
+       text-anchor="middle"
+       font-size="12"
+       font-weight="bold"
+       fill="#1a1a2e"
+       id="text25">
+      Dataset 𝒟
+    </text>
+    <!-- Flecha dataset → iteración 1 -->
+    <line
+       x1="675"
+       y1="135"
+       x2="675"
+       y2="163"
+       stroke="#888"
+       stroke-width="1.3"
+       marker-end="url(#arr-gray)"
+       id="line25" />
+    <!-- ══ ITERACIÓN 1 ══ -->
+    <!-- Pesos w1 -->
+    <rect
+       x="468"
+       y="163"
+       width="160"
+       height="44"
+       rx="7"
+       fill="#E8F4F8"
+       stroke="#2166ac"
+       stroke-width="1.2"
+       id="rect25" />
+    <text
+       x="548"
+       y="181"
+       text-anchor="middle"
+       font-size="9.5px"
+       fill="#1a1a2e"
+       id="text26">w¹⁾ uniforme</text>
+    <text
+       x="548"
+       y="197"
+       text-anchor="middle"
+       font-size="8.5"
+       fill="#2166ac"
+       font-style="italic"
+       id="text27">
+      mismos pesos iniciales
+    </text>
+    <!-- Flecha pesos → modelo -->
+    <line
+       x1="628"
+       y1="185"
+       x2="668"
+       y2="185"
+       stroke="#2166ac"
+       stroke-width="1.3"
+       marker-end="url(#arr-blue)"
+       id="line27" />
+    <!-- Modelo h1 -->
+    <rect
+       x="668"
+       y="163"
+       width="130"
+       height="44"
+       rx="7"
+       fill="#FDDBC7"
+       stroke="#d6604d"
+       stroke-width="1.2"
+       id="rect27" />
+    <text
+       x="733"
+       y="189"
+       text-anchor="middle"
+       font-size="12"
+       fill="#7f1d1d"
+       id="text28">h₁  (α₁)</text>
+    <!-- Flecha iteración 1 → 2 (con label) -->
+    <line
+       x1="675"
+       y1="207"
+       x2="675"
+       y2="233"
+       stroke="#4dac26"
+       stroke-width="1.5"
+       marker-end="url(#arr-green)"
+       id="line28" />
+    <text
+       x="690"
+       y="224"
+       font-size="8.5"
+       fill="#4dac26"
+       id="text29">actualiza w</text>
+    <!-- ══ ITERACIÓN 2 ══ -->
+    <!-- Pesos w2 -->
+    <rect
+       x="468"
+       y="233"
+       width="160"
+       height="44"
+       rx="7"
+       fill="#E8F4F8"
+       stroke="#2166ac"
+       stroke-width="1.2"
+       id="rect29" />
+    <text
+       x="548"
+       y="251"
+       text-anchor="middle"
+       font-size="9.5"
+       fill="#1a1a2e"
+       id="text30">
+      w⁽²⁾ más peso a errores
+    </text>
+    <text
+       x="548"
+       y="267"
+       text-anchor="middle"
+       font-size="8.5px"
+       fill="#2166ac"
+       font-style="italic"
+       id="text31">mal clasificados</text>
+    <!-- Flecha pesos → modelo -->
+    <line
+       x1="628"
+       y1="255"
+       x2="668"
+       y2="255"
+       stroke="#2166ac"
+       stroke-width="1.3"
+       marker-end="url(#arr-blue)"
+       id="line31" />
+    <!-- Modelo h2 -->
+    <rect
+       x="668"
+       y="233"
+       width="130"
+       height="44"
+       rx="7"
+       fill="#F4A582"
+       stroke="#d6604d"
+       stroke-width="1.2"
+       id="rect31" />
+    <text
+       x="733"
+       y="259"
+       text-anchor="middle"
+       font-size="12"
+       fill="#7f1d1d"
+       id="text32">h₂  (α₂)</text>
+    <!-- Flecha iteración 2 → 3 -->
+    <line
+       x1="675"
+       y1="277"
+       x2="675"
+       y2="303"
+       stroke="#4dac26"
+       stroke-width="1.5"
+       marker-end="url(#arr-green)"
+       id="line32" />
+    <text
+       x="690"
+       y="294"
+       font-size="8.5"
+       fill="#4dac26"
+       id="text33">actualiza w</text>
+    <!-- ══ ITERACIÓN 3 ══ -->
+    <!-- Pesos w3 -->
+    <rect
+       x="468"
+       y="303"
+       width="160"
+       height="44"
+       rx="7"
+       fill="#E8F4F8"
+       stroke="#2166ac"
+       stroke-width="1.2"
+       id="rect33" />
+    <text
+       x="548"
+       y="321"
+       text-anchor="middle"
+       font-size="9.5"
+       fill="#1a1a2e"
+       id="text34">
+      w⁽³⁾ más peso a errores
+    </text>
+    <text
+       x="548"
+       y="337"
+       text-anchor="middle"
+       font-size="8.5px"
+       fill="#2166ac"
+       font-style="italic"
+       id="text35">mal clasificados</text>
+    <!-- Flecha pesos → modelo -->
+    <line
+       x1="628"
+       y1="325"
+       x2="668"
+       y2="325"
+       stroke="#2166ac"
+       stroke-width="1.3"
+       marker-end="url(#arr-blue)"
+       id="line35" />
+    <!-- Modelo h3 -->
+    <rect
+       x="668"
+       y="303"
+       width="130"
+       height="44"
+       rx="7"
+       fill="#D6604D"
+       stroke="#b91c1c"
+       stroke-width="1.2"
+       id="rect35" />
+    <text
+       x="733"
+       y="329"
+       text-anchor="middle"
+       font-size="12"
+       fill="white"
+       id="text36">h₃  (α₃)</text>
+    <!-- ── Flechas modelos → combinación final ────────────────────────────── -->
+    <line
+       x1="733"
+       y1="347"
+       x2="733"
+       y2="372"
+       stroke="#888"
+       stroke-width="1.2"
+       marker-end="url(#arr-gray)"
+       id="line36" />
+    <line
+       x1="733"
+       y1="207"
+       x2="800"
+       y2="207"
+       stroke="#888"
+       stroke-width="0.9"
+       stroke-dasharray="4,3"
+       id="line37" />
+    <line
+       x1="733"
+       y1="277"
+       x2="800"
+       y2="277"
+       stroke="#888"
+       stroke-width="0.9"
+       stroke-dasharray="4,3"
+       id="line38" />
+    <line
+       x1="800"
+       y1="207"
+       x2="800"
+       y2="410"
+       stroke="#888"
+       stroke-width="0.9"
+       stroke-dasharray="4,3"
+       id="line39" />
+    <line
+       x1="800"
+       y1="410"
+       x2="763"
+       y2="410"
+       stroke="#888"
+       stroke-width="1.2"
+       marker-end="url(#arr-gray)"
+       id="line40" />
+    <!-- ── Combinación ponderada ──────────────────────────────────────────── -->
+    <rect
+       x="575"
+       y="372"
+       width="200"
+       height="62"
+       rx="8"
+       fill="#E0F3DB"
+       stroke="#4dac26"
+       stroke-width="2"
+       id="rect40" />
+    <text
+       x="675"
+       y="396"
+       text-anchor="middle"
+       font-size="11"
+       font-weight="bold"
+       fill="#4dac26"
+       id="text40">
+      Voto ponderado
+    </text>
+    <text
+       x="675"
+       y="414"
+       text-anchor="middle"
+       font-size="11px"
+       fill="#166534"
+       id="text41">Σ α<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan53">t</tspan> h<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan52">t</tspan>(x)</text>
+    <!-- ── Nota secuencial ────────────────────────────────────────────────── -->
+    <rect
+       x="509.84219"
+       y="451.84219"
+       width="152.84987"
+       height="28.315601"
+       rx="2.7790885"
+       fill="#f5f5f5"
+       stroke="#bbbbbb"
+       stroke-width="1"
+       id="rect41" />
+    <text
+       x="585.92456"
+       y="462.77765"
+       text-anchor="middle"
+       font-size="9.5px"
+       fill="#555555"
+       id="text42"><tspan
+         sodipodi:role="line"
+         id="tspan50"
+         x="585.92456"
+         y="462.77765">Entrenamiento secuencial</tspan><tspan
+         sodipodi:role="line"
+         id="tspan51"
+         x="585.92456"
+         y="474.65265">(cada modelo corrige al anterior)</tspan></text>
+    <!-- ── Predicción final ───────────────────────────────────────────────── -->
+    <line
+       x1="675"
+       y1="434"
+       x2="675"
+       y2="500"
+       stroke="#4dac26"
+       stroke-width="1.8"
+       marker-end="url(#arr-green)"
+       id="line42" />
+    <text
+       x="675"
+       y="520"
+       text-anchor="middle"
+       font-size="12"
+       font-weight="bold"
+       fill="#14532d"
+       id="text43">
+      H(x) = signo(Σ αₜ hₜ(x))
+    </text>
+  </g>
+  <!-- ── Leyenda inferior ──────────────────────────────────────────────────── -->
+  <rect
+     x="278.15118"
+     y="539.20502"
+     width="335.47531"
+     height="30.219564"
+     rx="3.5943785"
+     fill="#f9fafb"
+     stroke="#e5e7eb"
+     stroke-width="1.0154"
+     id="rect43" />
+  <rect
+     x="293.26096"
+     y="549.31482"
+     width="12"
+     height="12"
+     rx="2"
+     fill="#d1e5f0"
+     stroke="#2166ac"
+     stroke-width="1"
+     id="rect44" />
+  <text
+     x="310.26096"
+     y="560.31482"
+     font-size="9.5px"
+     fill="#374151"
+     id="text44">Datos / pesos</text>
+  <rect
+     x="388.26096"
+     y="549.31482"
+     width="12"
+     height="12"
+     rx="2"
+     fill="#fddbc7"
+     stroke="#d6604d"
+     stroke-width="1"
+     id="rect45" />
+  <text
+     x="405.26096"
+     y="560.31482"
+     font-size="9.5px"
+     fill="#374151"
+     id="text45">Modelo débil h<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan57">t</tspan></text>
+  <rect
+     x="503.26096"
+     y="549.31482"
+     width="12"
+     height="12"
+     rx="2"
+     fill="#e0f3db"
+     stroke="#4dac26"
+     stroke-width="1"
+     id="rect46" />
+  <text
+     x="520.26093"
+     y="560.31482"
+     font-size="9.5px"
+     fill="#374151"
+     id="text46">Combinación final</text>
+</svg>
