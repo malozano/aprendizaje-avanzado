@@ -34,6 +34,12 @@ A continuación mostramos algunos ejemplos de clasificadores fuertes típicos:
 - Random Forests
 - Gradient Boosting
 
+En la [](#fig-debil-vs-fuerte) se muestran ejemplos de clasificadores débiles: _decision stump_ (izquierda) y árbol poco profundo (centro); y de un clasificador fuerte con AdaBoost (derecha) creado mediante la combinación de diferentes _stumps_.
+
+Figure: Clasificadores débiles y clasificadores fuertes {#fig-debil-vs-fuerte}
+
+![](images/t5_debil_vs_fuerte.png)
+
 ## Base fundacional
 
 En 1988 y 1989 Kearns y Valiant [@kearns1988cryptographic;@kearns1989cryptographic] plantearon la pregunta que constituye la fundación teórica del _Boosting_: **"¿Puede un conjunto de clasificadores débiles crear un único clasificador fuerte?"**. 
@@ -101,6 +107,14 @@ $$
 H(\mathbf{x}) = \text{signo} \left( F(\mathbf{x}) \right)
 $$
 
+
+Figure: Comparación entre Bagging y Boosting. {#fig-bagging-vs-boosting}
+
+![](images/t5_bagging_vs_boosting.svg)
+
+
+En la [](#fig-bagging-vs-boosting) se ilustra la diferencia entre Bagging y Boosting. 
+
 ## AdaBoost (_Adaptive Boosting_)
 
 AdaBoost [@freund1997decision] fue desarrollado por Freund y Schapire en 1997, y constituye el primer algoritmo de _Boosting_ exitoso.
@@ -136,7 +150,12 @@ $$
 \end{align*}
 $$
 
-El algoritmo construye el _ensemble_ de forma voraz, iteración a iteración. En cada iteración $t$ añade al _ensemble_ un nuevo clasificador $h_t$. Para entrenarlo presta especial atención a los ejemplos de entrenamiento que tengan un mayor peso $w_i^{(t)}$ en dicha iteración.
+El algoritmo construye el _ensemble_ de forma voraz, iteración a iteración. En cada iteración $t$ añade al _ensemble_ un nuevo clasificador $h_t$. Para entrenarlo presta especial atención a los ejemplos de entrenamiento que tengan un mayor peso $w_i^{(t)}$ en dicha iteración. Podemos ver este proceso ilustrado paso a paso en la [](#fig-proceso), donde podemos observar cómo los ejemplos mal clasificados en cada iteración (marcados con borde grueso) aumentan de peso en la siguiente, mientras que el resto de ejemplos bajan de peso. También se muestra el peso $\alpha_t$ de cada clasificador $h_t$, y a la derecha se muestra el clasificador final que se obtendría mediante la suma ponderada de los tres clasificadores débiles obtenidos durante el proceso.
+
+Figure: Proceso de Boosting paso a paso {#fig-proceso}
+
+![](images/t5_proceso_adaboost.png)
+
 
 Vamos a continuación a detallar cada uno de los pasos de este algoritmo.
 
@@ -197,13 +216,17 @@ Por lo tanto, tenemos la forma en la que se actualizarán los pesos tras cada it
 $$ \quad w_i^{(t+1)} = w_i^{(t)} e^{-\alpha_t y_i h_t(\mathbf{x}_i)}  \quad \forall i 
 $$
 
-A partir de esta forma de actualizar los pesos, podemos observar que los ejemplos mal clasificados tendrán signo positivo en la exponencial, por lo que aumentará su peso, mientras que los bien clasificados tendrán signo negativo y en ese caso disminuirá su peso.
+A partir de esta forma de actualizar los pesos, podemos observar que los ejemplos mal clasificados tendrán signo positivo en la exponencial, por lo que aumentará su peso, mientras que los bien clasificados tendrán signo negativo y en ese caso disminuirá su peso. Podemos ver esto ilustrado en la [](#fig-evolucion-pesos).
 
 Además, deberemos normalizar los pesos para posteriormente poder calcular correctamente el error del clasificador a partir de ellos:
 
 $$
 w_i^{(t+1)} = \frac{w_i^{(t+1)}}{\sum_{j=1}^N w_j^{(t+1)}}  \quad \forall i 
 $$
+
+Figure: Evolución de los pesos de los ejemplos $w_i$. Los ejemplos mal clasificados en una iteración (marcados con borde grueso) aumentan de peso en la siguiente iteración, mientras que el resto de ejemplo disminuye de peso. {#fig-evolucion-pesos}
+
+![](images/t5_evolucion_pesos.png)
 
 
 > **Relación con la derivada**: Si tratamos $F(\mathbf{x}_i)$ como una variable independiente para cada ejemplo de entrada $\mathbf{x}_i$, y evaluamos cuánto afecta a la pérdida total calculando la derivada parcial, tenemos:
@@ -302,6 +325,12 @@ $$
 
 Con esto podemos observar que $\alpha_t$ será mayor cuanto menor error $\epsilon_t$ tenga el clasificador. Lo peor que pueda ocurrir es que $\epsilon_t = 0.5$, ya que en ese caso el clasificador equivale a lanzar una moneda al aire, y en tal caso tendremos un peso $\alpha_t = 0$. Podemos observar también que si $\epsilon_t > 0.5$ (peor que el azar), el peso pasará a ser negativo, es decir, se invierte el clasificador para que así pase a ser algo mejor que el azar.  
 
+En la [](#fig-evolucion-alpha) podemos observar la evolución de $\alpha_t$ y $\epsilon_t$ durante el entrenamiento. Podemos ver cómo en las iteraciones en las que tenemos menor error sube el peso del clasificador. 
+
+Figure: Evoluación del error de los clasificadores débiles y de los pesos $\alpha_t$ de los clasificadores {#fig-evolucion-alpha}
+
+![](images/t5_evolucion_epsilon_alpha.png)
+
 ### Algoritmo detallado
 
 Con todo lo anterior, podemos escribir de forma completa el algoritmo AdaBoost detallando en cada paso la forma en la que se calculan los errores y los pesos:
@@ -345,7 +374,11 @@ $$\text{Training Error} \leq \exp\left(-2 T \gamma^2\right)$$
 Aquí podemos ver más claramente la implicación de esta cota, y es que el error de entrenamiento **decrece exponencialmente con el número de iteraciones $T$**. Basta que cada clasificador sea ligeramente mejor que el azar para que el error de entrenamiento se reduzca a cero.
 
 
+En la [](#fig-cota) se muestra la evolución de la cota teórica del error de entrenamiento para diferentes valores de $\gamma$. 
 
+Figure: Cota de error {#fig-cota}
+
+![](images/t5_cota_error.png)
 
 
 
@@ -379,9 +412,15 @@ $$\alpha_t = \ln\frac{1 - \epsilon_t}{\epsilon_t} + \ln(K - 1)$$
 
 El término adicional $\ln(K-1)$ tiene dos consecuencias importantes:
 
-- En primer lugar, la condición de debilidad pasa a ser $\epsilon_t < 1 - \frac{1}{K}$, que corresponde a superar al azar uniforme entre $K$ clases, lo cual es la condición teóricamente correcta. Cuando un clasificador funcione igual que el azar, su peso será $0$.
+- En primer lugar, la condición de debilidad pasa a ser $\epsilon_t < 1 - \frac{1}{K}$, que corresponde a superar al azar uniforme entre $K$ clases, lo cual es la condición teóricamente correcta. Cuando un clasificador funcione igual que el azar, su peso será $0$. 
 
 - En segundo lugar, para $K = 2$ se tiene $\ln(K-1) = \ln 1 = 0$ y el algoritmo producirá las mismas predicciones que AdaBoost binario, confirmando que es una generalización consistente.
+
+Podemos ver esto ilustrado en la [](#fig-samme), donde a la izquierda vemos el caso de AdaBoost binariol y a la derecha SAMME multiclase. Vemos como al aumentar el número de clases, el umbral del azar se desplaza (a partir de ese punto $\alpha$ pasa a ser negativo al ser un clasificador que funciona peor que el azar). El caso en el que $K=2$ es consistente con AdaBoost binario.
+
+Figure: Cálculo de $\alpha$ a partir del error $\epsilon$ en AdaBoost binario (izquierda) frente a la versión SAMME multiclase (derecha) {#fig-samme}
+
+![](images/t5_samme.png)
 
 El algoritmo completo de entrenamiento es el siguiente:
 
@@ -509,7 +548,11 @@ Sin embargo, también encontramos una serie de desventajas. No es paralelizable 
 
 La principal desventaja que deberemos tener en cuenta es que es muy **sensible al ruido y a los _outliers_**. Hemos visto que al utilizar la función de pérdida exponencial, se da un peso desmesurado a ejemplos muy mal clasificados, dominando así la optimización. Esto hará que AdaBoost acabará dedicando casi toda su capacidad a intentar clasificar correctamente un ejemplo imposible, degradando el rendimiento en el resto. 
 
-Pero si AdaBoost equivale a minimizar la pérdida exponencial, ¿qué ocurriría si **cambiamos esa función de pérdida**? Si utilizamos pérdida logística tendremos la variante LogitBoost que será más robusta frente al ruido al crecer linealmente para errores grandes. Si generalizamos para cualquier función de pérdida diferenciable obtendremos **Gradient Boosting**, que estudiaremos en la siguiente sesión.
+Figure: Comparativa de funciones de pérdida {#fig-perdida}
+
+![](images/t5_funciones_perdida.png)
+
+Pero si AdaBoost equivale a minimizar la pérdida exponencial (ver [](#fig-perdida)), ¿qué ocurriría si **cambiamos esa función de pérdida**? Si utilizamos pérdida logística tendremos la variante LogitBoost que será más robusta frente al ruido al crecer linealmente para errores grandes. Si generalizamos para cualquier función de pérdida diferenciable obtendremos **Gradient Boosting**, que estudiaremos en la siguiente sesión.
 
 En el caso de **regresión** encontramos que AdaBoost.R2 presenta dos debilidades estructurales:
 
