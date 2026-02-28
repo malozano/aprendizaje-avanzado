@@ -14,7 +14,12 @@ $$F(x) = \sum_{m=0}^{M} f_m(x)$$
 
 Donde cada $f_m$ es un modelo débil (típicamente un árbol).
 
-Para entender el funcionamiento de Gradient Boosting, podemos establecer una **analogía con el método de descenso por gradiente**. Con este método buscamos optimizar un conjunto de parámetros $\theta$, y para ello en cada iteración obtenemos el gradiente de la función de pérdida respecto a estos parámetros, y optimizamos los parámetros en la dirección contraria al gradiente:
+Figure: Analogía del Descenso por Gradiente en el espacio de parámetros $\theta$, con Gradient Boosting en el espacio de funciones. {#fig-analogia}
+
+![](images/t6_analogia.svg)
+
+
+Para entender el funcionamiento de Gradient Boosting, podemos establecer una **analogía con el método de descenso por gradiente** (ver [](#fig-analogia)). Con este método buscamos optimizar un conjunto de parámetros $\theta$, y para ello en cada iteración obtenemos el gradiente de la función de pérdida respecto a estos parámetros, y optimizamos los parámetros en la dirección contraria al gradiente:
 
 $$
 \begin{align*}
@@ -192,6 +197,13 @@ F_m(\mathbf{x}) \leftarrow F_{m-1}(\mathbf{x}) + \eta \sum_{j=1}^J \gamma_{jm} 1
 \end{align*}
 $$
 
+Podemos ver el proceso paso a paso ilustrado en la [](#fig-proceso). Podemos ver iteración a iteración cómo se actualiza la función $F$ y se calculan los residuos. Al tratarse de un problema de regresión, la función $F$ se inicializa con la media $\bar{y}$, y en la fila inferior podemos ver los pseudo-residuos resultantes de predecir con dicha función inicial. El siguiente árbol débil se ajustará a estos residuos y de esa forma se obtiene la función de la segunda columna, para la cual se vuelven a calcular los residuos, y así iterativamente.
+
+Figure: Proceso de Gradient Boosting paso a paso. En la fila superior se muestra la función ajustada en cada iteración, mientras que en la fila inferior se muestran los residuos resultantes con los que se ajustará el siguiente árbol débil. {#fig-proceso}
+
+![](images/t6_proceso.png)
+
+
 ### Predicción final
 
 Una vez obtenidos los $M$ árboles, el modelo final será la suma de todas las contribuciones:
@@ -320,6 +332,14 @@ $$
 
 El hiperparámetro $\delta$ marca la frontera entre el comportamiento como L2 y L1. En la implementación de sklearn se actualiza adaptativamente en cada iteración a partir de los residuos.
 
+En la [](#fig-residuos) podemos ver la forma que tiene la función para el cálculo de los pseudo-residuos para las funciones de pérdida vistas hasta el momento: MSE, MAE y Huber. Vemos como en el último caso $\delta$ acota el rango de la función.
+
+Figure: Pseudo-residuos correspondiente a diferentes funciones de pérdida: MSE, MAE y Huber. {#fig-residuos}
+
+![](images/t6_residuos.png)
+
+
+
 #### Quantile Loss
 
 Permite estimar percentiles/cuantiles en lugar de la media. 
@@ -354,7 +374,13 @@ $$
 \gamma_{jm} = Q_{\tau} \{y_i - F_{m-1}(\mathbf{x}_i): \mathbf{x}_i \in R_{jm}\}
 $$
 
-El uso principal de esta función de pérdida es entrenar múltiples modelos con diferentes $\tau$, por ejemplo $0.1$, $0.5$ y $0.9$, para así construir intervalos de predicción.
+El uso principal de esta función de pérdida es entrenar múltiples modelos con diferentes $\tau$, por ejemplo $0.1$, $0.5$ y $0.9$, para así construir intervalos de predicción. En la [](#fig-quantile) podemos ver un ejemplo en el que se han entrenado 3 modelos para predecir dichos cuantiles.
+
+
+Figure: Regresión por cuantiles con Quantile Loss {#fig-quantile}
+
+![](images/t6_cuantiles.png)
+
 
 ### Clasificación Binaria
 
@@ -460,7 +486,11 @@ El **_learning rate_** es conocido también como _shrinkage_, debido a que tiene
 - Cuando el **valor es alto**, cercano a $1$, el algoritmo convergerá rápido con pocos estimadores, con lo cual tendremos riesgo de _overfitting_. 
 - Sin embargo, si tenemos un **valor pequeño**, cercano a $0$, cada estimador contribuirá muy poco y al necesitar más estimadores para converger tendremos también mejor generalización.
 
-Básicamente, con _learning rates_ más pequeños tendremos modelos más robustos, pero a costa de un mayor tiempo de entrenamiento. Se trata de avanzar con pasos más pequeños pero más seguros. 
+Figure: Efecto del _learning rate_ en las curvas de entrenamiento y validación.  {#fig-lr}
+
+![](images/t6_learning_rate.png)
+
+Básicamente, con _learning rates_ más pequeños tendremos modelos más robustos, pero a costa de un mayor tiempo de entrenamiento. Se trata de avanzar con pasos más pequeños pero más seguros. En la [](#fig-lr) vemos como con un valor alto (izquierda) converge rápido pero obtiene un error mayor, mientras que con valores muy bajos (derecha) la convergencia es muy lenta y necesitaríamos un mayor número de árboles para obtener el valor óptimo.
 
 Por lo tanto, será recomendable utilizar valores pequeños (por ejemplo $\eta = 0.01$ o $0.1$), aumentar el número de estimadores y utilizar _early stopping_ para encontrar el punto óptimo. 
 
@@ -507,7 +537,12 @@ El subsampling ayudará a reducir el _overfitting_, introduciendo diversidad, y 
 
 ### Profundidad máxima del árbol
 
-Limitar la profundidad máxima de los árboles base es una de las formas más efectivas de controlar la complejidad del modelo. Con profundidad $1$ tendríamos _decision stumps_, que solo capturan efectos individuales de cada variable. Con profundidad $2$ o $3$ ya podemos capturar interacciones de segundo y tercer orden. En la práctica se suelen utilizar valores entre $3$ y $8$.
+Limitar la profundidad máxima de los árboles base es una de las formas más efectivas de controlar la complejidad del modelo. Con profundidad $1$ tendríamos _decision stumps_, que solo capturan efectos individuales de cada variable. Con profundidad $2$ o $3$ ya podemos capturar interacciones de segundo y tercer orden. Es decir, un árbol de profundidad 2 permitiría establecer relaciones como _"si el salario es mayor que $1000$ y la edad mayor que $30$, entonces la clase debería ser positiva"_, y contribuir de esta forma al _ensemble_.  En la práctica se suelen utilizar valores entre $3$ y $8$. En la [](#fig-profundidad) se muestra el efecto de modificar la profundidad de los árboles en la frontera de decisión. 
+
+Figure: Fronteras de decisión con diferente profundidad de los árboles. {#fig-profundidad}
+
+![](images/t6_profundidad.png)
+
 
 De esta forma, al contrario que en métodos como Random Forest en los que no limitamos la profundidad, en Gradient Boosting utilizaremos normalmente **árboles poco profundos**, que resulten más rápidos de entrenar y que sean complementarios, capturando cada árbol un patrón residual diferente. 
 
@@ -602,12 +637,19 @@ $$
 m^* = \min\left\{m : \mathcal{L}_\mathcal{V}(F_{m'}) \geq \mathcal{L}_\mathcal{V}(F_m), \forall m' \in \{m+1, \ldots, m+k\}\right\}
 $$
 
-Es decir, si la pérdida de validación no mejora durante $k$ iteraciones consecutivas, se detiene el entrenamiento y se devuelve el modelo $F_{m^*}$.
+Es decir, si la pérdida de validación no mejora durante $k$ iteraciones consecutivas, se detiene el entrenamiento y se devuelve el modelo $F_{m^*}$ (ver [](#fig-early)).
+
+Figure: Evo. {#fig-early}
+
+![Ejemplo de early stopping](images/t6_early_stopping.png)
 
 
-Para activar este criterio der parada en la implementación debemos indicar la fracción de datos que utilizaremos como conjunto de validación $\mathcal{V}$ (parámetro `validation_fraction`), el tamaño de la ventana de paciencia $k$ en el parámetro  `n_iter_no_change`, y una tolerancia de mejora (parámetro `tol`). De esta forma, cuando el rendimiento de validación deje de mejorar el valor de tolerancia indicado durante $k$ iteraciones , el algoritmo terminará de forma temprana.
+
+Para activar este criterio de parada en la implementación debemos indicar la fracción de datos que utilizaremos como conjunto de validación $\mathcal{V}$ (parámetro `validation_fraction`), el tamaño de la ventana de paciencia $k$ en el parámetro  `n_iter_no_change`, y una tolerancia de mejora (parámetro `tol`). De esta forma, cuando el rendimiento de validación deje de mejorar el valor de tolerancia indicado durante $k$ iteraciones , el algoritmo terminará de forma temprana.
 
 El _early stopping_ nos permitirá usar un valor de $M$ (`n_estimators`) alto como límite superior y dejar que el algoritmo determine el número óptimo de árboles automáticamente. En la práctica, típicamente se suele reservar entre un $10\%$ y un $20\%$ de los datos para validación, o bien usar validación cruzada.
+
+
 
 
 ## _Histogram-based Gradient Boosting_ 
@@ -737,9 +779,14 @@ $$
 g_i = \frac{\partial L(y_i, F_{m-1}(\mathbf{x}_i))}{\partial F_{m-1}(\mathbf{x}_i)}, \quad s_i = \frac{\partial^2 L(y_i, F_{m-1}(\mathbf{x}_i))}{\partial F_{m-1}(\mathbf{x}_i)^2}
 $$
 
-Es decir, $g_i$ es el gradiente (análogo a los pseudo-residuos) y $s_i$ es la curvatura local de la pérdida (segunda derivada).
+Es decir, $g_i$ es el gradiente (análogo a los pseudo-residuos) y $s_i$ es la curvatura local de la pérdida (segunda derivada), tal como se puede observar en la [](#fig-taylor).
 
 > **Simil intuitivo:** Imaginemos que queremos estimar donde estará nuestro coche en el próximo instante. Si únicamente conocemos su posición actual será muy difícil hacer una estimación aproximada. Si además conocemos el ritmo al que está cambiando la posición (velocidad, primera derivada de la posición), podremos dar una estimación más precisa. Pero si además sabemos a qué ritmo está cambiando la velocidad (aceleración, segunda derivada de la posición) la estimación será todavía bastante más precisa. Esto es precisamente lo que buscamos con $g_i$ y $s_i$, que serían análogas a la "velocidad" y a la "aceleración", respectivamente, con la que cambia la función de pérdida. 
+
+Figure: Aproximación de Taylor de segundo orden en XGBoost. {#fig-taylor}
+
+![](images/t6_taylor.png)
+
 
 Para cada hoja $j$, la función objetivo queda como:
 
@@ -747,7 +794,7 @@ $$
 \mathcal{L}_j = \left(\sum_{i \in R_j} g_i\right) \gamma_j + \frac{1}{2}\left(\sum_{i \in R_j} s_i + \lambda\right) \gamma_j^2 + \mu
 $$
 
-> **Nota:** En esta función se ha excluído la regularización L1 (\multiplicador $\alpha$), ya que con el término L1 la solución analítica se complica. La regularización L1 no aparecía en el artículo original de XGBoost, sino que fue incorporada posteriormente en la implementación software.
+> **Nota:** En esta función se ha excluído la regularización L1 (multiplicador $\alpha$), ya que con el término L1 la solución analítica se complica. La regularización L1 no aparecía en el artículo original de XGBoost, sino que fue incorporada posteriormente en la implementación software.
 
 Minimizando analíticamente respecto a $\gamma_j$, el valor óptimo de cada hoja es:
 
@@ -861,7 +908,13 @@ LightGBM (_Light Gradient Boosting Machine_) [@ke2017lightgbm] fue desarrollado 
 
 ### Crecimiento del árbol por hojas (_Leaf-wise_)
 
-La diferencia fundamental en la construcción de los árboles respecto a XGBoost es la estrategia de crecimiento. XGBoost crece los árboles **nivel a nivel** (_level-wise_ o _depth-wise_): en cada nivel expande todos los nodos del mismo nivel antes de pasar al siguiente. LightGBM crece los árboles **hoja a hoja** (_leaf-wise_): en cada paso selecciona la hoja con mayor ganancia potencial y la divide, independientemente del nivel en que se encuentre.
+La diferencia fundamental en la construcción de los árboles respecto a XGBoost es la estrategia de crecimiento. XGBoost crece los árboles **nivel a nivel** (_level-wise_ o _depth-wise_): en cada nivel expande todos los nodos del mismo nivel antes de pasar al siguiente. LightGBM crece los árboles **hoja a hoja** (_leaf-wise_): en cada paso selecciona la hoja con mayor ganancia potencial y la divide, independientemente del nivel en que se encuentre (ver [](#fig-lgbm)).
+
+
+Figure: Crecimiento del árbol en LightGM (por hojas) grande a GBM y XGBoost (por niveles). {#fig-lgbm}
+
+![](images/t6_grow_lgbm.svg)
+
 
 Formalmente, en cada paso se elige la hoja $j^*$ tal que:
 
@@ -956,14 +1009,21 @@ CatBoost (_Categorical Boosting_) [@prokhorenkova2018catboost] fue desarrollado 
 
 En Gradient Boosting estándar, los pseudo-residuos $r_{im}$ del árbol $m$ se calculan usando el modelo $F_{m-1}$, que fue entrenado con los mismos ejemplos $(\mathbf{x}_i, y_i)$. Esto introduce un sesgo: el modelo $F_{m-1}$ ha visto el ejemplo $i$ durante su entrenamiento, por lo que los residuos calculados sobre ese mismo ejemplo tienden a ser menores de lo que serían sobre datos nuevos. Este sesgo acumulado a lo largo de las $M$ iteraciones se denomina **_prediction shift_** y puede conducir a _overfitting_.
 
+Figure: Ejemplo de _Ordered Boosting_. El residuo para el ejemplo $i$ se calcula a partir un modelo entrenado únicamente con los ejemplos anteriores, para de esta forma evitar el _prediction shift_. {#fig-catboost}
+
+![](images/t6_catboost.svg)
+
+
 CatBoost aborda este problema mediante dos variantes del algoritmo:
 
-- **Ordered Boosting.** Para calcular el residuo del ejemplo $i$ en la iteración $m$, se construye un modelo $F_{m-1}^{\setminus i}$ entrenado únicamente con los ejemplos anteriores a $i$ (siguiendo un orden aleatorio de los datos). De esta forma, el residuo $r_{im}$ se calcula siempre sobre un ejemplo que el modelo no ha visto, eliminando el sesgo. En la práctica, CatBoost aproxima esto manteniendo $s$ permutaciones aleatorias del conjunto de entrenamiento y construyendo los modelos de forma incremental.
+- **Ordered Boosting.** Para calcular el residuo del ejemplo $i$ en la iteración $m$, se construye un modelo $F_{m-1}^{\setminus i}$ entrenado únicamente con un conjunto de datos $\mathcal{D}_i$ que incluye solo los ejemplos anteriores a $i$ (siguiendo un orden $\sigma$ aleatorio de los datos). De esta forma, el residuo $r_{im}$ se calcula siempre sobre un ejemplo que el modelo no ha visto, eliminando el sesgo. Podemos ver este proceso ilustrado en la [](#fig-catboost). En la práctica, CatBoost aproxima esto manteniendo $s$ permutaciones aleatorias $\sigma$ del conjunto de entrenamiento y construyendo $s$ modelos en paralelo de forma incremental. Se toma como residuo para un ejemplo $i$ el correspondiente a la secuencia en la que $i$ aparezca más tarde.
 - **Ordered TS para variables categóricas.** Una solución análoga se aplica a la codificación de variables categóricas, como se verá a continuación.
+
+
 
 ### Codificación de variables categóricas
 
-CatBoost introduce una codificación basada en estadísticos de la variable objetivo condicionados a la categoría. Si tenemos una _feature_ categórica $k$, la idea es sustituir la categoría $x_i^k$ del $i$-ésimo ejemplo de entrada por una _feature_ numérica igual a una determinada estadística objetivo (_Target Statistic_, TS) $\hat{x}_i^k$. Comúnmente, esta TS estima la variable objetivo $y$ condicionada por la categoría: $\hat{x}_i^j \approx E(y | x^k = x_i^k) $. Una forma de estimar esta TS es tomar el valor medio de $y$ para todos los ejemplos que comparten la misma categoría de $x_i^k$:
+CatBoost introduce una codificación basada en estadísticos de la variable objetivo condicionados a la categoría. Si tenemos una _feature_ categórica $k$, la idea es sustituir la categoría $x_i^k$ del $i$-ésimo ejemplo de entrada por una _feature_ numérica $\hat{x}_i^k$ igual a una determinada estadística objetivo (_Target Statistic_, TS). Comúnmente, esta TS estima la variable objetivo $y$ condicionada por la categoría: $\hat{x}_i^k \approx E(y | x^k = x_i^k) $. Una forma de estimar esta TS es tomar el valor medio de $y$ para todos los ejemplos que comparten la misma categoría de $x_i^k$:
 
 $$
 \hat{x}_i^k = \frac{\sum_{j=1}^N \mathbf{1}[x_j^k = x_i^k]  y_j + a p}{\sum_{j=1}^N \mathbf{1}[x_j^k = x_i^k] + a}
@@ -1018,7 +1078,37 @@ y_pred = modelo.predict(X_test)
 
 Los métodos de Gradient Boosting ofrecen varias métricas para evaluar la importancia de cada característica $f$ en el modelo final. 
 
-Gradient Boosting en _sklearn_ soporta los mismos tipos de importancia que ya vimos con Random Forest (MDI y permutación). Los frameworks especializados XGBoost y LightGBM añaden además los siguientes tipos:
+Gradient Boosting en _sklearn_ soporta los mismos tipos de importancia que ya vimos con Random Forest (MDI y permutación). Los frameworks especializados XGBoost y LightGBM añaden además  otros tipos que podemos observar en la comparativa de la [](#fig-importancia): _Split count_, _Gain_ y _Coverage_. 
+
+Figure: Comparativa de diferentes métricas de importancia de catacterísticas en XGBoost y LightGBM {#fig-importancia}
+
+![](images/t6_importancia.png)
+
+En XGBoost podemos obtener directamente los valores de importancia de la siguiente forma:
+
+```python
+modelo = xgb.XGBClassifier()
+modelo.fit(X_train, y_tr)ain
+
+# Las tres métricas se obtienen directamente del booster
+imp_gain     = modelo.get_booster().get_score(importance_type="gain")
+imp_split    = modelo.get_booster().get_score(importance_type="weight")   # "weight" = split count
+imp_coverage = modelo.get_booster().get_score(importance_type="cover")
+```
+
+De forma análoga, en LightGBM se obtienen de la siguiente forma:
+
+```python
+modelo = lgb.LGBMClassifier()
+modelo.fit(X_train, y_train)
+
+# importance_type solo acepta "gain" o "split"
+imp_gain  = modelo.booster_.feature_importance(importance_type="gain")
+imp_split = modelo.booster_.feature_importance(importance_type="split")
+```
+
+A continuación describiremos cada uno de estos tipos.
+
 
 ### Importancia por ganancia (_Gain_)
 
@@ -1062,7 +1152,48 @@ $$
 
 Es decir, la predicción se descompone como la suma de la predicción base más la contribución de cada característica. A diferencia de las importancias globales anteriores, los valores SHAP son **locales** (específicos para cada ejemplo) y permiten explicar predicciones individuales, aunque también pueden agregarse para obtener importancias globales.
 
+Por ejemplo, en la [](#fig-shap) tenemos una vista global del modelo (_beeswarm_) en la que se muestra cómo afecta cada variable a las predicciones sobre todos los ejemplos del conjunto de _test_. Cada fila es una variable, ordenadas de mayor a menor importancia global (las que más influyen en media están arriba). Cada punto es un ejemplo concreto, y su posición horizontal indica el valor SHAP $\phi_f(\mathbf{x})$ de esa variable para ese ejemplo. El color de los puntos representa el valor original de cada variable.
 
+Figure: Vista global SHAP _beeswarm_ {#fig-shap}
+
+![](images/t6_shap.png)
+
+Por otro lado, en la [](#fig-shap-waterfall) tenemos una vista local (_waterfall_) que explica una única predicción concreta, descomponiendo por qué el modelo llegó a ese valor específico para ese ejemplo. Se presenta como una "cascada", parte del valor base $\mathbb{E}[F(\mathbf{x})]$ (la predicción media del modelo para todos los ejemplos), y cada barra añade (en rojo) o resta (en azul) la contribución $\phi_f(\mathbf{x})$ de cada variable hasta llega a la predicción final $\phi_f(\mathbf{x})$ para ese ejemplo $\mathbf{x}$.
+
+Figure: Vista local SHAP _waterfall_ {#fig-shap-waterfall}
+
+![](images/t6_shap_waterfall.png)
+
+Estas vistas pueden obtenerse con la librería `shap`, que deberemos instalar previamente con 
+
+```
+pip install shap
+```
+
+Una vez instalada, encontramos módulos centrados en la explicabilidad de diferentes familias de modelos. Por ejemplo, tenemos `TreeExplainer` centrado en modelos de tipo árbol:
+
+```python
+import shap
+
+modelo = xgb.XGBClassifier()
+modelo.fit(X_train, y_train)
+
+explainer   = shap.TreeExplainer(modelo)
+shap_values = explainer(X_test)
+```
+
+Una vez obtenidos los `shap_values`, podemos obtener la representación _beeswarm_ con:
+
+```python
+shap.plots.beeswarm(shap_values, max_display=8, show=False,
+                    color_bar=True, plot_size=None)
+```
+
+De igual forma, podemos obtener la representación _waterfall_ para un ejemplo concreto `shap_values[idx]`:
+
+```python
+shap.plots.waterfall(shap_values[idx], max_display=8, show=False)
+```
 
 ## Consideraciones finales
 
@@ -1118,10 +1249,17 @@ Los cinco métodos presentados (Gradient Boosting, Histogram-based Gradient Boos
 | **Valores perdidos** | No | Sí | Sí | Sí | Sí |
 | **Regularización L2 hoja** | No | Sí | Sí | Sí | Sí |
 | **Soporte GPU** | No | No | Sí | Sí  | Sí  |
-| **Velocidad entrenamiento** | Lenta | Muy rápida | Media | Muy rápida | Media |
-| **Memoria** | Alta | Baja | Alta | Baja | Media |
+| **Velocidad entrenamiento** | Lenta | Rápida | Rápida (`hist`) | Rápida | Media |
+| **Memoria** | Alta | Baja-Media | Baja-Media | Baja | Media-Alta (Ordered) |
 
 En términos generales, **LightGBM** es la opción preferida cuando el _dataset_ es grande y el tiempo de entrenamiento es una restricción crítica. **CatBoost** destaca cuando hay muchas variables categóricas de alta cardinalidad y se quiere minimizar la necesidad de preprocesamiento. **XGBoost** es una opción equilibrada con una comunidad muy madura y gran cantidad de recursos. Dentro del ecosistema de _sklearn_, **Histogram-based Gradient Boosting** es la alternativa recomendada frente a **GBM** en cuanto el _dataset_ supera unos pocos miles de ejemplos, ya que ofrece velocidad y soporte para valores faltantes y variables categóricas sin salir de la librería, aunque no tiene tantas prestaciones y versatilidad como los métodos mencionados anteriormente, y no tiene soporte para GPU. **GBM** queda reservado para conjuntos de datos pequeños o como herramienta didáctica para comprender los fundamentos del algoritmo sin capas de optimización adicionales.
+
+En la [](#fig-comparativa) se muestra una comparativa del tiempo de ejecución y del rendimiento predictivo de los diferentes modelos de Gradient Boosting con diferentes tamaños de conjunto de datos. Principalmente destaca el alto coste computacional de **GBM** frente al resto de alternativas, sin mejorar el rendimiento predictivo, lo cual nos lleva a reafirmarnos en las conclusiones anteriores y reservar este modelo únicamente para _datasets_ pequeños. 
+
+Figure: Comparativa en tiempo y en rendimiento predictivo de los diferentes modelos de Gradient Boosting. {#fig-comparativa}
+
+![](images/t6_comparativa.png)
+
 
 ### Sesgo, varianza y diversidad
 

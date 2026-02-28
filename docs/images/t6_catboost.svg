@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  Figura 11 – Ordered Boosting en CatBoost.
+  Muestra cómo para calcular el residuo del ejemplo i solo se usa
+  la "historia" de ejemplos anteriores en la permutación σ.
+  Editable con Inkscape o cualquier editor SVG.
+-->
+
+<svg
+   width="712.85004"
+   height="255.2879"
+   viewBox="0 0 712.85004 255.2879"
+   font-family="Georgia, serif"
+   version="1.1"
+   id="svg52"
+   sodipodi:docname="fig11_ordered_boosting.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview52"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.9575396"
+     inkscape:cx="317.49039"
+     inkscape:cy="163.72594"
+     inkscape:window-width="1745"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg52" />
+  <defs
+     id="defs3">
+    <marker
+       id="arr"
+       markerWidth="8"
+       markerHeight="8"
+       refX="6"
+       refY="3"
+       orient="auto">
+      <path
+         d="M 0,0 V 6 L 8,3 Z"
+         fill="#374151"
+         id="path1" />
+    </marker>
+    <marker
+       id="arr-green"
+       markerWidth="8"
+       markerHeight="8"
+       refX="6"
+       refY="3"
+       orient="auto">
+      <path
+         d="M 0,0 V 6 L 8,3 Z"
+         fill="#16a34a"
+         id="path2" />
+    </marker>
+    <marker
+       id="arr-red"
+       markerWidth="8"
+       markerHeight="8"
+       refX="6"
+       refY="3"
+       orient="auto">
+      <path
+         d="M 0,0 V 6 L 8,3 Z"
+         fill="#dc2626"
+         id="path3" />
+    </marker>
+  </defs>
+  <!-- Fondo general -->
+  <!-- ── Título ────────────────────────────────────────────────────────────── -->
+  <text
+     x="350.95001"
+     y="11.337891"
+     text-anchor="middle"
+     font-size="15px"
+     font-weight="bold"
+     fill="#111827"
+     id="text3">Ordered Boosting (CatBoost)</text>
+  <text
+     x="350.95001"
+     y="31.337891"
+     text-anchor="middle"
+     font-size="11px"
+     fill="#6b7280"
+     id="text4">El residuo del ejemplo i se calcula con un modelo entrenado solo con los ejemplos anteriores en σ</text>
+  <!-- ════════════════════════════════════════════════════════════════════════
+       SECCIÓN SUPERIOR: Permutación aleatoria σ
+       ════════════════════════════════════════════════════════════════════════ -->
+  <text
+     x="0.95001829"
+     y="59.337891"
+     font-size="11px"
+     font-weight="bold"
+     fill="#374151"
+     id="text5">Permutación σ del conjunto de entrenamiento:</text>
+  <!-- 8 ejemplos en la permutación -->
+  <!-- Colores: los "usados" son verde, el "actual" es naranja, los "futuros" son gris -->
+  <!-- σ(1) a σ(4): historia; σ(5) = ejemplo actual i; σ(6) a σ(8): futuros -->
+  <g
+     id="permutacion"
+     transform="translate(-29.049982,-20.662109)">
+    <!-- Línea de tiempo -->
+    <line
+       x1="50"
+       y1="120"
+       x2="710"
+       y2="120"
+       stroke="#d1d5db"
+       stroke-width="1.5"
+       id="line5" />
+    <polygon
+       points="710,126 710,114 724,120 "
+       fill="#d1d5db"
+       id="polygon5" />
+    <text
+       x="728"
+       y="124"
+       font-size="10px"
+       fill="#6b7280"
+       id="text6">σ</text>
+    <!-- Ejemplos anteriores (historia disponible para i) -->
+    <g
+       id="historia">
+      <!-- σ(1) -->
+      <rect
+         x="52"
+         y="95"
+         width="72"
+         height="50"
+         rx="8"
+         fill="#dcfce7"
+         stroke="#16a34a"
+         stroke-width="2"
+         id="rect6" />
+      <text
+         x="88"
+         y="116"
+         text-anchor="middle"
+         font-size="10px"
+         fill="#14532d"
+         id="text7">σ(1)</text>
+      <text
+         x="88"
+         y="130"
+         text-anchor="middle"
+         font-size="9px"
+         fill="#166534"
+         id="text8">(x₃, y₃)</text>
+      <text
+         x="88"
+         y="141"
+         text-anchor="middle"
+         font-size="9px"
+         fill="#16a34a"
+         id="text9">✓ usable</text>
+      <!-- σ(2) -->
+      <rect
+         x="134"
+         y="95"
+         width="72"
+         height="50"
+         rx="8"
+         fill="#dcfce7"
+         stroke="#16a34a"
+         stroke-width="2"
+         id="rect9" />
+      <text
+         x="170"
+         y="116"
+         text-anchor="middle"
+         font-size="10px"
+         fill="#14532d"
+         id="text10">σ(2)</text>
+      <text
+         x="170"
+         y="130"
+         text-anchor="middle"
+         font-size="9px"
+         fill="#166534"
+         id="text11">(x₇, y₇)</text>
+      <text
+         x="170"
+         y="141"
+         text-anchor="middle"
+         font-size="9px"
+         fill="#16a34a"
+         id="text12">✓ usable</text>
+      <!-- σ(3) -->
+      <rect
+         x="216"
+         y="95"
+         width="72"
+         height="50"
+         rx="8"
+         fill="#dcfce7"
+         stroke="#16a34a"
+         stroke-width="2"
+         id="rect12" />
+      <text
+         x="252"
+         y="116"
+         text-anchor="middle"
+         font-size="10px"
+         fill="#14532d"
+         id="text13">σ(3)</text>
+      <text
+         x="252"
+         y="130"
+         text-anchor="middle"
+         font-size="9px"
+         fill="#166534"
+         id="text14">(x₁, y₁)</text>
+      <text
+         x="252"
+         y="141"
+         text-anchor="middle"
+         font-size="9px"
+         fill="#16a34a"
+         id="text15">✓ usable</text>
+      <!-- σ(4) -->
+      <rect
+         x="298"
+         y="95"
+         width="72"
+         height="50"
+         rx="8"
+         fill="#dcfce7"
+         stroke="#16a34a"
+         stroke-width="2"
+         id="rect15" />
+      <text
+         x="334"
+         y="116"
+         text-anchor="middle"
+         font-size="10px"
+         fill="#14532d"
+         id="text16">σ(4)</text>
+      <text
+         x="334"
+         y="130"
+         text-anchor="middle"
+         font-size="9px"
+         fill="#166534"
+         id="text17">(x₅, y₅)</text>
+      <text
+         x="334"
+         y="141"
+         text-anchor="middle"
+         font-size="9px"
+         fill="#16a34a"
+         id="text18">✓ usable</text>
+    </g>
+    <!-- Ejemplo actual i = σ(5) -->
+    <rect
+       x="380"
+       y="88"
+       width="82"
+       height="64"
+       rx="8"
+       fill="#fef3c7"
+       stroke="#f59e0b"
+       stroke-width="3"
+       id="rect18" />
+    <text
+       x="421"
+       y="110"
+       text-anchor="middle"
+       font-size="11px"
+       font-weight="bold"
+       fill="#92400e"
+       id="text19">σ(5) = i</text>
+    <text
+       x="421"
+       y="125"
+       text-anchor="middle"
+       font-size="9px"
+       fill="#b45309"
+       id="text20">(x₂, y₂)</text>
+    <text
+       x="421"
+       y="139"
+       text-anchor="middle"
+       font-size="9px"
+       fill="#d97706"
+       id="text21">← calcular rᵢ</text>
+    <text
+       x="421"
+       y="149"
+       text-anchor="middle"
+       font-size="8.5px"
+       fill="#92400e"
+       id="text22">(ejemplo actual)</text>
+    <!-- Ejemplos futuros -->
+    <g
+       id="futuros"
+       opacity="0.45">
+      <rect
+         x="472"
+         y="95"
+         width="72"
+         height="50"
+         rx="8"
+         fill="#f3f4f6"
+         stroke="#9ca3af"
+         stroke-width="1.5"
+         id="rect22" />
+      <text
+         x="508"
+         y="116"
+         text-anchor="middle"
+         font-size="10px"
+         fill="#4b5563"
+         id="text23">σ(6)</text>
+      <text
+         x="508"
+         y="130"
+         text-anchor="middle"
+         font-size="9px"
+         fill="#6b7280"
+         id="text24">(x₈, y₈)</text>
+      <text
+         x="508"
+         y="141"
+         text-anchor="middle"
+         font-size="9px"
+         fill="#9ca3af"
+         id="text25">✗ no visto</text>
+      <rect
+         x="554"
+         y="95"
+         width="72"
+         height="50"
+         rx="8"
+         fill="#f3f4f6"
+         stroke="#9ca3af"
+         stroke-width="1.5"
+         id="rect25" />
+      <text
+         x="590"
+         y="116"
+         text-anchor="middle"
+         font-size="10px"
+         fill="#4b5563"
+         id="text26">σ(7)</text>
+      <text
+         x="590"
+         y="130"
+         text-anchor="middle"
+         font-size="9px"
+         fill="#6b7280"
+         id="text27">(x₄, y₄)</text>
+      <text
+         x="590"
+         y="141"
+         text-anchor="middle"
+         font-size="9px"
+         fill="#9ca3af"
+         id="text28">✗ no visto</text>
+      <rect
+         x="636"
+         y="95"
+         width="72"
+         height="50"
+         rx="8"
+         fill="#f3f4f6"
+         stroke="#9ca3af"
+         stroke-width="1.5"
+         id="rect28" />
+      <text
+         x="672"
+         y="116"
+         text-anchor="middle"
+         font-size="10px"
+         fill="#4b5563"
+         id="text29">σ(8)</text>
+      <text
+         x="672"
+         y="130"
+         text-anchor="middle"
+         font-size="9px"
+         fill="#6b7280"
+         id="text30">(x₆, y₆)</text>
+      <text
+         x="672"
+         y="141"
+         text-anchor="middle"
+         font-size="9px"
+         fill="#9ca3af"
+         id="text31">✗ no visto</text>
+    </g>
+    <!-- Separador historia / futuro -->
+    <line
+       x1="469"
+       y1="80"
+       x2="469"
+       y2="175"
+       stroke="#f59e0b"
+       stroke-width="2"
+       stroke-dasharray="5, 4"
+       id="line31" />
+    <!-- Leyenda debajo de la línea de tiempo -->
+    <text
+       x="198"
+       y="170"
+       text-anchor="middle"
+       font-size="10px"
+       fill="#16a34a"
+       font-weight="bold"
+       id="text32">← Historia 𝒟ᵢ disponible para calcular rᵢ</text>
+    <text
+       x="598"
+       y="170"
+       text-anchor="middle"
+       font-size="10px"
+       fill="#9ca3af"
+       id="text33">Ejemplos futuros (no disponibles) →</text>
+  </g>
+  <!-- ════════════════════════════════════════════════════════════════════════
+       SECCIÓN INFERIOR: Flujo de cálculo
+       ════════════════════════════════════════════════════════════════════════ -->
+  <text
+     x="0.95001829"
+     y="184.33789"
+     font-size="11px"
+     font-weight="bold"
+     fill="#374151"
+     id="text34">Cálculo del pseudo-residuo para el ejemplo i:</text>
+  <!-- Cajas de flujo -->
+  <!-- Caja 1: historia -->
+  <rect
+     x="0.89999998"
+     y="199.28787"
+     width="137.99951"
+     height="55.100037"
+     rx="7.1225553"
+     fill="#dcfce7"
+     stroke="#16a34a"
+     stroke-width="1.8"
+     id="rect34" />
+  <text
+     x="67.95002"
+     y="220.33789"
+     text-anchor="middle"
+     font-size="11px"
+     font-weight="bold"
+     fill="#14532d"
+     id="text35">𝒟ᵢ</text>
+  <text
+     x="67.95002"
+     y="236.33789"
+     text-anchor="middle"
+     font-size="9.5px"
+     fill="#166534"
+     id="text36">{(xⱼ, yⱼ) : σ(j) &lt; σ(i)}</text>
+  <text
+     x="67.95002"
+     y="248.33789"
+     text-anchor="middle"
+     font-size="9px"
+     fill="#16a34a"
+     id="text37">σ(1), σ(2), σ(3), σ(4)</text>
+  <!-- Flecha 1 → 2 -->
+  <line
+     x1="139.36769"
+     y1="226.33789"
+     x2="198.66365"
+     y2="226.33789"
+     stroke="#374151"
+     stroke-width="2.27868"
+     marker-end="url(#arr)"
+     id="line37" />
+  <text
+     x="164.95001"
+     y="219.33789"
+     text-anchor="middle"
+     font-size="9px"
+     fill="#6b7280"
+     id="text38">entrenar</text>
+  <!-- Caja 2: modelo sin i -->
+  <rect
+     x="204.80669"
+     y="199.27602"
+     width="151.80487"
+     height="55.123764"
+     rx="6.939651"
+     fill="#dbeafe"
+     stroke="#3b82f6"
+     stroke-width="1.73462"
+     id="rect38" />
+  <text
+     x="279.95001"
+     y="220.33789"
+     text-anchor="middle"
+     font-size="11px"
+     font-weight="bold"
+     fill="#1e3a8a"
+     id="text39">F<tspan
+   style="font-size:65%;baseline-shift:super"
+   id="tspan54">(m-1)\ⁱ</tspan></text>
+  <text
+     x="279.95001"
+     y="236.33789"
+     text-anchor="middle"
+     font-size="9.5px"
+     fill="#1d4ed8"
+     id="text40">Modelo entrenado solo con</text>
+  <text
+     x="279.95001"
+     y="248.33789"
+     text-anchor="middle"
+     font-size="9.5px"
+     fill="#1d4ed8"
+     id="text41">los ejemplos anteriores a i</text>
+  <!-- Flecha 2 → 3 -->
+  <line
+     x1="357.06787"
+     y1="226.33789"
+     x2="403.98511"
+     y2="226.33789"
+     stroke="#374151"
+     stroke-width="2.02693"
+     marker-end="url(#arr)"
+     id="line41" />
+  <text
+     x="382.95001"
+     y="219.33789"
+     text-anchor="middle"
+     font-size="9px"
+     fill="#6b7280"
+     id="text42">predecir xᵢ</text>
+  <!-- Caja 3: residuo -->
+  <rect
+     x="409.60086"
+     y="199.32497"
+     width="155.36209"
+     height="55.025864"
+     rx="7.7681041"
+     fill="#fef3c7"
+     stroke="#f59e0b"
+     stroke-width="1.8"
+     id="rect42" />
+  <text
+     x="484.95001"
+     y="220.33789"
+     text-anchor="middle"
+     font-size="11px"
+     font-weight="bold"
+     fill="#92400e"
+     id="text43">rᵢₘ</text>
+  <text
+     x="484.95001"
+     y="236.33789"
+     text-anchor="middle"
+     font-size="9.5px"
+     fill="#b45309"
+     id="text44">yᵢ − F<tspan
+   style="font-size:65%;baseline-shift:super"
+   id="tspan53">(m-1)\i</tspan>(xᵢ)</text>
+  <text
+     x="484.95001"
+     y="248.33789"
+     text-anchor="middle"
+     font-size="9px"
+     fill="#d97706"
+     id="text45">sin sesgo (i nunca fue visto)</text>
+  <!-- Flecha 3 → beneficio -->
+  <line
+     x1="564.95001"
+     y1="226.33789"
+     x2="601.95001"
+     y2="226.33789"
+     stroke="#16a34a"
+     stroke-width="1.8"
+     marker-end="url(#arr-green)"
+     id="line45" />
+  <!-- Caja 4: beneficio -->
+  <rect
+     x="601.95001"
+     y="199.33789"
+     width="110"
+     height="55"
+     rx="8"
+     fill="#ecfdf5"
+     stroke="#10b981"
+     stroke-width="1.8"
+     id="rect45" />
+  <text
+     x="656.95001"
+     y="220.33789"
+     text-anchor="middle"
+     font-size="11px"
+     font-weight="bold"
+     fill="#064e3b"
+     id="text46">Sin sesgo</text>
+  <text
+     x="656.95001"
+     y="236.33789"
+     text-anchor="middle"
+     font-size="9.5px"
+     fill="#065f46"
+     id="text47">Evita prediction</text>
+  <text
+     x="656.95001"
+     y="248.33789"
+     text-anchor="middle"
+     font-size="9.5px"
+     fill="#065f46"
+     id="text48">shift</text>
+  <!-- ── Comparativa con GB estándar ──────────────────────────────────────── -->
+</svg>
