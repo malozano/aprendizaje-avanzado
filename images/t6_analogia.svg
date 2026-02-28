@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  Figura 1 – Analogía entre descenso por gradiente (izquierda)
+             y Gradient Boosting en el espacio de funciones (derecha).
+  Editable con Inkscape, Adobe Illustrator o cualquier editor SVG.
+  Fuentes: usa fuentes del sistema; para LaTeX usar Inkscape + LaTeXText.
+-->
+
+<svg
+   width="820"
+   height="380"
+   viewBox="0 0 820 380"
+   font-family="Georgia, serif"
+   version="1.1"
+   id="svg37"
+   sodipodi:docname="fig01_analogia_gradiente.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview37"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.6021931"
+     inkscape:cx="524.28138"
+     inkscape:cy="167.89487"
+     inkscape:window-width="1436"
+     inkscape:window-height="947"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="panel-derecho" />
+  <!-- ── Paleta ──────────────────────────────────────────────────────────── -->
+  <defs
+     id="defs4">
+    <!-- Gradiente superficie izquierda -->
+    <radialGradient
+       id="bowl"
+       cx="50%"
+       cy="40%"
+       r="60%">
+      <stop
+         offset="0%"
+         stop-color="#BFDBFE"
+         id="stop1" />
+      <stop
+         offset="100%"
+         stop-color="#EFF6FF"
+         id="stop2" />
+    </radialGradient>
+    <!-- Flecha estándar -->
+    <marker
+       id="arrow"
+       markerWidth="8"
+       markerHeight="8"
+       refX="6"
+       refY="3"
+       orient="auto">
+      <path
+         d="M0,0 L0,6 L8,3 z"
+         fill="#374151"
+         id="path2" />
+    </marker>
+    <marker
+       id="arrow-blue"
+       markerWidth="8"
+       markerHeight="8"
+       refX="6"
+       refY="3"
+       orient="auto">
+      <path
+         d="M0,0 L0,6 L8,3 z"
+         fill="#2563EB"
+         id="path3" />
+    </marker>
+    <marker
+       id="arrow-orange"
+       markerWidth="8"
+       markerHeight="8"
+       refX="6"
+       refY="3"
+       orient="auto">
+      <path
+         d="M0,0 L0,6 L8,3 z"
+         fill="#EA580C"
+         id="path4" />
+    </marker>
+  </defs>
+  <!-- ════════════════════════════════════════════════════════════════════════
+       PANEL IZQUIERDO – Descenso por gradiente (espacio de parámetros)
+       ════════════════════════════════════════════════════════════════════════ -->
+  <g
+     id="panel-izquierdo">
+    <!-- Fondo panel -->
+    <rect
+       x="20"
+       y="20"
+       width="370"
+       height="340"
+       rx="10"
+       fill="#F9FAFB"
+       stroke="#E5E7EB"
+       stroke-width="1.5"
+       id="rect4" />
+    <!-- Título -->
+    <text
+       x="205"
+       y="52"
+       text-anchor="middle"
+       font-size="14"
+       font-weight="bold"
+       fill="#111827"
+       id="text4">
+      Descenso por gradiente
+    </text>
+    <text
+       x="205"
+       y="70"
+       text-anchor="middle"
+       font-size="11"
+       fill="#6B7280"
+       id="text5">
+      Espacio de parámetros θ
+    </text>
+    <!-- Superficie de pérdida (paraboloide proyectado) -->
+    <ellipse
+       cx="205"
+       cy="195"
+       rx="145"
+       ry="110"
+       fill="url(#bowl)"
+       stroke="#BFDBFE"
+       stroke-width="1.5"
+       id="ellipse5" />
+    <!-- Curvas de nivel -->
+    <ellipse
+       cx="205"
+       cy="195"
+       rx="110"
+       ry="82"
+       fill="none"
+       stroke="#93C5FD"
+       stroke-width="1"
+       stroke-dasharray="4,3"
+       id="ellipse6" />
+    <ellipse
+       cx="205"
+       cy="195"
+       rx="75"
+       ry="56"
+       fill="none"
+       stroke="#60A5FA"
+       stroke-width="1"
+       stroke-dasharray="4,3"
+       id="ellipse7" />
+    <ellipse
+       cx="205"
+       cy="195"
+       rx="42"
+       ry="32"
+       fill="none"
+       stroke="#3B82F6"
+       stroke-width="1"
+       stroke-dasharray="4,3"
+       id="ellipse8" />
+    <!-- Mínimo -->
+    <circle
+       cx="205"
+       cy="195"
+       r="5"
+       fill="#2563EB"
+       id="circle8" />
+    <text
+       x="218"
+       y="193"
+       font-size="10"
+       fill="#2563EB"
+       id="text8">θ*</text>
+    <!-- Trayectoria de descenso -->
+    <path
+       d="M 100,140 C 120,155 145,168 165,178 C 178,185 190,190 205,195"
+       fill="none"
+       stroke="#2563EB"
+       stroke-width="2.2"
+       stroke-dasharray="0"
+       marker-end="url(#arrow-blue)"
+       id="path8" />
+    <!-- Puntos de la trayectoria -->
+    <circle
+       cx="100"
+       cy="140"
+       r="5"
+       fill="#EA580C"
+       id="circle9" />
+    <circle
+       cx="130"
+       cy="155"
+       r="4"
+       fill="#EA580C"
+       opacity="0.7"
+       id="circle10" />
+    <circle
+       cx="160"
+       cy="173"
+       r="4"
+       fill="#EA580C"
+       opacity="0.5"
+       id="circle11" />
+    <!-- Etiquetas θ_0, θ_1, θ_2 -->
+    <text
+       x="100.60361"
+       y="132.87929"
+       font-size="10px"
+       fill="#ea580c"
+       id="text11">θ₀</text>
+    <text
+       x="133"
+       y="152"
+       font-size="10"
+       fill="#EA580C"
+       id="text12">θ₁</text>
+    <text
+       x="163"
+       y="170"
+       font-size="10"
+       fill="#EA580C"
+       id="text13">θ₂</text>
+    <!-- Gradiente en θ_0 -->
+    <line
+       x1="98.127563"
+       y1="138.75171"
+       x2="66.127571"
+       y2="116.75171"
+       stroke="#dc2626"
+       stroke-width="1.8"
+       marker-end="url(#arrow-orange)"
+       id="line13" />
+    <text
+       x="52"
+       y="113"
+       font-size="10"
+       fill="#DC2626"
+       font-style="italic"
+       id="text14">∇L(θ)</text>
+    <!-- Paso η·∇L -->
+    <line
+       x1="100"
+       y1="140"
+       x2="130"
+       y2="155"
+       stroke="#16A34A"
+       stroke-width="1.5"
+       stroke-dasharray="3,2"
+       id="line14" />
+    <text
+       x="112.36901"
+       y="142.52396"
+       font-size="9.5px"
+       fill="#16a34a"
+       font-style="italic"
+       id="text15">−η∇L</text>
+    <!-- Eje labels -->
+    <!-- Regla de actualización -->
+    <rect
+       x="119.10546"
+       y="309.18759"
+       width="171.16492"
+       height="34.121387"
+       rx="3.4232984"
+       fill="#eff6ff"
+       stroke="#bfdbfe"
+       stroke-width="0.837166"
+       id="rect17" />
+    <text
+       x="205"
+       y="320"
+       text-anchor="middle"
+       font-size="10.5"
+       fill="#1D4ED8"
+       font-family="monospace"
+       id="text18">
+      θ ← θ − η ∇L(θ)
+    </text>
+    <text
+       x="205"
+       y="337"
+       text-anchor="middle"
+       font-size="9"
+       fill="#6B7280"
+       id="text19">
+      actualización en espacio de parámetros
+    </text>
+  </g>
+  <!-- ── Flecha central ────────────────────────────────────────────────────── -->
+  <g
+     id="flecha-central">
+    <line
+       x1="400"
+       y1="190"
+       x2="428"
+       y2="190"
+       stroke="#374151"
+       stroke-width="2"
+       marker-end="url(#arrow)"
+       id="line19" />
+    <text
+       x="414"
+       y="182"
+       text-anchor="middle"
+       font-size="10"
+       fill="#6B7280"
+       id="text20">analogía</text>
+  </g>
+  <!-- ════════════════════════════════════════════════════════════════════════
+       PANEL DERECHO – Gradient Boosting (espacio de funciones)
+       ════════════════════════════════════════════════════════════════════════ -->
+  <g
+     id="panel-derecho">
+    <!-- Fondo panel -->
+    <rect
+       x="440"
+       y="20"
+       width="360"
+       height="340"
+       rx="10"
+       fill="#FFF7ED"
+       stroke="#FED7AA"
+       stroke-width="1.5"
+       id="rect20" />
+    <!-- Título -->
+    <text
+       x="620"
+       y="52"
+       text-anchor="middle"
+       font-size="14"
+       font-weight="bold"
+       fill="#111827"
+       id="text21">
+      Gradient Boosting
+    </text>
+    <text
+       x="620"
+       y="70"
+       text-anchor="middle"
+       font-size="11"
+       fill="#6B7280"
+       id="text22">
+      Espacio de funciones F
+    </text>
+    <!-- Iteraciones como cajas apiladas ─────────────────────────────────── -->
+    <!-- F_0 -->
+    <rect
+       x="515"
+       y="95"
+       width="210"
+       height="38"
+       rx="6"
+       fill="#FEF3C7"
+       stroke="#F59E0B"
+       stroke-width="1.5"
+       id="rect22" />
+    <text
+       x="620"
+       y="109"
+       text-anchor="middle"
+       font-size="11"
+       fill="#92400E"
+       font-weight="bold"
+       id="text23">F₀(x) = ȳ</text>
+    <text
+       x="620"
+       y="125"
+       text-anchor="middle"
+       font-size="9.5"
+       fill="#B45309"
+       id="text24">Inicialización</text>
+    <!-- Flecha F0 → F1 -->
+    <line
+       x1="620"
+       y1="133"
+       x2="620"
+       y2="152"
+       stroke="#EA580C"
+       stroke-width="1.8"
+       marker-end="url(#arrow-orange)"
+       id="line24" />
+    <!-- h_1 al lado -->
+    <rect
+       x="731.26483"
+       y="152.87578"
+       width="62.765507"
+       height="30.22102"
+       rx="3.3034477"
+       fill="#fee2e2"
+       stroke="#fca5a5"
+       stroke-width="0.978985"
+       id="rect24" />
+    <text
+       x="762.14752"
+       y="171.22775"
+       text-anchor="middle"
+       font-size="10px"
+       fill="#991b1b"
+       id="text25">h₁ ajusta r<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan37">i1</tspan></text>
+    <text
+       x="762.14752"
+       y="137.04106"
+       text-anchor="middle"
+       font-size="9px"
+       fill="#b91c1c"
+       id="text26"><tspan
+         sodipodi:role="line"
+         id="tspan40"
+         x="762.14752"
+         y="137.04106">pseudo-residuos</tspan><tspan
+         sodipodi:role="line"
+         id="tspan41"
+         x="762.14752"
+         y="149.21608">(−∇L(F))</tspan></text>
+    <line
+       x1="553"
+       y1="158"
+       x2="614"
+       y2="158"
+       stroke="#FCA5A5"
+       stroke-width="1"
+       stroke-dasharray="3,2"
+       id="line26" />
+    <!-- F_1 -->
+    <rect
+       x="515"
+       y="152"
+       width="210"
+       height="38"
+       rx="6"
+       fill="#DCFCE7"
+       stroke="#22C55E"
+       stroke-width="1.5"
+       id="rect26" />
+    <text
+       x="620"
+       y="166"
+       text-anchor="middle"
+       font-size="11"
+       fill="#14532D"
+       font-weight="bold"
+       id="text27">F₁(x) = F₀ + η h₁</text>
+    <text
+       x="620"
+       y="182"
+       text-anchor="middle"
+       font-size="9.5"
+       fill="#166534"
+       id="text28">1ª actualización</text>
+    <!-- Flecha F1 → F2 -->
+    <line
+       x1="620"
+       y1="190"
+       x2="620"
+       y2="209"
+       stroke="#EA580C"
+       stroke-width="1.8"
+       marker-end="url(#arrow-orange)"
+       id="line28" />
+    <rect
+       x="731.88898"
+       y="210.49995"
+       width="62.765507"
+       height="30.22102"
+       rx="3.3034477"
+       fill="#fee2e2"
+       stroke="#fca5a5"
+       stroke-width="0.97898"
+       id="rect28" />
+    <text
+       x="762.77167"
+       y="228.22777"
+       text-anchor="middle"
+       font-size="10px"
+       fill="#991b1b"
+       id="text29">h₂ ajusta r<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan38">i2</tspan></text>
+    <line
+       x1="553"
+       y1="215"
+       x2="614"
+       y2="215"
+       stroke="#FCA5A5"
+       stroke-width="1"
+       stroke-dasharray="3,2"
+       id="line30" />
+    <!-- F_2 -->
+    <rect
+       x="515"
+       y="209"
+       width="210"
+       height="38"
+       rx="6"
+       fill="#EDE9FE"
+       stroke="#8B5CF6"
+       stroke-width="1.5"
+       id="rect30" />
+    <text
+       x="620"
+       y="223"
+       text-anchor="middle"
+       font-size="11"
+       fill="#3B0764"
+       font-weight="bold"
+       id="text31">F₂(x) = F₁ + η h₂</text>
+    <text
+       x="620"
+       y="239"
+       text-anchor="middle"
+       font-size="9.5"
+       fill="#5B21B6"
+       id="text32">2ª actualización</text>
+    <!-- Puntos suspensivos -->
+    <text
+       x="620"
+       y="263"
+       text-anchor="middle"
+       font-size="18"
+       fill="#6B7280"
+       id="text33">⋮</text>
+    <!-- F_M -->
+    <rect
+       x="515"
+       y="272"
+       width="210"
+       height="38"
+       rx="6"
+       fill="#DBEAFE"
+       stroke="#3B82F6"
+       stroke-width="2"
+       id="rect33" />
+    <text
+       x="620"
+       y="286"
+       text-anchor="middle"
+       font-size="11px"
+       fill="#1e3a8a"
+       font-weight="bold"
+       id="text34">F<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan39">M</tspan>(x) = F₀ + η Σ hₘ</text>
+    <text
+       x="620"
+       y="302"
+       text-anchor="middle"
+       font-size="9.5"
+       fill="#1D4ED8"
+       id="text35">Modelo final</text>
+    <!-- Regla de actualización -->
+    <rect
+       x="463"
+       y="318"
+       width="314"
+       height="30"
+       rx="6"
+       fill="#FFF7ED"
+       stroke="#FED7AA"
+       stroke-width="1.2"
+       id="rect35" />
+    <text
+       x="620"
+       y="331"
+       text-anchor="middle"
+       font-size="10.5px"
+       fill="#c2410c"
+       font-family="monospace"
+       id="text36">F ← F +η h (h ≈ −∇L(F))</text>
+    <text
+       x="620"
+       y="345"
+       text-anchor="middle"
+       font-size="9"
+       fill="#6B7280"
+       id="text37">
+      actualización en espacio de funciones
+    </text>
+  </g>
+</svg>
