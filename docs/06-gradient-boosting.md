@@ -172,7 +172,7 @@ F_m(\mathbf{x}) = F_{m-1}(\mathbf{x}) + \eta \rho_m h_m(\mathbf{x}) $$
 > Este multiplicador se obtiene de la siguiente forma:
 > $$
 \rho_m = \arg \min_\rho \sum_{i=1}^N L(y_i, F_{m-1}(\mathbf{x}_i) + \rho h_m(\mathbf{x}_i)) $$
-> Es decir, una vez entrenado el árbol h_m se busca el escalar óptimo que más reduce la pérdida en esa dirección. Sin embargo, en la práctica la optimización por hoja $\gamma_{jm}$ lo hace redundante. Si ya ajustamos un valor óptimo por hoja, el multiplicador global no añade nada, por lo que habitualmente en la práctica se fija $\rho_m = 1$.
+> Es decir, una vez entrenado el árbol $h_m$ se busca el escalar óptimo que más reduce la pérdida en esa dirección. Sin embargo, en la práctica la optimización por hoja $\gamma_{jm}$ lo hace redundante. Si ya ajustamos un valor óptimo por hoja, el multiplicador global no añade nada, por lo que habitualmente en la práctica se fija $\rho_m = 1$.
 
 
 ### Algoritmo completo
@@ -251,7 +251,7 @@ Comenzamos con las funciones utilizadas habitualmente en regresión.
 
 #### MSE (L2)
 
-Es la más común, y óptima cuando los errores siguen una distribución normal. Tiene la desventaja de que es muy sensible a _outliers_ porque penaliza de forma cuadrática
+Es la más común, y óptima cuando los errores siguen una distribución normal. Tiene la desventaja de que es muy sensible a _outliers_ porque penaliza de forma cuadrática.
 
 $$
 L(y_i, F(\mathbf{x}_i)) = \frac{1}{2}(y_i - F(\mathbf{x}_i))^2
@@ -672,7 +672,7 @@ Con esto hemos independizado la complejidad del número de ejemplos de entrada.
 
 Otra de las ventajas de esta implementación es el manejo de valores faltantes (_missing values_ o NaNs). Como hemos visto, el algoritmo trata los NaN como un valor especial en el histograma. 
 
-Durante el entrenamiento, el modelo aprende si los ejemplos con valores faltantes de una _feature_ deben ir al _split_ derecho_ o al _izquierdo_, basándose en la ganancia de cada decisión. De esta forma, no requiere imputación manual.
+Durante el entrenamiento, el modelo aprende si los ejemplos con valores faltantes de una _feature_ deben ir al _split derecho_ o al _izquierdo_, basándose en la ganancia de cada decisión. De esta forma, no requiere imputación manual.
 
 En la predicción, aplicará siempre la decisión aprendida durante el entrenamiento cuando encuentre un valor faltante para una _feature_. 
 
@@ -998,7 +998,7 @@ A continuación enumeramos algunos de los principales hiperparámetros con los q
 - **Boosting**: `n_estimators`, `learning_rate`, `subsample` (fracción GOSS o subsampling clásico).
 - **Árbol**: `num_leaves` (control principal de complejidad), `max_depth`, `min_child_samples`, `colsample_bytree`.
 - **Histograma**: `max_bin` ($K$).
-- **Regularización**: `reg_lambda`, `reg_alpha`, `min_split_gain` (equivale a $\nu$ en XGBoost).
+- **Regularización**: `reg_lambda`, `reg_alpha`, `min_split_gain` (equivale a $\mu$ en XGBoost).
 
 
 ## CatBoost
@@ -1023,7 +1023,7 @@ CatBoost aborda este problema mediante dos variantes del algoritmo:
 
 ### Codificación de variables categóricas
 
-CatBoost introduce una codificación basada en estadísticos de la variable objetivo condicionados a la categoría. Si tenemos una _feature_ categórica $k$, la idea es sustituir la categoría $x_i^k$ del $i$-ésimo ejemplo de entrada por una _feature_ numérica $\hat{x}_i^k$ igual a una determinada estadística objetivo (_Target Statistic_, TS). Comúnmente, esta TS estima la variable objetivo $y$ condicionada por la categoría: $\hat{x}_i^k \approx E(y | x^k = x_i^k) $. Una forma de estimar esta TS es tomar el valor medio de $y$ para todos los ejemplos que comparten la misma categoría de $x_i^k$:
+CatBoost introduce una codificación basada en estadísticos de la variable objetivo condicionados a la categoría. Si tenemos una _feature_ categórica $k$, la idea es sustituir la categoría $x_i^k$ del $i$-ésimo ejemplo de entrada por una _feature_ numérica $\hat{x}_i^k$ igual a una determinada estadística objetivo (_Target Statistic_, TS). Comúnmente, esta TS estima la variable objetivo $y$ condicionada por la categoría: $\hat{x}_i^k \approx E(y | x^k = x_i^k)$. Una forma de estimar esta TS es tomar el valor medio de $y$ para todos los ejemplos que comparten la misma categoría de $x_i^k$:
 
 $$
 \hat{x}_i^k = \frac{\sum_{j=1}^N \mathbf{1}[x_j^k = x_i^k]  y_j + a p}{\sum_{j=1}^N \mathbf{1}[x_j^k = x_i^k] + a}
@@ -1118,7 +1118,7 @@ $$
 \text{Importance}_{\text{gain}}(f) = \frac{1}{|\mathcal{T}_f|} \sum_{t \in \mathcal{T}_f} \sum_{s \in \mathcal{S}_t(f)} \text{Ganancia}(s)
 $$
 
-donde $\mathcal{T}_f$ es el conjunto de árboles donde aparece la _feature_ $f$ y $\mathcal{S}_t(f)$ es el conjunto de _splits_ del árbol $t$ que usan la _feature_ $f$.
+Donde $\mathcal{T}_f$ es el conjunto de árboles donde aparece la _feature_ $f$ y $\mathcal{S}_t(f)$ es el conjunto de _splits_ del árbol $t$ que usan la _feature_ $f$.
 
 ### Importancia por frecuencia (_Split count_)
 
@@ -1128,7 +1128,7 @@ $$
 \text{Importance}_{\text{split}}(f) =   |\mathcal{S}(f)|
 $$
 
-Donde \mathcal{S}(f) es el conjunto de todos los _splits_ de todos los árboles que utilizan la _feature_ $f$. Es fácil de calcular pero puede ser engañosa: una característica puede dividirse muchas veces con ganancias pequeñas.
+Donde $\mathcal{S}(f)$ es el conjunto de todos los _splits_ de todos los árboles que utilizan la _feature_ $f$. Es fácil de calcular pero puede ser engañosa, ya que una característica puede dividirse muchas veces con ganancias pequeñas.
 
 ### Importancia por cobertura (_Coverage_)
 

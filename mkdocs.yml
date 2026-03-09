@@ -110,10 +110,11 @@ nav:
 - Prácticas: 
   - 0. Datos y visualización: 'practicas/00-datos-y-visualizacion.md'
   - 1. Aprendizaje supervisado: 'practicas/01-aprendizaje-supervisado.md'
-
 #- Bloque II. Aprendizaje no supervisado:
-#  - 5. Modelos probabilísticos: '05-clustering.md'
-#  - 6. Métodos de clustering: '05-clustering.md'
+#  - 7. Clustering: '07-clustering.md'
+#  - 8. DBSCAN: '08-dbscan.md'
+#- Proyecto final:
+#  - Aprendizaje Automático en problemas del mundo real: '14-proyecto-final.md'
 #- Bloque III. Aprendizaje por refuerzo:
 #  - 7. Aprendizaje por refuerzo: '06-refuerzo.md'
 #- Bloque IV. Aplicación del Aprendizaje Automático:
