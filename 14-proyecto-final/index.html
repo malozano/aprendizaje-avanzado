@@ -1,0 +1,956 @@
+<!DOCTYPE html><html lang="es" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apuntes de la asignatura Aprendizaje Avanzado del Grado en Ingeniería en Inteligencia Artificial de la Universidad de Alicante">
+      
+      
+        <meta name="author" content="Miguel Angel Lozano">
+      
+      
+        <link rel="canonical" href="https://malozano.github.io/aprendizaje-avanzado/14-proyecto-final/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.1">
+    
+    
+      
+        <title>Proyecto final: Aprendizaje Automático en Problemas del Mundo Real - Aprendizaje Avanzado</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.402914a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#proyecto-final-aprendizaje-automatico-en-problemas-del-mundo-real" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="Aprendizaje Avanzado" class="md-header__button md-logo" aria-label="Aprendizaje Avanzado" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Aprendizaje Avanzado
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Proyecto final: Aprendizaje Automático en Problemas del Mundo Real
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo" aria-label="Modo oscuro" type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Modo oscuro" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="white" data-md-color-accent="blue" aria-label="Modo claro" type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Modo claro" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Aprendizaje Avanzado" class="md-nav__button md-logo" aria-label="Aprendizaje Avanzado" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
+
+    </a>
+    Aprendizaje Avanzado
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Introducción
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Bloque I. Aprendizaje supervisado
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Bloque I. Aprendizaje supervisado
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-modelos-no-param/" class="md-nav__link">
+        1. Modelos paramétricos y no paramétricos. Logistic Regression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-svm/" class="md-nav__link">
+        2. SVM
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-arboles-decision/" class="md-nav__link">
+        3. Árboles de decisión
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-random-forest/" class="md-nav__link">
+        4. Métodos de ensemble. Random Forest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-adaboost/" class="md-nav__link">
+        5. Boosting. Adaboost
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-gradient-boosting/" class="md-nav__link">
+        6. Gradient Boosting
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+      
+      
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Prácticas
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Prácticas
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/00-datos-y-visualizacion/" class="md-nav__link">
+        0. Datos y visualización
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/01-aprendizaje-supervisado/" class="md-nav__link">
+        1. Aprendizaje supervisado
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="proyecto-final-aprendizaje-automatico-en-problemas-del-mundo-real">Proyecto final: Aprendizaje Automático en Problemas del Mundo Real<a class="headerlink" href="#proyecto-final-aprendizaje-automatico-en-problemas-del-mundo-real" title="Permanent link">¶</a></h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Propuesta</strong></td>
+<td>Martes 31 de marzo, antes de las 23:59</td>
+</tr>
+<tr>
+<td><strong>Entrega</strong></td>
+<td>Martes 19 de mayo, antes de las 23:59</td>
+</tr>
+<tr>
+<td><strong>Presentación oral</strong></td>
+<td>Martes 19 de mayo, de 9:00 a 15:00</td>
+</tr>
+<tr>
+<td><strong>Grupos</strong></td>
+<td>3-4 estudiantes</td>
+</tr>
+<tr>
+<td><strong>Extensión</strong></td>
+<td>10–15 páginas (sin contar referencias y anexos)</td>
+</tr>
+<tr>
+<td><strong>Formato</strong></td>
+<td>PDF del informe + enlace a repositorio GitHub</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="descripcion-y-objetivos">Descripción y Objetivos<a class="headerlink" href="#descripcion-y-objetivos" title="Permanent link">¶</a></h2>
+<p>Este trabajo tiene como objetivo aplicar de forma integrada los conocimientos adquiridos a lo largo de la asignatura sobre algoritmos de aprendizaje automático, evaluación de modelos y preprocesamiento de datos, pero yendo un paso más allá: explorando las problemáticas reales asociadas al despliegue de sistemas de ML en el mundo real, como la privacidad, el sesgo, la interpretabilidad o la robustez.</p>
+<p>Cada grupo tendrá la opción de seleccionar uno de los ejes temáticos propuestos en este enunciado, o bien proponer uno alternativo debidamente motivado. El trabajo deberá aplicar técnicas y herramientas del estado del arte en el eje elegido sobre un <em>dataset</em> real, siguiendo el formato de un artículo científico.</p>
+<p>Tras finalizar el trabajo buscamos ser capaces de:</p>
+<ul>
+<li>Identificar y analizar problemas éticos, legales y sociales asociados a sistemas de ML reales.</li>
+<li>Aplicar herramientas especializadas del estado del arte más allá de scikit-learn.</li>
+<li>Comunicar resultados técnicos y reflexiones críticas en formato científico.</li>
+<li>Evaluar modelos con métricas apropiadas al dominio del problema.</li>
+<li>Trabajar de forma colaborativa en un proyecto técnico de cierta envergadura.</li>
+</ul>
+<h2 id="hitos-y-entregas">Hitos y entregas<a class="headerlink" href="#hitos-y-entregas" title="Permanent link">¶</a></h2>
+<p>Antes del comienzo del trabajo, deberá realizarse una <strong>propuesta de grupo</strong> y del <strong>eje temático</strong> sobre el cual tratará el proyecto. </p>
+<ul>
+<li>Los <strong>grupos</strong> podrán estar formados por un máximo de <strong>4 personas</strong>.</li>
+<li>En la siguiente sección se proponen una serie de <strong>ejes temáticos</strong> sobre los cuales realizar el proyecto. </li>
+<li>Se puede realizar una <strong>propuesta propia</strong> de eje temático, siempre que esté correctamente justificada y acordada con el profesorado de la asignatura.</li>
+</ul>
+<p>Esta información deberá enviarse a través de una entrega de Moodle <strong>antes del martes 31 de marzo a las 23:59</strong>.</p>
+<p>La <strong>entrega del proyecto</strong> constará de un <strong>informe</strong> en PDF y del código fuente utilizado, tal como se detalla en próximas secciones. Se enviará a través de una entrega de Moodle <strong>antes del martes 19 de mayo a las 23:59</strong>.</p>
+<p>Además de los entregables, se hará una <strong>defensa oral</strong> del proyecto el día <strong>19 de mayo</strong> en el horario de clase. Las defensas se distribuirán entre los turnos de teoría y de prácticas, asignando una de estas franjas a cada grupo. </p>
+<h2 id="propuesta-de-ejes-tematicos">Propuesta de Ejes Temáticos<a class="headerlink" href="#propuesta-de-ejes-tematicos" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Eje temático</th>
+<th>Problemática central</th>
+<th>Herramientas clave</th>
+<th>Datasets sugeridos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Privacidad y Federated Learning</strong></td>
+<td>Algunos datos no pueden centralizarse (salud, banca) por cuestiones de privacidad. El modelo se entrena de forma distribuida.</td>
+<td><a href="https://flower.ai">Flower (flwr)</a>, <a href="https://www.tensorflow.org/federated?hl=es">TensorFlow Federated</a></td>
+<td><a href="https://archive.ics.uci.edu/dataset/45/heart+disease">Heart Disease (UCI)</a>, <a href="https://www.kaggle.com/datasets/brandao/diabetes">Diabetes 130-US Hospitals</a>, <a href="https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud">Credit Card Fraud (Kaggle)</a></td>
+</tr>
+<tr>
+<td><strong>2. Sesgo y Fairness</strong></td>
+<td>Sistemas automatizados que discriminan a grupos vulnerables en decisiones de alto impacto.</td>
+<td><a href="https://fairlearn.org">Fairlearn</a>, <a href="https://aif360.readthedocs.io/en/stable/">AI Fairness 360 (IBM)</a>, <a href="https://pair-code.github.io/what-if-tool/">What-If Tool</a></td>
+<td><a href="https://github.com/propublica/compas-analysis">COMPAS Recidivism</a>, <a href="https://archive.ics.uci.edu/dataset/2/adult">Adult Income (UCI)</a>, <a href="https://archive.ics.uci.edu/dataset/144/statlog+german+credit+data">German Credit (UCI)</a></td>
+</tr>
+<tr>
+<td><strong>3. Explicabilidad (XAI)</strong></td>
+<td>Derecho a explicación del RGPD. Modelos caja negra en decisiones médicas o financieras.</td>
+<td><a href="https://shap.readthedocs.io/en/latest/">SHAP</a>, <a href="https://github.com/marcotcr/lime">LIME</a>, <a href="https://github.com/interpretml/DiCE">DiCE</a>, <a href="https://captum.ai">Captum</a></td>
+<td><a href="https://www.kaggle.com/c/home-credit-default-risk">Home Credit Default Risk (Kaggle)</a>, <a href="https://physionet.org/content/mimiciv/3.1/">MIMIC-III</a></td>
+</tr>
+<tr>
+<td><strong>4. Robustez y Ataques adversariales</strong></td>
+<td>Vulnerabilidades de modelos ante perturbaciones mínimas en imágenes u otros datos.</td>
+<td><a href="https://adversarial-robustness-toolbox.readthedocs.io/en/latest/">Adversarial Robustness Toolbox</a>, <a href="https://foolbox.jonasrauber.de">Foolbox</a>, <a href="https://github.com/cleverhans-lab/cleverhans">CleverHans</a></td>
+<td><a href="https://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-10</a>, <a href="https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia">Chest X-Ray (Kaggle)</a></td>
+</tr>
+<tr>
+<td><strong>5. Privacidad diferencial</strong></td>
+<td>Garantías formales de privacidad en el entrenamiento de modelos. Trade-off privacidad–utilidad.</td>
+<td><a href="https://opacus.ai">Opacus (Meta)</a>, <a href="https://diffprivlib.readthedocs.io/en/latest/">diffprivlib (IBM)</a>, <a href="https://github.com/tensorflow/privacy">TF Privacy</a></td>
+<td>Cualquier <em>dataset</em> clínico o financiero del eje 1 o 2</td>
+</tr>
+<tr>
+<td><strong>6. Deriva del modelo (<em>drift</em>)</strong></td>
+<td>Modelos que se degradan cuando la distribución de los datos cambia con el tiempo.</td>
+<td><a href="https://www.evidentlyai.com">Evidently AI</a>, <a href="https://whylabs.ai">WhyLogs</a>, <a href="https://riverml.xyz/latest/">River (ML online)</a></td>
+<td><a href="https://www.openml.org/search?type=data&amp;sort=runs&amp;id=151&amp;status=active">ELEC2 (OpenML)</a>, <a href="https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page">NYC Taxi Trips</a>, <a href="https://www.kaggle.com/datasets/ananthr1/weather-prediction">Weather Prediction (Kaggle)</a></td>
+</tr>
+<tr>
+<td><strong>7. Datos escasos y sintéticos</strong></td>
+<td>Aprendizaje en dominios con muy pocos datos etiquetados. Riesgos de los datos sintéticos.</td>
+<td><a href="https://datacebo.com/sdv-dev/">CTGAN/SDV</a>, <a href="https://imbalanced-learn.org/stable/">Imbalanced-learn (SMOTE)</a>, <a href="https://github.com/jsyoon0823/TimeGAN">TimeGAN</a></td>
+<td><a href="https://archive.ics.uci.edu/dataset/240/human+activity+recognition+using+smartphones">HAR (UCI)</a>, cualquier <em>dataset</em> desbalanceado</td>
+</tr>
+</tbody>
+</table>
+<!--
+| **8. Aprendizaje no supervisado aplicado** | Los métodos de _clustering_ permiten descubrir estructura latente en datos sin etiquetar, con aplicaciones en detección de anomalías, segmentación y análisis exploratorio. | scikit-learn (KMeans, DBSCAN, SpectralClustering, GaussianMixture), HDBSCAN, PyOD (detección de anomalías) | KDD Cup 99 (detección de intrusiones), Credit Card Fraud (sin usar etiquetas), Mall Customers, Human Activity Recognition (UCI) |
+-->
+
+<p>Para todos los ejes se recomienda seguir el mismo esquema metodológico: </p>
+<ol>
+<li>Implementar un modelo <em>baseline</em> estándar</li>
+<li>Aplicar la técnica específica del eje elegido</li>
+<li>Comparar ambos en términos de rendimiento y de la problemática central del eje</li>
+<li>Reflexionar críticamente sobre las implicaciones del resultado.</li>
+</ol>
+<h2 id="formato-del-informe">Formato del informe<a class="headerlink" href="#formato-del-informe" title="Permanent link">¶</a></h2>
+<p>El informe debe seguir la estructura de un <strong>artículo científico</strong>. Se recomienda usar la plantilla disponible en Moodle, aunque se acepta cualquier formato de artículo estándar siempre que incluya todos los apartados indicados.</p>
+<h3 id="estructura">Estructura<a class="headerlink" href="#estructura" title="Permanent link">¶</a></h3>
+<p>El artículo deberá estructurarse en las secciones que se indican a continuación:</p>
+<h4 id="titulo-autores-y-resumen-abstract">Título, autores y resumen (<em>Abstract</em>)<a class="headerlink" href="#titulo-autores-y-resumen-abstract" title="Permanent link">¶</a></h4>
+<p>El título debe ser informativo y reflejar tanto el problema como el enfoque. El <em>abstract</em> debe condensar en <strong>150–250 palabras</strong> el problema abordado, los datos utilizados, los métodos aplicados y los resultados principales. Es lo último que se escribe pero lo primero que se lee, y debe poder leerse de forma independiente.</p>
+<h4 id="1-introduccion">1. Introducción<a class="headerlink" href="#1-introduccion" title="Permanent link">¶</a></h4>
+<p>Debe responder a cuatro preguntas: ¿Cuál es el problema y por qué es relevante? ¿Qué implicaciones éticas, sociales o legales tiene? ¿Qué se propone hacer este trabajo? ¿Cómo se organiza el resto del documento? No es un resumen del trabajo, sino una motivación y contextualización.</p>
+<h4 id="2-trabajo-relacionado-related-work">2. Trabajo relacionado (Related Work)<a class="headerlink" href="#2-trabajo-relacionado-related-work" title="Permanent link">¶</a></h4>
+<p>Revisión crítica de la literatura relevante: artículos que abordan problemáticas relacionadas, herramientas de referencia y trabajos previos sobre el mismo <em>dataset</em> si los hay. No se trata de hacer una lista de resúmenes, sino una síntesis que muestre cómo el trabajo se sitúa respecto al estado del arte. Se recomienda citar al menos <strong>5–6 referencias de calidad</strong> (artículos de revistas o conferencias científicas, no solo documentación de librerías).</p>
+<h4 id="3-descripcion-del-problema-y-los-datos">3. Descripción del problema y los datos<a class="headerlink" href="#3-descripcion-del-problema-y-los-datos" title="Permanent link">¶</a></h4>
+<p>Definición formal de la tarea (clasificación, regresión, etc) con su función objetivo. Descripción del <em>dataset</em> (origen, tamaño, <em>features</em>, variable objetivo, licencia y consideraciones éticas sobre su uso). Análisis exploratorio relevante con visualizaciones informativas. Identificación de problemas en los datos (desbalanceo, valores ausentes, sesgos observables).</p>
+<h4 id="4-metodologia">4. Metodología<a class="headerlink" href="#4-metodologia" title="Permanent link">¶</a></h4>
+<p>Descripción del <em>pipeline</em> completo: preprocesamiento, ingeniería de <em>features</em>, modelo <em>baseline</em>, técnicas específicas aplicadas (este sería el núcleo del trabajo), y protocolo de evaluación (validación cruzada, métricas elegidas y justificación). Esta sección debe ser suficientemente detallada para que el trabajo sea <strong>reproducible</strong>.</p>
+<h4 id="5-experimentos-y-resultados">5. Experimentos y resultados<a class="headerlink" href="#5-experimentos-y-resultados" title="Permanent link">¶</a></h4>
+<p>Presentación clara de los resultados en tablas y gráficas comparativas. Comparativa entre el <em>baseline</em> y los métodos propuestos. Visualizaciones que apoyen las conclusiones. Se limita a presentar resultados sin interpretarlos.</p>
+<h4 id="6-discusion">6. Discusión<a class="headerlink" href="#6-discusion" title="Permanent link">¶</a></h4>
+<p>Interpretación de los resultados en el contexto del problema real. Análisis crítico de las limitaciones. Implicaciones éticas, sociales o legales de los resultados. </p>
+<h4 id="7-conclusiones">7. Conclusiones<a class="headerlink" href="#7-conclusiones" title="Permanent link">¶</a></h4>
+<p>Síntesis de las contribuciones en 3–4 párrafos. Lecciones aprendidas. Líneas de trabajo futuro concretas y bien motivadas.</p>
+<h4 id="referencias">Referencias<a class="headerlink" href="#referencias" title="Permanent link">¶</a></h4>
+<p>Formato APA o IEEE. Deben incluirse artículos de revistas o conferencias científicas, no solo páginas web.</p>
+<h4 id="anexos-opcionales">Anexos (opcionales)<a class="headerlink" href="#anexos-opcionales" title="Permanent link">¶</a></h4>
+<p>Enlace al repositorio GitHub. Tablas o figuras adicionales. Tabla de contribución individual de cada miembro del grupo.</p>
+<h3 id="calidad-del-informe">Calidad del informe<a class="headerlink" href="#calidad-del-informe" title="Permanent link">¶</a></h3>
+<p>Se valorará especialmente la precisión del lenguaje técnico, la coherencia entre metodología y resultados, y la profundidad de la discusión crítica. Evitar afirmaciones sin respaldo ("el modelo funciona bien") y sustituirlas por cifras concretas con el contexto adecuado ("el modelo alcanza un F1-score de 0.87 en la clase minoritaria, mejorando en 12 puntos porcentuales al baseline").</p>
+<h3 id="fuentes-de-referencia-recomendadas">Fuentes de referencia recomendadas<a class="headerlink" href="#fuentes-de-referencia-recomendadas" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Artículos científicos:</strong> Google Scholar, Semantic Scholar, arXiv (cs.LG, cs.AI, stat.ML), Papers with Code.</li>
+<li><strong>Datasets:</strong> UCI ML Repository, Kaggle, HuggingFace Datasets, OpenML, PhysioNet (datos clínicos).</li>
+</ul>
+<h2 id="codigo-fuente">Código fuente<a class="headerlink" href="#codigo-fuente" title="Permanent link">¶</a></h2>
+<p>Junto al informe se entregará el código fuente utilizado para la implementación del método propuesto y para su validación experimental, así como todo el código de apoyo para la elaboración del trabajo (EDA, comparación con métodos alternativos del estado del arte, etc).</p>
+<h3 id="repositorio-de-codigo">Repositorio de código<a class="headerlink" href="#repositorio-de-codigo" title="Permanent link">¶</a></h3>
+<p>El código debe alojarse en un repositorio público GitHub e incluir:</p>
+<ul>
+<li><code>README.md</code> con descripción del proyecto, instrucciones de instalación y ejecución.</li>
+<li>Archivo <code>requirements.txt</code> o <code>environment.yml</code> con las dependencias exactas.</li>
+<li>Semillas aleatorias fijadas (<code>random_state</code>, <code>np.random.seed</code>) para garantizar la reproducibilidad.</li>
+<li>Cuadernos Jupyter o scripts Python bien comentados y organizados en carpetas lógicas.</li>
+</ul>
+<h3 id="calidad-del-codigo">Calidad del código<a class="headerlink" href="#calidad-del-codigo" title="Permanent link">¶</a></h3>
+<p>Se valorará especialmente la corrección y la reproducibilidad del código, garantizando que con las instrucciones indicadas se pueda ejecutar en un nuevo entorno y obtener los resultados reportados. </p>
+<p>También se valorará que el código sea limpio, esté correctamente estructurado y documentado, y sea fácilmente entendible. </p>
+<p>Se permite la asistencia mediante IA generativa para la creación del código, siempre que el código sea perfectamente comprendido por todos los miembros del grupo, y que se adapte de forma adecuada a los requerimientos del trabajo.</p>
+<h2 id="rubrica-de-evaluacion">Rúbrica de Evaluación<a class="headerlink" href="#rubrica-de-evaluacion" title="Permanent link">¶</a></h2>
+<p>La nota final del trabajo se obtiene de los siguientes criterios ponderados. Cada criterio se evalúa en cuatro niveles: <strong>Sobresaliente (A), Notable (B), Aprobado (C) y Suspenso (D)</strong>. Los criterios 3 y 4 tienen mayor peso porque representan el núcleo técnico y reflexivo del trabajo.</p>
+<h3 id="tabla-de-puntuaciones-por-criterio">Tabla de puntuaciones por criterio<a class="headerlink" href="#tabla-de-puntuaciones-por-criterio" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Criterio</th>
+<th style="text-align: center;">Peso</th>
+<th style="text-align: center;">Sobresaliente (A)</th>
+<th style="text-align: center;">Notable (B)</th>
+<th style="text-align: center;">Aprobado (C)</th>
+<th style="text-align: center;">Suspenso (D)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Planteamiento y contexto</td>
+<td style="text-align: center;">10 %</td>
+<td style="text-align: center;">9-10</td>
+<td style="text-align: center;">7-8</td>
+<td style="text-align: center;">5–6</td>
+<td style="text-align: center;">0–4</td>
+</tr>
+<tr>
+<td>2. Análisis de datos (EDA)</td>
+<td style="text-align: center;">10 %</td>
+<td style="text-align: center;">9-10</td>
+<td style="text-align: center;">7-8</td>
+<td style="text-align: center;">5–6</td>
+<td style="text-align: center;">0–4</td>
+</tr>
+<tr>
+<td>3. Metodología y correctitud técnica</td>
+<td style="text-align: center;">20 %</td>
+<td style="text-align: center;">18-20</td>
+<td style="text-align: center;">14-17</td>
+<td style="text-align: center;">10-13</td>
+<td style="text-align: center;">0–9</td>
+</tr>
+<tr>
+<td>4. Análisis crítico y discusión</td>
+<td style="text-align: center;">20 %</td>
+<td style="text-align: center;">18-20</td>
+<td style="text-align: center;">14-17</td>
+<td style="text-align: center;">10-13</td>
+<td style="text-align: center;">0–9</td>
+</tr>
+<tr>
+<td>5. Escritura y formato científico</td>
+<td style="text-align: center;">10 %</td>
+<td style="text-align: center;">9-10</td>
+<td style="text-align: center;">7-8</td>
+<td style="text-align: center;">5–6</td>
+<td style="text-align: center;">0–4</td>
+</tr>
+<tr>
+<td>6. Código reproducible</td>
+<td style="text-align: center;">10 %</td>
+<td style="text-align: center;">9-10</td>
+<td style="text-align: center;">7-8</td>
+<td style="text-align: center;">5–6</td>
+<td style="text-align: center;">0–4</td>
+</tr>
+<tr>
+<td>7. Contribución del grupo</td>
+<td style="text-align: center;">10 %</td>
+<td style="text-align: center;">9-10</td>
+<td style="text-align: center;">7-8</td>
+<td style="text-align: center;">5–6</td>
+<td style="text-align: center;">0–4</td>
+</tr>
+</tbody>
+</table>
+<h3 id="descriptores-de-cada-criterio">Descriptores de cada criterio<a class="headerlink" href="#descriptores-de-cada-criterio" title="Permanent link">¶</a></h3>
+<h4 id="criterio-1-planteamiento-y-contexto-10">Criterio 1 — Planteamiento y contexto (10 %)<a class="headerlink" href="#criterio-1-planteamiento-y-contexto-10" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sobresaliente (A)</strong></td>
+<td>Problema definido con precisión formal. Motivación sólida con implicaciones reales/éticas. Revisión de literatura crítica, estructurada temáticamente e identificando relaciones entre trabajos y vacíos (incluyendo al menos 5 referencias de calidad).</td>
+</tr>
+<tr>
+<td><strong>Notable (B)</strong></td>
+<td>Problema bien definido. Motivación clara. Revisión de literatura adecuada pero basada en una secuencia de descripciones con conexiones superficiales entre trabajos.</td>
+</tr>
+<tr>
+<td><strong>Aprobado (C)</strong></td>
+<td>Problema identificable pero impreciso. Motivación genérica. Literatura escasa o limitada a documentación de librerías.</td>
+</tr>
+<tr>
+<td><strong>Suspenso (D)</strong></td>
+<td>Problema mal delimitado. Ausencia o irrelevancia del trabajo relacionado.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="criterio-2-analisis-de-datos-eda-10">Criterio 2 — Análisis de datos (EDA) (10 %)<a class="headerlink" href="#criterio-2-analisis-de-datos-eda-10" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sobresaliente (A)</strong></td>
+<td>EDA profundo. Se identifican y discuten sesgos, desbalanceo o calidad de etiquetas con implicaciones claras. Visualizaciones rigurosas e informativas.</td>
+</tr>
+<tr>
+<td><strong>Notable (B)</strong></td>
+<td>EDA correcto. Problemas del <em>dataset</em> mencionados sin profundizar. Visualizaciones adecuadas.</td>
+</tr>
+<tr>
+<td><strong>Aprobado (C)</strong></td>
+<td>EDA básico (estadísticos estándar). Problemas del <em>dataset</em> apenas señalados.</td>
+</tr>
+<tr>
+<td><strong>Suspenso (D)</strong></td>
+<td>EDA mínimo o ausente. No se reflexiona sobre la naturaleza de los datos.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="criterio-3-metodologia-y-correctitud-tecnica-20">Criterio 3 — Metodología y correctitud técnica (20 %)<a class="headerlink" href="#criterio-3-metodologia-y-correctitud-tecnica-20" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sobresaliente (A)</strong></td>
+<td><em>Pipeline</em> bien diseñado y justificado. Sin data <em>leakage</em>. Métricas apropiadas al problema. Las técnicas del eje elegido se aplican con comprensión real de sus fundamentos (no como caja negra). <em>Baseline</em> adecuado.</td>
+</tr>
+<tr>
+<td><strong>Notable (B)</strong></td>
+<td>Metodología correcta con algún error menor. Técnicas bien aplicadas con justificaciones parciales. <em>Baseline</em> presente.</td>
+</tr>
+<tr>
+<td><strong>Aprobado (C)</strong></td>
+<td>Errores conceptuales menores. Técnicas usadas sin comprender bien sus fundamentos. Protocolo de evaluación con algún problema.</td>
+</tr>
+<tr>
+<td><strong>Suspenso (D)</strong></td>
+<td>Errores graves de metodología. Métricas o protocolo incorrectos. Técnicas mal aplicadas o sin justificación.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="criterio-4-analisis-critico-y-discusion-20">Criterio 4 — Análisis crítico y discusión (20 %)<a class="headerlink" href="#criterio-4-analisis-critico-y-discusion-20" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sobresaliente (A)</strong></td>
+<td>Discusión que interpreta los resultados en el contexto real del problema. Limitaciones no triviales analizadas con rigor. Implicaciones éticas/sociales fundamentadas y específicas.</td>
+</tr>
+<tr>
+<td><strong>Notable (B)</strong></td>
+<td>Discusión sólida pero superficial en implicaciones reales o éticas. Limitaciones mencionadas sin profundidad.</td>
+</tr>
+<tr>
+<td><strong>Aprobado (C)</strong></td>
+<td>Discusión básica (los resultados son buenos/malos). Implicaciones éticas genéricas o ausentes.</td>
+</tr>
+<tr>
+<td><strong>Suspenso (D)</strong></td>
+<td>Sin discusión real. Solo resultados sin interpretación. Cuestiones éticas ignoradas.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="criterio-5-escritura-y-formato-cientifico-10">Criterio 5 — Escritura y formato científico (10 %)<a class="headerlink" href="#criterio-5-escritura-y-formato-cientifico-10" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sobresaliente (A)</strong></td>
+<td>Formato de artículo seguido fielmente. Escritura clara y precisa. La notación es clara ty consistente. Figuras/tablas con leyendas y referenciadas en el texto. Referencias completas y consistentes siguiendo formato estándar.</td>
+</tr>
+<tr>
+<td><strong>Notable (B)</strong></td>
+<td>Formato correcto con pequeñas desviaciones. Escritura clara con alguna ambigüedad. Algunos elementos tienen fallos de redacción o notación confusa que pueden hacer el lector necesitar releer alguna frase. Referencias con alguna inconsistencia.</td>
+</tr>
+<tr>
+<td><strong>Aprobado (C)</strong></td>
+<td>Formato aproximado con desviaciones notables. (redacción coloquial, uso de primera persona sin consistencia, o prosa excesivamente verbosa que dificulta la lectura). Las ideas se expresan pero con imprecisión terminológica o rodeos innecesarios. Figuras sin leyendas o referencias incompletas.</td>
+</tr>
+<tr>
+<td><strong>Suspenso (D)</strong></td>
+<td>Sin formato científico. Escritura confusa. Referencias ausentes o incorrectas.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="criterio-6-codigo-reproducible-10">Criterio 6 — Código reproducible (10 %)<a class="headerlink" href="#criterio-6-codigo-reproducible-10" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sobresaliente (A)</strong></td>
+<td>Repositorio de código organizado con README claro. Código limpio, modular y comentado. Experimentos completamente reproducibles (semillas fijas, entorno documentado).</td>
+</tr>
+<tr>
+<td><strong>Notable (B)</strong></td>
+<td>Código funcional y razonablemente organizado. Reproducible con algún esfuerzo adicional.</td>
+</tr>
+<tr>
+<td><strong>Aprobado (C)</strong></td>
+<td>Código funcional pero desorganizado o sin comentarios. Reproducibilidad parcial.</td>
+</tr>
+<tr>
+<td><strong>Suspenso (D)</strong></td>
+<td>Código ausente, con errores o irreproducible.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="criterio-7-defensa-oral-y-contribucion-del-grupo-10">Criterio 7 — Defensa oral y contribución del grupo (10 %)<a class="headerlink" href="#criterio-7-defensa-oral-y-contribucion-del-grupo-10" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Nivel</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sobresaliente (A)</strong></td>
+<td>Todos los miembros demuestran conocimiento del trabajo completo. Contribuciones equilibradas y documentadas.</td>
+</tr>
+<tr>
+<td><strong>Notable (B)</strong></td>
+<td>Contribución mayormente equilibrada con algún desajuste menor.</td>
+</tr>
+<tr>
+<td><strong>Aprobado (C)</strong></td>
+<td>Desequilibrios notables. Algún miembro no conoce partes del trabajo.</td>
+</tr>
+<tr>
+<td><strong>Suspenso (D)</strong></td>
+<td>Un miembro o más no puede responder. Contribución claramente desigual.</td>
+</tr>
+</tbody>
+</table>
+<p>El <strong>criterio 7</strong> se evaluará mediante una breve defensa oral de 10-15 minutos por grupo, con preguntas cruzadas a los miembros. La ausencia injustificada a la defensa implica 0 en este criterio.</p>
+<p>El <strong>plagio</strong> total o parcial de código o texto implica la calificación de <span class="arithmatex">\(0\)</span> en el trabajo, siguiendo el criterio establecido en el Reglamento para la Evaluación de los Aprendizajes de la Universidad de Alicante.</p>
+<h2 id="preguntas-frecuentes">Preguntas Frecuentes<a class="headerlink" href="#preguntas-frecuentes" title="Permanent link">¶</a></h2>
+<p><strong>¿Puedo usar un dataset diferente a los sugeridos?</strong><br>
+Sí, siempre que el <em>dataset</em> sea público y de acceso libre, sea suficientemente rico (al menos varios miles de instancias), y sea apropiado para el eje temático elegido. Consúltalo con el profesorado antes de comenzar el trabajo.</p>
+<p><strong>¿Puedo usar IA generativa para redactar el informe?</strong><br>
+El uso de herramientas de IA generativa está permitido como apoyo a la redacción, pero no como sustituto del trabajo intelectual del grupo. El informe debe reflejar una comprensión genuina de los métodos aplicados. En la defensa oral se verificará que todos los miembros comprenden el contenido. Se recomienda indicar en los anexos si se han utilizado estas herramientas, y cómo se ha hecho.</p>
+<p><strong>¿Qué pasa si nuestro modelo no obtiene buenos resultados?</strong><br>
+La nota no depende de obtener un F1-score alto, sino de aplicar la metodología correctamente, entender por qué los resultados son los que son, y reflexionar críticamente sobre ello. Un trabajo que analiza honestamente por qué un método no funciona bien en un <em>dataset</em> particular puede obtener la máxima nota.</p>
+<p><strong>¿Cuántas referencias bibliográficas son suficientes?</strong><br>
+Se recomienda un mínimo de 5–6 referencias de calidad (artículos de revistas o conferencias como NeurIPS, ICML, ICLR, KDD, etc). No se valoran las referencias a páginas de documentación de librerías como referencias principales, aunque sí se pueden incluir como referencias secundarias.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+            Volver al principio
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "toc.follow", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.b78d2936.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 570" font-family="'Georgia','Times New Roman',serif">
+
+  <!-- ─── BACKGROUND ─────────────────────────────────────────────────── -->
+  <rect width="860" height="570" fill="#FAFAFA"/>
+  <rect x="85" y="55" width="665" height="405" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- ─── TITLE ──────────────────────────────────────────────────────── -->
+  <text x="417" y="38" text-anchor="middle" font-size="14" fill="#1F3864" font-weight="bold">
+    Dendrograma: saltos de distancia y número natural de clusters
+  </text>
+
+  <!-- ─── GRID (light) ──────────────────────────────────────────────── -->
+  <line x1="85" y1="460" x2="750" y2="460" stroke="#F3F4F6" stroke-width="1"/>
+  <line x1="85" y1="410" x2="750" y2="410" stroke="#F3F4F6" stroke-width="1"/>
+  <line x1="85" y1="360" x2="750" y2="360" stroke="#F3F4F6" stroke-width="1"/>
+  <line x1="85" y1="310" x2="750" y2="310" stroke="#F3F4F6" stroke-width="1"/>
+  <line x1="85" y1="260" x2="750" y2="260" stroke="#F3F4F6" stroke-width="1"/>
+  <line x1="85" y1="210" x2="750" y2="210" stroke="#F3F4F6" stroke-width="1"/>
+  <line x1="85" y1="160" x2="750" y2="160" stroke="#F3F4F6" stroke-width="1"/>
+  <line x1="85" y1="110" x2="750" y2="110" stroke="#F3F4F6" stroke-width="1"/>
+
+  <!-- ─── GAP SHADING ────────────────────────────────────────────────
+       Shade the two big gaps between merge heights                    -->
+  <!-- Big gap 1: K=3 zone — between M5 (y=351) and M6 (y=193) -->
+  <rect x="85" y="193" width="665" height="158" fill="#EFF6FF" opacity="0.55"/>
+  <!-- Big gap 2: K=2 zone — between M6 (y=193) and Root (y=60) -->
+  <rect x="85" y="60" width="665" height="133" fill="#FFF7ED" opacity="0.55"/>
+
+  <!-- ─── DENDROGRAM BRANCHES ───────────────────────────────────────
+    Merge y-values (y = 460 - dist * 1.212):
+      M1 = x1+x2      dist=30  y=424   xc=143
+      M4 = x6+x7      dist=35  y=418   xc=538
+      M3 = x4+x5      dist=45  y=406   xc=378
+      M2 = M1+x3      dist=80  y=363   xc=197  bar: 143 to 250
+      M5 = M4+x8      dist=90  y=351   xc=592  bar: 538 to 645
+      M6 = M2+M3      dist=220 y=193   xc=288  bar: 197 to 378
+      Root= M6+M5     dist=330 y=60    xc=440  bar: 288 to 592
+  -->
+
+  <!-- == CLUSTER A (blue) == -->
+  <line x1="110" y1="460" x2="110" y2="424" stroke="#2563EB" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="175" y1="460" x2="175" y2="424" stroke="#2563EB" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="110" y1="424" x2="175" y2="424" stroke="#2563EB" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="143" y1="424" x2="143" y2="363" stroke="#2563EB" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="250" y1="460" x2="250" y2="363" stroke="#2563EB" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="143" y1="363" x2="250" y2="363" stroke="#2563EB" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="197" y1="363" x2="197" y2="193" stroke="#2563EB" stroke-width="2.3" stroke-linecap="round"/>
+
+  <!-- == CLUSTER B (green) == -->
+  <line x1="345" y1="460" x2="345" y2="406" stroke="#059669" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="410" y1="460" x2="410" y2="406" stroke="#059669" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="345" y1="406" x2="410" y2="406" stroke="#059669" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="378" y1="406" x2="378" y2="193" stroke="#059669" stroke-width="2.3" stroke-linecap="round"/>
+
+  <!-- == CLUSTER C (amber) == -->
+  <line x1="505" y1="460" x2="505" y2="418" stroke="#D97706" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="570" y1="460" x2="570" y2="418" stroke="#D97706" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="505" y1="418" x2="570" y2="418" stroke="#D97706" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="538" y1="418" x2="538" y2="351" stroke="#D97706" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="645" y1="460" x2="645" y2="351" stroke="#D97706" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="538" y1="351" x2="645" y2="351" stroke="#D97706" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="592" y1="351" x2="592" y2="60"  stroke="#D97706" stroke-width="2.3" stroke-linecap="round"/>
+
+  <!-- == ABOVE-CLUSTER MERGES (gray) == -->
+  <line x1="197" y1="193" x2="378" y2="193" stroke="#6B7280" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="288" y1="193" x2="288" y2="60"  stroke="#6B7280" stroke-width="2.3" stroke-linecap="round"/>
+  <line x1="288" y1="60"  x2="592" y2="60"  stroke="#6B7280" stroke-width="2.3" stroke-linecap="round"/>
+
+  <!-- ─── LEAF NODES ────────────────────────────────────────────────── -->
+  <circle cx="110" cy="460" r="5.5" fill="#2563EB" stroke="white" stroke-width="1.5"/>
+  <circle cx="175" cy="460" r="5.5" fill="#2563EB" stroke="white" stroke-width="1.5"/>
+  <circle cx="250" cy="460" r="5.5" fill="#2563EB" stroke="white" stroke-width="1.5"/>
+  <circle cx="345" cy="460" r="5.5" fill="#059669" stroke="white" stroke-width="1.5"/>
+  <circle cx="410" cy="460" r="5.5" fill="#059669" stroke="white" stroke-width="1.5"/>
+  <circle cx="505" cy="460" r="5.5" fill="#D97706" stroke="white" stroke-width="1.5"/>
+  <circle cx="570" cy="460" r="5.5" fill="#D97706" stroke="white" stroke-width="1.5"/>
+  <circle cx="645" cy="460" r="5.5" fill="#D97706" stroke="white" stroke-width="1.5"/>
+
+  <!-- ─── LEAF LABELS ───────────────────────────────────────────────── -->
+  <text x="110" y="483" text-anchor="middle" font-size="12" fill="#374151">x₁</text>
+  <text x="175" y="483" text-anchor="middle" font-size="12" fill="#374151">x₂</text>
+  <text x="250" y="483" text-anchor="middle" font-size="12" fill="#374151">x₃</text>
+  <text x="345" y="483" text-anchor="middle" font-size="12" fill="#374151">x₄</text>
+  <text x="410" y="483" text-anchor="middle" font-size="12" fill="#374151">x₅</text>
+  <text x="505" y="483" text-anchor="middle" font-size="12" fill="#374151">x₆</text>
+  <text x="570" y="483" text-anchor="middle" font-size="12" fill="#374151">x₇</text>
+  <text x="645" y="483" text-anchor="middle" font-size="12" fill="#374151">x₈</text>
+
+  <!-- ─── K=3 CLUSTER LABELS ───────────────────────────────────────── -->
+  <text x="190" y="505" text-anchor="middle" font-size="11" fill="#1D4ED8" font-style="italic">C₁ = {x₁, x₂, x₃}</text>
+  <text x="378" y="505" text-anchor="middle" font-size="11" fill="#065F46" font-style="italic">C₂ = {x₄, x₅}</text>
+  <text x="575" y="505" text-anchor="middle" font-size="11" fill="#92400E" font-style="italic">C₃ = {x₆, x₇, x₈}</text>
+
+  <!-- ─── K=2 GROUPING BRACKETS ─────────────────────────────────────── -->
+  <text x="247" y="542" text-anchor="middle" font-size="10.5" fill="#B91C1C" font-style="italic">{C₁, C₂} con K = 2</text>
+  <line x1="100" y1="528" x2="393" y2="528" stroke="#DC2626" stroke-width="1.2"/>
+  <line x1="100" y1="525" x2="100" y2="531" stroke="#DC2626" stroke-width="1.2"/>
+  <line x1="393" y1="525" x2="393" y2="531" stroke="#DC2626" stroke-width="1.2"/>
+
+  <text x="575" y="542" text-anchor="middle" font-size="10.5" fill="#B91C1C" font-style="italic">{C₃} con K = 2</text>
+  <line x1="495" y1="528" x2="655" y2="528" stroke="#DC2626" stroke-width="1.2"/>
+  <line x1="495" y1="525" x2="495" y2="531" stroke="#DC2626" stroke-width="1.2"/>
+  <line x1="655" y1="525" x2="655" y2="531" stroke="#DC2626" stroke-width="1.2"/>
+
+  <!-- ─── CUT LINE K=4 (tiny gap, light gray dashed) ─────────────────
+       Between M2 (y=363) and M5 (y=351): cut at y=357               -->
+  <line x1="85" y1="357" x2="750" y2="357"
+        stroke="#9CA3AF" stroke-width="1.4" stroke-dasharray="5,4" opacity="0.85"/>
+  <rect x="614" y="343" width="132" height="19" rx="3" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="680" y="356" text-anchor="middle" font-size="11" fill="#6B7280">K = 4  (salto mínimo)</text>
+
+  <!-- ─── CUT LINE K=3 (blue, prominent) ───────────────────────────── -->
+  <line x1="85" y1="272" x2="750" y2="272"
+        stroke="#2563EB" stroke-width="2.1" stroke-dasharray="9,5" opacity="0.9"/>
+  <rect x="616" y="257" width="130" height="21" rx="3" fill="#DBEAFE" stroke="#2563EB" stroke-width="1.3"/>
+  <text x="681" y="272" text-anchor="middle" font-size="12" fill="#1D4ED8" font-weight="bold">K = 3  ✓ natural</text>
+
+  <!-- ─── CUT LINE K=2 (red) ────────────────────────────────────────── -->
+  <line x1="85" y1="127" x2="750" y2="127"
+        stroke="#DC2626" stroke-width="2.1" stroke-dasharray="9,5" opacity="0.9"/>
+  <rect x="616" y="112" width="130" height="21" rx="3" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.3"/>
+  <text x="681" y="127" text-anchor="middle" font-size="12" fill="#B91C1C" font-weight="bold">K = 2  ✓ natural</text>
+
+  <!-- ─── RIGHT-SIDE GAP ARROWS ────────────────────────────────────── -->
+  <line x1="755" y1="55" x2="755" y2="460" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Tiny gap K=4→K=3: y=351 to y=363 (12px) -->
+  <line x1="758" y1="351" x2="758" y2="363" stroke="#9CA3AF" stroke-width="1.5"/>
+  <line x1="755" y1="351" x2="761" y2="351" stroke="#9CA3AF" stroke-width="1.5"/>
+  <line x1="755" y1="363" x2="761" y2="363" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="766" y="359" font-size="9" fill="#9CA3AF">Δ=10</text>
+
+  <!-- Big gap K=3: y=193 to y=351 (158px → dist=130) -->
+  <line x1="773" y1="193" x2="773" y2="351" stroke="#2563EB" stroke-width="2"/>
+  <polygon points="773,193 769,203 777,203" fill="#2563EB"/>
+  <polygon points="773,351 769,341 777,341" fill="#2563EB"/>
+  <text x="780" y="263" font-size="10" fill="#1D4ED8" font-weight="bold">Δ=130</text>
+  <text x="780" y="276" font-size="10" fill="#1D4ED8">→ K=3</text>
+
+  <!-- Big gap K=2: y=60 to y=193 (133px → dist=110) -->
+  <line x1="773" y1="60"  x2="773" y2="193" stroke="#DC2626" stroke-width="2"/>
+  <polygon points="773,60  769,70  777,70"  fill="#DC2626"/>
+  <polygon points="773,193 769,183 777,183" fill="#DC2626"/>
+  <text x="780" y="118" font-size="10" fill="#B91C1C" font-weight="bold">Δ=110</text>
+  <text x="780" y="131" font-size="10" fill="#B91C1C">→ K=2</text>
+
+  <!-- ─── Y-AXIS ─────────────────────────────────────────────────────── -->
+  <line x1="85" y1="55" x2="85" y2="465" stroke="#374151" stroke-width="1.5"/>
+
+  <line x1="80" y1="460" x2="85" y2="460" stroke="#374151" stroke-width="1.2"/>
+  <text x="74" y="464" text-anchor="end" font-size="11" fill="#6B7280">0</text>
+
+  <line x1="80" y1="399" x2="85" y2="399" stroke="#374151" stroke-width="1.2"/>
+  <text x="74" y="403" text-anchor="end" font-size="11" fill="#6B7280">50</text>
+
+  <line x1="80" y1="339" x2="85" y2="339" stroke="#374151" stroke-width="1.2"/>
+  <text x="74" y="343" text-anchor="end" font-size="11" fill="#6B7280">100</text>
+
+  <line x1="80" y1="278" x2="85" y2="278" stroke="#374151" stroke-width="1.2"/>
+  <text x="74" y="282" text-anchor="end" font-size="11" fill="#6B7280">150</text>
+
+  <line x1="80" y1="218" x2="85" y2="218" stroke="#374151" stroke-width="1.2"/>
+  <text x="74" y="222" text-anchor="end" font-size="11" fill="#6B7280">200</text>
+
+  <line x1="80" y1="157" x2="85" y2="157" stroke="#374151" stroke-width="1.2"/>
+  <text x="74" y="161" text-anchor="end" font-size="11" fill="#6B7280">250</text>
+
+  <line x1="80" y1="97"  x2="85" y2="97"  stroke="#374151" stroke-width="1.2"/>
+  <text x="74" y="101"  text-anchor="end" font-size="11" fill="#6B7280">300</text>
+
+  <!-- Y-axis title -->
+  <text transform="rotate(-90,20,258)" x="20" y="258"
+        text-anchor="middle" font-size="13" fill="#374151">Distancia de fusión</text>
+
+  <!-- ─── MERGE LEVEL TICKS (right edge of plot) ───────────────────── -->
+  <line x1="750" y1="424" x2="754" y2="424" stroke="#D1D5DB" stroke-width="1"/>
+  <line x1="750" y1="418" x2="754" y2="418" stroke="#D1D5DB" stroke-width="1"/>
+  <line x1="750" y1="406" x2="754" y2="406" stroke="#D1D5DB" stroke-width="1"/>
+  <line x1="750" y1="363" x2="754" y2="363" stroke="#9CA3AF" stroke-width="1.2"/>
+  <line x1="750" y1="351" x2="754" y2="351" stroke="#9CA3AF" stroke-width="1.2"/>
+  <line x1="750" y1="193" x2="754" y2="193" stroke="#6B7280" stroke-width="1.5"/>
+  <line x1="750" y1="60"  x2="754" y2="60"  stroke="#6B7280" stroke-width="1.5"/>
+
+</svg>

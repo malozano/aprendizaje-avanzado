@@ -1210,7 +1210,7 @@ F_m(\mathbf{x}) = F_{m-1}(\mathbf{x}) + \eta \rho_m h_m(\mathbf{x}) $$
 Este multiplicador se obtiene de la siguiente forma:
 $$
 \rho_m = \arg \min_\rho \sum_{i=1}^N L(y_i, F_{m-1}(\mathbf{x}_i) + \rho h_m(\mathbf{x}_i)) $$
-Es decir, una vez entrenado el árbol h_m se busca el escalar óptimo que más reduce la pérdida en esa dirección. Sin embargo, en la práctica la optimización por hoja <span class="arithmatex">\(\gamma_{jm}\)</span> lo hace redundante. Si ya ajustamos un valor óptimo por hoja, el multiplicador global no añade nada, por lo que habitualmente en la práctica se fija <span class="arithmatex">\(\rho_m = 1\)</span>.</p>
+Es decir, una vez entrenado el árbol <span class="arithmatex">\(h_m\)</span> se busca el escalar óptimo que más reduce la pérdida en esa dirección. Sin embargo, en la práctica la optimización por hoja <span class="arithmatex">\(\gamma_{jm}\)</span> lo hace redundante. Si ya ajustamos un valor óptimo por hoja, el multiplicador global no añade nada, por lo que habitualmente en la práctica se fija <span class="arithmatex">\(\rho_m = 1\)</span>.</p>
 </blockquote>
 <h3 id="algoritmo-completo">Algoritmo completo<a class="headerlink" href="#algoritmo-completo" title="Permanent link">¶</a></h3>
 <p>Con todo lo anterior, podemos escribir de forma completa el algoritmo de Gradient Boosting como se muestra a continuación:</p>
@@ -1259,7 +1259,7 @@ F_m(\mathbf{x}) \leftarrow F_{m-1}(\mathbf{x}) + \eta \sum_{j=1}^J \gamma_{jm} 1
 <h3 id="regresion_2">Regresión<a class="headerlink" href="#regresion_2" title="Permanent link">¶</a></h3>
 <p>Comenzamos con las funciones utilizadas habitualmente en regresión. </p>
 <h4 id="mse-l2">MSE (L2)<a class="headerlink" href="#mse-l2" title="Permanent link">¶</a></h4>
-<p>Es la más común, y óptima cuando los errores siguen una distribución normal. Tiene la desventaja de que es muy sensible a <em>outliers</em> porque penaliza de forma cuadrática</p>
+<p>Es la más común, y óptima cuando los errores siguen una distribución normal. Tiene la desventaja de que es muy sensible a <em>outliers</em> porque penaliza de forma cuadrática.</p>
 <div class="arithmatex">\[
 L(y_i, F(\mathbf{x}_i)) = \frac{1}{2}(y_i - F(\mathbf{x}_i))^2
 \]</div>
@@ -1560,7 +1560,7 @@ m^* = \min\left\{m : \mathcal{L}_\mathcal{V}(F_{m'}) \geq \mathcal{L}_\mathcal{V
 <p>Con esto hemos independizado la complejidad del número de ejemplos de entrada. </p>
 <h3 id="manejo-de-valores-faltantes">Manejo de valores faltantes<a class="headerlink" href="#manejo-de-valores-faltantes" title="Permanent link">¶</a></h3>
 <p>Otra de las ventajas de esta implementación es el manejo de valores faltantes (<em>missing values</em> o NaNs). Como hemos visto, el algoritmo trata los NaN como un valor especial en el histograma. </p>
-<p>Durante el entrenamiento, el modelo aprende si los ejemplos con valores faltantes de una <em>feature</em> deben ir al <em>split</em> derecho_ o al <em>izquierdo</em>, basándose en la ganancia de cada decisión. De esta forma, no requiere imputación manual.</p>
+<p>Durante el entrenamiento, el modelo aprende si los ejemplos con valores faltantes de una <em>feature</em> deben ir al <em>split derecho</em> o al <em>izquierdo</em>, basándose en la ganancia de cada decisión. De esta forma, no requiere imputación manual.</p>
 <p>En la predicción, aplicará siempre la decisión aprendida durante el entrenamiento cuando encuentre un valor faltante para una <em>feature</em>. </p>
 <p>Vemos a continuación un ejemplo de implementación con valores NaN:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Datos con valores faltantes</span>
@@ -1802,7 +1802,7 @@ j^* = \arg\max_j \text{Ganancia}(j)
 <li><strong>Boosting</strong>: <code>n_estimators</code>, <code>learning_rate</code>, <code>subsample</code> (fracción GOSS o subsampling clásico).</li>
 <li><strong>Árbol</strong>: <code>num_leaves</code> (control principal de complejidad), <code>max_depth</code>, <code>min_child_samples</code>, <code>colsample_bytree</code>.</li>
 <li><strong>Histograma</strong>: <code>max_bin</code> (<span class="arithmatex">\(K\)</span>).</li>
-<li><strong>Regularización</strong>: <code>reg_lambda</code>, <code>reg_alpha</code>, <code>min_split_gain</code> (equivale a <span class="arithmatex">\(\nu\)</span> en XGBoost).</li>
+<li><strong>Regularización</strong>: <code>reg_lambda</code>, <code>reg_alpha</code>, <code>min_split_gain</code> (equivale a <span class="arithmatex">\(\mu\)</span> en XGBoost).</li>
 </ul>
 <h2 id="catboost">CatBoost<a class="headerlink" href="#catboost" title="Permanent link">¶</a></h2>
 <p>CatBoost (<em>Categorical Boosting</em>) (Prokhorenkova et al., 2018)<sup id="fnref2:prokhorenkova2018catboost"><a class="footnote-ref" href="#fn:prokhorenkova2018catboost">4</a></sup> fue desarrollado por Yandex en 2018 con un doble objetivo: manejar variables categóricas de forma nativa y eficiente, y abordar un problema teórico conocido como <strong><em>target leakage</em></strong> presente en las implementaciones clásicas de Gradient Boosting.</p>
@@ -1815,7 +1815,7 @@ j^* = \arg\max_j \text{Ganancia}(j)
 <li><strong>Ordered TS para variables categóricas.</strong> Una solución análoga se aplica a la codificación de variables categóricas, como se verá a continuación.</li>
 </ul>
 <h3 id="codificacion-de-variables-categoricas">Codificación de variables categóricas<a class="headerlink" href="#codificacion-de-variables-categoricas" title="Permanent link">¶</a></h3>
-<p>CatBoost introduce una codificación basada en estadísticos de la variable objetivo condicionados a la categoría. Si tenemos una <em>feature</em> categórica <span class="arithmatex">\(k\)</span>, la idea es sustituir la categoría <span class="arithmatex">\(x_i^k\)</span> del <span class="arithmatex">\(i\)</span>-ésimo ejemplo de entrada por una <em>feature</em> numérica <span class="arithmatex">\(\hat{x}_i^k\)</span> igual a una determinada estadística objetivo (<em>Target Statistic</em>, TS). Comúnmente, esta TS estima la variable objetivo <span class="arithmatex">\(y\)</span> condicionada por la categoría: $\hat{x}_i^k \approx E(y | x^k = x_i^k) $. Una forma de estimar esta TS es tomar el valor medio de <span class="arithmatex">\(y\)</span> para todos los ejemplos que comparten la misma categoría de <span class="arithmatex">\(x_i^k\)</span>:</p>
+<p>CatBoost introduce una codificación basada en estadísticos de la variable objetivo condicionados a la categoría. Si tenemos una <em>feature</em> categórica <span class="arithmatex">\(k\)</span>, la idea es sustituir la categoría <span class="arithmatex">\(x_i^k\)</span> del <span class="arithmatex">\(i\)</span>-ésimo ejemplo de entrada por una <em>feature</em> numérica <span class="arithmatex">\(\hat{x}_i^k\)</span> igual a una determinada estadística objetivo (<em>Target Statistic</em>, TS). Comúnmente, esta TS estima la variable objetivo <span class="arithmatex">\(y\)</span> condicionada por la categoría: <span class="arithmatex">\(\hat{x}_i^k \approx E(y | x^k = x_i^k)\)</span>. Una forma de estimar esta TS es tomar el valor medio de <span class="arithmatex">\(y\)</span> para todos los ejemplos que comparten la misma categoría de <span class="arithmatex">\(x_i^k\)</span>:</p>
 <div class="arithmatex">\[
 \hat{x}_i^k = \frac{\sum_{j=1}^N \mathbf{1}[x_j^k = x_i^k]  y_j + a p}{\sum_{j=1}^N \mathbf{1}[x_j^k = x_i^k] + a}
 \]</div>
@@ -1876,13 +1876,13 @@ j^* = \arg\max_j \text{Ganancia}(j)
 <div class="arithmatex">\[
 \text{Importance}_{\text{gain}}(f) = \frac{1}{|\mathcal{T}_f|} \sum_{t \in \mathcal{T}_f} \sum_{s \in \mathcal{S}_t(f)} \text{Ganancia}(s)
 \]</div>
-<p>donde <span class="arithmatex">\(\mathcal{T}_f\)</span> es el conjunto de árboles donde aparece la <em>feature</em> <span class="arithmatex">\(f\)</span> y <span class="arithmatex">\(\mathcal{S}_t(f)\)</span> es el conjunto de <em>splits</em> del árbol <span class="arithmatex">\(t\)</span> que usan la <em>feature</em> <span class="arithmatex">\(f\)</span>.</p>
+<p>Donde <span class="arithmatex">\(\mathcal{T}_f\)</span> es el conjunto de árboles donde aparece la <em>feature</em> <span class="arithmatex">\(f\)</span> y <span class="arithmatex">\(\mathcal{S}_t(f)\)</span> es el conjunto de <em>splits</em> del árbol <span class="arithmatex">\(t\)</span> que usan la <em>feature</em> <span class="arithmatex">\(f\)</span>.</p>
 <h3 id="importancia-por-frecuencia-split-count">Importancia por frecuencia (<em>Split count</em>)<a class="headerlink" href="#importancia-por-frecuencia-split-count" title="Permanent link">¶</a></h3>
 <p>Cuenta simplemente cuántas veces se utiliza la característica <span class="arithmatex">\(f\)</span> como criterio de división en todos los árboles:</p>
 <div class="arithmatex">\[
 \text{Importance}_{\text{split}}(f) =   |\mathcal{S}(f)|
 \]</div>
-<p>Donde \mathcal{S}(f) es el conjunto de todos los <em>splits</em> de todos los árboles que utilizan la <em>feature</em> <span class="arithmatex">\(f\)</span>. Es fácil de calcular pero puede ser engañosa: una característica puede dividirse muchas veces con ganancias pequeñas.</p>
+<p>Donde <span class="arithmatex">\(\mathcal{S}(f)\)</span> es el conjunto de todos los <em>splits</em> de todos los árboles que utilizan la <em>feature</em> <span class="arithmatex">\(f\)</span>. Es fácil de calcular pero puede ser engañosa, ya que una característica puede dividirse muchas veces con ganancias pequeñas.</p>
 <h3 id="importancia-por-cobertura-coverage">Importancia por cobertura (<em>Coverage</em>)<a class="headerlink" href="#importancia-por-cobertura-coverage" title="Permanent link">¶</a></h3>
 <p>Mide el número total de ejemplos de entrenamiento que pasan por los nodos donde se usa la característica <span class="arithmatex">\(f\)</span>, promediado sobre todas las divisiones:</p>
 <div class="arithmatex">\[

@@ -1,0 +1,914 @@
+<!DOCTYPE html><html lang="es" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apuntes de la asignatura Aprendizaje Avanzado del Grado en Ingeniería en Inteligencia Artificial de la Universidad de Alicante">
+      
+      
+        <meta name="author" content="Miguel Angel Lozano">
+      
+      
+        <link rel="canonical" href="https://malozano.github.io/aprendizaje-avanzado/08-dbscan/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.1">
+    
+    
+      
+        <title>Clustering Basado en Densidad - Aprendizaje Avanzado</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.402914a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#clustering-basado-en-densidad" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="Aprendizaje Avanzado" class="md-header__button md-logo" aria-label="Aprendizaje Avanzado" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Aprendizaje Avanzado
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Clustering Basado en Densidad
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo" aria-label="Modo oscuro" type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Modo oscuro" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="white" data-md-color-accent="blue" aria-label="Modo claro" type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Modo claro" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Aprendizaje Avanzado" class="md-nav__button md-logo" aria-label="Aprendizaje Avanzado" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
+
+    </a>
+    Aprendizaje Avanzado
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Introducción
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Bloque I. Aprendizaje supervisado
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Bloque I. Aprendizaje supervisado
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-modelos-no-param/" class="md-nav__link">
+        1. Modelos paramétricos y no paramétricos. Logistic Regression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-svm/" class="md-nav__link">
+        2. SVM
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-arboles-decision/" class="md-nav__link">
+        3. Árboles de decisión
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-random-forest/" class="md-nav__link">
+        4. Métodos de ensemble. Random Forest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-adaboost/" class="md-nav__link">
+        5. Boosting. Adaboost
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-gradient-boosting/" class="md-nav__link">
+        6. Gradient Boosting
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+      
+      
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Prácticas
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Prácticas
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/00-datos-y-visualizacion/" class="md-nav__link">
+        0. Datos y visualización
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/01-aprendizaje-supervisado/" class="md-nav__link">
+        1. Aprendizaje supervisado
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="clustering-basado-en-densidad">Clustering Basado en Densidad<a class="headerlink" href="#clustering-basado-en-densidad" title="Permanent link">¶</a></h1>
+<p>En la sesión anterior vimos dos grandes familias de <em>clustering</em>: los métodos jerárquicos aglomerativos, que construyen una jerarquía de fusiones, y el <em>clustering</em> espectral, que transforma el espacio de representación mediante teoría de grafos. Ambos superan a K-Means en flexibilidad para representar la forma de los datos, pero los dos tienen una limitación común: asumen implícitamente que los <em>clusters</em> son regiones compactas y bien separadas, y ninguno distingue de forma natural entre puntos que pertenecen a un <em>cluster</em> y puntos que son simplemente ruido.</p>
+<p>En muchos problemas reales los datos presentan <em>clusters</em> de <strong>formas arbitrarias y densidades variables</strong>, existiendo además puntos anómalos que no pertenecen a ningún grupo coherente. Ninguno de los métodos anteriores aborda esto de forma satisfactoria. En esta sesión estudiaremos el <em>clustering</em> basado en densidad, que parte de una idea radicalmente diferente: definir un <em>cluster</em> no como un conjunto de puntos cercanos a un centroide, sino como una <strong>región densa del espacio de características rodeada de zonas de baja densidad</strong>. Este cambio de perspectiva resuelve simultáneamente la detección de formas arbitrarias y la identificación de ruido.</p>
+<h2 id="dbscan">DBSCAN<a class="headerlink" href="#dbscan" title="Permanent link">¶</a></h2>
+<p>DBSCAN (<em>Density-Based Spatial Clustering of Applications with Noise</em>) fue introducido por Ester, Kriegel, Sander y Xu en 1996 (Ester et al., 1996)<sup id="fnref:ester1996density"><a class="footnote-ref" href="#fn:ester1996density">1</a></sup> y recibió en 2014 el premio <em>Test of Time</em> de la conferencia KDD, reconociendo su impacto sostenido en el área. Es el algoritmo de <em>clustering</em> basado en densidad más conocido y la referencia frente a la que se comparan el resto de métodos de esta familia.</p>
+<h3 id="conceptos-fundamentales">Conceptos fundamentales<a class="headerlink" href="#conceptos-fundamentales" title="Permanent link">¶</a></h3>
+<p>DBSCAN formaliza la noción de densidad local a través de dos parámetros: <span class="arithmatex">\(\varepsilon\)</span> (el radio de vecindad) y <span class="arithmatex">\(\text{MinPts}\)</span> (el número mínimo de puntos para considerar una región como densa). A partir de ellos se define la vecindad de un punto y se clasifican todos los puntos del <em>dataset</em> en diferentes tipos.</p>
+<p>Dado un <em>dataset</em> <span class="arithmatex">\(\mathcal{D} = \{ \mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_N \}\)</span> y una función distancia <span class="arithmatex">\(d(\cdot, \cdot)\)</span>, la <strong><span class="arithmatex">\(\varepsilon\)</span>-vecindad</strong> de un punto <span class="arithmatex">\(p\)</span> es el conjunto de puntos que se encuentran a distancia menor o igual a <span class="arithmatex">\(\varepsilon\)</span>:</p>
+<div class="arithmatex">\[N_\varepsilon(p) = \{q \in \mathcal{D} \mid d(p, q) \leq \varepsilon\}\]</div>
+<p>A partir de esta vecindad se clasifican los puntos del <em>dataset</em> <span class="arithmatex">\(\mathcal{D}\)</span> en tres categorías:</p>
+<ul>
+<li><strong>Punto núcleo (<em>core point</em>)</strong>: Los puntos núcleo son los que se encuentran en el interior de una región densa. <span class="arithmatex">\(p\)</span> es un punto núcleo si su <span class="arithmatex">\(\varepsilon\)</span>-vecindad contiene al menos <span class="arithmatex">\(\text{MinPts}\)</span> puntos, incluyendo el propio <span class="arithmatex">\(p\)</span>:</li>
+</ul>
+<div class="arithmatex">\[|N_\varepsilon(p)| \geq \text{MinPts}\]</div>
+<ul>
+<li>
+<p><strong>Punto frontera (<em>border point</em>)</strong>: Se encuentra en la periferia de una región densa. <span class="arithmatex">\(p\)</span> no es punto núcleo, pero pertenece a la <span class="arithmatex">\(\varepsilon\)</span>-vecindad de algún punto núcleo. </p>
+</li>
+<li>
+<p><strong>Punto de ruido (<em>noise point</em>)</strong>: Se encuentra en una zona de baja densidad y no pertenece a ningún <em>cluster</em>. <span class="arithmatex">\(p\)</span> no es ni punto núcleo ni punto frontera. </p>
+</li>
+</ul>
+<p></p><figure id="fig-dbscan-tipos"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/t7_dbscan_tipos.png" data-desc-position="bottom"><img alt="" src="images/t7_dbscan_tipos.png"></a><figcaption>Figura 1: Clasificación de puntos en DBSCAN con <span class="arithmatex">\(MinPts = 4\)</span>. Los puntos núcleo (azul) tienen al menos 4 vecinos en su <span class="arithmatex">\(\varepsilon\)</span>-vecindad. Los puntos frontera (naranja) están en la vecindad de un punto núcleo pero no alcanzan <span class="arithmatex">\(MinPts\)</span>. Los puntos de ruido (rojo) no están en la vecindad de ningún punto núcleo. </figcaption></figure><p></p>
+<p>Para definir qué puntos pertenecen al mismo <em>cluster</em>, DBSCAN introduce las nociones de alcanzabilidad por densidad y conectividad por densidad.</p>
+<p>Un punto <span class="arithmatex">\(q\)</span> es <strong>directamente alcanzable por densidad</strong> (<em>directly density-reachable</em>) desde <span class="arithmatex">\(p\)</span> si <span class="arithmatex">\(p\)</span> es un punto núcleo y <span class="arithmatex">\(q \in N_\varepsilon(p)\)</span>. La alcanzabilidad directa no es simétrica: <span class="arithmatex">\(q\)</span> puede ser directamente alcanzable desde <span class="arithmatex">\(p\)</span> sin que <span class="arithmatex">\(p\)</span> lo sea desde <span class="arithmatex">\(q\)</span> (si <span class="arithmatex">\(q\)</span> no es punto núcleo).</p>
+<p>Un punto <span class="arithmatex">\(q\)</span> es <strong>alcanzable por densidad</strong> (<em>density-reachable</em>) desde <span class="arithmatex">\(p\)</span> si existe una cadena de puntos <span class="arithmatex">\(p_1, p_2, \ldots, p_n\)</span> con <span class="arithmatex">\(p_1 = p\)</span>, <span class="arithmatex">\(p_n = q\)</span>, donde cada <span class="arithmatex">\(p_{i+1}\)</span> es directamente alcanzable por densidad desde <span class="arithmatex">\(p_i\)</span>. Esta relación tampoco es simétrica.</p>
+<p>Dos puntos <span class="arithmatex">\(p\)</span> y <span class="arithmatex">\(q\)</span> son <strong>conectados por densidad</strong> (<em>density-connected</em>) si existe un punto <span class="arithmatex">\(o\)</span> tal que tanto <span class="arithmatex">\(p\)</span> como <span class="arithmatex">\(q\)</span> son alcanzables por densidad desde <span class="arithmatex">\(o\)</span>. Esta relación sí es simétrica y es la que define la pertenencia al mismo <em>cluster</em>.</p>
+<p>Un <strong>cluster</strong> en DBSCAN es un conjunto maximal (no se puede extender más sin violar la definición de <em>cluster</em>) de puntos mutuamente conectados por densidad. Formalmente, un cluster <span class="arithmatex">\(C\)</span> satisface:</p>
+<ol>
+<li><strong>Maximalidad</strong>: Si <span class="arithmatex">\(p \in C\)</span> es un punto núcleo y <span class="arithmatex">\(q\)</span> es alcanzable por densidad desde <span class="arithmatex">\(p\)</span>, entonces <span class="arithmatex">\(q \in C\)</span>.</li>
+<li><strong>Conectividad</strong>: todos los puntos de <span class="arithmatex">\(C\)</span> están mutuamente conectados por densidad.</li>
+</ol>
+<p>Podemos determinar con lo anterior que los puntos <strong>no alcanzables</strong> desde ningún otro punto serán los puntos de <strong>ruido</strong>, y no pertenecerán a ningún <em>cluster</em>.</p>
+<h3 id="algoritmo">Algoritmo<a class="headerlink" href="#algoritmo" title="Permanent link">¶</a></h3>
+<p>Con las definiciones anteriores, podemos expresar el algoritmo de la siguiente forma:</p>
+<!-- 
+$$
+\begin{align*}
+& \text{Entrada: dataset } \mathcal{D}, \text{ parámetros } \varepsilon, \text{MinPts} \\
+& \text{Marcar todos los puntos como no visitados} \\
+& \text{Para cada punto } p \in \mathcal{D} \text{ no visitado:} \\
+& \quad \text{Marcar } p \text{ como visitado} \\
+& \quad N \leftarrow N_\varepsilon(p) \\
+& \quad \text{Si } |N| < \text{MinPts}: \text{ marcar } p \text{ como ruido (provisional)} \\
+& \quad \text{Si no:} \\
+& \quad\quad \text{Crear nuevo cluster } C \\
+& \quad\quad \text{ExpandirCluster}(p, N, C, \varepsilon, \text{MinPts}) \\
+& \\
+& \textbf{ExpandirCluster}(p, N, C, \varepsilon, \text{MinPts}): \\
+& \quad \text{Añadir } p \text{ a } C \\
+& \quad \text{Para cada punto } q \in N: \\
+& \quad\quad \text{Si } q \text{ no fue visitado:} \\
+& \quad\quad\quad \text{Marcar } q \text{ como visitado} \\
+& \quad\quad\quad N' \leftarrow N_\varepsilon(q) \\
+& \quad\quad\quad \text{Si } |N'| \geq \text{MinPts}: N \leftarrow N \cup N' \quad \text{(ampliar la frontera de expansión)} \\
+& \quad\quad \text{Si } q \text{ no pertenece aún a ningún cluster: añadir } q \text{ a } C \\
+& \text{Devuelve: asignación de clusters y conjunto de puntos de ruido}
+\end{align*}
+$$
+-->
+
+<div class="admonition abstract">
+<p class="admonition-title">Algoritmo 1 — DBSCAN</p>
+<p><strong>Entrada:</strong> <em>Dataset</em> <span class="arithmatex">\(\mathcal{D}\)</span>, parámetros <span class="arithmatex">\(\varepsilon\)</span>, <span class="arithmatex">\(\text{MinPts}\)</span> <br>
+<strong>Salida:</strong> Asignación de clusters y conjunto de puntos de ruido<br>
+</p><div style="margin-left: 1.5em;">
+Marcar todos los puntos como no visitados <br>
+Para cada punto <span class="arithmatex">\(p \in \mathcal{D}\)</span>  no visitado: <br>
+</div>
+<div style="margin-left: 3em;">
+Marcar <span class="arithmatex">\(p\)</span> como visitado <br>
+<span class="arithmatex">\(\mathcal{S} \leftarrow N_\varepsilon(p)\)</span> <br>
+Si <span class="arithmatex">\(|\mathcal{S}| &lt; \text{MinPts}\)</span>: marcar <span class="arithmatex">\(p\)</span>  como ruido (provisional) <br>
+Si no: <br>
+</div>
+<div style="margin-left: 4.5em;">
+Crear nuevo cluster <span class="arithmatex">\(C\)</span> <br>
+<span class="arithmatex">\(\text{ExpandirCluster}(p, \mathcal{S}, C, \varepsilon, \text{MinPts})\)</span> <br>
+</div><p></p>
+</div>
+<div class="admonition abstract">
+<p class="admonition-title">Algoritmo 2 — ExpandirCluster</p>
+<p><strong>Entrada:</strong> Punto <span class="arithmatex">\(p\)</span>, conjunto de puntos <span class="arithmatex">\(\mathcal{S}\)</span>, <em>cluster</em> <span class="arithmatex">\(C\)</span>, parámetros <span class="arithmatex">\(\varepsilon\)</span>, <span class="arithmatex">\(\text{MinPts}\)</span> <br>
+<strong>Salida:</strong> Asignación de clusters y conjunto de puntos de ruido<br>
+</p><div style="margin-left: 1.5em;">
+Añadir <span class="arithmatex">\(p\)</span> a <span class="arithmatex">\(C\)</span> <br>
+Para cada punto <span class="arithmatex">\(q \in \mathcal{S}\)</span>:<br>
+</div>
+<div style="margin-left: 3em;">
+Si <span class="arithmatex">\(q\)</span> no fue visitado:<br>
+</div>
+<div style="margin-left: 4.5em;">
+Marcar <span class="arithmatex">\(q\)</span> como visitado <br>
+<span class="arithmatex">\(\mathcal{S}' \leftarrow N_\varepsilon(q)\)</span> <br>
+Si <span class="arithmatex">\(|\mathcal{S}'| \geq \text{MinPts}: \mathcal{S} \leftarrow \mathcal{S} \cup \mathcal{S}' \quad\)</span> (ampliar la frontera de expansión) <br>
+</div>
+<div style="margin-left: 3em;">
+Si <span class="arithmatex">\(q\)</span> no pertenece aún a ningún cluster: añadir <span class="arithmatex">\(q\)</span> a <span class="arithmatex">\(C\)</span> <br>
+</div><p></p>
+</div>
+<p>Podemos observar que un punto inicialmente marcado como ruido puede ser añadido a un <em>cluster</em> posteriormente, cuando se procesa algún punto núcleo cercano. Los puntos que permanecen como ruido al finalizar el algoritmo son los verdaderos <em>outliers</em>.</p>
+<blockquote>
+<p><strong>Nota</strong>: DBSCAN es determinista para los puntos núcleo y los puntos de ruido, pero los puntos frontera alcanzables desde dos <em>clusters</em> distintos tienen una asignación que depende del orden de procesamiento. Este caso es poco frecuente en la práctica pero conviene tenerlo en cuenta al interpretar los resultados.</p>
+</blockquote>
+<p>La <strong>complejidad</strong> del algoritmo es <span class="arithmatex">\(O(N \cdot \text{coste de la consulta de vecindad})\)</span>. Con una estructura de índice espacial adecuada (como un <em>k-d tree</em> o un <em>ball tree</em>), la consulta de vecindad cuesta <span class="arithmatex">\(O(\log N)\)</span> en promedio, dando una complejidad total de <span class="arithmatex">\(O(N \log N)\)</span>. Sin índice espacial la complejidad es <span class="arithmatex">\(O(N^2)\)</span>, lo que lo hace inviable para <em>datasets</em> grandes.</p>
+<h3 id="seleccion-de-parametros">Selección de parámetros<a class="headerlink" href="#seleccion-de-parametros" title="Permanent link">¶</a></h3>
+<p>En la práctica, el principal reto de DBSCAN es la elección adecuada de <span class="arithmatex">\(\varepsilon\)</span> y <span class="arithmatex">\(\text{MinPts}\)</span>. Una elección incorrecta puede hacer que casi todos los puntos sean ruido (si <span class="arithmatex">\(\varepsilon\)</span> es demasiado pequeño) o que todos formen un único <em>cluster</em> (si <span class="arithmatex">\(\varepsilon\)</span> es demasiado grande).</p>
+<p>Para <strong>MinPts</strong> existe una guía heurística bien establecida (Ester et al., 1996)<sup id="fnref2:ester1996density"><a class="footnote-ref" href="#fn:ester1996density">1</a></sup>: usar <span class="arithmatex">\(\text{MinPts} \geq d + 1\)</span>, donde <span class="arithmatex">\(d\)</span> es la dimensión del espacio. Un valor común en la práctica es <span class="arithmatex">\(\text{MinPts} = 2d\)</span>. En <em>datasets</em> con ruido considerable conviene aumentar este valor. Podemos destacar que utilizar <span class="arithmatex">\(\text{MinPts} = 2\)</span> equivale al <em>clustering</em> aglomerativo con <em>linkage</em> de tipo <em>single</em>, con corte del dendograma a la altura <span class="arithmatex">\(\varepsilon\)</span>.  </p>
+<p>Para <strong><span class="arithmatex">\(\varepsilon\)</span></strong> el método estándar es el <em>k-distance plot</em> (Ester et al., 1996)<sup id="fnref3:ester1996density"><a class="footnote-ref" href="#fn:ester1996density">1</a></sup>:</p>
+<ol>
+<li>Calcular, para cada punto, la distancia a su <span class="arithmatex">\(k\)</span>-ésimo vecino más cercano, tomando <span class="arithmatex">\(k = \text{MinPts} - 1\)</span>.</li>
+<li>Ordenar estas distancias de mayor a menor y representarlas.</li>
+<li>Buscar el <strong>codo</strong> (<em>elbow</em>) de la curva. El valor de <span class="arithmatex">\(\varepsilon\)</span> en ese punto es una buena elección, ya que por encima del codo la curva crece bruscamente, lo que indica que estamos alcanzando zonas de baja densidad.</li>
+</ol>
+<p>Para entender por qué el método del codo nos da una buena aproximación, podemos pensar en cómo se distribuyen las <span class="arithmatex">\(k\)</span>-distancias según el tipo de punto. En un <em>dataset</em> con estructura de <em>clustering</em> clara hay tres tipos de puntos con <span class="arithmatex">\(k\)</span>-distancias muy distintas:</p>
+<ul>
+<li>Puntos en el <strong>interior de <em>clusters</em> densos</strong>: Tienen muchos vecinos cerca, así que su <span class="arithmatex">\(k\)</span>-distancia es pequeña. Todos estos puntos tienen <span class="arithmatex">\(k\)</span>-distancias similares entre sí porque la densidad dentro de un cluster es aproximadamente uniforme.</li>
+<li>Puntos en la <strong>frontera de <em>clusters</em></strong>: Tienen algunos vecinos cerca y otros más lejos. Su <span class="arithmatex">\(k\)</span>-distancia es algo mayor que la de los puntos interiores, pero del mismo orden de magnitud.</li>
+<li><strong><em>Outliers</em> y puntos de ruido</strong>: Están en zonas dispersas, así que su <span class="arithmatex">\(k\)</span>-ésimo vecino está mucho más lejos. Su <span class="arithmatex">\(k\)</span>-distancia es considerablemente mayor que la de los puntos en <em>clusters</em>.</li>
+</ul>
+<p>Al ordenar todas las <span class="arithmatex">\(k\)</span>-distancias de mayor a menor, estas tres poblaciones se separan de forma natural en la curva. La parte izquierda de la curva corresponde a los <em>outliers</em>, donde tenemos pocas observaciones con <span class="arithmatex">\(k\)</span>-distancias grandes. La curva cae bruscamente porque hay pocos de estos puntos pero con distancias muy superiores al resto, y el codo marca la transición entre <em>outliers</em> y puntos en <em>clusters</em>, donde la distribución de <span class="arithmatex">\(k\)</span>-distancias cambia de comportamiento.
+La parte derecha corresponde a los puntos en <em>clusters</em>, donde hay muchas observaciones con <span class="arithmatex">\(k\)</span>-distancias pequeñas y similares entre sí, formando una zona casi plana.</p>
+<p></p><figure id="fig-kdistance"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/t7_kdistance.png" data-desc-position="bottom"><img alt="" src="images/t7_kdistance.png"></a><figcaption>Figura 2: K-distance plot. El codo de la curva señala el valor de <span class="arithmatex">\(\varepsilon\)</span> más adecuado. </figcaption></figure><p></p>
+<blockquote>
+<p><strong>Nota</strong>: Si el k-distance plot no muestra un codo claro, es una señal de que los datos no tienen una estructura de densidad uniforme bien definida. En ese caso, DBSCAN con parámetros globales no es el método más adecuado, y conviene considerar HDBSCAN u OPTICS, que estudiaremos más adelante en esta sesión.</p>
+</blockquote>
+<h3 id="ventajas-y-limitaciones">Ventajas y limitaciones<a class="headerlink" href="#ventajas-y-limitaciones" title="Permanent link">¶</a></h3>
+<p>DBSCAN tiene una serie ventajas sobre los métodos que hemos visto anteriormente:</p>
+<ul>
+<li>No requiere especificar el <strong>número de clusters <span class="arithmatex">\(K\)</span> a priori</strong>, sino que el número emerge de los datos y los parámetros. </li>
+<li>Detecta clusters de <strong>formas completamente arbitrarias</strong>, incluyendo no convexas. </li>
+<li><strong>Identifica automáticamente los <em>outliers</em></strong> como puntos de ruido. </li>
+<li>Es <strong>determinista</strong>, salvo empates en la frontera entre clusters, y <strong>eficiente</strong> si utilizamos índices espaciales.</li>
+</ul>
+<p>Sin embargo, su limitación más importante es la <strong>sensibilidad a clusters de densidad variable</strong>. DBSCAN usa un único par <span class="arithmatex">\((\varepsilon, \text{MinPts})\)</span> global, de forma que si los <em>clusters</em> del <em>dataset</em> tienen densidades muy distintas, no existe ningún valor de estos parámetros que funcione bien para todos simultáneamente. Con los parámetros ajustados al <em>cluster</em> denso, el <em>cluster</em> disperso se fragmenta o desaparece como ruido, mientras que con los parámetros ajustados al <em>cluster</em> disperso, el <em>cluster</em> denso se funde en uno solo con sus vecinos.</p>
+<p></p><figure id="fig-dbscan-densidad"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/t7_dbscan_densidad.png" data-desc-position="bottom"><img alt="" src="images/t7_dbscan_densidad.png"></a><figcaption>Figura 3: Limitación de DBSCAN ante clusters de densidad variable. Ningún valor de <span class="arithmatex">\(\varepsilon\)</span> separa correctamente los tres clusters. </figcaption></figure><p></p>
+<p>Adicionalmente, DBSCAN funciona mal en <strong>alta dimensionalidad</strong>. La maldición de la dimensionalidad hace que las distancias entre puntos se vuelvan cada vez más uniformes, diluyendo las diferencias de densidad. Por encima de unas pocas decenas de dimensiones es recomendable aplicar reducción de dimensionalidad previa.</p>
+<h3 id="implementacion-en-sklearn">Implementación en sklearn<a class="headerlink" href="#implementacion-en-sklearn" title="Permanent link">¶</a></h3>
+<p>En sklearn DBSCAN está disponible en <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html"><code>DBSCAN</code></a>. Al igual que los métodos jerárquicos, no implementa <code>predict</code>, sino que el resultado es una partición del conjunto de entrenamiento. Los puntos de ruido reciben la etiqueta <code>-1</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">X_scaled</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">modelo</span> <span class="o">=</span> <span class="n">DBSCAN</span><span class="p">(</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">eps</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>            <span class="c1"># Radio de vecindad epsilon</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">min_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>      <span class="c1"># MinPts: mínimo de puntos para ser core point</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">metric</span><span class="o">=</span><span class="s1">'euclidean'</span><span class="p">,</span> <span class="c1"># Métrica de distancia</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">algorithm</span><span class="o">=</span><span class="s1">'auto'</span>   <span class="c1"># Algoritmo para la búsqueda de vecinos: 'auto', 'ball_tree', 'kd_tree', 'brute'</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">)</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">etiquetas</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1"># Los puntos de ruido reciben etiqueta -1</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">n_clusters</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">etiquetas</span><span class="p">))</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">in</span> <span class="n">etiquetas</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">n_ruido</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">etiquetas</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Clusters encontrados: </span><span class="si">{</span><span class="n">n_clusters</span><span class="si">}</span><span class="s2">, Puntos de ruido: </span><span class="si">{</span><span class="n">n_ruido</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<p>Para construir el <em>k-distance plot</em> y ayudar a seleccionar <span class="arithmatex">\(\varepsilon\)</span> podemos utilizar el siguiente código:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">NearestNeighbors</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">k</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># k = MinPts - 1</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">nn</span> <span class="o">=</span> <span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">nn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">distancias</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">kneighbors</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># Distancia al k-ésimo vecino de cada punto, ordenada de mayor a menor</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="n">k_distancias</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">distancias</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">k_distancias</span><span class="p">)</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Puntos (ordenados por distancia al k-ésimo vecino)'</span><span class="p">)</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Distancia al </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">-ésimo vecino'</span><span class="p">)</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'K-distance plot'</span><span class="p">)</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'eps = 0.5'</span><span class="p">)</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p>Los parámetros más relevantes son:</p>
+<ul>
+<li><strong><code>eps</code></strong>: el radio de vecindad <span class="arithmatex">\(\varepsilon\)</span>. Es el parámetro más crítico. Podemos utilizar el <em>k-distance plot</em> para su selección.</li>
+<li><strong><code>min_samples</code></strong>: corresponde a <span class="arithmatex">\(\text{MinPts}\)</span>. Controla cuántos vecinos son necesarios para declarar un punto núcleo. Aumentarlo reduce el número de puntos núcleo y puede dividir los <em>clusters</em> en regiones más densas.</li>
+<li><strong><code>metric</code></strong>: la métrica de distancia. Acepta cualquier métrica permitida por <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise_distances.html#sklearn.metrics.pairwise_distances"><code>pairwise_distance</code></a> o una función <em>callable</em>. Puede usarse <code>'precomputed'</code> para pasar una matriz de distancias ya calculada, lo que es útil cuando la distancia es costosa de calcular. Toma <code>'euclidean'</code> como valor por defecto.</li>
+<li><strong><code>algorithm</code></strong>: nos permite seleccionar la estructura de datos para las consultas de vecindad. <code>'auto'</code> (por defecto) elige automáticamente entre <code>'ball_tree'</code>, <code>'kd_tree'</code> y <code>'brute'</code> según las características del <em>dataset</em>. Para alta dimensionalidad <code>'brute'</code> suele ser más eficiente que los árboles.</li>
+</ul>
+<h2 id="optics">OPTICS<a class="headerlink" href="#optics" title="Permanent link">¶</a></h2>
+<p>OPTICS (<em>Ordering Points To Identify the Clustering Structure</em>) fue propuesto por Ankerst, Breunig, Kriegel y Sander en 1999 (Ankerst et al., 1999)<sup id="fnref:ankerst1999optics"><a class="footnote-ref" href="#fn:ankerst1999optics">2</a></sup> como una generalización de DBSCAN diseñada específicamente para abordar su limitación ante clusters de densidad variable.</p>
+<p>La idea central de OPTICS es no comprometerse con un valor fijo de <span class="arithmatex">\(\varepsilon\)</span>. En lugar de producir una partición directa, OPTICS genera un <strong>ordenamiento de los puntos</strong> junto con una medida llamada <em>reachability distance</em> que captura la estructura de densidad a múltiples escalas simultáneamente. La partición en clusters se extrae después, de forma flexible, a partir de ese ordenamiento.</p>
+<h3 id="distancias-en-optics">Distancias en OPTICS<a class="headerlink" href="#distancias-en-optics" title="Permanent link">¶</a></h3>
+<p>OPTICS introduce dos nuevas definiciones de distancia que generalizan las de DBSCAN.</p>
+<p>La <strong>distancia núcleo</strong> (<em>core distance</em>) de un punto <span class="arithmatex">\(p\)</span> con parámetro <span class="arithmatex">\(\text{MinPts}\)</span> es la distancia al <span class="arithmatex">\(\text{MinPts}\)</span>-ésimo vecino más cercano de <span class="arithmatex">\(p\)</span>:</p>
+<div class="arithmatex">\[\text{core-dist}_{\text{MinPts}}(p) = \begin{cases} \text{INDEFINIDA} &amp; \text{si } |N_\varepsilon(p)| &lt; \text{MinPts} \\ d(p, \text{MinPts-ésimo vecino de } p) &amp; \text{si } |N_\varepsilon(p)| \geq \text{MinPts} \end{cases}\]</div>
+<p>La <strong>distancia de alcanzabilidad</strong> (<em>reachability distance</em>) de un punto <span class="arithmatex">\(q\)</span> con respecto a un punto núcleo <span class="arithmatex">\(p\)</span> es:</p>
+<div class="arithmatex">\[\text{reach-dist}_{\text{MinPts}}(q, p) = \max\bigl(\text{core-dist}_{\text{MinPts}}(p),\; d(p, q)\bigr)\]</div>
+<p>Esta definición evita que dos puntos muy cercanos dentro de una región densa tengan distancias de alcanzabilidad artificialmente pequeñas: la distancia de alcanzabilidad nunca puede ser menor que la distancia núcleo de <span class="arithmatex">\(p\)</span>. Esto estabiliza el ordenamiento en regiones densas.</p>
+<h3 id="el-reachability-plot">El reachability plot<a class="headerlink" href="#el-reachability-plot" title="Permanent link">¶</a></h3>
+<p>OPTICS produce como salida una lista de puntos ordenados y, para cada punto, su distancia de alcanzabilidad con respecto al punto desde el que fue procesado. Representando esta distancia en el orden en que los puntos son procesados se obtiene el <strong>reachability plot</strong>.</p>
+<p></p><figure id="fig-reachability"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/t7_reachability.png" data-desc-position="bottom"><img alt="" src="images/t7_reachability.png"></a><figcaption>Figura 4: Reachability plot producido por OPTICS. Los valles corresponden a clusters densos; los picos indican la transición entre clusters o la presencia de ruido. </figcaption></figure><p></p>
+<p>La estructura del reachability plot es intuitiva: las regiones de baja distancia de alcanzabilidad corresponden a zonas densas (clusters), mientras que los picos corresponden a zonas de baja densidad (fronteras entre clusters o ruido). Clusters de densidades diferentes aparecen como valles a diferentes alturas, lo que permite detectarlos todos con un único análisis.</p>
+<p>Para extraer una partición a partir del reachability plot existen varios enfoques:</p>
+<ul>
+<li>Cortar a una altura fija <span class="arithmatex">\(\varepsilon'\)</span>: equivale a ejecutar DBSCAN con ese <span class="arithmatex">\(\varepsilon'\)</span>, por lo que OPTICS contiene a DBSCAN como caso especial.</li>
+<li>Usar el algoritmo <code>xi</code> (implementado en sklearn): detecta automáticamente los valles significativos basándose en cambios relativos de la distancia de alcanzabilidad. Este enfoque adapta el umbral localmente y es capaz de detectar clusters de densidades muy distintas.</li>
+</ul>
+<h3 id="implementacion-en-sklearn_1">Implementación en sklearn<a class="headerlink" href="#implementacion-en-sklearn_1" title="Permanent link">¶</a></h3>
+<p>En sklearn OPTICS está disponible en <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.OPTICS.html"><code>OPTICS</code></a>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">OPTICS</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">modelo</span> <span class="o">=</span> <span class="n">OPTICS</span><span class="p">(</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">min_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>          <span class="c1"># MinPts</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">max_eps</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>         <span class="c1"># Radio máximo considerado (np.inf = sin límite)</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">cluster_method</span><span class="o">=</span><span class="s1">'xi'</span><span class="p">,</span>    <span class="c1"># Método de extracción de clusters: 'xi' o 'dbscan'</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="n">xi</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>                <span class="c1"># Parámetro del método xi: mínimo cambio relativo para detectar un valle</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="n">min_cluster_size</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>  <span class="c1"># Tamaño mínimo de cluster (fracción del total o número absoluto)</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="n">metric</span><span class="o">=</span><span class="s1">'euclidean'</span><span class="p">,</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">)</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="n">modelo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1"># Reachability plot</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">modelo</span><span class="o">.</span><span class="n">reachability_</span><span class="p">[</span><span class="n">modelo</span><span class="o">.</span><span class="n">ordering_</span><span class="p">])),</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>        <span class="n">modelo</span><span class="o">.</span><span class="n">reachability_</span><span class="p">[</span><span class="n">modelo</span><span class="o">.</span><span class="n">ordering_</span><span class="p">],</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>        <span class="n">width</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'steelblue'</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'none'</span><span class="p">)</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Reachability distance'</span><span class="p">)</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Puntos (en orden OPTICS)'</span><span class="p">)</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Reachability plot'</span><span class="p">)</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="c1"># Etiquetas de cluster (los puntos de ruido reciben -1)</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="n">etiquetas</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">labels_</span>
+</code></pre></div>
+<p>Los parámetros más relevantes son:</p>
+<ul>
+<li><strong><code>min_samples</code></strong>: equivalente a <span class="arithmatex">\(\text{MinPts}\)</span> en DBSCAN. Controla la densidad mínima para que un punto sea núcleo.</li>
+<li><strong><code>max_eps</code></strong>: radio máximo considerado en las consultas de vecindad. Reducirlo acelera el cálculo pero puede limitar la detección de clusters dispersos. Por defecto no tiene límite.</li>
+<li><strong><code>cluster_method</code></strong>: <code>'xi'</code> para extracción automática adaptativa (recomendado); <code>'dbscan'</code> para corte a una altura fija equivalente a ejecutar DBSCAN.</li>
+<li><strong><code>xi</code></strong>: sensibilidad del método de extracción <code>xi</code>. Valores más pequeños detectan más clusters (incluidos los muy pequeños o poco pronunciados); valores más grandes son más conservadores.</li>
+</ul>
+<h2 id="hdbscan">HDBSCAN<a class="headerlink" href="#hdbscan" title="Permanent link">¶</a></h2>
+<p>HDBSCAN (<em>Hierarchical DBSCAN</em>) fue propuesto por Campello, Moulavi y Sander en 2013 (Campello et al., 2013)<sup id="fnref:campello2013density"><a class="footnote-ref" href="#fn:campello2013density">3</a></sup> y en la última década se ha convertido en la opción preferida frente a DBSCAN en la mayoría de aplicaciones prácticas. Su ventaja fundamental es que <strong>elimina la necesidad de especificar <span class="arithmatex">\(\varepsilon\)</span></strong>, que es el parámetro más difícil de ajustar en DBSCAN, y produce de forma automática una jerarquía de clusters que captura la estructura del dataset a múltiples escalas de densidad.</p>
+<h3 id="de-dbscan-a-hdbscan-la-jerarquia-de-clusters">De DBSCAN a HDBSCAN: la jerarquía de clusters<a class="headerlink" href="#de-dbscan-a-hdbscan-la-jerarquia-de-clusters" title="Permanent link">¶</a></h3>
+<p>La idea de HDBSCAN es ejecutar DBSCAN para todos los valores posibles de <span class="arithmatex">\(\varepsilon\)</span> simultáneamente y organizar el resultado en una jerarquía. Para ello introduce la noción de <strong>distancia de alcanzabilidad mutua</strong> (<em>mutual reachability distance</em>):</p>
+<div class="arithmatex">\[d_{\text{mreach}}(p, q) = \max\bigl(\text{core-dist}_k(p),\; \text{core-dist}_k(q),\; d(p, q)\bigr)\]</div>
+<p>donde <span class="arithmatex">\(k\)</span> es el parámetro equivalente a <span class="arithmatex">\(\text{MinPts}\)</span>. Esta distancia suaviza el espacio de distancias originales: dos puntos en regiones de alta densidad tendrán una distancia mutua que refleja la densidad de su entorno, no solo su proximidad directa. Esto hace el algoritmo más robusto al ruido.</p>
+<p>A partir de las distancias de alcanzabilidad mutua se construye el <strong>árbol generador mínimo</strong> (<em>minimum spanning tree</em>) del grafo completo. Eliminando las aristas de ese árbol en orden decreciente de peso se obtiene una <strong>jerarquía de clusters</strong> que representa cómo los clusters se fusionan o se dividen conforme varía la densidad.</p>
+<h3 id="el-arbol-de-clusters-condensado">El árbol de clusters condensado<a class="headerlink" href="#el-arbol-de-clusters-condensado" title="Permanent link">¶</a></h3>
+<p>La jerarquía completa puede ser muy compleja: pequeñas variaciones en la densidad producen muchas fusiones irrelevantes. HDBSCAN la simplifica introduciendo un parámetro <code>min_cluster_size</code>: un cluster solo "sobrevive" como entidad diferenciada si tiene al menos ese número de puntos. El resultado es un <strong>árbol condensado</strong> donde solo aparecen los clusters significativos.</p>
+<p></p><figure id="fig-hdbscan-tree"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/t7_hdbscan_tree.png" data-desc-position="bottom"><img alt="" src="images/t7_hdbscan_tree.png"></a><figcaption>Figura 5: Árbol condensado de HDBSCAN. Cada rama representa un cluster que persiste a lo largo de un rango de densidades. La altura de cada nodo indica la densidad (equivalente a <span class="arithmatex">\(1/\varepsilon\)</span>) a la que se produce la separación. </figcaption></figure><p></p>
+<h3 id="extraccion-de-clusters-persistencia">Extracción de clusters: persistencia<a class="headerlink" href="#extraccion-de-clusters-persistencia" title="Permanent link">¶</a></h3>
+<p>Para seleccionar la partición óptima del árbol condensado, HDBSCAN introduce el concepto de <strong>persistencia</strong> (<em>excess of mass</em>): la estabilidad de un cluster es la integral del número de puntos que contiene a lo largo del rango de densidades en que existe. Se seleccionan los clusters que maximizan la suma de estabilidades, lo que equivale a elegir los clusters que persisten durante más tiempo conforme varía la densidad.</p>
+<p>Este proceso es completamente automático: no requiere especificar <span class="arithmatex">\(\varepsilon\)</span> ni el número de clusters. El único parámetro fundamental es <code>min_cluster_size</code>.</p>
+<h3 id="soft-clustering-en-hdbscan">Soft clustering en HDBSCAN<a class="headerlink" href="#soft-clustering-en-hdbscan" title="Permanent link">¶</a></h3>
+<p>A diferencia de DBSCAN, HDBSCAN produce de forma natural una <strong>asignación borrosa</strong> (<em>soft clustering</em>): para cada punto se calcula una probabilidad de pertenencia al cluster asignado basada en su persistencia. Un punto que estuvo consistentemente en el interior de un cluster tendrá probabilidad alta; un punto en la frontera o que solo apareció en el cluster a densidades muy bajas tendrá probabilidad baja. Esto conecta con los GMM que estudiaremos en la siguiente sesión.</p>
+<h3 id="implementacion">Implementación<a class="headerlink" href="#implementacion" title="Permanent link">¶</a></h3>
+<p>HDBSCAN está disponible en sklearn desde la versión 1.3, y también en el paquete independiente <code>hdbscan</code> que incluye funcionalidades adicionales:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">HDBSCAN</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">modelo</span> <span class="o">=</span> <span class="n">HDBSCAN</span><span class="p">(</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">min_cluster_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>    <span class="c1"># Tamaño mínimo para que un grupo sea considerado cluster</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">min_samples</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>          <span class="c1"># Equivalente a MinPts; controla la robustez al ruido</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>                            <span class="c1"># (por defecto igual a min_cluster_size)</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">cluster_selection_method</span><span class="o">=</span><span class="s1">'eom'</span><span class="p">,</span>  <span class="c1"># Método de selección: 'eom' (excess of mass) o 'leaf'</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">allow_single_cluster</span><span class="o">=</span><span class="kc">False</span>       <span class="c1"># Si True, permite que toda la muestra forme un único cluster</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="p">)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">etiquetas</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1"># Probabilidades de pertenencia (soft clustering)</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="n">probabilidades</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">probabilities_</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Clusters: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">etiquetas</span><span class="p">))</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">etiquetas</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ruido: </span><span class="si">{</span><span class="p">(</span><span class="n">etiquetas</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<p>Los parámetros más relevantes son:</p>
+<ul>
+<li><strong><code>min_cluster_size</code></strong>: el único parámetro verdaderamente crítico. Define cuántos puntos debe tener un grupo para ser considerado un cluster. Valores pequeños producen muchos clusters pequeños; valores grandes los fusionan en estructuras más gruesas.</li>
+<li><strong><code>min_samples</code></strong>: controla la conservadurismo del algoritmo respecto al ruido. Aumentarlo hace que más puntos sean clasificados como ruido. Si no se especifica, toma el valor de <code>min_cluster_size</code>.</li>
+<li><strong><code>cluster_selection_method</code></strong>: <code>'eom'</code> (por defecto) selecciona clusters maximizando la persistencia. <code>'leaf'</code> selecciona siempre las hojas del árbol condensado, produciendo clusters más pequeños y granulares.</li>
+</ul>
+<h2 id="mean-shift">Mean Shift<a class="headerlink" href="#mean-shift" title="Permanent link">¶</a></h2>
+<p>Mean Shift (Comaniciu &amp; Meer, 2002)<sup id="fnref:comaniciu2002mean"><a class="footnote-ref" href="#fn:comaniciu2002mean">4</a></sup> aborda el clustering desde una perspectiva complementaria a DBSCAN: en lugar de definir clusters como regiones conectadas por densidad, los define como las <strong>cuencas de atracción</strong> de los modos de una estimación de densidad. El resultado es similar —clusters como zonas densas del espacio— pero el mecanismo es radicalmente diferente.</p>
+<h3 id="el-algoritmo">El algoritmo<a class="headerlink" href="#el-algoritmo" title="Permanent link">¶</a></h3>
+<p>Mean Shift estima implícitamente la densidad de los datos mediante un <em>kernel</em> (habitualmente gaussiano) y busca sus modos ascendiendo iterativamente el gradiente de esa densidad desde cada punto:</p>
+<div class="arithmatex">\[
+\begin{align*}
+&amp; \text{Inicializar: para cada punto } x_i, \text{ establecer } x_i^{(0)} \leftarrow x_i \\
+&amp; \text{Repetir hasta convergencia:} \\
+&amp; \quad m(x) \leftarrow \frac{\sum_{j} K\!\left(\frac{x - x_j}{h}\right) x_j}{\sum_{j} K\!\left(\frac{x - x_j}{h}\right)} \quad \text{(nueva media ponderada en la vecindad)} \\
+&amp; \quad x_i^{(t+1)} \leftarrow m(x_i^{(t)}) \quad \text{(desplazar el punto hacia la media)} \\
+&amp; \text{Agrupar los puntos que han convergido al mismo modo}
+\end{align*}
+\]</div>
+<p>El desplazamiento en cada iteración —la diferencia <span class="arithmatex">\(m(x) - x\)</span>— es lo que da nombre al algoritmo: <em>mean shift</em> (desplazamiento hacia la media). Se puede demostrar que este desplazamiento es proporcional al gradiente de la estimación de densidad por kernel, por lo que el algoritmo implementa un ascenso de gradiente en el paisaje de densidad.</p>
+<p></p><figure id="fig-meanshift"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="images/t7_meanshift.png" data-desc-position="bottom"><img alt="" src="images/t7_meanshift.png"></a><figcaption>Figura 6: Trayectorias de convergencia de Mean Shift. Cada punto asciende hacia el modo más cercano. Los colores indican el cluster al que converge cada punto. </figcaption></figure><p></p>
+<h3 id="parametro-bandwidth-y-relacion-con-gmm">Parámetro bandwidth y relación con GMM<a class="headerlink" href="#parametro-bandwidth-y-relacion-con-gmm" title="Permanent link">¶</a></h3>
+<p>El único parámetro de Mean Shift es <code>bandwidth</code> <span class="arithmatex">\(h\)</span>, que controla el ancho del kernel gaussiano: valores pequeños producen una estimación de densidad muy local y muchos modos (clusters pequeños y numerosos); valores grandes suavizan la densidad y producen pocos clusters grandes.</p>
+<p>La conexión con los GMM (que estudiaremos en la siguiente sesión) es notable: ambos estiman la densidad de los datos y definen clusters a partir de esa estimación. GMM lo hace de forma paramétrica (asumiendo una mezcla de gaussianas y ajustando sus parámetros con EM); Mean Shift lo hace de forma no paramétrica (estimando la densidad con un kernel sin asumir ninguna forma funcional). La ventaja de Mean Shift es que no requiere especificar el número de clusters; la desventaja es que es computacionalmente más costoso (<span class="arithmatex">\(O(N^2)\)</span> por iteración) y sensible a <code>bandwidth</code>.</p>
+<h3 id="implementacion-en-sklearn_2">Implementación en sklearn<a class="headerlink" href="#implementacion-en-sklearn_2" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">MeanShift</span><span class="p">,</span> <span class="n">estimate_bandwidth</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Estimar bandwidth automáticamente a partir de los datos</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">bandwidth</span> <span class="o">=</span> <span class="n">estimate_bandwidth</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">,</span> <span class="n">quantile</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">modelo</span> <span class="o">=</span> <span class="n">MeanShift</span><span class="p">(</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">bandwidth</span><span class="o">=</span><span class="n">bandwidth</span><span class="p">,</span>    <span class="c1"># Ancho del kernel gaussiano</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">bin_seeding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>       <span class="c1"># Acelera el cálculo inicializando en una malla</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">)</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="n">etiquetas</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="n">centros</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">cluster_centers_</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Clusters encontrados: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">centros</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<p>La función <code>estimate_bandwidth</code> estima automáticamente el valor de <code>bandwidth</code> a partir de la distribución de distancias en el dataset, usando el cuantil indicado: <code>quantile=0.2</code> considera el 20% de los puntos más cercanos al calcular el ancho. Es un buen punto de partida, aunque puede requerir ajuste manual.</p>
+<blockquote>
+<p><strong>Nota sobre escalabilidad</strong>: Mean Shift tiene complejidad <span class="arithmatex">\(O(N^2)\)</span> por iteración, lo que lo hace inviable para datasets grandes. Para más de unas decenas de miles de puntos es preferible HDBSCAN, que es más rápido y tiene propiedades igualmente robustas.</p>
+</blockquote>
+<h2 id="comparativa-de-metodos-basados-en-densidad">Comparativa de métodos basados en densidad<a class="headerlink" href="#comparativa-de-metodos-basados-en-densidad" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>DBSCAN</th>
+<th>OPTICS</th>
+<th>HDBSCAN</th>
+<th>Mean Shift</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Parámetros clave</strong></td>
+<td><span class="arithmatex">\(\varepsilon\)</span>, MinPts</td>
+<td>MinPts, <span class="arithmatex">\(\xi\)</span></td>
+<td>min_cluster_size</td>
+<td>bandwidth</td>
+</tr>
+<tr>
+<td><strong>Requiere <span class="arithmatex">\(K\)</span></strong></td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td><strong>Densidad variable</strong></td>
+<td>No</td>
+<td>Sí</td>
+<td>Sí</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td><strong>Soft clustering</strong></td>
+<td>No</td>
+<td>No</td>
+<td>Sí</td>
+<td>No</td>
+</tr>
+<tr>
+<td><strong>Outliers</strong></td>
+<td>Explícito</td>
+<td>Explícito</td>
+<td>Explícito</td>
+<td>Implícito</td>
+</tr>
+<tr>
+<td><strong>Complejidad</strong></td>
+<td><span class="arithmatex">\(O(N \log N)\)</span></td>
+<td><span class="arithmatex">\(O(N \log N)\)</span></td>
+<td><span class="arithmatex">\(O(N \log N)\)</span></td>
+<td><span class="arithmatex">\(O(N^2)\)</span> por iter.</td>
+</tr>
+<tr>
+<td><strong>Escalabilidad</strong></td>
+<td>Buena</td>
+<td>Buena</td>
+<td>Buena</td>
+<td>Mala</td>
+</tr>
+</tbody>
+</table>
+<h2 id="consideraciones-finales">Consideraciones finales<a class="headerlink" href="#consideraciones-finales" title="Permanent link">¶</a></h2>
+<p>Los métodos basados en densidad completan el panorama del clustering con una filosofía diferente a la de los métodos jerárquicos y espectrales: en lugar de buscar particiones que minimicen varianzas o cortes en grafos, buscan la estructura intrínseca del espacio de densidad. Las tres ventajas que comparten todos los métodos de esta familia —no requerir <span class="arithmatex">\(K\)</span> a priori, detectar formas arbitrarias, identificar ruido— los hacen especialmente valiosos en exploración de datos sin hipótesis previas.</p>
+<p>De entre todos ellos, <strong>HDBSCAN es hoy la opción más recomendable en la práctica</strong>: supera a DBSCAN en robustez (elimina <span class="arithmatex">\(\varepsilon\)</span>, maneja densidad variable), a OPTICS en facilidad de uso (no requiere interpretar el reachability plot manualmente) y a Mean Shift en escalabilidad. La distinción entre DBSCAN, OPTICS y HDBSCAN no es arbitraria: cada uno responde a una limitación específica del anterior, y entender esa cadena de mejoras es la forma más clara de comprender por qué HDBSCAN toma las decisiones de diseño que toma.</p>
+<p>Una limitación que comparten todos los métodos de esta sesión es la <strong>maldición de la dimensionalidad</strong>: en alta dimensión las diferencias de densidad se difuminan y los conceptos de vecindad pierden significado. Si los datos tienen más de unas pocas decenas de dimensiones, es recomendable aplicar reducción de dimensionalidad (PCA, UMAP) antes del clustering basado en densidad.</p>
+<p>En la sesión siguiente estudiaremos los <strong>Gaussian Mixture Models (GMM)</strong>, que abordan el clustering desde una perspectiva estadística completamente diferente. En lugar de definir clusters por densidad geométrica, GMM modela explícitamente que los datos han sido generados por una mezcla de distribuciones gaussianas. Esto ofrece tres ventajas que los métodos de esta sesión no tienen: asignación probabilística (soft clustering con base estadística rigurosa), clusters elípticos de orientación arbitraria, y criterios estadísticos formales (BIC, AIC) para elegir <span class="arithmatex">\(K\)</span>. El mecanismo de ajuste, el algoritmo EM, es uno de los algoritmos más importantes y versátiles del aprendizaje automático, con aplicaciones que van mucho más allá del clustering.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:ester1996density">
+<p>Ester, M., Kriegel, H.-P., Sander, J., &amp; Xu, X. (1996). A density-based algorithm for discovering clusters in large spatial databases with noise. <em>Proceedings of the 2nd International Conference on Knowledge Discovery and Data Mining (KDD)</em>, 226--231.&nbsp;<a class="footnote-backref" href="#fnref:ester1996density" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref2:ester1996density" title="Jump back to footnote 1 in the text">↩</a><a class="footnote-backref" href="#fnref3:ester1996density" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+<li id="fn:ankerst1999optics">
+<p>Ankerst, M., Breunig, M. M., Kriegel, H.-P., &amp; Sander, J. (1999). OPTICS: Ordering points to identify the clustering structure. <em>Proceedings of the ACM SIGMOD International Conference on Management of Data</em>, 49--60.&nbsp;<a class="footnote-backref" href="#fnref:ankerst1999optics" title="Jump back to footnote 2 in the text">↩</a></p>
+</li>
+<li id="fn:campello2013density">
+<p>Campello, R. J. G. B., Moulavi, D., &amp; Sander, J. (2013). Density-based clustering based on hierarchical density estimates. <em>Proceedings of the 17th Pacific-Asia Conference on Knowledge Discovery and Data Mining (PAKDD)</em>, 160--172.&nbsp;<a class="footnote-backref" href="#fnref:campello2013density" title="Jump back to footnote 3 in the text">↩</a></p>
+</li>
+<li id="fn:comaniciu2002mean">
+<p>Comaniciu, D., &amp; Meer, P. (2002). Mean shift: A robust approach toward feature space analysis. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em>, <em>24</em>(5), 603--619.&nbsp;<a class="footnote-backref" href="#fnref:comaniciu2002mean" title="Jump back to footnote 4 in the text">↩</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+            Volver al principio
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "toc.follow", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.b78d2936.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
