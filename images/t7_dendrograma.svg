@@ -1,160 +1,769 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 540" font-family="'Georgia', 'Times New Roman', serif">
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 780 540"
+   font-family="'Georgia', 'Times New Roman', serif"
+   version="1.1"
+   id="svg67"
+   sodipodi:docname="t7_dendrograma.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs67" />
+  <sodipodi:namedview
+     id="namedview67"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.86674724"
+     inkscape:cx="493.22337"
+     inkscape:cy="334.00741"
+     inkscape:window-width="1914"
+     inkscape:window-height="1022"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg67" />
   <!-- Background -->
-  <rect width="780" height="540" fill="#FAFAFA"/>
-  <rect x="75" y="50" width="680" height="400" fill="white" stroke="#E5E7EB" stroke-width="1"/>
-
+  <rect
+     x="75"
+     y="50"
+     width="680"
+     height="400"
+     fill="white"
+     stroke="#E5E7EB"
+     stroke-width="1"
+     id="rect2" />
   <!-- Subtle horizontal grid lines -->
-  <line x1="75" y1="400" x2="755" y2="400" stroke="#F3F4F6" stroke-width="1"/>
-  <line x1="75" y1="350" x2="755" y2="350" stroke="#F3F4F6" stroke-width="1"/>
-  <line x1="75" y1="300" x2="755" y2="300" stroke="#F3F4F6" stroke-width="1"/>
-  <line x1="75" y1="250" x2="755" y2="250" stroke="#F3F4F6" stroke-width="1"/>
-  <line x1="75" y1="200" x2="755" y2="200" stroke="#F3F4F6" stroke-width="1"/>
-  <line x1="75" y1="150" x2="755" y2="150" stroke="#F3F4F6" stroke-width="1"/>
-
+  <line
+     x1="75"
+     y1="400"
+     x2="755"
+     y2="400"
+     stroke="#F3F4F6"
+     stroke-width="1"
+     id="line2" />
+  <line
+     x1="75"
+     y1="350"
+     x2="755"
+     y2="350"
+     stroke="#F3F4F6"
+     stroke-width="1"
+     id="line3" />
+  <line
+     x1="75"
+     y1="300"
+     x2="755"
+     y2="300"
+     stroke="#F3F4F6"
+     stroke-width="1"
+     id="line4" />
+  <line
+     x1="75"
+     y1="250"
+     x2="755"
+     y2="250"
+     stroke="#F3F4F6"
+     stroke-width="1"
+     id="line5" />
+  <line
+     x1="75"
+     y1="200"
+     x2="755"
+     y2="200"
+     stroke="#F3F4F6"
+     stroke-width="1"
+     id="line6" />
+  <line
+     x1="75"
+     y1="150"
+     x2="755"
+     y2="150"
+     stroke="#F3F4F6"
+     stroke-width="1"
+     id="line7" />
   <!-- ─── CLUSTER BACKGROUND SHADING (4 clusters, below cut 2) ─── -->
-  <rect x="80"  y="330" width="112" height="120" fill="#DBEAFE" opacity="0.45" rx="4"/>
-  <rect x="234" y="330" width="112" height="120" fill="#D1FAE5" opacity="0.45" rx="4"/>
-  <rect x="404" y="330" width="112" height="120" fill="#FEF3C7" opacity="0.45" rx="4"/>
-  <rect x="554" y="330" width="112" height="120" fill="#EDE9FE" opacity="0.45" rx="4"/>
-
+  <rect
+     x="80"
+     y="330"
+     width="112"
+     height="120"
+     fill="#DBEAFE"
+     opacity="0.45"
+     rx="4"
+     id="rect7" />
+  <rect
+     x="234"
+     y="330"
+     width="112"
+     height="120"
+     fill="#D1FAE5"
+     opacity="0.45"
+     rx="4"
+     id="rect8" />
+  <rect
+     x="404"
+     y="330"
+     width="112"
+     height="120"
+     fill="#FEF3C7"
+     opacity="0.45"
+     rx="4"
+     id="rect9" />
+  <rect
+     x="554"
+     y="330"
+     width="112"
+     height="120"
+     fill="#EDE9FE"
+     opacity="0.45"
+     rx="4"
+     id="rect10" />
   <!-- ─── DENDROGRAM BRANCHES ─── -->
   <!-- Stroke style: dark, rounded caps -->
-
   <!-- Leaves → M1 (p1, p2) — blue -->
-  <line x1="100" y1="450" x2="100" y2="405" stroke="#2563EB" stroke-width="2.2" stroke-linecap="round"/>
-  <line x1="170" y1="450" x2="170" y2="405" stroke="#2563EB" stroke-width="2.2" stroke-linecap="round"/>
-  <line x1="100" y1="405" x2="170" y2="405" stroke="#2563EB" stroke-width="2.2" stroke-linecap="round"/>
-
+  <line
+     x1="100"
+     y1="450"
+     x2="100"
+     y2="405"
+     stroke="#2563EB"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line10" />
+  <line
+     x1="170"
+     y1="450"
+     x2="170"
+     y2="405"
+     stroke="#2563EB"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line11" />
+  <line
+     x1="100"
+     y1="405"
+     x2="170"
+     y2="405"
+     stroke="#2563EB"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line12" />
   <!-- Leaves → M2 (p3, p4) — emerald -->
-  <line x1="260" y1="450" x2="260" y2="390" stroke="#059669" stroke-width="2.2" stroke-linecap="round"/>
-  <line x1="330" y1="450" x2="330" y2="390" stroke="#059669" stroke-width="2.2" stroke-linecap="round"/>
-  <line x1="260" y1="390" x2="330" y2="390" stroke="#059669" stroke-width="2.2" stroke-linecap="round"/>
-
+  <line
+     x1="260"
+     y1="450"
+     x2="260"
+     y2="390"
+     stroke="#059669"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line13" />
+  <line
+     x1="330"
+     y1="450"
+     x2="330"
+     y2="390"
+     stroke="#059669"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line14" />
+  <line
+     x1="260"
+     y1="390"
+     x2="330"
+     y2="390"
+     stroke="#059669"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line15" />
   <!-- Leaves → M3 (p5, p6) — amber -->
-  <line x1="430" y1="450" x2="430" y2="398" stroke="#D97706" stroke-width="2.2" stroke-linecap="round"/>
-  <line x1="500" y1="450" x2="500" y2="398" stroke="#D97706" stroke-width="2.2" stroke-linecap="round"/>
-  <line x1="430" y1="398" x2="500" y2="398" stroke="#D97706" stroke-width="2.2" stroke-linecap="round"/>
-
+  <line
+     x1="430"
+     y1="450"
+     x2="430"
+     y2="398"
+     stroke="#D97706"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line16" />
+  <line
+     x1="500"
+     y1="450"
+     x2="500"
+     y2="398"
+     stroke="#D97706"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line17" />
+  <line
+     x1="430"
+     y1="398"
+     x2="500"
+     y2="398"
+     stroke="#D97706"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line18" />
   <!-- Leaves → M4 (p7, p8) — violet -->
-  <line x1="580" y1="450" x2="580" y2="405" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round"/>
-  <line x1="650" y1="450" x2="650" y2="405" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round"/>
-  <line x1="580" y1="405" x2="650" y2="405" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round"/>
-
+  <line
+     x1="580"
+     y1="450"
+     x2="580"
+     y2="405"
+     stroke="#7C3AED"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line19" />
+  <line
+     x1="650"
+     y1="450"
+     x2="650"
+     y2="405"
+     stroke="#7C3AED"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line20" />
+  <line
+     x1="580"
+     y1="405"
+     x2="650"
+     y2="405"
+     stroke="#7C3AED"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line21" />
   <!-- M1 stem up to cut2 (y=330) — blue -->
-  <line x1="135" y1="405" x2="135" y2="330" stroke="#2563EB" stroke-width="2.2" stroke-linecap="round"/>
+  <line
+     x1="135"
+     y1="405"
+     x2="135"
+     y2="330"
+     stroke="#2563EB"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line22" />
   <!-- M2 stem up to cut2 — emerald -->
-  <line x1="295" y1="390" x2="295" y2="330" stroke="#059669" stroke-width="2.2" stroke-linecap="round"/>
+  <line
+     x1="295"
+     y1="390"
+     x2="295"
+     y2="330"
+     stroke="#059669"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line23" />
   <!-- M3 stem up to cut2 — amber -->
-  <line x1="465" y1="398" x2="465" y2="330" stroke="#D97706" stroke-width="2.2" stroke-linecap="round"/>
+  <line
+     x1="465"
+     y1="398"
+     x2="465"
+     y2="330"
+     stroke="#D97706"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line24" />
   <!-- M4 stem up to cut2 — violet -->
-  <line x1="615" y1="405" x2="615" y2="330" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round"/>
-
+  <line
+     x1="615"
+     y1="405"
+     x2="615"
+     y2="330"
+     stroke="#7C3AED"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line25" />
   <!-- M1/M2 stems above cut2 to M5 — neutral dark (merged group) -->
-  <line x1="135" y1="330" x2="135" y2="260" stroke="#374151" stroke-width="2.2" stroke-linecap="round"/>
-  <line x1="295" y1="330" x2="295" y2="260" stroke="#374151" stroke-width="2.2" stroke-linecap="round"/>
+  <line
+     x1="135"
+     y1="330"
+     x2="135"
+     y2="260"
+     stroke="#374151"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line26" />
+  <line
+     x1="295"
+     y1="330"
+     x2="295"
+     y2="260"
+     stroke="#374151"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line27" />
   <!-- M5 horizontal bar -->
-  <line x1="135" y1="260" x2="295" y2="260" stroke="#374151" stroke-width="2.2" stroke-linecap="round"/>
-
+  <line
+     x1="135"
+     y1="260"
+     x2="295"
+     y2="260"
+     stroke="#374151"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line28" />
   <!-- M3/M4 stems above cut2 to M6 -->
-  <line x1="465" y1="330" x2="465" y2="255" stroke="#374151" stroke-width="2.2" stroke-linecap="round"/>
-  <line x1="615" y1="330" x2="615" y2="255" stroke="#374151" stroke-width="2.2" stroke-linecap="round"/>
+  <line
+     x1="465"
+     y1="330"
+     x2="465"
+     y2="255"
+     stroke="#374151"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line29" />
+  <line
+     x1="615"
+     y1="330"
+     x2="615"
+     y2="255"
+     stroke="#374151"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line30" />
   <!-- M6 horizontal bar -->
-  <line x1="465" y1="255" x2="615" y2="255" stroke="#374151" stroke-width="2.2" stroke-linecap="round"/>
-
+  <line
+     x1="465"
+     y1="255"
+     x2="615"
+     y2="255"
+     stroke="#374151"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line31" />
   <!-- M5/M6 stems up to cut1 (y=205) -->
-  <line x1="215" y1="260" x2="215" y2="205" stroke="#374151" stroke-width="2.2" stroke-linecap="round"/>
-  <line x1="540" y1="255" x2="540" y2="205" stroke="#374151" stroke-width="2.2" stroke-linecap="round"/>
-
+  <line
+     x1="215"
+     y1="260"
+     x2="215"
+     y2="205"
+     stroke="#374151"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line32" />
+  <line
+     x1="540"
+     y1="255"
+     x2="540"
+     y2="205"
+     stroke="#374151"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line33" />
   <!-- M5/M6 stems above cut1 to M7 — lighter gray (root) -->
-  <line x1="215" y1="205" x2="215" y2="150" stroke="#9CA3AF" stroke-width="2.2" stroke-linecap="round"/>
-  <line x1="540" y1="205" x2="540" y2="150" stroke="#9CA3AF" stroke-width="2.2" stroke-linecap="round"/>
+  <line
+     x1="215"
+     y1="205"
+     x2="215"
+     y2="150"
+     stroke="#9CA3AF"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line34" />
+  <line
+     x1="540"
+     y1="205"
+     x2="540"
+     y2="150"
+     stroke="#9CA3AF"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line35" />
   <!-- M7 horizontal bar — root -->
-  <line x1="215" y1="150" x2="540" y2="150" stroke="#9CA3AF" stroke-width="2.2" stroke-linecap="round"/>
-
+  <line
+     x1="215"
+     y1="150"
+     x2="540"
+     y2="150"
+     stroke="#9CA3AF"
+     stroke-width="2.2"
+     stroke-linecap="round"
+     id="line36" />
   <!-- ─── LEAF NODES ─── -->
   <!-- p1, p2 — blue -->
-  <circle cx="100" cy="450" r="6" fill="#2563EB" stroke="white" stroke-width="1.5"/>
-  <circle cx="170" cy="450" r="6" fill="#2563EB" stroke="white" stroke-width="1.5"/>
+  <circle
+     cx="100"
+     cy="450"
+     r="6"
+     fill="#2563EB"
+     stroke="white"
+     stroke-width="1.5"
+     id="circle36" />
+  <circle
+     cx="170"
+     cy="450"
+     r="6"
+     fill="#2563EB"
+     stroke="white"
+     stroke-width="1.5"
+     id="circle37" />
   <!-- p3, p4 — emerald -->
-  <circle cx="260" cy="450" r="6" fill="#059669" stroke="white" stroke-width="1.5"/>
-  <circle cx="330" cy="450" r="6" fill="#059669" stroke="white" stroke-width="1.5"/>
+  <circle
+     cx="260"
+     cy="450"
+     r="6"
+     fill="#059669"
+     stroke="white"
+     stroke-width="1.5"
+     id="circle38" />
+  <circle
+     cx="330"
+     cy="450"
+     r="6"
+     fill="#059669"
+     stroke="white"
+     stroke-width="1.5"
+     id="circle39" />
   <!-- p5, p6 — amber -->
-  <circle cx="430" cy="450" r="6" fill="#D97706" stroke="white" stroke-width="1.5"/>
-  <circle cx="500" cy="450" r="6" fill="#D97706" stroke="white" stroke-width="1.5"/>
+  <circle
+     cx="430"
+     cy="450"
+     r="6"
+     fill="#D97706"
+     stroke="white"
+     stroke-width="1.5"
+     id="circle40" />
+  <circle
+     cx="500"
+     cy="450"
+     r="6"
+     fill="#D97706"
+     stroke="white"
+     stroke-width="1.5"
+     id="circle41" />
   <!-- p7, p8 — violet -->
-  <circle cx="580" cy="450" r="6" fill="#7C3AED" stroke="white" stroke-width="1.5"/>
-  <circle cx="650" cy="450" r="6" fill="#7C3AED" stroke="white" stroke-width="1.5"/>
-
+  <circle
+     cx="580"
+     cy="450"
+     r="6"
+     fill="#7C3AED"
+     stroke="white"
+     stroke-width="1.5"
+     id="circle42" />
+  <circle
+     cx="650"
+     cy="450"
+     r="6"
+     fill="#7C3AED"
+     stroke="white"
+     stroke-width="1.5"
+     id="circle43" />
   <!-- ─── LEAF LABELS ─── -->
-  <text x="100" y="475" text-anchor="middle" font-size="12" fill="#374151">x₁</text>
-  <text x="170" y="475" text-anchor="middle" font-size="12" fill="#374151">x₂</text>
-  <text x="260" y="475" text-anchor="middle" font-size="12" fill="#374151">x₃</text>
-  <text x="330" y="475" text-anchor="middle" font-size="12" fill="#374151">x₄</text>
-  <text x="430" y="475" text-anchor="middle" font-size="12" fill="#374151">x₅</text>
-  <text x="500" y="475" text-anchor="middle" font-size="12" fill="#374151">x₆</text>
-  <text x="580" y="475" text-anchor="middle" font-size="12" fill="#374151">x₇</text>
-  <text x="650" y="475" text-anchor="middle" font-size="12" fill="#374151">x₈</text>
-
+  <text
+     x="100"
+     y="475"
+     text-anchor="middle"
+     font-size="12"
+     fill="#374151"
+     id="text43">x₁</text>
+  <text
+     x="170"
+     y="475"
+     text-anchor="middle"
+     font-size="12"
+     fill="#374151"
+     id="text44">x₂</text>
+  <text
+     x="260"
+     y="475"
+     text-anchor="middle"
+     font-size="12"
+     fill="#374151"
+     id="text45">x₃</text>
+  <text
+     x="330"
+     y="475"
+     text-anchor="middle"
+     font-size="12"
+     fill="#374151"
+     id="text46">x₄</text>
+  <text
+     x="430"
+     y="475"
+     text-anchor="middle"
+     font-size="12"
+     fill="#374151"
+     id="text47">x₅</text>
+  <text
+     x="500"
+     y="475"
+     text-anchor="middle"
+     font-size="12"
+     fill="#374151"
+     id="text48">x₆</text>
+  <text
+     x="580"
+     y="475"
+     text-anchor="middle"
+     font-size="12"
+     fill="#374151"
+     id="text49">x₇</text>
+  <text
+     x="650"
+     y="475"
+     text-anchor="middle"
+     font-size="12"
+     fill="#374151"
+     id="text50">x₈</text>
   <!-- ─── CUT LINE 2: K=4 (y=330) — blue dashed ─── -->
-  <line x1="75" y1="330" x2="755" y2="330"
-        stroke="#2563EB" stroke-width="2" stroke-dasharray="9,5" opacity="0.85"/>
+  <line
+     x1="75"
+     y1="330"
+     x2="755"
+     y2="330"
+     stroke="#2563EB"
+     stroke-width="2"
+     stroke-dasharray="9,5"
+     opacity="0.85"
+     id="line50" />
   <!-- Label for cut 2 -->
-  <rect x="614" y="314" width="136" height="22" rx="4" fill="#DBEAFE" stroke="#2563EB" stroke-width="1"/>
-  <text x="682" y="329" text-anchor="middle" font-size="12" fill="#1D4ED8" font-weight="bold">Corte: K = 4</text>
-
+  <rect
+     x="614"
+     y="314"
+     width="136"
+     height="22"
+     rx="4"
+     fill="#DBEAFE"
+     stroke="#2563EB"
+     stroke-width="1"
+     id="rect50" />
+  <text
+     x="682"
+     y="329"
+     text-anchor="middle"
+     font-size="12"
+     fill="#1D4ED8"
+     font-weight="bold"
+     id="text51">Corte: K = 4</text>
   <!-- ─── CUT LINE 1: K=2 (y=205) — red dashed ─── -->
-  <line x1="75" y1="205" x2="755" y2="205"
-        stroke="#DC2626" stroke-width="2" stroke-dasharray="9,5" opacity="0.85"/>
+  <line
+     x1="75"
+     y1="205"
+     x2="755"
+     y2="205"
+     stroke="#DC2626"
+     stroke-width="2"
+     stroke-dasharray="9,5"
+     opacity="0.85"
+     id="line51" />
   <!-- Label for cut 1 -->
-  <rect x="614" y="189" width="136" height="22" rx="4" fill="#FEE2E2" stroke="#DC2626" stroke-width="1"/>
-  <text x="682" y="204" text-anchor="middle" font-size="12" fill="#B91C1C" font-weight="bold">Corte: K = 2</text>
-
+  <rect
+     x="614"
+     y="189"
+     width="136"
+     height="22"
+     rx="4"
+     fill="#FEE2E2"
+     stroke="#DC2626"
+     stroke-width="1"
+     id="rect51" />
+  <text
+     x="682"
+     y="204"
+     text-anchor="middle"
+     font-size="12"
+     fill="#B91C1C"
+     font-weight="bold"
+     id="text52">Corte: K = 2</text>
   <!-- ─── Y-AXIS ─── -->
-  <line x1="75" y1="50" x2="75" y2="455" stroke="#374151" stroke-width="1.5"/>
-
+  <line
+     x1="75"
+     y1="50"
+     x2="75"
+     y2="455"
+     stroke="#374151"
+     stroke-width="1.5"
+     id="line52" />
   <!-- Ticks and labels (dist = 450 - y) -->
   <!-- dist=0, y=450 -->
-  <line x1="70" y1="450" x2="75" y2="450" stroke="#374151" stroke-width="1.2"/>
-  <text x="65" y="454" text-anchor="end" font-size="11" fill="#6B7280">0</text>
+  <line
+     x1="70"
+     y1="450"
+     x2="75"
+     y2="450"
+     stroke="#374151"
+     stroke-width="1.2"
+     id="line53" />
+  <text
+     x="65"
+     y="454"
+     text-anchor="end"
+     font-size="11"
+     fill="#6B7280"
+     id="text53">0</text>
   <!-- dist=50, y=400 -->
-  <line x1="70" y1="400" x2="75" y2="400" stroke="#374151" stroke-width="1.2"/>
-  <text x="65" y="404" text-anchor="end" font-size="11" fill="#6B7280">50</text>
+  <line
+     x1="70"
+     y1="400"
+     x2="75"
+     y2="400"
+     stroke="#374151"
+     stroke-width="1.2"
+     id="line54" />
+  <text
+     x="65"
+     y="404"
+     text-anchor="end"
+     font-size="11"
+     fill="#6B7280"
+     id="text54">50</text>
   <!-- dist=100, y=350 -->
-  <line x1="70" y1="350" x2="75" y2="350" stroke="#374151" stroke-width="1.2"/>
-  <text x="65" y="354" text-anchor="end" font-size="11" fill="#6B7280">100</text>
+  <line
+     x1="70"
+     y1="350"
+     x2="75"
+     y2="350"
+     stroke="#374151"
+     stroke-width="1.2"
+     id="line55" />
+  <text
+     x="65"
+     y="354"
+     text-anchor="end"
+     font-size="11"
+     fill="#6B7280"
+     id="text55">100</text>
   <!-- dist=150, y=300 -->
-  <line x1="70" y1="300" x2="75" y2="300" stroke="#374151" stroke-width="1.2"/>
-  <text x="65" y="304" text-anchor="end" font-size="11" fill="#6B7280">150</text>
+  <line
+     x1="70"
+     y1="300"
+     x2="75"
+     y2="300"
+     stroke="#374151"
+     stroke-width="1.2"
+     id="line56" />
+  <text
+     x="65"
+     y="304"
+     text-anchor="end"
+     font-size="11"
+     fill="#6B7280"
+     id="text56">150</text>
   <!-- dist=200, y=250 -->
-  <line x1="70" y1="250" x2="75" y2="250" stroke="#374151" stroke-width="1.2"/>
-  <text x="65" y="254" text-anchor="end" font-size="11" fill="#6B7280">200</text>
+  <line
+     x1="70"
+     y1="250"
+     x2="75"
+     y2="250"
+     stroke="#374151"
+     stroke-width="1.2"
+     id="line57" />
+  <text
+     x="65"
+     y="254"
+     text-anchor="end"
+     font-size="11"
+     fill="#6B7280"
+     id="text57">200</text>
   <!-- dist=250, y=200 -->
-  <line x1="70" y1="200" x2="75" y2="200" stroke="#374151" stroke-width="1.2"/>
-  <text x="65" y="204" text-anchor="end" font-size="11" fill="#6B7280">250</text>
+  <line
+     x1="70"
+     y1="200"
+     x2="75"
+     y2="200"
+     stroke="#374151"
+     stroke-width="1.2"
+     id="line58" />
+  <text
+     x="65"
+     y="204"
+     text-anchor="end"
+     font-size="11"
+     fill="#6B7280"
+     id="text58">250</text>
   <!-- dist=300, y=150 -->
-  <line x1="70" y1="150" x2="75" y2="150" stroke="#374151" stroke-width="1.2"/>
-  <text x="65" y="154" text-anchor="end" font-size="11" fill="#6B7280">300</text>
-
+  <line
+     x1="70"
+     y1="150"
+     x2="75"
+     y2="150"
+     stroke="#374151"
+     stroke-width="1.2"
+     id="line59" />
+  <text
+     x="65"
+     y="154"
+     text-anchor="end"
+     font-size="11"
+     fill="#6B7280"
+     id="text59">300</text>
   <!-- Y-axis title (rotated) -->
-  <text transform="rotate(-90, 18, 255)" x="18" y="255"
-        text-anchor="middle" font-size="13" fill="#374151">Distancia de fusión</text>
-
+  <text
+     transform="rotate(-90, 18, 255)"
+     x="18"
+     y="255"
+     text-anchor="middle"
+     font-size="13"
+     fill="#374151"
+     id="text60">Distancia de fusión</text>
   <!-- ─── CLUSTER LABELS (K=4 level) ─── -->
-  <text x="136" y="497" text-anchor="middle" font-size="11" fill="#2563EB" font-style="italic">C₁</text>
-  <text x="295" y="497" text-anchor="middle" font-size="11" fill="#059669" font-style="italic">C₂</text>
-  <text x="465" y="497" text-anchor="middle" font-size="11" fill="#D97706" font-style="italic">C₃</text>
-  <text x="615" y="497" text-anchor="middle" font-size="11" fill="#7C3AED" font-style="italic">C₄</text>
-
+  <text
+     x="136"
+     y="497"
+     text-anchor="middle"
+     font-size="11"
+     fill="#2563EB"
+     font-style="italic"
+     id="text61">C₁</text>
+  <text
+     x="295"
+     y="497"
+     text-anchor="middle"
+     font-size="11"
+     fill="#059669"
+     font-style="italic"
+     id="text62">C₂</text>
+  <text
+     x="465"
+     y="497"
+     text-anchor="middle"
+     font-size="11"
+     fill="#D97706"
+     font-style="italic"
+     id="text63">C₃</text>
+  <text
+     x="615"
+     y="497"
+     text-anchor="middle"
+     font-size="11"
+     fill="#7C3AED"
+     font-style="italic"
+     id="text64">C₄</text>
   <!-- ─── BRACE ANNOTATIONS FOR K=2 GROUPS ─── -->
   <!-- Left group (C1+C2) label -->
-  <text x="215" y="183" text-anchor="middle" font-size="11" fill="#B91C1C" font-style="italic">{C₁, C₂}</text>
+  <text
+     x="215"
+     y="183"
+     text-anchor="middle"
+     font-size="11"
+     fill="#B91C1C"
+     font-style="italic"
+     id="text65">{C₁, C₂}</text>
   <!-- Right group (C3+C4) label -->
-  <text x="540" y="183" text-anchor="middle" font-size="11" fill="#B91C1C" font-style="italic">{C₃, C₄}</text>
-
+  <text
+     x="540"
+     y="183"
+     text-anchor="middle"
+     font-size="11"
+     fill="#B91C1C"
+     font-style="italic"
+     id="text66">{C₃, C₄}</text>
   <!-- ─── TITLE ─── -->
-  <text x="390" y="32" text-anchor="middle" font-size="14" fill="#1F3864" font-weight="bold">
+  <text
+     x="390"
+     y="32"
+     text-anchor="middle"
+     font-size="14"
+     fill="#1F3864"
+     font-weight="bold"
+     id="text67">
     Dendrograma con cortes a diferentes alturas
   </text>
-
 </svg>

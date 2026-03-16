@@ -12,13 +12,17 @@
         <link rel="canonical" href="https://malozano.github.io/aprendizaje-avanzado/07-clustering/">
       
       
+        <link rel="prev" href="../06-gradient-boosting/">
+      
+      
+        <link rel="next" href="../08-dbscan/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.1">
     
     
       
-        <title>Aprendizaje no supervisado. Clustering - Aprendizaje Avanzado</title>
+        <title>7. Clustering - Aprendizaje Avanzado</title>
       
     
     
@@ -114,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Aprendizaje no supervisado. Clustering
+              7. Clustering
             
           </span>
         </div>
@@ -373,6 +377,353 @@
 
   
   
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+      
+      
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Bloque II. Aprendizaje no supervisado
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Bloque II. Aprendizaje no supervisado
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          7. Clustering
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        7. Clustering
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#familias-de-metodos-no-supervisados" class="md-nav__link">
+    Familias de métodos no supervisados
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduccion-al-clustering" class="md-nav__link">
+    Introducción al clustering
+  </a>
+  
+    <nav class="md-nav" aria-label="Introducción al clustering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#familias-de-metodos-de-clustering" class="md-nav__link">
+    Familias de métodos de clustering
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metricas-de-distancia-y-similitud" class="md-nav__link">
+    Métricas de distancia y similitud
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preprocesado-para-clustering" class="md-nav__link">
+    Preprocesado para clustering
+  </a>
+  
+    <nav class="md-nav" aria-label="Preprocesado para clustering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#escalado-de-variables" class="md-nav__link">
+    Escalado de variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maldicion-de-la-dimensionalidad" class="md-nav__link">
+    Maldición de la dimensionalidad
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluacion-de-clustering" class="md-nav__link">
+    Evaluación de clustering
+  </a>
+  
+    <nav class="md-nav" aria-label="Evaluación de clustering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metricas-internas" class="md-nav__link">
+    Métricas internas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metricas-externas" class="md-nav__link">
+    Métricas externas
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resumen-de-metricas" class="md-nav__link">
+    Resumen de métricas
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clustering-jerarquico" class="md-nav__link">
+    Clustering jerárquico
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clustering-aglomerativo" class="md-nav__link">
+    Clustering aglomerativo
+  </a>
+  
+    <nav class="md-nav" aria-label="Clustering aglomerativo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-linkage" class="md-nav__link">
+    Criterios de linkage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-dendrograma" class="md-nav__link">
+    El dendrograma
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complejidad-computacional" class="md-nav__link">
+    Complejidad computacional
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementacion-en-sklearn" class="md-nav__link">
+    Implementación en sklearn
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flujo-de-trabajo" class="md-nav__link">
+    Flujo de trabajo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reduccion-de-la-dimensionalidad" class="md-nav__link">
+    Reducción de la dimensionalidad
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clustering-espectral" class="md-nav__link">
+    Clustering espectral
+  </a>
+  
+    <nav class="md-nav" aria-label="Clustering espectral">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filosofia-divisiva-e-inspiracion-espectral" class="md-nav__link">
+    Filosofía divisiva e inspiración espectral
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#construccion-del-grafo-de-similitud" class="md-nav__link">
+    Construcción del grafo de similitud
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-matriz-laplaciana" class="md-nav__link">
+    La matriz Laplaciana
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criterios-de-corte" class="md-nav__link">
+    Criterios de corte
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#espectro-de-la-laplaciana" class="md-nav__link">
+    Espectro de la Laplaciana
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algoritmo-de-clustering-espectral" class="md-nav__link">
+    Algoritmo de clustering espectral
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementacion-en-sklearn_1" class="md-nav__link">
+    Implementación en sklearn
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ventajas-y-limitaciones" class="md-nav__link">
+    Ventajas y limitaciones
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#biclustering-y-co-clustering" class="md-nav__link">
+    Biclustering y co-clustering
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consideraciones-finales" class="md-nav__link">
+    Consideraciones finales
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-dbscan/" class="md-nav__link">
+        8. DBSCAN
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
   
     
       
@@ -384,7 +735,7 @@
       
         
       
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
       
       
         
@@ -392,15 +743,17 @@
         
           
         
+          
+        
       
       
-        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
           Prácticas
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_3">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           Prácticas
         </label>
@@ -428,6 +781,77 @@
     <li class="md-nav__item">
       <a href="../practicas/01-aprendizaje-supervisado/" class="md-nav__link">
         1. Aprendizaje supervisado
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/02-no-supervisado/" class="md-nav__link">
+        2. Aprendizaje no supervisado
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5">
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Proyecto final
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Proyecto final
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-proyecto-final/" class="md-nav__link">
+        Aprendizaje Automático en problemas del mundo real
       </a>
     </li>
   
@@ -464,7 +888,7 @@
 <p><strong>Clustering</strong>: agrupa las observaciones en grupos (<em>clusters</em>) de forma que los elementos dentro de un grupo sean similares entre sí y distintos de los de otros grupos. Nos centraremos principalmente en esta familia de métodos.</p>
 </li>
 <li>
-<p><strong>Detección de anomalías</strong>: identifica observaciones que difieren significativamente del resto. Puede surgir como subproducto del <em>clustering</em> (identificando los puntos que ningún cluster captura bien) o como objetivo explícito con algoritmos dedicados como Isolation Forest.</p>
+<p><strong>Detección de anomalías</strong>: identifica observaciones que difieren significativamente del resto. Puede surgir como subproducto del <em>clustering</em> (identificando los puntos que ningún <em>cluster</em> captura bien) o como objetivo explícito con algoritmos dedicados como Isolation Forest.</p>
 </li>
 <li>
 <p><strong>Reducción de dimensionalidad</strong>: busca representaciones compactas de los datos que preserven su estructura esencial, eliminando redundancia. PCA, t-SNE y UMAP son los ejemplos más conocidos.</p>
@@ -483,7 +907,7 @@
 </li>
 </ul>
 <p>En este bloque nos centraremos especialmente en los métodos de <em>clustering</em> y dedicaremos una última sección a la detección de anomalías.</p>
-<h2 id="introduccion-al-clustering">Introducción al clustering<a class="headerlink" href="#introduccion-al-clustering" title="Permanent link">¶</a></h2>
+<h2 id="introduccion-al-clustering">Introducción al <em>clustering</em><a class="headerlink" href="#introduccion-al-clustering" title="Permanent link">¶</a></h2>
 <p>El <em>clustering</em> o agrupamiento es la tarea de particionar un conjunto de observaciones de entrada <span class="arithmatex">\(\{\mathbf{x}_1, \mathbf{x}_2, \ldots, \mathbf{x}_N\}\)</span> en un conjunto de grupos o <em>clusters</em> <span class="arithmatex">\(\{C_1, C_2, \ldots, C_K\}\)</span> de forma que se maximice la similitud <em>intra-cluster</em> (entre ejemplos que pertenezcan al mismo <em>cluster</em>) y se minimice la similitud <em>inter-cluster</em> (entre ejemplos que pertenezcan a diferentes <em>clusters</em>). El número de grupos <span class="arithmatex">\(K\)</span> puede ser especificado a priori o determinado automáticamente según el método.</p>
 <h3 id="familias-de-metodos-de-clustering">Familias de métodos de <em>clustering</em><a class="headerlink" href="#familias-de-metodos-de-clustering" title="Permanent link">¶</a></h3>
 <p>A partir de esta idea general surgen diferentes familias de métodos de <em>clustering</em>:</p>
@@ -501,10 +925,10 @@
 <p><strong>Basado en densidad</strong>: define los <em>clusters</em> como regiones de alta densidad separadas por zonas de baja densidad. No asume una forma convexa de los <em>clusters</em> y detecta automáticamente <em>outliers</em>. DBSCAN es el representante más conocido, y lo estudiaremos en la siguiente sesión.</p>
 </li>
 <li>
-<p><strong>Probabilístico (<em>soft clustering</em>)</strong>: en lugar de asignar cada punto a un único cluster, asigna una probabilidad de pertenencia a cada uno. Los <em>Gaussian Mixture Models</em> (GMM) son el ejemplo más destacado: modelan los datos como una mezcla de distribuciones gaussianas y se ajustan mediante el algoritmo EM. También los veremos en la siguiente sesión.</p>
+<p><strong>Probabilístico (<em>soft clustering</em>)</strong>: en lugar de asignar cada punto a un único <em>cluster</em>, asigna una probabilidad de pertenencia a cada uno. Los <em>Gaussian Mixture Models</em> (GMM) son el ejemplo más destacado: modelan los datos como una mezcla de distribuciones gaussianas y se ajustan mediante el algoritmo EM. También los veremos en la siguiente sesión.</p>
 </li>
 </ul>
-<p>Una distinción conceptual importante es la que hay entre <strong><em>hard clustering</em></strong> y <strong><em>soft clustering</em></strong>. En el hard clustering (K-Means, jerárquico, espectral, DBSCAN) cada punto pertenece exactamente a un cluster. En el soft clustering (GMM) cada punto tiene un vector de probabilidades de pertenencia a cada cluster, lo que captura mejor la incertidumbre en la asignación.</p>
+<p>Una distinción conceptual importante es la que hay entre <strong><em>hard clustering</em></strong> y <strong><em>soft clustering</em></strong>. En el <em>hard clustering</em> (K-Means, jerárquico, espectral, DBSCAN) cada punto pertenece exactamente a un <em>cluster</em>. En el <em>soft clustering</em> (GMM) cada punto tiene un vector de probabilidades de pertenencia a cada <em>cluster</em>, lo que captura mejor la incertidumbre en la asignación.</p>
 <h3 id="metricas-de-distancia-y-similitud">Métricas de distancia y similitud<a class="headerlink" href="#metricas-de-distancia-y-similitud" title="Permanent link">¶</a></h3>
 <p>Todo algoritmo de <em>clustering</em> necesita un indicativo de la similitud o distancia entre puntos. Esto determinará qué significa que dos observaciones estén "cerca". La elección de la métrica no es un detalle menor, ya que puede cambiar completamente los <em>clusters</em> que encuentra el algoritmo.</p>
 <p>Dado un espacio de características <span class="arithmatex">\(\mathbb{R}^d\)</span>, una <em>métrica de distancia</em> <span class="arithmatex">\(d(\mathbf{x}, \mathbf{y})\)</span> debe satisfacer cuatro propiedades: </p>
@@ -523,13 +947,22 @@
 <p>Es más robusta que la distancia euclídea frente a <em>outliers</em>, porque las diferencias grandes no se elevan al cuadrado. En alta dimensionalidad puede superar a la distancia euclídea, ya que la norma <span class="arithmatex">\(\ell_1\)</span> concentra menos la distribución de distancias.</p>
 <p><strong>Distancia de Minkowski</strong> (norma <span class="arithmatex">\(\ell_p\)</span>). Es la generalización paramétrica que engloba las dos métricas anteriores, y que se define como:</p>
 <div class="arithmatex">\[d_p(\mathbf{x}, \mathbf{y}) = \left(\sum_{j=1}^d |x_j - y_j|^p\right)^{1/p}\]</div>
-<p>Podemos observar que para <span class="arithmatex">\(p=2\)</span> tenemos la distancia euclídea, mientras que para <span class="arithmatex">\(p=1\)</span> la de Manhattan. Cuando <span class="arithmatex">\(p \to \infty\)</span> hablamos de la distancia de Chebyshev, que mide la mayor diferencia en cualquier dimensión.</p>
+<p>Podemos observar que para <span class="arithmatex">\(p=2\)</span> tenemos la distancia euclídea, mientras que para <span class="arithmatex">\(p=1\)</span> la de Manhattan. Cuando <span class="arithmatex">\(p \to \infty\)</span> hablamos de la distancia de Chebyshev, que mide la mayor diferencia en cualquier dimensión. En la <a href="#fig-distancias">Figura 1</a> se muestra una comparativa de las métricas vistas hasta el momento.</p>
+<p></p><figure id="fig-distancias"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_distancies.png" data-desc-position="bottom"><img alt="" src="../images/t7_distancies.png"></a><figcaption>Figura 1: Bola unitaria (región de todos los puntos cuya distancia es <span class="arithmatex">\(\leq 1\)</span>) de diferentes métricas de distancia.  </figcaption></figure><p></p>
 <p><strong>Similitud coseno y distancia coseno</strong>: Mide el ángulo entre dos vectores, ignorando su magnitud:</p>
 <div class="arithmatex">\[\text{sim}_{\cos}(\mathbf{x}, \mathbf{y}) = \frac{\mathbf{x} \cdot \mathbf{y}}{\|\mathbf{x}\|\,\|\mathbf{y}\|}, \qquad d_{\cos}(\mathbf{x}, \mathbf{y}) = 1 - \text{sim}_{\cos}(\mathbf{x}, \mathbf{y})\]</div>
 <p>Es la métrica estándar para datos de texto. Cuando un documento se representa como un vector de pesos TF-IDF, donde cada dimensión corresponde a un término del vocabulario y su valor refleja cómo de característico es ese término para ese documento, la magnitud del vector depende de la longitud del documento pero no del tema. La similitud coseno elimina ese efecto al medir únicamente el ángulo entre vectores: dos documentos sobre el mismo tema con la misma distribución de términos tendrán similitud coseno cercana a <span class="arithmatex">\(1\)</span> independientemente de su longitud. Lo mismo aplica a <em>embeddings</em> densos como Word2Vec o BERT, donde la dirección del vector codifica el significado y la magnitud varía por propiedades del entrenamiento, sin codificar nada útil.</p>
+<p>En <a href="#fig-dist-cos">Figura 2</a> podemos ver un ejemplo del área que abarcarían todos los puntos cuya distancia coseno respecto a un punto <span class="arithmatex">\(\mathbf{p}\)</span> es menor que diferentes umbrales. </p>
+<p></p><figure id="fig-dist-cos"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_dist-cos.png" data-desc-position="bottom"><img alt="" src="../images/t7_dist-cos.png"></a><figcaption>Figura 2: Ejemplo de área abarcada para diferentes umbrales de distancia coseno, respecto a un punto p = (1,0). </figcaption></figure><p></p>
 <p><strong>Distancia de correlación de Pearson</strong>: Mide la similitud en el patrón de variación, independientemente de la escala y del nivel medio,</p>
 <div class="arithmatex">\[d_{\text{corr}}(\mathbf{x}, \mathbf{y}) = 1 - \frac{(\mathbf{x} - \bar{x}) \cdot (\mathbf{y} - \bar{y})}{\|\mathbf{x} - \bar{x}\|\,\|\mathbf{y} - \bar{y}\|}\]</div>
-<p>Es especialmente útil en bioinformática y análisis de series temporales, donde interesa agrupar perfiles de expresión génica o curvas con la misma forma aunque tengan distinta amplitud.</p>
+<p>Donde <span class="arithmatex">\(\bar{x}\)</span> e <span class="arithmatex">\(\bar{y}\)</span> son las medias de todas las <em>features</em> de <span class="arithmatex">\(\mathbf{x}\)</span> e <span class="arithmatex">\(\mathbf{y}\)</span> respectivamente:  </p>
+<div class="arithmatex">\[
+\bar{x} = \frac{1}{d} \sum_{j=1}^d x_j, \quad \bar{y} = \frac{1}{d} \sum_{j=1}^d y_j
+\]</div>
+<p>Podemos observar que la métrica es similar a la distancia coseno, pero restando la media, lo cual hace que además de ser invariante a la escala, lo sea también al desplazamiento (valor medio). Esto es especialmente útil en bioinformática y análisis de series temporales, donde interesa agrupar perfiles de expresión génica o curvas con la misma forma aunque tengan distinta amplitud o estén desplazadas.</p>
+<p>En la figura <a href="#fig-dist-serie">Figura 3</a> se muestra un ejemplo en el que nuestras <em>features</em> representan una serie temporal. Se muestran diferentes casos de comparación de una serie de referencia <span class="arithmatex">\(\mathbf{p}\)</span> con otra serie a la que se le aplican una serie de transformaciones. En la primera y segunda fila, con transformaciones de escalado observamos que tanto la distancia coseno como la correlación de Pearson son <span class="arithmatex">\(0\)</span>. Sin embargo, cuando sumamos un valor constante a toda la serie, vemos que la correlación de Pearson sigue siendo invariante a la media y se mantiene en <span class="arithmatex">\(0\)</span>, pero la distancia coseno sube a <span class="arithmatex">\(0.67\)</span>. En la cuarta y quinta fila, cuando se introducen series que no están relacionadas con la de referencia, ambas distancias aumentan.</p>
+<p></p><figure id="fig-dist-serie"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_dist-serie.png" data-desc-position="bottom"><img alt="" src="../images/t7_dist-serie.png"></a><figcaption>Figura 3: Ejemplos de distancia coseno y distancia de correlación de Pearson entre dos series temporales. </figcaption></figure><p></p>
 <p>La tabla siguiente resume las propiedades más relevantes de cada métrica para orientar la elección:</p>
 <table>
 <thead>
@@ -567,11 +1000,11 @@
 </tr>
 </tbody>
 </table>
-<h3 id="preprocesado-para-clustering">Preprocesado para clustering<a class="headerlink" href="#preprocesado-para-clustering" title="Permanent link">¶</a></h3>
+<h3 id="preprocesado-para-clustering">Preprocesado para <em>clustering</em><a class="headerlink" href="#preprocesado-para-clustering" title="Permanent link">¶</a></h3>
 <p>A diferencia del aprendizaje supervisado, donde el riesgo de <em>overfitting</em> va a actuar como aviso de las malas decisiones de preprocesado, en <em>clustering</em> los algoritmos no tienen forma de corregir automáticamente problemas de escala o ruido, los propagan directamente al resultado. Encontramos consideraciones especialmente importantes: el escalado de variables y la maldición de la dimensionalidad.</p>
 <h4 id="escalado-de-variables">Escalado de variables<a class="headerlink" href="#escalado-de-variables" title="Permanent link">¶</a></h4>
 <p>Todos los métodos de <em>clustering</em> basados en distancias euclídeas (como por ejemplo K-Means) son sensibles a la escala de las variables. Si una variable tiene valores en el rango <span class="arithmatex">\([0, 1]\)</span> y otra en el rango <span class="arithmatex">\([0, 10000]\)</span>, la segunda dominará completamente el cálculo de distancias y la primera quedará irrelevante.</p>
-<p>La solución estándar es aplicar <code>StandardScaler</code> antes del clustering: transforma cada variable para que tenga media cero y desviación típica uno. En algunos casos puede ser preferible <code>MinMaxScaler</code> (cuando la distribución no es aproximadamente normal) o <code>RobustScaler</code> (cuando hay <em>outliers</em> que distorsionan la media y la desviación típica).</p>
+<p>La solución estándar es aplicar <code>StandardScaler</code> antes del <em>clustering</em>: transforma cada variable para que tenga media cero y desviación típica uno. En algunos casos puede ser preferible <code>MinMaxScaler</code> (cuando la distribución no es aproximadamente normal) o <code>RobustScaler</code> (cuando hay <em>outliers</em> que distorsionan la media y la desviación típica).</p>
 <blockquote>
 <p><strong>Nota</strong>: El escalado no siempre es deseable. Si las variables tienen unidades comparables y la diferencia de escala es informativa, escalar puede eliminar información relevante. Por ejemplo, en variables monetarias donde podemos tener por ejemplo "Salario" e "Incremento salarial", ambas en euros, escalarlas de forma independiente puede equiparar estadísticamente una diferencia de 500€ en el incremento con una diferencia de 20.000€ en el salario, cuando en realidad ambas magnitudes deberían ser comparables directamente en su escala original. La decisión debe basarse en el conocimiento del dominio.</p>
 </blockquote>
@@ -579,7 +1012,7 @@
 <p>En espacios de alta dimensión, todos los puntos tienden a estar aproximadamente a la misma distancia unos de otros (Aggarwal et al., 2001)<sup id="fnref:aggarwal2001surprising"><a class="footnote-ref" href="#fn:aggarwal2001surprising">1</a></sup>. Como hemos visto, esto afecta más a la distancia Euclídea que a la distancia de Manhattan, y en el caso de la generalización con la distancia de Minkowski el problema se agrava conforme incrementamos el valor de <span class="arithmatex">\(p\)</span>. </p>
 <p>Esto hace que las diferencias de distancia que los algoritmos de <em>clustering</em> usan para separar grupos se diluyan progresivamente. Para más de unas pocas decenas de dimensiones, es habitual aplicar reducción de dimensionalidad (por ejemplo PCA o UMAP) antes del <em>clustering</em>, tanto para mejorar la calidad del resultado como para reducir el coste computacional. </p>
 <p>PCA es adecuado para una reducción lineal eficiente, mientras que UMAP puede ser más apropiado cuando la estructura es no lineal. El método t-SNE puede resultar útil para visualizar el resultado del <em>clustering</em>, pero no como preprocesado.</p>
-<h3 id="evaluacion-de-clustering">Evaluación de clustering<a class="headerlink" href="#evaluacion-de-clustering" title="Permanent link">¶</a></h3>
+<h3 id="evaluacion-de-clustering">Evaluación de <em>clustering</em><a class="headerlink" href="#evaluacion-de-clustering" title="Permanent link">¶</a></h3>
 <p>Evaluar la calidad del <em>clustering</em> es más difícil que evaluar un clasificador supervisado, porque no existe una "solución correcta" con la que comparar directamente. Las métricas de evaluación se dividen en dos categorías según si se dispone o no de etiquetas de referencia.</p>
 <h4 id="metricas-internas">Métricas internas<a class="headerlink" href="#metricas-internas" title="Permanent link">¶</a></h4>
 <p>Las <em>métricas internas</em> evalúan la calidad del <em>clustering</em> usando únicamente los datos y las asignaciones producidas, sin necesidad de etiquetas externas. Son las únicas disponibles en un escenario completamente no supervisado, y muchas de ellas podrán ser utilizadas como criterio a la hora de determinar el número óptimo de clases <span class="arithmatex">\(K\)</span>.</p>
@@ -609,8 +1042,8 @@
 </blockquote>
 <p><strong>Silhouette score</strong> (Rousseeuw, 1987)<sup id="fnref:rousseeuw1987silhouettes"><a class="footnote-ref" href="#fn:rousseeuw1987silhouettes">2</a></sup>: Para cada punto <span class="arithmatex">\(\mathbf{x}_i\)</span>, mide cómo de bien encaja en su <em>cluster</em> en comparación con el <em>cluster</em> vecino más cercano. Se define a partir de dos distancias medias:</p>
 <ul>
-<li><span class="arithmatex">\(a(i)\)</span>: distancia media de <span class="arithmatex">\(\mathbf{x}_i\)</span> a todos los demás puntos de su cluster (cohesión interna).</li>
-<li><span class="arithmatex">\(b(i)\)</span>: distancia media de <span class="arithmatex">\(\mathbf{x}_i\)</span> a todos los puntos del cluster vecino más próximo (separación externa).</li>
+<li><span class="arithmatex">\(a(i)\)</span>: distancia media de <span class="arithmatex">\(\mathbf{x}_i\)</span> a todos los demás puntos de su <em>cluster</em> (cohesión interna).</li>
+<li><span class="arithmatex">\(b(i)\)</span>: distancia media de <span class="arithmatex">\(\mathbf{x}_i\)</span> a todos los puntos del <em>cluster</em> vecino más próximo (separación externa).</li>
 </ul>
 <p>El <em>silhouette</em> de un punto es:</p>
 <div class="arithmatex">\[s(i) = \frac{b(i) - a(i)}{\max(a(i),\, b(i))}\]</div>
@@ -623,7 +1056,7 @@
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># Score por punto (útil para detectar puntos mal asignados)</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">scores_por_punto</span> <span class="o">=</span> <span class="n">silhouette_samples</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">,</span> <span class="n">etiquetas</span><span class="p">)</span>
 </code></pre></div>
-<p><strong>Índice de Davies-Bouldin</strong> (Davies &amp; Bouldin, 1979)<sup id="fnref:davies1979cluster"><a class="footnote-ref" href="#fn:davies1979cluster">3</a></sup>: Para cada <em>cluster</em> <span class="arithmatex">\(C_k\)</span> mide su similitud con el <em>cluster</em> más parecido a él, definida como el cociente entre la dispersión interna de ambos clusters y la distancia entre sus centroides:</p>
+<p><strong>Índice de Davies-Bouldin</strong> (Davies &amp; Bouldin, 1979)<sup id="fnref:davies1979cluster"><a class="footnote-ref" href="#fn:davies1979cluster">3</a></sup>: Para cada <em>cluster</em> <span class="arithmatex">\(C_k\)</span> mide su similitud con el <em>cluster</em> más parecido a él, definida como el cociente entre la dispersión interna de ambos <em>clusters</em> y la distancia entre sus centroides:</p>
 <div class="arithmatex">\[DB = \frac{1}{K} \sum_{k=1}^K \max_{j \neq k} \left( \frac{s_k + s_j}{d(\boldsymbol{\mu}_k, \boldsymbol{\mu}_j)} \right)\]</div>
 <p>Donde <span class="arithmatex">\(s_k\)</span> es la distancia media de los puntos de <span class="arithmatex">\(C_k\)</span> a su centroide <span class="arithmatex">\(\boldsymbol{\mu}_k\)</span>. A diferencia del <em>silhouette</em>, los <strong>valores más bajos son mejores</strong>. Un índice de Davies-Bouldin bajo indica <em>clusters</em> compactos y bien separados. No requiere cálculo punto a punto, lo que lo hace más eficiente en <em>datasets</em> grandes.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">davies_bouldin_score</span>
@@ -632,7 +1065,7 @@
 </code></pre></div>
 <p><strong>Índice de Calinski-Harabasz</strong> (Caliński &amp; Harabasz, 1974)<sup id="fnref:calinski1974dendrite"><a class="footnote-ref" href="#fn:calinski1974dendrite">4</a></sup> (también conocido como <em>Variance Ratio Criterion</em>): Mide la <em>ratio</em> entre la dispersión inter-cluster y la dispersión intra-cluster:</p>
 <div class="arithmatex">\[CH = \frac{ \frac{\sum_{k=1}^K |C_k| \cdot \| \mathbf{\mu}_k - \mathbf{\mu} \|^2} {(K-1)}}{ \frac{\sum_{k=1}^K \sum_{\mathbf{x}_i \in C_k} \| \mathbf{x}_i - \mathbf{\mu}_k \|^2}{(N-K)} }\]</div>
-<p>Podemos observar que en el numerador se suman las distancias al cuadrado del centroide de cada cluster <span class="arithmatex">\(\mathbf{\mu}_k\)</span> al centroide global <span class="arithmatex">\(\mathbf{\mu}\)</span>, ponderadas por el número de ejemplos del <em>cluster</em> <span class="arithmatex">\(|C_k|\)</span>. El denominador suma las distancias al cuadrado de cada punto al centroide de su <em>cluster</em>, midiendo cómo de compacto es el <em>cluster</em> internamente. En este caso <strong>valores más altos son mejores</strong>. Es muy eficiente computacionalmente y especialmente útil para comparar soluciones con distintos valores de <span class="arithmatex">\(K\)</span>.</p>
+<p>Podemos observar que en el numerador se suman las distancias al cuadrado del centroide de cada <em>cluster</em> <span class="arithmatex">\(\mathbf{\mu}_k\)</span> al centroide global <span class="arithmatex">\(\mathbf{\mu}\)</span>, ponderadas por el número de ejemplos del <em>cluster</em> <span class="arithmatex">\(|C_k|\)</span>. El denominador suma las distancias al cuadrado de cada punto al centroide de su <em>cluster</em>, midiendo cómo de compacto es el <em>cluster</em> internamente. En este caso <strong>valores más altos son mejores</strong>. Es muy eficiente computacionalmente y especialmente útil para comparar soluciones con distintos valores de <span class="arithmatex">\(K\)</span>.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">calinski_harabasz_score</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">ch</span> <span class="o">=</span> <span class="n">calinski_harabasz_score</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">,</span> <span class="n">etiquetas</span><span class="p">)</span>
@@ -645,7 +1078,7 @@ Los índices de Davies-Bouldin y Calinski-Harabasz se basan en distancias con lo
 <p>Las <em>métricas externas</em> comparan el <em>clustering</em> obtenido con una asignación de referencia (<em>ground truth</em>) <span class="arithmatex">\(\mathbf{y}\)</span>. Se usan principalmente para evaluar algoritmos en <em>benchmarks</em> y <em>datasets</em> con etiquetas conocidas, no en aplicaciones reales donde esas etiquetas no existen.</p>
 <p><strong>Rand Index y Adjusted Rand Index (ARI)</strong> (Hubert &amp; Arabie, 1985)<sup id="fnref:hubert1985comparing"><a class="footnote-ref" href="#fn:hubert1985comparing">6</a></sup>: El <em>Rand Index</em> mide la proporción de pares de puntos cuya asignación es consistente entre el <em>clustering</em> obtenido y el de referencia, esto es, los pares que están juntos en ambas soluciones, o separados en ambas. Como el <em>Rand Index</em> tiende a valores altos incluso para asignaciones aleatorias, se usa habitualmente su versión ajustada por azar:</p>
 <div class="arithmatex">\[ARI = \frac{RI - \mathbb{E}[RI]}{\max(RI) - \mathbb{E}[RI]}\]</div>
-<p>El ARI toma valor <span class="arithmatex">\(1\)</span> para un acuerdo perfecto, <span class="arithmatex">\(0\)</span> para un acuerdo equivalente al azar y puede ser ligeramente negativo para acuerdos peores que el azar. No requiere que ambas soluciones tengan el mismo número de <em>clusters</em>.</p>
+<p>El ARI toma valor <span class="arithmatex">\(1\)</span> cuando hay un acuerdo perfecto entre la agrupación de referencia y la obtenida, <span class="arithmatex">\(0\)</span> cuando el acuerdo es equivalente al azar y puede ser ligeramente negativo para acuerdos peores que el azar. No requiere que ambas soluciones tengan el mismo número de <em>clusters</em>.</p>
 <p><strong>Información mutua normalizada (NMI)</strong> (Strehl &amp; Ghosh, 2002)<sup id="fnref:strehl2002cluster"><a class="footnote-ref" href="#fn:strehl2002cluster">7</a></sup>: Mide la información compartida entre el <em>clustering</em> obtenido y el de referencia, normalizada por la entropía de cada uno. Definimos <span class="arithmatex">\(U\)</span> y <span class="arithmatex">\(V\)</span> como los vectores de asignaciones de <em>cluster</em>, donde para cada punto <span class="arithmatex">\(\mathbf{x}_i\)</span>, <span class="arithmatex">\(U_i \in \{1, \ldots, K \}\)</span> es el <em>cluster</em> que le asigna el algoritmo, mientras que <span class="arithmatex">\(V_i \in \{1, \ldots, K' \}\)</span> es el <em>cluster</em> de referencia (<em>ground-truth</em>), pudiendo ser <span class="arithmatex">\(K \neq K'\)</span>. Con esto, definimos la información mutua normalizada como:</p>
 <div class="arithmatex">\[NMI(U, V) = \frac{2 \cdot I(U; V)}{H(U) + H(V)}\]</div>
 <p>Donde <span class="arithmatex">\(I(U; V)\)</span> es la información mutua entre las dos asignaciones y <span class="arithmatex">\(H(\cdot)\)</span> su entropía. Toma valores en <span class="arithmatex">\([0, 1]\)</span>, indicando <span class="arithmatex">\(0\)</span> independencia total y <span class="arithmatex">\(1\)</span> acuerdo perfecto. Es invariante al número de <em>clusters</em> y al tamaño relativo de los mismos.</p>
@@ -685,14 +1118,14 @@ Los índices de Davies-Bouldin y Calinski-Harabasz se basan en distancias con lo
 <td>Davies-Bouldin</td>
 <td>Interna</td>
 <td>No</td>
-<td><em>Clusters</em> esféricos</td>
+<td>Asume centroides (<em>Clusters</em> esféricos)</td>
 <td>Validación con <span class="arithmatex">\(K\)</span> fijo</td>
 </tr>
 <tr>
 <td>Calinski-Harabasz</td>
 <td>Interna</td>
 <td>No</td>
-<td><em>Clusters</em> esféricos</td>
+<td>Asume centroides (<em>Clusters</em> esféricos)</td>
 <td>Selección de <span class="arithmatex">\(K\)</span> en <em>datasets</em> grandes</td>
 </tr>
 <tr>
@@ -706,25 +1139,25 @@ Los índices de Davies-Bouldin y Calinski-Harabasz se basan en distancias con lo
 <td>NMI</td>
 <td>Externa</td>
 <td>Sí</td>
-<td>Acuerdo informacional</td>
+<td>Acuerdo mutuo (Información mutua)</td>
 <td>Cuando los <em>clusters</em> tienen tamaños muy distintos</td>
 </tr>
 </tbody>
 </table>
-<h2 id="clustering-jerarquico">Clustering jerárquico<a class="headerlink" href="#clustering-jerarquico" title="Permanent link">¶</a></h2>
+<h2 id="clustering-jerarquico"><em>Clustering</em> jerárquico<a class="headerlink" href="#clustering-jerarquico" title="Permanent link">¶</a></h2>
 <p>El <em>clustering jerárquico</em> construye una secuencia anidada de particiones de los datos, desde la más fina (cada punto en su propio <em>cluster</em>) hasta la más gruesa (todos los puntos en un único <em>cluster</em>). Esta secuencia se organiza en forma de árbol binario denominado <em>dendrograma</em>, que permite visualizar de un vistazo toda la jerarquía de agrupamientos posibles.</p>
-<p>La principal ventaja frente a K-Means es que no necesitamos decidir el número de clusters antes de ejecutar el algoritmo. Podemos explorar el dendrograma y decidir el corte más adecuado una vez visto el resultado.</p>
+<p>La principal ventaja frente a K-Means es que no necesitamos decidir el número de <em>clusters</em> antes de ejecutar el algoritmo. Podemos explorar el dendrograma y decidir el corte más adecuado una vez visto el resultado.</p>
 <p>Existen dos enfoques opuestos para construir esta jerarquía:</p>
 <ul>
 <li>
-<p><strong>Aglomerativo (<em>bottom-up</em>)</strong>: comienza con cada punto en su propio <em>cluster</em> y va fusionando iterativamente los dos clusters más similares hasta que todos los puntos forman un único grupo. Es el enfoque más utilizado en la práctica.</p>
+<p><strong>Aglomerativo (<em>bottom-up</em>)</strong>: comienza con cada punto en su propio <em>cluster</em> y va fusionando iterativamente los dos <em>clusters</em> más similares hasta que todos los puntos forman un único grupo. Es el enfoque más utilizado en la práctica.</p>
 </li>
 <li>
-<p><strong>Divisivo (<em>top-down</em>)</strong>: comienza con todos los puntos en un único <em>cluster</em> y va dividiéndolo recursivamente hasta que cada punto forma su propio grupo. Es computacionalmente muy costoso en su forma exacta, ya que requiere considerar todas las posibles divisiones en cada paso, y raro en la práctica. Sin embargo, su filosofía de dividir recursivamente usando un criterio global inspirará el clustering espectral, que veremos más adelante en esta sesión.</p>
+<p><strong>Divisivo (<em>top-down</em>)</strong>: comienza con todos los puntos en un único <em>cluster</em> y va dividiéndolo recursivamente hasta que cada punto forma su propio grupo. Es computacionalmente muy costoso en su forma exacta, ya que requiere considerar todas las posibles divisiones en cada paso, y raro en la práctica. Sin embargo, su filosofía de dividir recursivamente usando un criterio global inspirará el <em>clustering</em> espectral, que veremos más adelante en esta sesión.</p>
 </li>
 </ul>
-<h2 id="clustering-aglomerativo">Clustering aglomerativo<a class="headerlink" href="#clustering-aglomerativo" title="Permanent link">¶</a></h2>
-<p>El <em>clustering aglomerativo</em> es la variante más empleada del clustering jerárquico. El algoritmo, en su forma general, realiza los siguientes pasos:</p>
+<h2 id="clustering-aglomerativo"><em>Clustering</em> aglomerativo<a class="headerlink" href="#clustering-aglomerativo" title="Permanent link">¶</a></h2>
+<p>El <em>clustering aglomerativo</em> es la variante más empleada del <em>clustering</em> jerárquico. El algoritmo, en su forma general, realiza los siguientes pasos:</p>
 <!-- 
 $$
 \begin{align*}
@@ -753,38 +1186,42 @@ Los fusiona en un nuevo cluster: <span class="arithmatex">\(\quad C_{\text{nuevo
 Actualiza el conjunto de <em>clusters</em> eliminando <span class="arithmatex">\(C_i^*, C_j^*\)</span> y añadiendo <span class="arithmatex">\(C_{\text{nuevo}}\)</span>
 </div><p></p>
 <p></p><div style="margin-left: 1.5em;">
-Devolver Dendograma con las <span class="arithmatex">\((N-1)\)</span> fusiones realizadas
+Devolver Dendrograma con las <span class="arithmatex">\((N-1)\)</span> fusiones realizadas
 </div><p></p>
 </div>
-<p>La clave del algoritmo está en cómo se define la distancia <span class="arithmatex">\(D(C_i, C_j)\)</span> entre dos clusters. Esta distancia, llamada <em>linkage</em>, no es la distancia entre dos puntos sino una distancia entre dos conjuntos de puntos, y su elección tiene un impacto enorme en la forma de los clusters resultantes.</p>
+<p>La clave del algoritmo está en cómo se define la distancia <span class="arithmatex">\(D(C_i, C_j)\)</span> entre dos <em>clusters</em>. Esta distancia, llamada <em>linkage</em>, no es la distancia entre dos puntos sino una distancia entre dos conjuntos de puntos, y su elección tiene un impacto enorme en la forma de los <em>clusters</em> resultantes.</p>
 <h3 id="criterios-de-linkage">Criterios de linkage<a class="headerlink" href="#criterios-de-linkage" title="Permanent link">¶</a></h3>
 <p>Los cuatro criterios de <em>linkage</em> más utilizados son los siguientes. Sea <span class="arithmatex">\(d(\mathbf{x}, \mathbf{y})\)</span> la distancia entre dos puntos individuales (euclídea por defecto):</p>
-<p><strong>Single linkage</strong> (enlace sencillo): la distancia entre clusters es la distancia mínima entre cualquier par de puntos de ambos clusters:</p>
+<p><strong>Single linkage</strong> (enlace sencillo): la distancia entre <em>clusters</em> es la distancia mínima entre cualquier par de puntos de ambos <em>clusters</em>:</p>
 <div class="arithmatex">\[D_{\text{single}}(C_i, C_j) = \min_{\mathbf{x} \in C_i,\, \mathbf{y} \in C_j} d(\mathbf{x}, \mathbf{y})\]</div>
-<p>Tiende a producir el fenómeno conocido como <em>chaining</em>, consistente que en que se generen <em>clusters</em> alargados en cadena, ya que basta con que dos puntos (uno de cada cluster) estén cerca para fusionarlos, aunque el resto de puntos estén lejos. Esto permite capturar formas no convexas, pero viene acompañada de una gran fragilidad ante el ruido que lo hace poco adecuado para la mayoría de problemas reales. Un único punto de ruido entre dos <em>clusters</em> podría encadenarlos.</p>
-<p><strong>Complete linkage</strong> (enlace completo): la distancia entre clusters es la distancia máxima entre cualquier par de puntos de ambos clusters:</p>
+<p>Tiende a producir el fenómeno conocido como encadenamiento (<em>chaining</em>), consistente que en que se generen <em>clusters</em> alargados en cadena, ya que basta con que dos puntos (uno de cada <em>cluster</em>) estén cerca para fusionarlos, aunque el resto de puntos estén lejos (ver <a href="#fig-chaining">Figura 4</a>). Este fenómeno permite capturar formas arbitrarias no convexas, pero no es un método diseñado para capturar formas no convexas y realmente esto supone una gran fragilidad ante el ruido que lo hace poco adecuado para la mayoría de problemas reales. Un único punto de ruido entre dos <em>clusters</em> podría encadenarlos. Por este motivo es un método que se utiliza muy poco en la práctica.</p>
+<p></p><figure id="fig-chaining"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_chaining.png" data-desc-position="bottom"><img alt="" src="../images/t7_chaining.png"></a><figcaption>Figura 4: Fenómeno de "encadenamiento" con <em>linkage single</em>. Los puntos "puente" pueden provocar que dos <em>clusters</em> se unan.  </figcaption></figure><p></p>
+<p><strong>Complete linkage</strong> (enlace completo): la distancia entre <em>clusters</em> es la distancia máxima entre cualquier par de puntos de ambos <em>clusters</em>:</p>
 <div class="arithmatex">\[D_{\text{complete}}(C_i, C_j) = \max_{\mathbf{x} \in C_i,\, \mathbf{y} \in C_j} d(\mathbf{x}, \mathbf{y})\]</div>
-<p>Produce clusters compactos y de tamaño similar, ya que solo fusiona clusters cuando sus puntos más alejados también están razonablemente cerca.</p>
-<p><strong>Average linkage</strong> (UPGMA): la distancia entre clusters es la media de todas las distancias entre pares de puntos de ambos clusters:</p>
+<p>Produce <em>clusters</em> compactos y de diámetro similar, ya que solo fusiona <em>clusters</em> cuando sus puntos más alejados también están razonablemente cerca. Esto lo hace también sensible a <em>outliers</em> en el sentido opusto del <em>single linkage</em>. En este caso un punto extremo puede aumentar el diámetro de un <em>cluster</em> y retrasar su fusión. Puede producir <em>clusters</em> que no son geométricamente conexos, fusionando trozos de <em>clusters</em> naturales distintos si eso produce un diámetro menor.</p>
+<p><strong>Average linkage</strong> (UPGMA): la distancia entre <em>clusters</em> es la media de todas las distancias entre pares de puntos de ambos <em>clusters</em>:</p>
 <div class="arithmatex">\[D_{\text{avg}}(C_i, C_j) = \frac{1}{|C_i|  |C_j|} \sum_{\mathbf{x} \in C_i} \sum_{\mathbf{y} \in C_j} d(\mathbf{x}, \mathbf{y})\]</div>
 <p>Ofrece un equilibrio entre <em>single</em> y <em>complete linkage</em>, siendo menos sensible a <em>outliers</em> que <em>single</em> y menos sesgado hacia <em>clusters</em> esféricos que <em>complete</em>.</p>
-<p><strong>Linkage de Ward</strong>: en lugar de medir distancias entre puntos, mide el <strong>incremento en la varianza intra-cluster</strong> que se produciría al fusionar dos clusters. Formalmente, si <span class="arithmatex">\(\bar{\mathbf{x}}_{C}\)</span> es el centroide del cluster <span class="arithmatex">\(C\)</span>, esta métrica se calcula como:</p>
+<p><strong>Linkage de Ward</strong>: en lugar de medir distancias entre puntos, mide el <strong>incremento en la varianza intra-cluster</strong> que se produciría al fusionar dos <em>clusters</em>. Formalmente, si <span class="arithmatex">\(\bar{\mathbf{x}}_{C}\)</span> es el centroide del <em>cluster</em> <span class="arithmatex">\(C\)</span>, esta métrica se calcula como:</p>
 <div class="arithmatex">\[D_{\text{Ward}}(C_i, C_j) = \frac{|C_i|  |C_j|}{|C_i| + |C_j|} \|\bar{\mathbf{x}}_{C_i} - \bar{\mathbf{x}}_{C_j}\|^2\]</div>
-<p>Ward fusiona los clusters cuya unión produzca el menor aumento de varianza total. Tiende a producir clusters compactos y equilibrados, y es el criterio más utilizado en la práctica. Es el que guarda mayor relación conceptual con K-Means, ya que ambos minimizan la varianza intra-cluster.</p>
+<p>Ward fusiona los <em>clusters</em> cuya unión produzca el menor aumento de varianza total. Tiende a producir <em>clusters</em> compactos y equilibrados, y es el criterio más utilizado en la práctica. Es el que guarda mayor relación conceptual con K-Means, ya que ambos minimizan la varianza intra-cluster.</p>
 <blockquote>
 <p><strong>Nota</strong>: Ward solo está bien definido con distancia euclídea al cuadrado. Si se trabaja con otras métricas (por ejemplo, distancia de Manhattan o correlación), se debe usar <em>average</em> o <em>complete linkage</em>.</p>
 </blockquote>
+<p>En la <a href="#fig-linkages">Figura 5</a> observamos una comparativa de diferentes métricas de <em>linkage</em>. Vemos que el <em>linkage single</em> produce el efecto de encadenamiento cuando tenemos dos grupos de puntos que "se tocan", mientras que en <em>complete</em>, cuando tenemos grupos con diámetro muy grande, a veces prefiere unir un trozo del grupo grande a otro <em>cluster</em> si así consigue un diámetro más pequeño. Si bien el <em>linkage complete</em> produce <em>clusters</em> equilibrados en diámetros, los <em>linkages average</em> y <em>Ward</em> producen <em>clusters</em> equilibrados en distancia media a todos los puntos y en la varianza intra-<em>cluster</em>, respectivamente. </p>
+<p></p><figure id="fig-linkages"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_linkage_comparativa.png" data-desc-position="bottom"><img alt="" src="../images/t7_linkage_comparativa.png"></a><figcaption>Figura 5: Comparativa de diferentes <em>linkages</em> aplicados para agrupar un conjunto de puntos en <span class="arithmatex">\(K=3\)</span> <em>clusters</em>.   </figcaption></figure><p></p>
 <h3 id="el-dendrograma">El dendrograma<a class="headerlink" href="#el-dendrograma" title="Permanent link">¶</a></h3>
-<p>El <em>dendrograma</em> es la representación gráfica del proceso de fusión. El eje horizontal muestra los puntos (u hojas del árbol), y el eje vertical indica la distancia o disimilitud a la que se produce cada fusión. Las ramas del árbol se unen a la altura correspondiente a esa distancia (ver <a href="#fig-dendrograma">Figura 1</a>).</p>
-<p></p><figure id="fig-dendrograma"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_dendrograma.svg" data-desc-position="bottom"><img alt="" src="../images/t7_dendrograma.svg"></a><figcaption>Figura 1: Ejemplo de dendrograma con corte a diferentes alturas, produciendo 2 o 4 clusters </figcaption></figure><p></p>
-<p>Para obtener una partición en <span class="arithmatex">\(K\)</span> clusters, realizamos un <strong>corte horizontal</strong> del dendrograma. El número de ramas verticales que cruza dicho corte determina el número de <em>clusters</em>. El problema de seleccionar <span class="arithmatex">\(K\)</span> se convierte así en el problema de elegir la altura del corte.</p>
-<p>Pero, <strong>¿cómo elegimos dónde cortar?</strong>. La heurística más común consiste en buscar el <em>salto vertical más grande</em> entre dos fusiones consecutivas. Una distancia de fusión mucho mayor que la anterior indica que se han tenido que unir <em>clusters</em> que eran naturalmente distintos. La altura justo por debajo de ese salto suele ser la elección más adecuada. Podemos ver esto ejemplificado en la <a href="#fig-dendrograma-cut">Figura 2</a>.</p>
-<p></p><figure id="fig-dendrograma-cut"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_dendrograma-cut.svg" data-desc-position="bottom"><img alt="" src="../images/t7_dendrograma-cut.svg"></a><figcaption>Figura 2: Ejemplo de cortes del dendrograma teniendo en cuenta la distancia de salto. El rango en el que <span class="arithmatex">\(K=4\)</span> es muy pequeño, por lo que en este caso sería preferible cortar en las regiones con mayor salto (<span class="arithmatex">\(K=3\)</span> o <span class="arithmatex">\(K=2\)</span>). </figcaption></figure><p></p>
-<p>Aunque el <em>clustering</em> aglomerativo tiene su propio criterio de selección de <span class="arithmatex">\(K\)</span> a través de los <strong>saltos en la distancia de fusión</strong> en el dendograma, podemos buscar estrategias más robustas combinando este criterio con otros criterios como <em>Silhouette</em> o CH. De esta forma, se utilizaría el dendograma para identificar una serie de valores <span class="arithmatex">\(K\)</span> candidatos a partir de los saltos más pronunciados, y posteriormente se confirmaría esa selección con otro de los criterios.  </p>
+<p>El <em>dendrograma</em> es la representación gráfica del proceso de fusión. El eje horizontal muestra los puntos (u hojas del árbol), y el eje vertical indica la distancia o disimilitud a la que se produce cada fusión. Las ramas del árbol se unen a la altura correspondiente a esa distancia (ver <a href="#fig-dendrograma">Figura 6</a>).</p>
+<p></p><figure id="fig-dendrograma"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_dendrograma.svg" data-desc-position="bottom"><img alt="" src="../images/t7_dendrograma.svg"></a><figcaption>Figura 6: Ejemplo de dendrograma con corte a diferentes alturas, produciendo 2 o 4 <em>clusters</em> </figcaption></figure><p></p>
+<p>Para obtener una partición en <span class="arithmatex">\(K\)</span> <em>clusters</em>, realizamos un <strong>corte horizontal</strong> del dendrograma. El número de ramas verticales que cruza dicho corte determina el número de <em>clusters</em>. El problema de seleccionar <span class="arithmatex">\(K\)</span> se convierte así en el problema de elegir la altura del corte.</p>
+<p>Pero, <strong>¿cómo elegimos dónde cortar?</strong>. La heurística más común consiste en buscar el <em>salto vertical más grande</em> entre dos fusiones consecutivas. Una distancia de fusión mucho mayor que la anterior indica que se han tenido que unir <em>clusters</em> que eran naturalmente distintos. La altura justo por debajo de ese salto suele ser la elección más adecuada. Podemos ver esto ejemplificado en la <a href="#fig-dendrograma-cut">Figura 7</a>.</p>
+<p></p><figure id="fig-dendrograma-cut"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_dendrograma-cut.svg" data-desc-position="bottom"><img alt="" src="../images/t7_dendrograma-cut.svg"></a><figcaption>Figura 7: Ejemplo de cortes del dendrograma teniendo en cuenta la distancia de salto. El rango en el que <span class="arithmatex">\(K=4\)</span> es muy pequeño, por lo que en este caso sería preferible cortar en las regiones con mayor salto (<span class="arithmatex">\(K=3\)</span> o <span class="arithmatex">\(K=2\)</span>). </figcaption></figure><p></p>
+<p>Aunque el <em>clustering</em> aglomerativo tiene su propio criterio de selección de <span class="arithmatex">\(K\)</span> a través de los <strong>saltos en la distancia de fusión</strong> en el dendrograma, podemos buscar estrategias más robustas combinando este criterio con otros criterios como <em>Silhouette</em> o CH. De esta forma, se utilizaría el dendrograma para identificar una serie de valores <span class="arithmatex">\(K\)</span> candidatos a partir de los saltos más pronunciados, y posteriormente se confirmaría esa selección con otro de los criterios, como se muestra en la <a href="#fig-seleccion-k">Figura 8</a>.  </p>
+<p></p><figure id="fig-seleccion-k"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_seleccion_k.png" data-desc-position="bottom"><img alt="" src="../images/t7_seleccion_k.png"></a><figcaption>Figura 8: Ejemplo de combinación de criterios para la selección del <span class="arithmatex">\(K\)</span> óptimo. </figcaption></figure><p></p>
 <h3 id="complejidad-computacional">Complejidad computacional<a class="headerlink" href="#complejidad-computacional" title="Permanent link">¶</a></h3>
-<p>La complejidad del clustering aglomerativo depende de la implementación. La versión <em>naïve</em>, que recalcula todas las distancias entre <em>clusters</em> en cada paso, tiene complejidad <span class="arithmatex">\(O(N^3)\)</span> en tiempo y <span class="arithmatex">\(O(N^2)\)</span> en espacio. Con el algoritmo de Murtagh (Murtagh, 1983)<sup id="fnref:murtagh1983survey"><a class="footnote-ref" href="#fn:murtagh1983survey">8</a></sup> y la estructura de datos adecuada se puede reducir a <span class="arithmatex">\(O(N^2 \log N)\)</span> para la mayoría de <em>linkages</em>, y a <span class="arithmatex">\(O(N^2)\)</span> para <em>single linkage</em> con el algoritmo de Prim. En cualquier caso, la dependencia cuadrática en espacio necesaria para almacenar la matriz de distancias limita su aplicabilidad a <em>datasets</em> de tamaño moderado (típicamente, no más de unas decenas de miles de puntos).</p>
+<p>La complejidad del <em>clustering</em> aglomerativo depende de la implementación. La versión <em>naïve</em>, que recalcula todas las distancias entre <em>clusters</em> en cada paso, tiene complejidad <span class="arithmatex">\(O(N^3)\)</span> en tiempo y <span class="arithmatex">\(O(N^2)\)</span> en espacio. Con el algoritmo de Murtagh (Murtagh, 1983)<sup id="fnref:murtagh1983survey"><a class="footnote-ref" href="#fn:murtagh1983survey">8</a></sup> y la estructura de datos adecuada se puede reducir a <span class="arithmatex">\(O(N^2 \log N)\)</span> para la mayoría de <em>linkages</em>, y a <span class="arithmatex">\(O(N^2)\)</span> para <em>single linkage</em> con el algoritmo SLINK (Sibson, 1973)<sup id="fnref:Sibson1973SLINK"><a class="footnote-ref" href="#fn:Sibson1973SLINK">9</a></sup>. En cualquier caso, la dependencia cuadrática en espacio necesaria para almacenar la matriz de distancias limita su aplicabilidad a <em>datasets</em> de tamaño moderado (típicamente, no más de unas decenas de miles de puntos).</p>
 <h3 id="implementacion-en-sklearn">Implementación en sklearn<a class="headerlink" href="#implementacion-en-sklearn" title="Permanent link">¶</a></h3>
-<p>En sklearn el clustering aglomerativo está disponible en <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html"><code>AgglomerativeClustering</code></a>. A diferencia de K-Means, este estimador <strong>no implementa el método <code>predict</code></strong>, ya que el modelo jerárquico no generaliza a nuevos puntos sin reajustar. El resultado es una partición de los datos de entrenamiento, no un clasificador.</p>
+<p>En sklearn el <em>clustering</em> aglomerativo está disponible en <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html"><code>AgglomerativeClustering</code></a>. A diferencia de K-Means, este estimador <strong>no implementa el método <code>predict</code></strong>, ya que el modelo jerárquico no generaliza a nuevos puntos sin reajustar. El resultado es una partición de los datos de entrenamiento, no un clasificador.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Siempre escalar antes de clustering basado en distancias</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">X_scaled</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
@@ -809,7 +1246,7 @@ Devolver Dendograma con las <span class="arithmatex">\((N-1)\)</span> fusiones r
 <p><strong><code>linkage</code></strong>: criterio de fusión. Las opciones son <code>'ward'</code>, <code>'complete'</code>, <code>'average'</code> y <code>'single'</code>. La elección tiene un impacto decisivo en el resultado, como hemos visto.</p>
 </li>
 <li>
-<p><strong><code>distance_threshold</code></strong>: si se establece (y <code>n_clusters=None</code>), el árbol se corta en la distancia indicada en lugar de a un número fijo de clusters. Útil cuando no se conoce <span class="arithmatex">\(K\)</span> a priori y se prefiere trabajar con un umbral de disimilitud máxima.</p>
+<p><strong><code>distance_threshold</code></strong>: si se establece (y <code>n_clusters=None</code>), el árbol se corta en la distancia indicada en lugar de a un número fijo de <em>clusters</em>. Útil cuando no se conoce <span class="arithmatex">\(K\)</span> a priori y se prefiere trabajar con un umbral de disimilitud máxima.</p>
 </li>
 <li>
 <p><strong><code>compute_distances</code></strong>: si es <code>True</code>, almacena en <code>modelo.distances_</code> las distancias de cada fusión, lo que permite dibujar el dendrograma.</p>
@@ -837,12 +1274,12 @@ Devolver Dendograma con las <span class="arithmatex">\((N-1)\)</span> fusiones r
 <a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <blockquote>
-<p><strong>Nota</strong>: <em>sklearn</em> y <em>scipy</em> mantienen implementaciones separadas del clustering jerárquico. Para <strong>obtener los clusters</strong> se usa <code>AgglomerativeClustering</code> de <em>sklearn</em>. Para <strong>visualizar el dendrograma</strong> resulta más cómodo usar <code>scipy.cluster.hierarchy</code>, ya que <em>sklearn</em> no proporciona directamente la función de visualización.</p>
+<p><strong>Nota</strong>: <em>sklearn</em> y <em>scipy</em> mantienen implementaciones separadas del <em>clustering</em> jerárquico. Para <strong>obtener los <em>clusters</em></strong> se usa <code>AgglomerativeClustering</code> de <em>sklearn</em>. Para <strong>visualizar el dendrograma</strong> resulta más cómodo usar <code>scipy.cluster.hierarchy</code>, ya que <em>sklearn</em> no proporciona directamente la función de visualización.</p>
 </blockquote>
 <h3 id="flujo-de-trabajo">Flujo de trabajo<a class="headerlink" href="#flujo-de-trabajo" title="Permanent link">¶</a></h3>
-<p>Un aspecto importante de la implementación es la <strong>normalización previa</strong>. El clustering aglomerativo, al estar basado en distancias, es sensible a la escala de las variables. Si una variable tiene valores en el rango <span class="arithmatex">\([0, 1]\)</span> y otra en el rango <span class="arithmatex">\([0, 10000]\)</span>, la segunda dominará todas las distancias. Por ello es casi siempre necesario aplicar <code>StandardScaler</code> antes de ajustar el modelo.</p>
-<p>Como hemos visto en la implementación, hay dos formas alternativas de <strong>seleccionar el número de clases <span class="arithmatex">\(K\)</span></strong>: utilizar <code>n_classes</code> para establecer un número específico de clases o proporcionar <code>distance_threshold</code> para cortar cuando encontremos un salto mayor a la distancia indicada y determinar así <span class="arithmatex">\(K\)</span> a partir de los saltos. El problema de esta segunda forma es que no conocemos de antemano la distribución de saltos en el dendograma. </p>
-<p>Por este motivo, en la práctica el flujo de trabajo habitual consistirá en construir y representar mediante <em>scipy</em> el dendograma, inspeccionando el rango de distancias y seleccionando el corte a partir de esta información:</p>
+<p>Un aspecto importante de la implementación es la <strong>normalización previa</strong>. El <em>clustering</em> aglomerativo, al estar basado en distancias, es sensible a la escala de las variables. Si una variable tiene valores en el rango <span class="arithmatex">\([0, 1]\)</span> y otra en el rango <span class="arithmatex">\([0, 10000]\)</span>, la segunda dominará todas las distancias. Por ello es casi siempre necesario aplicar <code>StandardScaler</code> antes de ajustar el modelo.</p>
+<p>Como hemos visto en la implementación, hay dos formas alternativas de <strong>seleccionar el número de clases <span class="arithmatex">\(K\)</span></strong>: utilizar <code>n_classes</code> para establecer un número específico de clases o proporcionar <code>distance_threshold</code> para cortar cuando encontremos un salto mayor a la distancia indicada y determinar así <span class="arithmatex">\(K\)</span> a partir de los saltos. El problema de esta segunda forma es que no conocemos de antemano la distribución de saltos en el dendrograma. </p>
+<p>Por este motivo, en la práctica el flujo de trabajo habitual consistirá en construir y representar mediante <em>scipy</em> el dendrograma, inspeccionando el rango de distancias y seleccionando el corte a partir de esta información:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span> <span class="nn">scipy.cluster.hierarchy</span> <span class="kn">import</span> <span class="n">linkage</span><span class="p">,</span> <span class="n">dendrogram</span><span class="p">,</span> <span class="n">fcluster</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
@@ -864,23 +1301,25 @@ Devolver Dendograma con las <span class="arithmatex">\((N-1)\)</span> fusiones r
 </code></pre></div>
 <p>Una vez hecho esto, podemos utilizar <code>AgglomerativeClustering</code> con el número de clases <span class="arithmatex">\(K\)</span> o el umbral de distancia elegido para obtener las etiquetas finales.</p>
 <h3 id="reduccion-de-la-dimensionalidad">Reducción de la dimensionalidad<a class="headerlink" href="#reduccion-de-la-dimensionalidad" title="Permanent link">¶</a></h3>
-<p>Hasta ahora hemos aplicado el clustering aglomerativo sobre las <strong>observaciones</strong>, esto es, cada punto del <em>dataset</em> es un objeto que se agrupa con otros similares. El mismo algoritmo puede aplicarse de forma transpuesta sobre las <strong>variables</strong>, de forma que en lugar de agrupar filas agrupamos columnas. El resultado es una forma de reducción de dimensionalidad que reemplaza grupos de variables similares por una única variable representativa de cada grupo.</p>
+<p>Hasta ahora hemos aplicado el <em>clustering</em> aglomerativo sobre las <strong>observaciones</strong>, esto es, cada punto del <em>dataset</em> es un objeto que se agrupa con otros similares. El mismo algoritmo puede aplicarse de forma transpuesta sobre las <strong>variables</strong>, de forma que en lugar de agrupar filas agrupamos columnas. El resultado es una forma de reducción de dimensionalidad que reemplaza grupos de variables similares por una única variable representativa de cada grupo.</p>
 <p>La motivación de este enfoque viene de que en muchos <em>datasets</em> reales, especialmente en bioinformática, señales de sensores o datos de texto, existe alta redundancia entre variables, como por ejemplo un grupo de genes que se coexpresan, un conjunto de sensores que miden fenómenos relacionados, o un conjunto de términos sinónimos en una representación de texto. En lugar de aplicar PCA, que produce componentes abstractas difíciles de interpretar, el <em>clustering</em> de variables agrupa las originales y produce representaciones que mantienen la interpretabilidad.</p>
 <p>En sklearn esta funcionalidad está disponible en <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.FeatureAgglomeration.html"><code>FeatureAgglomeration</code></a>, que aplica <em>clustering</em> aglomerativo sobre las columnas del <em>dataset</em> y reemplaza cada grupo de variables por su media:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">agglo</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">FeatureAgglomeration</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">agglo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">X_reduced</span> <span class="o">=</span> <span class="n">agglo</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 </code></pre></div>
-<p>Es conveniente prestar atención a la métrica sobre la que se calcula la similitud entre variables. Por defecto se usa la distancia euclídea entre los vectores de observaciones de cada variable, es decir, dos variables son similares si sus valores numéricos son parecidos punto a punto. Sin embargo, en muchos casos es más adecuado usar la <strong>correlación de Pearson</strong> como medida de similitud, ya que dos variables pueden tener escalas muy distintas pero un patrón de variación idéntico, y son esas variables las que conviene agrupar. Para ello se puede pasar <code>metric='correlation'</code> con <code>linkage='average'</code> (ya que Ward no es compatible con esa métrica).</p>
-<h2 id="clustering-espectral">Clustering espectral<a class="headerlink" href="#clustering-espectral" title="Permanent link">¶</a></h2>
-<p>El <em>clustering espectral</em> (Ng et al., 2002; Shi &amp; Malik, 2000)<sup id="fnref:shi2000normalized"><a class="footnote-ref" href="#fn:shi2000normalized">9</a></sup> <sup id="fnref:ng2002spectral"><a class="footnote-ref" href="#fn:ng2002spectral">10</a></sup> aborda una limitación fundamental de K-Means y del <em>clustering</em> aglomerativo con Ward, y es que estos métodos trabajan en el espacio original de características y tienden a encontrar <em>clusters</em> convexos (en el caso de K-Means, exactamente esféricos). Sin embargo, muchos conjuntos de datos tienen estructuras no convexas, como dos círculos concéntricos, espirales entrelazadas o formas de media luna que estos métodos no pueden separar correctamente (ver <a href="#fig-espectral-motivacion">Figura 3</a>).</p>
-<p></p><figure id="fig-espectral-motivacion"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_kmeans_vs_spectral.svg" data-desc-position="bottom"><img alt="" src="../images/t7_kmeans_vs_spectral.svg"></a><figcaption>Figura 3: K-Means falla con círculos concéntricos (izquierda). El clustering espectral los separa correctamente (derecha). </figcaption></figure><p></p>
-<p>La idea del clustering espectral es <strong>transformar el espacio de representación</strong> utilizando herramientas de teoría de grafos, de forma que los <em>clusters</em> naturales de los datos se conviertan en regiones linealmente separables en el nuevo espacio. Una vez realizada esa transformación, basta aplicar K-Means.</p>
+<p>Es conveniente prestar atención a la métrica sobre la que se calcula la similitud entre variables. Por defecto se usa la distancia euclídea entre los vectores de observaciones de cada variable, es decir, dos variables son similares si sus valores numéricos son parecidos punto a punto. Sin embargo, en muchos casos es más adecuado usar la <strong>correlación de Pearson</strong> como medida de similitud, ya que dos variables pueden tener escalas muy distintas pero un patrón de variación idéntico, y son esas variables las que conviene agrupar. Para ello se puede pasar <code>metric='correlation'</code> con <code>linkage='average'</code> (ya que Ward requiere distancia euclídea y no es compatible con métricas de correlación).</p>
+<p>En la <a href="#fig-feature-agglomeration">Figura 9</a> se muestra un ejemplo de aplicación de <code>FeatureAgglomeration</code> para reducir la dimensionalidad, y se compara con otro método de reducción de dimensionalidad como PCA. En la fila superior izquierda se muestra la matriz de correlación de <em>features</em> originales, y a la derecha se muestran las <em>features</em> ordenadas por grupos tras aplicar <code>FeatureAgglomeration</code>. En la fila inferior se evalúa la reducción de dimensionalidad: a la izquierda se muestra la correlación entre las <em>features</em> prototipo obtenidas mediante el promedidado de las columnas agrupadas y las <em>features</em> originales, y a la derecha se muestra la correlación entre las <span class="arithmatex">\(4\)</span> componentes principales encontradas por PCA y las <em>features</em> originales. Podemos observar que en el caso de PCA todas las <em>features</em> participan de forma más equilibrada en las diferentes componentes, mientras que <code>FeatureAgglomeration</code> está más enfocado minimizar la correlación entre las <em>features</em> agrupadas.</p>
+<p></p><figure id="fig-feature-agglomeration"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_feature_agglomeration.png" data-desc-position="bottom"><img alt="" src="../images/t7_feature_agglomeration.png"></a><figcaption>Figura 9: Ejemplo de reducción de la dimensionalidad con <code>FeatureAgglomeration</code>, y comparación con PCA.  </figcaption></figure><p></p>
+<h2 id="clustering-espectral"><em>Clustering</em> espectral<a class="headerlink" href="#clustering-espectral" title="Permanent link">¶</a></h2>
+<p>El <em>clustering espectral</em> (Ng et al., 2002; Shi &amp; Malik, 2000)<sup id="fnref:shi2000normalized"><a class="footnote-ref" href="#fn:shi2000normalized">10</a></sup> <sup id="fnref:ng2002spectral"><a class="footnote-ref" href="#fn:ng2002spectral">11</a></sup> aborda una limitación fundamental de K-Means y del <em>clustering</em> aglomerativo con Ward, y es que estos métodos trabajan en el espacio original de características y tienden a encontrar <em>clusters</em> convexos (en el caso de K-Means, exactamente esféricos). Sin embargo, muchos conjuntos de datos tienen estructuras no convexas, como dos círculos concéntricos, espirales entrelazadas o formas de media luna que estos métodos no pueden separar correctamente (ver <a href="#fig-espectral-motivacion">Figura 10</a>).</p>
+<p></p><figure id="fig-espectral-motivacion"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_kmeans_vs_spectral.svg" data-desc-position="bottom"><img alt="" src="../images/t7_kmeans_vs_spectral.svg"></a><figcaption>Figura 10: K-Means falla con círculos concéntricos (izquierda). El <em>clustering</em> espectral los separa correctamente (derecha). </figcaption></figure><p></p>
+<p>La idea del <em>clustering</em> espectral es <strong>transformar el espacio de representación</strong> utilizando herramientas de teoría de grafos, de forma que los <em>clusters</em> naturales de los datos se conviertan en regiones linealmente separables en el nuevo espacio. Una vez realizada esa transformación, basta aplicar K-Means.</p>
 <h3 id="filosofia-divisiva-e-inspiracion-espectral">Filosofía divisiva e inspiración espectral<a class="headerlink" href="#filosofia-divisiva-e-inspiracion-espectral" title="Permanent link">¶</a></h3>
 <p>Antes de desarrollar el algoritmo, conviene situar el <em>clustering</em> espectral en relación con los enfoques jerárquicos que hemos visto.</p>
 <p>La variante divisiva del <em>clustering</em> jerárquico divide recursivamente el conjunto completo de datos. El reto es definir un criterio de división que sea significativo a nivel global, no solo local. Una opción natural es formular la división como un problema de <strong>corte de grafo</strong>, es decir, construir un grafo donde los nodos son los puntos de datos y los arcos representan la similitud entre ellos, y buscar la partición que minimice las conexiones entre los dos grupos resultantes.</p>
-<p>Este problema de <em>graph cut</em> óptimo tiene, en su versión exacta, complejidad exponencial. Sin embargo, su <strong>relajación continua</strong>, es decir, permitir asignaciones fraccionarias en lugar de binarias, conduce directamente a un problema de autovalores sobre la <em>matriz laplaciana</em> del grafo (Shi &amp; Malik, 2000)<sup id="fnref2:shi2000normalized"><a class="footnote-ref" href="#fn:shi2000normalized">9</a></sup>. Los autovectores de esta matriz son, en ese sentido, la solución relajada del problema de partición óptima.</p>
-<p>El <em>clustering</em> espectral estándar aplica este principio para encontrar <span class="arithmatex">\(K\)</span> clusters simultáneamente (no de forma recursiva), pero la conexión con la filosofía divisiva es directa, ya que la teoría espectral de grafos proporciona el fundamento matemático que el enfoque divisivo necesitaba para ser computable de forma eficiente.</p>
+<p>Este problema de <em>graph cut</em> óptimo tiene, en su versión exacta, complejidad exponencial. Sin embargo, su <strong>relajación continua</strong>, es decir, permitir asignaciones fraccionarias en lugar de binarias, conduce directamente a un problema de autovalores sobre la <em>matriz laplaciana</em> del grafo (Shi &amp; Malik, 2000)<sup id="fnref2:shi2000normalized"><a class="footnote-ref" href="#fn:shi2000normalized">10</a></sup>. Los autovectores de esta matriz son, en ese sentido, la solución relajada del problema de partición óptima.</p>
+<p>El <em>clustering</em> espectral estándar aplica este principio para encontrar <span class="arithmatex">\(K\)</span> <em>clusters</em> simultáneamente (no de forma recursiva), pero la conexión con la filosofía divisiva es directa, ya que la teoría espectral de grafos proporciona el fundamento matemático que el enfoque divisivo necesitaba para ser computable de forma eficiente.</p>
 <h3 id="construccion-del-grafo-de-similitud">Construcción del grafo de similitud<a class="headerlink" href="#construccion-del-grafo-de-similitud" title="Permanent link">¶</a></h3>
 <p>El primer paso es representar los datos como un grafo <span class="arithmatex">\(G = (V, E)\)</span>, donde cada nodo <span class="arithmatex">\(v_i \in V\)</span> es un punto de datos y cada arista <span class="arithmatex">\((v_i, v_j) \in E\)</span> tiene un peso <span class="arithmatex">\(w_{ij}\)</span> que refleja la similitud entre <span class="arithmatex">\(\mathbf{x}_i\)</span> y <span class="arithmatex">\(\mathbf{x}_j\)</span>. Los tres esquemas más comunes son:</p>
 <ul>
@@ -890,6 +1329,11 @@ Devolver Dendograma con las <span class="arithmatex">\((N-1)\)</span> fusiones r
 </ul>
 <div class="arithmatex">\[w_{ij} = \exp\!\left(-\frac{\|\mathbf{x}_i - \mathbf{x}_j\|^2}{2\sigma^2}\right)\]</div>
 <p>Donde <span class="arithmatex">\(\sigma\)</span> es un parámetro que controla el radio de influencia de cada punto. Esta es la opción más habitual.</p>
+<p>En la implementación de <em>sklearn</em> encontraremos un parámetro <code>gamma</code> (<span class="arithmatex">\(\gamma\)</span>) con la equivalencia:</p>
+<div class="arithmatex">\[
+\gamma = \frac{1}{2\sigma^2}
+\]</div>
+<p>Es decir, <strong>valores pequeños de <span class="arithmatex">\(\gamma\)</span></strong> corresponderán a valores altos de <span class="arithmatex">\(\sigma\)</span>, con lo cual cada punto afectará a un radio de vecindad más amplio (estamos "acercando") los puntos, lo cual podría llegar a conectar grupos de puntos alejados entre si. Por el contrario, con un <strong>valor alto de <span class="arithmatex">\(\gamma\)</span></strong> corresponde a un valor pequeño de <span class="arithmatex">\(\sigma\)</span>, y lo que hará es afectar a un radio de vecindad menor, lo cual podría llegar a fragmentar la estructura en exceso. El <strong>ajuste de este parámetro resulta crítico</strong>, y una posible forma de abordarlo es mediante un análisis de la distribución de distancias entre los vecinos más cercanos en el <em>dataset</em> de entrada.</p>
 <h3 id="la-matriz-laplaciana">La matriz Laplaciana<a class="headerlink" href="#la-matriz-laplaciana" title="Permanent link">¶</a></h3>
 <p>A partir de la matriz de similitud <span class="arithmatex">\(W\)</span> (con elementos <span class="arithmatex">\(w_{ij}\)</span>) se construyen las siguientes matrices:</p>
 <ul>
@@ -900,17 +1344,17 @@ Devolver Dendograma con las <span class="arithmatex">\((N-1)\)</span> fusiones r
 <p>La propiedad fundamental de la Laplaciana es que <strong>el número de autovalores iguales a cero de <span class="arithmatex">\(L\)</span> es igual al número de componentes conexas del grafo</strong>. Cuando hay <span class="arithmatex">\(K\)</span> componentes completamente desconectadas, la Laplaciana tiene <span class="arithmatex">\(K\)</span> autovalores nulos y los autovectores correspondientes son indicadores binarios de cada componente (cada elemento del vector nos indica si el correspondiente nodo del grafo  pertenece o no a la componente). </p>
 <h3 id="criterios-de-corte">Criterios de corte<a class="headerlink" href="#criterios-de-corte" title="Permanent link">¶</a></h3>
 <p>La construcción del grafo y la Laplaciana es la base del <em>clustering</em> espectral, pero el objetivo que buscamos optimizar es un <strong>criterio de corte de grafo</strong>. Hay dos formulaciones principales que dan lugar a variantes distintas del algoritmo.</p>
-<p>Dado un grafo con <span class="arithmatex">\(K\)</span> clusters <span class="arithmatex">\(C_1, \ldots, C_K\)</span>, definimos el <em>corte</em> de un <em>cluster</em> como la suma de pesos de las aristas que lo conectan con el resto de <em>clusters</em>:</p>
+<p>Dado un grafo con <span class="arithmatex">\(K\)</span> <em>clusters</em> <span class="arithmatex">\(C_1, \ldots, C_K\)</span>, definimos el <em>corte</em> de un <em>cluster</em> como la suma de pesos de las aristas que lo conectan con el resto de <em>clusters</em>:</p>
 <div class="arithmatex">\[\text{cut}(C_k, \bar{C}_k) = \sum_{i \in C_k,\, j \notin C_k} w_{ij}\]</div>
 <p>Minimizar directamente la suma de cortes <span class="arithmatex">\(\sum_k \text{cut}(C_k, \bar{C}_k)\)</span> no es un buen criterio, ya que favorece soluciones degeneradas donde un <em>cluster</em> tiene un único punto y el resto forman un <em>cluster</em> enorme. Esto es así porque un <em>cluster</em> pequeño tiene pocas aristas que cortar y su coste de separación es mínimo. Vamos a ver dos formulaciones que resuelven esto normalizando el corte.</p>
-<p><strong>Ratio Cut</strong> (Hagen &amp; Kahng, 1992)<sup id="fnref:hagen1992new"><a class="footnote-ref" href="#fn:hagen1992new">11</a></sup> normaliza por el número de puntos de cada <em>cluster</em>:</p>
+<p><strong>Ratio Cut</strong> (Hagen &amp; Kahng, 1992)<sup id="fnref:hagen1992new"><a class="footnote-ref" href="#fn:hagen1992new">12</a></sup> normaliza por el número de puntos de cada <em>cluster</em>:</p>
 <div class="arithmatex">\[\text{RatioCut}(C_1, \ldots, C_K) = \sum_{k=1}^K \frac{\text{cut}(C_k, \bar{C}_k)}{|C_k|}\]</div>
-<p>La normalización por <span class="arithmatex">\(|C_k|\)</span> penaliza los <em>clusters</em> muy pequeños. Un cluster de un solo punto tendría un denominador mínimo y por lo tanto un gran peso en la suma, lo que desincentiva esa solución degenerada. La relajación continua de este problema de optimización discreto conduce a los autovectores de la <strong>Laplaciana no normalizada</strong> <span class="arithmatex">\(L = D - W\)</span>.</p>
-<p><strong>Normalized Cut</strong> (Shi &amp; Malik, 2000)<sup id="fnref3:shi2000normalized"><a class="footnote-ref" href="#fn:shi2000normalized">9</a></sup> normaliza por el volumen del <em>cluster</em>, definido como la suma de grados de sus nodos:</p>
+<p>La normalización por <span class="arithmatex">\(|C_k|\)</span> penaliza los <em>clusters</em> muy pequeños. Un <em>cluster</em> de un solo punto tendría un denominador mínimo y por lo tanto un gran peso en la suma, lo que desincentiva esa solución degenerada. La relajación continua de este problema de optimización discreto conduce a los autovectores de la <strong>Laplaciana no normalizada</strong> <span class="arithmatex">\(L = D - W\)</span>.</p>
+<p><strong>Normalized Cut</strong> (Shi &amp; Malik, 2000)<sup id="fnref3:shi2000normalized"><a class="footnote-ref" href="#fn:shi2000normalized">10</a></sup> normaliza por el volumen del <em>cluster</em>, definido como la suma de grados de sus nodos:</p>
 <div class="arithmatex">\[\text{NCut}(C_1, \ldots, C_K) = \sum_{k=1}^K \frac{\text{cut}(C_k, \bar{C}_k)}{\text{vol}(C_k)}, \qquad \text{vol}(C_k) = \sum_{i \in C_k} d_i\]</div>
-<p>Normalizar por el volumen en lugar del tamaño tiene en cuenta la densidad de conexiones de cada <em>cluster</em>. Esto es, un <em>cluster</em> con nodos muy conectados tiene volumen alto aunque tenga pocos puntos. Esta normalización es más robusta cuando los nodos tienen grados muy distintos, que es el caso habitual en datos reales. La relajación continua de NCut conduce a los autovectores de la <strong>Laplaciana normalizada</strong> <span class="arithmatex">\(L_{\text{sym}} = D^{-1/2}(D-W)D^{-1/2}\)</span>.</p>
+<p>Normalizar por el volumen en lugar del tamaño tiene en cuenta la densidad de conexiones de cada <em>cluster</em>. Esto es, un <em>cluster</em> con nodos muy conectados tiene volumen alto aunque tenga pocos puntos. De esta forma, NCut favorece particiones que preservan comunidades con muchas conexiones internas, en lugar de simplemente equilibrar el número de puntos en cada grupo. La relajación continua de NCut conduce a los autovectores de la <strong>Laplaciana normalizada</strong> <span class="arithmatex">\(L_{\text{sym}} = D^{-1/2}(D-W)D^{-1/2}\)</span>.</p>
 <blockquote>
-<p><strong>Nota</strong>: El paper original de Shi y Malik (Shi &amp; Malik, 2000)<sup id="fnref4:shi2000normalized"><a class="footnote-ref" href="#fn:shi2000normalized">9</a></sup> formula NCut como una bipartición recursiva: en cada paso se resuelve el problema para <span class="arithmatex">\(K=2\)</span>, cuya solución viene dada por el segundo autovector de <span class="arithmatex">\(L_{\text{sym}}\)</span>, y se divide el grafo en dos partes, aplicando el proceso recursivamente a cada subgrafo. El algoritmo de Ng, Jordan y Weiss (Ng et al., 2002)<sup id="fnref3:ng2002spectral"><a class="footnote-ref" href="#fn:ng2002spectral">10</a></sup> que veremos a continuación generaliza este enfoque calculando los <span class="arithmatex">\(K\)</span> autovectores simultáneamente, evitando la recursión y siendo más eficiente cuando <span class="arithmatex">\(K&gt;2\)</span>.</p>
+<p><strong>Nota</strong>: El paper original de Shi y Malik (Shi &amp; Malik, 2000)<sup id="fnref4:shi2000normalized"><a class="footnote-ref" href="#fn:shi2000normalized">10</a></sup> formula NCut como una bipartición recursiva: en cada paso se resuelve el problema para <span class="arithmatex">\(K=2\)</span>, cuya solución viene dada por el segundo autovector de <span class="arithmatex">\(L_{\text{sym}}\)</span>, y se divide el grafo en dos partes, aplicando el proceso recursivamente a cada subgrafo. El algoritmo de Ng, Jordan y Weiss (Ng et al., 2002)<sup id="fnref3:ng2002spectral"><a class="footnote-ref" href="#fn:ng2002spectral">11</a></sup> que veremos a continuación generaliza este enfoque calculando los <span class="arithmatex">\(K\)</span> autovectores simultáneamente, evitando la recursión y siendo más eficiente cuando <span class="arithmatex">\(K&gt;2\)</span>.</p>
 </blockquote>
 <p>La elección entre ambas Laplacianas no es arbitraria, sino que refleja cuál de los dos criterios se está optimizando. En la práctica NCut y la Laplaciana normalizada son la opción preferida, y es la que implementa <em>sklearn</em> por defecto.</p>
 <h3 id="espectro-de-la-laplaciana">Espectro de la Laplaciana<a class="headerlink" href="#espectro-de-la-laplaciana" title="Permanent link">¶</a></h3>
@@ -922,7 +1366,7 @@ Devolver Dendograma con las <span class="arithmatex">\((N-1)\)</span> fusiones r
 </ul>
 <p>De esta forma, podemos ver <span class="arithmatex">\(U\)</span> como una representación de los <span class="arithmatex">\(N\)</span> puntos en un espacio de dimensión <span class="arithmatex">\(K\)</span> inducido por la estructura del grafo. </p>
 <h3 id="algoritmo-de-clustering-espectral">Algoritmo de <em>clustering</em> espectral<a class="headerlink" href="#algoritmo-de-clustering-espectral" title="Permanent link">¶</a></h3>
-<p>El algoritmo de Ng, Jordan y Weiss (Ng et al., 2002)<sup id="fnref2:ng2002spectral"><a class="footnote-ref" href="#fn:ng2002spectral">10</a></sup> es la implementación estándar de Normalized Cut, con mejoras en la estabilidad numérica mediante la normalización de filas de <span class="arithmatex">\(U\)</span>:</p>
+<p>El algoritmo de Ng, Jordan y Weiss (Ng et al., 2002)<sup id="fnref2:ng2002spectral"><a class="footnote-ref" href="#fn:ng2002spectral">11</a></sup> es la implementación estándar de Normalized Cut, con mejoras en la estabilidad numérica mediante la normalización de filas de <span class="arithmatex">\(U\)</span>:</p>
 <!-- 
 $$
 \begin{align*}
@@ -968,22 +1412,26 @@ Devolver la asignación de <em>clusters</em> resultante de K-Means
 </code></pre></div>
 <p>Los parámetros más importantes son:</p>
 <ul>
-<li><strong><code>n_clusters</code></strong>: número de clusters <span class="arithmatex">\(K\)</span>. Determina cuántos autovectores se calculan.</li>
+<li><strong><code>n_clusters</code></strong>: número de <em>clusters</em> <span class="arithmatex">\(K\)</span>. Determina cuántos autovectores se calculan.</li>
 <li><strong><code>affinity</code></strong>: cómo se construye la matriz de similitud. Las opciones más comunes son <code>'rbf'</code> (similitud gaussiana, la opción por defecto), <code>'nearest_neighbors'</code> (grafo KNN), o una matriz precalculada pasando <code>'precomputed'</code>.</li>
 <li><strong><code>gamma</code></strong>: parámetro de la función de similitud gaussiana, equivalente a <span class="arithmatex">\(\frac{1}{2\sigma^2}\)</span>. Valores más altos hacen que la similitud decaiga más rápido con la distancia, produciendo grafos más dispersos.</li>
 <li><strong><code>assign_labels</code></strong>: método para la asignación final tras la proyección espectral. <code>'kmeans'</code> aplica K-Means estándar, que es eficiente pero sensible a la inicialización. <code>'discretize'</code> busca la asignación binaria más cercana a $\tilde{U}
 $, siendo más robusto a la inicialización a costa de un mayor coste computacional. <code>'cluster_qr'</code> produce una asignación determinista a partir de los autovectores sin inicialización aleatoria y con menor coste computacional. Esta última es actualmente la opción recomendada en <em>sklearn</em>, aunque no es el valor por defecto por compatibilidad con código anterior.</li>
 </ul>
 <blockquote>
-<p><strong>Nota</strong>: El clustering espectral no implementa <code>predict</code> por la misma razón que el aglomerativo. No existe una forma natural de proyectar nuevos puntos al espacio espectral sin re-ajustar el grafo completo. Si se necesita predecir sobre nuevos datos, una opción es usar la proyección espectral como preprocesado y entrenar un clasificador en ese espacio (por ejemplo, entrenar un clasificador KNN con los ejemplos de entrada y con las etiquetas obtenidas a partir del <em>clustering</em> espectral como variable objetivo).</p>
+<p><strong>Nota</strong>: El <em>clustering</em> espectral no implementa <code>predict</code> por la misma razón que el aglomerativo. No existe una forma natural de proyectar nuevos puntos al espacio espectral sin re-ajustar el grafo completo. Si se necesita predecir sobre nuevos datos, una opción es usar la proyección espectral como preprocesado y entrenar un clasificador en ese espacio (por ejemplo, entrenar un clasificador KNN con los ejemplos de entrada y con las etiquetas obtenidas a partir del <em>clustering</em> espectral como variable objetivo).</p>
 </blockquote>
 <h3 id="ventajas-y-limitaciones">Ventajas y limitaciones<a class="headerlink" href="#ventajas-y-limitaciones" title="Permanent link">¶</a></h3>
 <p>El <em>clustering</em> espectral detecta <em>clusters</em> de formas arbitrarias y tiene una sólida fundamentación teórica. Sin embargo, su coste computacional es <span class="arithmatex">\(O(N^3)\)</span> para el cálculo de autovectores (aunque algunas implementaciones aproximadas lo reducen), lo que lo hace inviable para <em>datasets</em> grandes. Además, el resultado es sensible a la elección de la matriz de similitud y su parámetro <span class="arithmatex">\(\sigma\)</span>. Un valor incorrecto puede hacer que <em>clusters</em> naturales queden desconectados o que el grafo sea tan denso que no tenga estructura útil.</p>
 <h3 id="biclustering-y-co-clustering">Biclustering y co-clustering<a class="headerlink" href="#biclustering-y-co-clustering" title="Permanent link">¶</a></h3>
 <p>Antes de cerrar el <em>clustering</em> espectral, conviene mencionar dos variantes relacionadas que también se basan en álgebra espectral pero con un objetivo diferente.</p>
-<p>El <em>biclustering</em> (Kluger et al., 2003)<sup id="fnref:kluger2003spectral"><a class="footnote-ref" href="#fn:kluger2003spectral">12</a></sup> agrupa simultáneamente las filas y las columnas de una matriz de datos. En lugar de buscar grupos de observaciones con características similares, busca submatrices donde un subconjunto de observaciones comparten un patrón coherente en un subconjunto de variables. Su aplicación más conocida es en bioinformática: encontrar grupos de genes que se co-expresan en grupos de condiciones experimentales.</p>
-<p>El <em>co-clustering</em> (también llamado <em>block clustering</em>) es un término a veces usado como sinónimo de biclustering, aunque en algunos contextos se reserva para el caso en que la partición de filas y columnas son mutuamente dependientes, es decir, la asignación de grupos de filas depende de la agrupación de columnas y viceversa.</p>
-<p>Tanto <em>biclustering</em> como <em>co-clustering</em> son extensiones del clustering espectral al caso bidimensional y no deben confundirse con el <em>clustering</em> espectral estándar, que solo agrupa observaciones.</p>
+<p>El <em>biclustering</em> (Kluger et al., 2003)<sup id="fnref:kluger2003spectral"><a class="footnote-ref" href="#fn:kluger2003spectral">13</a></sup> agrupa simultáneamente las filas y las columnas de una matriz de datos. En lugar de buscar grupos de observaciones con características similares, busca submatrices donde un subconjunto de observaciones comparten un patrón coherente en un subconjunto de variables. Su aplicación más conocida es en bioinformática: encontrar grupos de genes que se co-expresan en grupos de condiciones experimentales. Este tipo de agrupación suele crear en la matriz una visualización de tipo "tablero de ajedrez" (ver <a href="#fig-biclustering">Figura 11</a>). Es decir, los datos de cada fila pueden estar organizados en varios <em>biclusters</em> de columnas, y los datos de cada columna en varios <em>biclusters</em> de filas. </p>
+<p></p><figure id="fig-biclustering"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_biclustering.png" data-desc-position="bottom"><img alt="" src="../images/t7_biclustering.png"></a><figcaption>Figura 11: Ejemplo de problema de <em>bi-clustering</em>. Las columnas representan diferentes condiciones experimentales y las filas indican el nivel de expresión de diferentes genes en cada caso. A la izquierda vemos la matriz de datos original, y a la derecha vemos la matriz ordenada mediante <em>bi-clustering</em>.  </figcaption></figure><p></p>
+<p>El <em>co-clustering</em> (también llamado <em>block clustering</em>) es un término a veces usado como sinónimo de <em>biclustering</em>, aunque en algunos contextos se reserva para el caso en que la partición de filas y columnas son mutuamente dependientes, es decir, la asignación de grupos de filas depende de la agrupación de columnas y viceversa. Es decir, en este caso que cada fila y columna corresponde exactamente a un <em>bicluster</em>. Esto provoca que la matriz resultante concentre los valores más altos en bloques de su diagonal (ver <a href="#fig-coclustering">Figura 12</a>).</p>
+<p></p><figure id="fig-coclustering"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_coclustering.png" data-desc-position="bottom"><img alt="" src="../images/t7_coclustering.png"></a><figcaption>Figura 12: Ejemplo de problema de <em>co-clustering</em>, en el que se representa la valoración que hacen los usuarios de diferentes películas. Aplicando <em>co-clustering</em> buscamos definir diferentes perfiles de usuarios, analizando los bloques de la diagonal.   </figcaption></figure><p></p>
+<p>La <a href="#fig-co-vs-bi">Figura 13</a> ilustra las diferencias conceptuales entre <em>bi-clustering</em> (derecha) y <em>co-clustering</em> (izquierda). <em>Bi-clustering</em> es un caso más general, donde podemos encontrar bloques parciales o solapados, distribuidos a lo largo de la matriz, mientras que el <em>co-clustering</em> es un caso más concreto en el que tenemos una partición exhaustiva y disjunta, con todos los bloques de agrupaciones en la diagonal de la matriz.</p>
+<p></p><figure id="fig-co-vs-bi"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t7_biclustering_vs_coclustering.svg" data-desc-position="bottom"><img alt="" src="../images/t7_biclustering_vs_coclustering.svg"></a><figcaption>Figura 13: Comparativa entre <em>co-clustering</em> (izquierda) y <em>bi-clustering</em> (derecha).</figcaption></figure><p></p>
+<p>Tanto <em>biclustering</em> como <em>co-clustering</em> son extensiones del <em>clustering</em> espectral al caso bidimensional y no deben confundirse con el <em>clustering</em> espectral estándar, que solo agrupa observaciones.</p>
 <p>En <em>sklearn</em> encontramos las implementaciones <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.SpectralBiclustering.html"><code>SpectralBiclustering</code></a> y <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.SpectralCoclustering.html"><code>SpectralCoclustering</code></a> de estos métodos.</p>
 <h2 id="consideraciones-finales">Consideraciones finales<a class="headerlink" href="#consideraciones-finales" title="Permanent link">¶</a></h2>
 <p>En esta sesión hemos visto dos grandes enfoques del <em>clustering</em> que buscan construir una representación auxiliar de los datos (la jerarquía de fusiones en el caso aglomerativo, la proyección espectral en el caso espectral) para luego extraer una partición de ella.</p>
@@ -993,43 +1441,7 @@ $, siendo más robusto a la inicialización a costa de un mayor coste computacio
 <li>El <em>clustering</em> espectral detecta formas arbitrarias imposibles para K-Means. </li>
 </ul>
 <p>Pero ninguno de estos métodos escala a millones de puntos.</p>
-<p>Conviene recordar también la <strong>elección del linkage</strong> en el <em>clustering</em> aglomerativo, que tiene un efecto tan drástico como la elección del kernel en las SVMs:</p>
-<table>
-<thead>
-<tr>
-<th>Linkage</th>
-<th>Forma de clusters</th>
-<th>Sensible a outliers</th>
-<th>Uso típico</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Single</td>
-<td>No convexa, cadenas y filamentos</td>
-<td>Muy sensible</td>
-<td>Datos con formas continuas sin ruido</td>
-</tr>
-<tr>
-<td>Complete</td>
-<td>Compactos, diámetro similar</td>
-<td>Moderado</td>
-<td>Clusters bien separados</td>
-</tr>
-<tr>
-<td>Average</td>
-<td>Intermedio entre <em>single</em> y <em>complete</em></td>
-<td>Moderado</td>
-<td>Uso general</td>
-</tr>
-<tr>
-<td>Ward</td>
-<td>Compactos, tamaño equilibrado</td>
-<td>Moderado</td>
-<td>Uso general, opción por defecto</td>
-</tr>
-</tbody>
-</table>
+<p>Conviene recordar también la <strong>elección del linkage</strong> en el <em>clustering</em> aglomerativo, que tiene un efecto tan drástico como la elección del kernel en las SVMs.</p>
 <p>En las próximas sesiones estudiaremos dos métodos que abordan las limitaciones restantes de lo visto hasta ahora:</p>
 <ul>
 <li>
@@ -1067,17 +1479,20 @@ $, siendo más robusto a la inicialización a costa de un mayor coste computacio
 <li id="fn:murtagh1983survey">
 <p>Murtagh, F. (1983). A survey of recent advances in hierarchical clustering algorithms. <em>The Computer Journal</em>, <em>26</em>(4), 354--359.&nbsp;<a class="footnote-backref" href="#fnref:murtagh1983survey" title="Jump back to footnote 8 in the text">↩</a></p>
 </li>
+<li id="fn:Sibson1973SLINK">
+<p>Sibson, R. (1973). SLINK: An optimally efficient algorithm for the single-link cluster method. <em>The Computer Journal</em>, <em>16</em>(1), 30--34. <a href="https://doi.org/10.1093/comjnl/16.1.30">https://doi.org/10.1093/comjnl/16.1.30</a>&nbsp;<a class="footnote-backref" href="#fnref:Sibson1973SLINK" title="Jump back to footnote 9 in the text">↩</a></p>
+</li>
 <li id="fn:shi2000normalized">
-<p>Shi, J., &amp; Malik, J. (2000). Normalized cuts and image segmentation. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em>, <em>22</em>(8), 888--905.&nbsp;<a class="footnote-backref" href="#fnref:shi2000normalized" title="Jump back to footnote 9 in the text">↩</a><a class="footnote-backref" href="#fnref2:shi2000normalized" title="Jump back to footnote 9 in the text">↩</a><a class="footnote-backref" href="#fnref3:shi2000normalized" title="Jump back to footnote 9 in the text">↩</a><a class="footnote-backref" href="#fnref4:shi2000normalized" title="Jump back to footnote 9 in the text">↩</a></p>
+<p>Shi, J., &amp; Malik, J. (2000). Normalized cuts and image segmentation. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em>, <em>22</em>(8), 888--905.&nbsp;<a class="footnote-backref" href="#fnref:shi2000normalized" title="Jump back to footnote 10 in the text">↩</a><a class="footnote-backref" href="#fnref2:shi2000normalized" title="Jump back to footnote 10 in the text">↩</a><a class="footnote-backref" href="#fnref3:shi2000normalized" title="Jump back to footnote 10 in the text">↩</a><a class="footnote-backref" href="#fnref4:shi2000normalized" title="Jump back to footnote 10 in the text">↩</a></p>
 </li>
 <li id="fn:ng2002spectral">
-<p>Ng, A. Y., Jordan, M. I., &amp; Weiss, Y. (2002). On spectral clustering: Analysis and an algorithm. <em>Advances in Neural Information Processing Systems</em>, <em>14</em>, 849--856.&nbsp;<a class="footnote-backref" href="#fnref:ng2002spectral" title="Jump back to footnote 10 in the text">↩</a><a class="footnote-backref" href="#fnref2:ng2002spectral" title="Jump back to footnote 10 in the text">↩</a><a class="footnote-backref" href="#fnref3:ng2002spectral" title="Jump back to footnote 10 in the text">↩</a></p>
+<p>Ng, A. Y., Jordan, M. I., &amp; Weiss, Y. (2002). On spectral clustering: Analysis and an algorithm. <em>Advances in Neural Information Processing Systems</em>, <em>14</em>, 849--856.&nbsp;<a class="footnote-backref" href="#fnref:ng2002spectral" title="Jump back to footnote 11 in the text">↩</a><a class="footnote-backref" href="#fnref2:ng2002spectral" title="Jump back to footnote 11 in the text">↩</a><a class="footnote-backref" href="#fnref3:ng2002spectral" title="Jump back to footnote 11 in the text">↩</a></p>
 </li>
 <li id="fn:hagen1992new">
-<p>Hagen, L., &amp; Kahng, A. B. (1992). New spectral methods for ratio cut partitioning and clustering. <em>IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems</em>, <em>11</em>(9), 1074--1085.&nbsp;<a class="footnote-backref" href="#fnref:hagen1992new" title="Jump back to footnote 11 in the text">↩</a></p>
+<p>Hagen, L., &amp; Kahng, A. B. (1992). New spectral methods for ratio cut partitioning and clustering. <em>IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems</em>, <em>11</em>(9), 1074--1085.&nbsp;<a class="footnote-backref" href="#fnref:hagen1992new" title="Jump back to footnote 12 in the text">↩</a></p>
 </li>
 <li id="fn:kluger2003spectral">
-<p>Kluger, Y., Basri, R., Chang, J. T., &amp; Gerstein, M. (2003). Spectral biclustering of microarray data: Coclustering genes and conditions. <em>Genome Research</em>, <em>13</em>(4), 703--716.&nbsp;<a class="footnote-backref" href="#fnref:kluger2003spectral" title="Jump back to footnote 12 in the text">↩</a></p>
+<p>Kluger, Y., Basri, R., Chang, J. T., &amp; Gerstein, M. (2003). Spectral biclustering of microarray data: Coclustering genes and conditions. <em>Genome Research</em>, <em>13</em>(4), 703--716.&nbsp;<a class="footnote-backref" href="#fnref:kluger2003spectral" title="Jump back to footnote 13 in the text">↩</a></p>
 </li>
 </ol>
 </div>
