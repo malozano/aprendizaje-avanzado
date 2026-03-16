@@ -1003,11 +1003,13 @@ A continuación enumeramos algunos de los principales hiperparámetros con los q
 
 ## CatBoost
 
-CatBoost (_Categorical Boosting_) [@prokhorenkova2018catboost] fue desarrollado por Yandex en 2018 con un doble objetivo: manejar variables categóricas de forma nativa y eficiente, y abordar un problema teórico conocido como **_target leakage_** presente en las implementaciones clásicas de Gradient Boosting.
+CatBoost (_Categorical Boosting_) [@prokhorenkova2018catboost] fue desarrollado por Yandex en 2018 con un doble objetivo: manejar variables categóricas de forma nativa y eficiente mediante _target encoding_, y resolver el problema de _target leakage_ presente en implementaciones de Gradient Boosting que utilizan esta técnica de codificación.
+
+> **Nota:** El **_target encoding_** consiste en sustituir cada categoría por un estadístico del _target_ calculado sobre las muestras de esa categoría (típicamente la media de $y$ para regresión o la proporción de la clase positiva para clasificación). Es una codificación compacta e informativa, especialmente útil con alta cardinalidad donde _one-hot encoding_ generaría una explosión de dimensionalidad. Sin embargo, si se calcula usando todas las muestras incluyendo la propia muestra $\mathbf{x}_i$​, introduce _target leakage_, ya que el _encoding_ de $\mathbf{x}_i$​ contiene información de su propio $y_i$​, sesgando el modelo durante el entrenamiento.
 
 ### El problema del _prediction shift_
 
-En Gradient Boosting estándar, los pseudo-residuos $r_{im}$ del árbol $m$ se calculan usando el modelo $F_{m-1}$, que fue entrenado con los mismos ejemplos $(\mathbf{x}_i, y_i)$. Esto introduce un sesgo: el modelo $F_{m-1}$ ha visto el ejemplo $i$ durante su entrenamiento, por lo que los residuos calculados sobre ese mismo ejemplo tienden a ser menores de lo que serían sobre datos nuevos. Este sesgo acumulado a lo largo de las $M$ iteraciones se denomina **_prediction shift_** y puede conducir a _overfitting_.
+En Gradient Boosting estándar con _**target encoding**_, los pseudo-residuos $r_{im}$ del árbol $m$ se calculan usando el modelo $F_{m-1}$, que fue construido con _encodings_ que incluyen información del propio _target_ $y_i$ de cada muestra. Esto introduce un sesgo: el _encoding_ de una variable categórica $x_i^k$​ ya contiene información de $y_i$, por lo que el modelo $F_{m-1}$ está artificialmente próximo a $y_i$ y los residuos calculados sobre ese ejemplo tienden a ser menores de lo que serían sobre datos nuevos. Este sesgo acumulado a lo largo de las $M$ iteraciones se denomina **_prediction shift_**. Sin variables categóricas codificadas mediante _target encoding_, este problema no se produce.
 
 Figure: Ejemplo de _Ordered Boosting_. El residuo para el ejemplo $i$ se calcula a partir un modelo entrenado únicamente con los ejemplos anteriores, para de esta forma evitar el _prediction shift_. {#fig-catboost}
 
