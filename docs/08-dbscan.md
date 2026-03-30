@@ -391,7 +391,7 @@ Este proceso es completamente automático: no requiere especificar $\varepsilon$
 
 ### Probabilidad de pertenencia
 
-Como consecuencia del cálculo de la estabilidad, HDBSCAN produce de forma natural una probabilidad de pertenencia para cada punto (_soft clustering_). Este valor se obtendrá del cociente entre $\lambda_{\max} (p, C) - \lambda_{\min} (C)$ (persistencia del punto $p$ en el _cluster_ $C$) y $\lambda_{\max} ^* - \lambda_{\min} (C)$ (la máxima persistencia observada en dicho _cluster_ $C$, siendo $\lambda^*$ el $\lambda$ máximo observado en el _cluster_). 
+Como consecuencia del cálculo de la estabilidad, HDBSCAN produce de forma natural una probabilidad de pertenencia para cada punto (_soft clustering_). Este valor se obtendrá del cociente entre $\lambda_{\max} (p, C)$ (densidad hasta la que el punto $p$ permanece en el _cluster_ $C$) y $\lambda_{\max}^* (C)$ (la máxima densidad observada en dicho _cluster_ $C$). 
 
 En la [](#fig-soft-hdbscan) se muestra un ejemplo de _clusters_ obtenidos por HDBSCAN y la probabilidad de pertenencia de cada punto. 
 

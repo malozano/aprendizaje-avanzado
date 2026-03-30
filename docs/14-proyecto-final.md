@@ -7,7 +7,7 @@
 | **Presentación oral** | Martes 19 de mayo, de 9:00 a 15:00 (15-20 minutos por grupo) |
 | **Grupos** | 3-4 estudiantes |
 | **Extensión** | 10–15 páginas (sin contar referencias y anexos) |
-| **Formato** | PDF del informe + enlace a repositorio GitHub |
+| **Formato** | PDF del informe (plantilla disponible en Moodle) + enlace a repositorio GitHub |
 | | |
 
 
@@ -36,7 +36,7 @@ Esta información deberá enviarse a través de una entrega de Moodle **antes de
 
 La **entrega del proyecto** constará de un **informe** en PDF y del **código fuente** utilizado, tal como se detalla en la [Sección 4](#4-formato-del-informe) y en la [Sección 5](#5-codigo-fuente), respectivamente.  Se enviará a través de una entrega de Moodle **antes del martes 19 de mayo a las 23:59**.
 
-Además de los entregables, se hará una **defensa oral** del proyecto el día **19 de mayo** en el horario de clase. Las defensas se distribuirán entre los turnos de teoría y de prácticas, asignando una de estas franjas a cada grupo. 
+Además de los entregables, se hará una **defensa oral** del proyecto el día **19 de mayo** en el horario de clase. Las defensas se distribuirán entre los turnos de teoría y de prácticas, asignando una de estas franjas a cada grupo. Cada grupo tendrá entre 15 y 20 minutos para realizar la defensa.
 
 
 ## 3. _Dataset_, Problema y Problemáticas
