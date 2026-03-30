@@ -1,0 +1,757 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 820 380"
+   font-family="'Helvetica Neue', Arial, sans-serif"
+   version="1.1"
+   id="svg102"
+   sodipodi:docname="t9_if_intuicion.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs102" />
+  <sodipodi:namedview
+     id="namedview102"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.6239353"
+     inkscape:cx="270.33096"
+     inkscape:cy="218.91266"
+     inkscape:window-width="1639"
+     inkscape:window-height="868"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg102" />
+  <!-- Background -->
+  <rect
+     width="820"
+     height="380"
+     fill="white"
+     id="rect1" />
+  <!-- ═══════════════════════════════════════════════════════════════════
+       LEFT PANEL: Anomalous point — isolated quickly
+  ════════════════════════════════════════════════════════════════════ -->
+  <!-- Panel background -->
+  <rect
+     x="20"
+     y="50"
+     width="370"
+     height="290"
+     rx="8"
+     fill="#F8FAFC"
+     stroke="#E2E8F0"
+     stroke-width="1.5"
+     id="rect2" />
+  <!-- Title -->
+  <text
+     x="205"
+     y="40"
+     text-anchor="middle"
+     font-size="14"
+     font-weight="700"
+     fill="#1E293B"
+     id="text2">Punto anómalo</text>
+  <!-- Axis labels -->
+  <text
+     x="205"
+     y="355"
+     text-anchor="middle"
+     font-size="11"
+     fill="#64748B"
+     id="text3">x₁</text>
+  <text
+     x="28"
+     y="200"
+     text-anchor="middle"
+     font-size="11"
+     fill="#64748B"
+     transform="rotate(-90, 28, 200)"
+     id="text4">x₂</text>
+  <!-- Normal points (blue, dense cluster bottom-right area of left panel) -->
+  <g
+     fill="#2563EB"
+     opacity="0.55"
+     id="g32">
+    <circle
+       cx="200"
+       cy="250"
+       r="5"
+       id="circle4" />
+    <circle
+       cx="220"
+       cy="260"
+       r="5"
+       id="circle5" />
+    <circle
+       cx="215"
+       cy="240"
+       r="5"
+       id="circle6" />
+    <circle
+       cx="235"
+       cy="255"
+       r="5"
+       id="circle7" />
+    <circle
+       cx="205"
+       cy="270"
+       r="5"
+       id="circle8" />
+    <circle
+       cx="240"
+       cy="240"
+       r="5"
+       id="circle9" />
+    <circle
+       cx="230"
+       cy="275"
+       r="5"
+       id="circle10" />
+    <circle
+       cx="250"
+       cy="260"
+       r="5"
+       id="circle11" />
+    <circle
+       cx="260"
+       cy="248"
+       r="5"
+       id="circle12" />
+    <circle
+       cx="245"
+       cy="280"
+       r="5"
+       id="circle13" />
+    <circle
+       cx="270"
+       cy="268"
+       r="5"
+       id="circle14" />
+    <circle
+       cx="260"
+       cy="290"
+       r="5"
+       id="circle15" />
+    <circle
+       cx="280"
+       cy="258"
+       r="5"
+       id="circle16" />
+    <circle
+       cx="280"
+       cy="278"
+       r="5"
+       id="circle17" />
+    <circle
+       cx="295"
+       cy="265"
+       r="5"
+       id="circle18" />
+    <circle
+       cx="308"
+       cy="255"
+       r="5"
+       id="circle19" />
+    <circle
+       cx="315"
+       cy="275"
+       r="5"
+       id="circle20" />
+    <circle
+       cx="300"
+       cy="285"
+       r="5"
+       id="circle21" />
+    <circle
+       cx="320"
+       cy="290"
+       r="5"
+       id="circle22" />
+    <circle
+       cx="335"
+       cy="268"
+       r="5"
+       id="circle23" />
+    <circle
+       cx="340"
+       cy="285"
+       r="5"
+       id="circle24" />
+    <circle
+       cx="195"
+       cy="290"
+       r="5"
+       id="circle25" />
+    <circle
+       cx="180"
+       cy="268"
+       r="5"
+       id="circle26" />
+    <circle
+       cx="170"
+       cy="280"
+       r="5"
+       id="circle27" />
+    <circle
+       cx="160"
+       cy="260"
+       r="5"
+       id="circle28" />
+    <circle
+       cx="155"
+       cy="290"
+       r="5"
+       id="circle29" />
+    <circle
+       cx="145"
+       cy="270"
+       r="5"
+       id="circle30" />
+    <circle
+       cx="350"
+       cy="260"
+       r="5"
+       id="circle31" />
+    <circle
+       cx="345"
+       cy="280"
+       r="5"
+       id="circle32" />
+  </g>
+  <!-- Anomalous point (red, isolated top-left) -->
+  <circle
+     cx="90"
+     cy="105"
+     r="8"
+     fill="#EF4444"
+     stroke="white"
+     stroke-width="1.5"
+     id="circle33" />
+  <!-- Cut lines — only 3 needed to isolate the anomalous point -->
+  <!-- Cut 1: vertical cut that separates the left region -->
+  <line
+     x1="271.48938"
+     y1="56"
+     x2="271.48938"
+     y2="336"
+     stroke="#f97316"
+     stroke-width="1.8"
+     stroke-dasharray="6, 4"
+     opacity="0.85"
+     id="line33" />
+  <text
+     x="278"
+     y="72"
+     font-size="10px"
+     fill="#f97316"
+     font-weight="600"
+     id="text33">corte 1</text>
+  <!-- Cut 2: horizontal cut in the left sub-region -->
+  <line
+     x1="22"
+     y1="253"
+     x2="270.58939"
+     y2="253"
+     stroke="#16a34a"
+     stroke-width="2.59074"
+     stroke-dasharray="6, 4"
+     opacity="0.85"
+     id="line34" />
+  <text
+     x="27"
+     y="267"
+     font-size="10px"
+     fill="#16a34a"
+     font-weight="600"
+     id="text34">corte 2</text>
+  <!-- Cut 3: vertical cut that isolates the anomalous point -->
+  <line
+     x1="112"
+     y1="55"
+     x2="112"
+     y2="253"
+     stroke="#9333ea"
+     stroke-width="2.53282"
+     stroke-dasharray="6, 4"
+     opacity="0.85"
+     id="line35" />
+  <text
+     x="120"
+     y="72"
+     font-size="10px"
+     fill="#9333ea"
+     font-weight="600"
+     id="text35">corte 3</text>
+  <!-- Highlight the isolation region (tiny cell) -->
+  <rect
+     x="20.753267"
+     y="50.753265"
+     width="88.62706"
+     height="200.89346"
+     fill="#fef2f2"
+     stroke="#ef4444"
+     stroke-width="2.70653"
+     stroke-dasharray="3, 3"
+     opacity="0.7"
+     id="rect35"
+     style="fill:#f2fef2;fill-opacity:0.3449367;stroke-width:1.007;stroke-dasharray:1.11618939, 1.11618939;stroke-dashoffset:0" />
+  <!-- Arrow and label -->
+  <text
+     x="135.32625"
+     y="324.30527"
+     text-anchor="middle"
+     font-size="12px"
+     font-weight="600"
+     fill="#ef4444"
+     id="text36">aislado en 3 cortes (h = 3)</text>
+  <!-- ═══════════════════════════════════════════════════════════════════
+       RIGHT PANEL: Normal point — many cuts needed
+  ════════════════════════════════════════════════════════════════════ -->
+  <rect
+     x="430"
+     y="50"
+     width="370"
+     height="290"
+     rx="8"
+     fill="#F8FAFC"
+     stroke="#E2E8F0"
+     stroke-width="1.5"
+     id="rect36" />
+  <!-- Title -->
+  <text
+     x="615"
+     y="40"
+     text-anchor="middle"
+     font-size="14"
+     font-weight="700"
+     fill="#1E293B"
+     id="text37">Punto normal (en región densa)</text>
+  <!-- Axis labels -->
+  <text
+     x="615"
+     y="355"
+     text-anchor="middle"
+     font-size="11"
+     fill="#64748B"
+     id="text38">x₁</text>
+  <text
+     x="-194"
+     y="438"
+     text-anchor="middle"
+     font-size="11px"
+     fill="#64748b"
+     transform="rotate(-90)"
+     id="text39">x₂</text>
+  <!-- Dense cluster of normal points -->
+  <g
+     fill="#2563EB"
+     opacity="0.55"
+     id="g86">
+    <!-- Grid-ish cluster centred around (595, 195) -->
+    <circle
+       cx="545"
+       cy="155"
+       r="5"
+       id="circle39" />
+    <circle
+       cx="560"
+       cy="148"
+       r="5"
+       id="circle40" />
+    <circle
+       cx="575"
+       cy="160"
+       r="5"
+       id="circle41" />
+    <circle
+       cx="590"
+       cy="150"
+       r="5"
+       id="circle42" />
+    <circle
+       cx="605"
+       cy="158"
+       r="5"
+       id="circle43" />
+    <circle
+       cx="620"
+       cy="148"
+       r="5"
+       id="circle44" />
+    <circle
+       cx="635"
+       cy="160"
+       r="5"
+       id="circle45" />
+    <circle
+       cx="650"
+       cy="155"
+       r="5"
+       id="circle46" />
+    <circle
+       cx="550"
+       cy="175"
+       r="5"
+       id="circle47" />
+    <circle
+       cx="565"
+       cy="170"
+       r="5"
+       id="circle48" />
+    <circle
+       cx="580"
+       cy="178"
+       r="5"
+       id="circle49" />
+    <circle
+       cx="595"
+       cy="168"
+       r="5"
+       id="circle50" />
+    <circle
+       cx="610"
+       cy="176"
+       r="5"
+       id="circle51" />
+    <circle
+       cx="625"
+       cy="168"
+       r="5"
+       id="circle52" />
+    <circle
+       cx="640"
+       cy="178"
+       r="5"
+       id="circle53" />
+    <circle
+       cx="655"
+       cy="172"
+       r="5"
+       id="circle54" />
+    <circle
+       cx="545"
+       cy="195"
+       r="5"
+       id="circle55" />
+    <circle
+       cx="560"
+       cy="190"
+       r="5"
+       id="circle56" />
+    <circle
+       cx="575"
+       cy="200"
+       r="5"
+       id="circle57" />
+    <!-- highlighted normal point -->
+    <circle
+       cx="595"
+       cy="192"
+       r="8"
+       fill="#2563EB"
+       opacity="1"
+       stroke="white"
+       stroke-width="1.5"
+       id="circle58" />
+    <circle
+       cx="610"
+       cy="198"
+       r="5"
+       id="circle59" />
+    <circle
+       cx="625"
+       cy="190"
+       r="5"
+       id="circle60" />
+    <circle
+       cx="640"
+       cy="200"
+       r="5"
+       id="circle61" />
+    <circle
+       cx="658"
+       cy="193"
+       r="5"
+       id="circle62" />
+    <circle
+       cx="548"
+       cy="215"
+       r="5"
+       id="circle63" />
+    <circle
+       cx="563"
+       cy="210"
+       r="5"
+       id="circle64" />
+    <circle
+       cx="578"
+       cy="218"
+       r="5"
+       id="circle65" />
+    <circle
+       cx="593"
+       cy="212"
+       r="5"
+       id="circle66" />
+    <circle
+       cx="608"
+       cy="218"
+       r="5"
+       id="circle67" />
+    <circle
+       cx="623"
+       cy="210"
+       r="5"
+       id="circle68" />
+    <circle
+       cx="638"
+       cy="220"
+       r="5"
+       id="circle69" />
+    <circle
+       cx="653"
+       cy="214"
+       r="5"
+       id="circle70" />
+    <circle
+       cx="550"
+       cy="235"
+       r="5"
+       id="circle71" />
+    <circle
+       cx="565"
+       cy="230"
+       r="5"
+       id="circle72" />
+    <circle
+       cx="580"
+       cy="238"
+       r="5"
+       id="circle73" />
+    <circle
+       cx="595"
+       cy="232"
+       r="5"
+       id="circle74" />
+    <circle
+       cx="610"
+       cy="238"
+       r="5"
+       id="circle75" />
+    <circle
+       cx="625"
+       cy="230"
+       r="5"
+       id="circle76" />
+    <circle
+       cx="640"
+       cy="240"
+       r="5"
+       id="circle77" />
+    <circle
+       cx="655"
+       cy="235"
+       r="5"
+       id="circle78" />
+    <circle
+       cx="555"
+       cy="255"
+       r="5"
+       id="circle79" />
+    <circle
+       cx="570"
+       cy="250"
+       r="5"
+       id="circle80" />
+    <circle
+       cx="585"
+       cy="258"
+       r="5"
+       id="circle81" />
+    <circle
+       cx="600"
+       cy="252"
+       r="5"
+       id="circle82" />
+    <circle
+       cx="615"
+       cy="258"
+       r="5"
+       id="circle83" />
+    <circle
+       cx="630"
+       cy="250"
+       r="5"
+       id="circle84" />
+    <circle
+       cx="645"
+       cy="256"
+       r="5"
+       id="circle85" />
+    <circle
+       cx="660"
+       cy="250"
+       r="5"
+       id="circle86" />
+  </g>
+  <!-- Many cut lines — dense subdivision needed to isolate the normal point -->
+  <line
+     x1="435"
+     y1="133"
+     x2="795"
+     y2="133"
+     stroke="#F97316"
+     stroke-width="1.2"
+     stroke-dasharray="5,4"
+     opacity="0.6"
+     id="line86" />
+  <line
+     x1="435"
+     y1="212"
+     x2="795"
+     y2="212"
+     stroke="#F97316"
+     stroke-width="1.2"
+     stroke-dasharray="5,4"
+     opacity="0.6"
+     id="line87" />
+  <line
+     x1="520"
+     y1="55"
+     x2="520"
+     y2="335"
+     stroke="#16A34A"
+     stroke-width="1.2"
+     stroke-dasharray="5,4"
+     opacity="0.6"
+     id="line88" />
+  <line
+     x1="670"
+     y1="55"
+     x2="670"
+     y2="335"
+     stroke="#16A34A"
+     stroke-width="1.2"
+     stroke-dasharray="5,4"
+     opacity="0.6"
+     id="line89" />
+  <line
+     x1="435"
+     y1="172"
+     x2="795"
+     y2="172"
+     stroke="#9333EA"
+     stroke-width="1.2"
+     stroke-dasharray="5,4"
+     opacity="0.6"
+     id="line90" />
+  <line
+     x1="570"
+     y1="133"
+     x2="570"
+     y2="212"
+     stroke="#0EA5E9"
+     stroke-width="1.2"
+     stroke-dasharray="5,4"
+     opacity="0.6"
+     id="line91" />
+  <line
+     x1="620"
+     y1="133"
+     x2="620"
+     y2="212"
+     stroke="#0EA5E9"
+     stroke-width="1.2"
+     stroke-dasharray="5,4"
+     opacity="0.6"
+     id="line92" />
+  <line
+     x1="570"
+     y1="182"
+     x2="620"
+     y2="182"
+     stroke="#D97706"
+     stroke-width="1.2"
+     stroke-dasharray="5,4"
+     opacity="0.6"
+     id="line93" />
+  <!-- The tiny isolation cell around the highlighted point -->
+  <rect
+     x="570"
+     y="182"
+     width="50"
+     height="30"
+     fill="#EFF6FF"
+     stroke="#2563EB"
+     stroke-width="1.2"
+     stroke-dasharray="3,3"
+     opacity="0.7"
+     id="rect93" />
+  <!-- Cut counter labels -->
+  <text
+     x="436"
+     y="128"
+     font-size="9"
+     fill="#F97316"
+     id="text93">c1</text>
+  <text
+     x="436"
+     y="168"
+     font-size="9"
+     fill="#9333EA"
+     id="text94">c5</text>
+  <text
+     x="436"
+     y="208"
+     font-size="9"
+     fill="#F97316"
+     id="text95">c2</text>
+  <text
+     x="523"
+     y="70"
+     font-size="9"
+     fill="#16A34A"
+     id="text96">c3</text>
+  <text
+     x="672"
+     y="70"
+     font-size="9"
+     fill="#16A34A"
+     id="text97">c4</text>
+  <text
+     x="572"
+     y="130"
+     font-size="9"
+     fill="#0EA5E9"
+     id="text98">c6</text>
+  <text
+     x="622"
+     y="130"
+     font-size="9"
+     fill="#0EA5E9"
+     id="text99">c7</text>
+  <text
+     x="572"
+     y="179"
+     font-size="9"
+     fill="#D97706"
+     id="text100">c8</text>
+  <!-- Label -->
+  <text
+     x="630.39471"
+     y="323.68948"
+     text-anchor="middle"
+     font-size="12px"
+     font-weight="600"
+     fill="#2563eb"
+     id="text101">aislado en 8+ cortes (h ≫ 3)</text>
+  <!-- ════════ Shared caption ════════ -->
+</svg>

@@ -396,6 +396,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -706,6 +708,20 @@
     <li class="md-nav__item">
       <a href="../08-dbscan/" class="md-nav__link">
         8. DBSCAN
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-gmm/" class="md-nav__link">
+        9. GMM
       </a>
     </li>
   
@@ -1415,8 +1431,7 @@ Devolver la asignación de <em>clusters</em> resultante de K-Means
 <li><strong><code>n_clusters</code></strong>: número de <em>clusters</em> <span class="arithmatex">\(K\)</span>. Determina cuántos autovectores se calculan.</li>
 <li><strong><code>affinity</code></strong>: cómo se construye la matriz de similitud. Las opciones más comunes son <code>'rbf'</code> (similitud gaussiana, la opción por defecto), <code>'nearest_neighbors'</code> (grafo KNN), o una matriz precalculada pasando <code>'precomputed'</code>.</li>
 <li><strong><code>gamma</code></strong>: parámetro de la función de similitud gaussiana, equivalente a <span class="arithmatex">\(\frac{1}{2\sigma^2}\)</span>. Valores más altos hacen que la similitud decaiga más rápido con la distancia, produciendo grafos más dispersos.</li>
-<li><strong><code>assign_labels</code></strong>: método para la asignación final tras la proyección espectral. <code>'kmeans'</code> aplica K-Means estándar, que es eficiente pero sensible a la inicialización. <code>'discretize'</code> busca la asignación binaria más cercana a $\tilde{U}
-$, siendo más robusto a la inicialización a costa de un mayor coste computacional. <code>'cluster_qr'</code> produce una asignación determinista a partir de los autovectores sin inicialización aleatoria y con menor coste computacional. Esta última es actualmente la opción recomendada en <em>sklearn</em>, aunque no es el valor por defecto por compatibilidad con código anterior.</li>
+<li><strong><code>assign_labels</code></strong>: método para la asignación final tras la proyección espectral. <code>'kmeans'</code> aplica K-Means estándar, que es eficiente pero sensible a la inicialización. <code>'discretize'</code> busca la asignación binaria más cercana a <span class="arithmatex">\(\tilde{U}\)</span> (aplicando de forma iterativa rotaciones a la matriz), siendo más robusto a la inicialización a costa de un mayor coste computacional. <code>'cluster_qr'</code> produce una asignación determinista directa a partir de los autovectores sin inicialización aleatoria y con menor coste computacional. Esta última es actualmente la opción recomendada en <em>sklearn</em>, aunque no es el valor por defecto por compatibilidad con código anterior.</li>
 </ul>
 <blockquote>
 <p><strong>Nota</strong>: El <em>clustering</em> espectral no implementa <code>predict</code> por la misma razón que el aglomerativo. No existe una forma natural de proyectar nuevos puntos al espacio espectral sin re-ajustar el grafo completo. Si se necesita predecir sobre nuevos datos, una opción es usar la proyección espectral como preprocesado y entrenar un clasificador en ese espacio (por ejemplo, entrenar un clasificador KNN con los ejemplos de entrada y con las etiquetas obtenidas a partir del <em>clustering</em> espectral como variable objetivo).</p>

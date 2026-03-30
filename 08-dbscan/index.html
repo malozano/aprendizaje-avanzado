@@ -15,7 +15,7 @@
         <link rel="prev" href="../07-clustering/">
       
       
-        <link rel="next" href="../practicas/00-datos-y-visualizacion/">
+        <link rel="next" href="../09-gmm/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.1">
@@ -396,6 +396,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -659,6 +661,20 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-gmm/" class="md-nav__link">
+        9. GMM
+      </a>
     </li>
   
 
@@ -1117,7 +1133,7 @@ La parte derecha corresponde a los puntos en <em>clusters</em>, donde hay muchas
 <p>Los puntos que no pertenezcan a ningún <em>cluster</em> seleccionado serán considerados ruido.</p>
 <p>Este proceso es completamente automático: no requiere especificar <span class="arithmatex">\(\varepsilon\)</span> ni el número de clusters. El único parámetro fundamental es <code>min_cluster_size</code>.</p>
 <h3 id="probabilidad-de-pertenencia">Probabilidad de pertenencia<a class="headerlink" href="#probabilidad-de-pertenencia" title="Permanent link">¶</a></h3>
-<p>Como consecuencia del cálculo de la estabilidad, HDBSCAN produce de forma natural una probabilidad de pertenencia para cada punto (<em>soft clustering</em>). Este valor se obtendrá del cociente entre <span class="arithmatex">\(\lambda_{\max} (p, C) - \lambda_{\min} (C)\)</span> (persistencia del punto <span class="arithmatex">\(p\)</span> en el <em>cluster</em> <span class="arithmatex">\(C\)</span>) y <span class="arithmatex">\(\lambda_{\max} ^* - \lambda_{\min} (C)\)</span> (la máxima persistencia observada en dicho <em>cluster</em> <span class="arithmatex">\(C\)</span>, siendo <span class="arithmatex">\(\lambda^*\)</span> el <span class="arithmatex">\(\lambda\)</span> máximo observado en el <em>cluster</em>). </p>
+<p>Como consecuencia del cálculo de la estabilidad, HDBSCAN produce de forma natural una probabilidad de pertenencia para cada punto (<em>soft clustering</em>). Este valor se obtendrá del cociente entre <span class="arithmatex">\(\lambda_{\max} (p, C)\)</span> (densidad hasta la que el punto <span class="arithmatex">\(p\)</span> permanece en el <em>cluster</em> <span class="arithmatex">\(C\)</span>) y <span class="arithmatex">\(\lambda_{\max}^* (C)\)</span> (la máxima densidad observada en dicho <em>cluster</em> <span class="arithmatex">\(C\)</span>). </p>
 <p>En la <a href="#fig-soft-hdbscan">Figura 8</a> se muestra un ejemplo de <em>clusters</em> obtenidos por HDBSCAN y la probabilidad de pertenencia de cada punto. </p>
 <p></p><figure id="fig-soft-hdbscan"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t8_hdbscan_densidad_variable.png" data-desc-position="bottom"><img alt="" src="../images/t8_hdbscan_densidad_variable.png"></a><figcaption>Figura 8: Ejemplo de <em>clusters</em> producidos por HDBSCAN y probabilidad de pertenencia obtenida (izquierda), y distribución de probabilidades de pertenencia de cada <em>cluster</em> (derecha).  </figcaption></figure><p></p>
 <h3 id="implementacion">Implementación<a class="headerlink" href="#implementacion" title="Permanent link">¶</a></h3>

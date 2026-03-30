@@ -12,13 +12,17 @@
         <link rel="canonical" href="https://malozano.github.io/aprendizaje-avanzado/09-gmm/">
       
       
+        <link rel="prev" href="../08-dbscan/">
+      
+      
+        <link rel="next" href="../practicas/00-datos-y-visualizacion/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.1">
     
     
       
-        <title>Clustering basado en densidad: DBSCAN - Aprendizaje Avanzado</title>
+        <title>9. GMM - Aprendizaje Avanzado</title>
       
     
     
@@ -80,7 +84,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#clustering-basado-en-densidad-dbscan" class="md-skip">
+        <a href="#gaussian-mixture-models" class="md-skip">
           Saltar a contenido
         </a>
       
@@ -114,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Clustering basado en densidad: DBSCAN
+              9. GMM
             
           </span>
         </div>
@@ -373,20 +377,22 @@
 
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
       
       
         
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
-      
-      
+          
         
           
         
@@ -399,7 +405,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
           Bloque II. Aprendizaje no supervisado
@@ -429,6 +435,170 @@
       <a href="../08-dbscan/" class="md-nav__link">
         8. DBSCAN
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          9. GMM
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        9. GMM
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#del-hard-al-soft-clustering" class="md-nav__link">
+    Del hard al soft clustering
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-modelo-probabilistico" class="md-nav__link">
+    El modelo probabilístico
+  </a>
+  
+    <nav class="md-nav" aria-label="El modelo probabilístico">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modelo-generativo" class="md-nav__link">
+    Modelo generativo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-covarianza" class="md-nav__link">
+    Tipos de covarianza
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#el-algoritmo-em" class="md-nav__link">
+    El algoritmo EM
+  </a>
+  
+    <nav class="md-nav" aria-label="El algoritmo EM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#e-step-calculo-de-responsabilidades" class="md-nav__link">
+    E-Step: cálculo de responsabilidades
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#m-step-actualizacion-de-parametros" class="md-nav__link">
+    M-Step: actualización de parámetros
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algoritmo-completo" class="md-nav__link">
+    Algoritmo completo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#garantias-de-convergencia" class="md-nav__link">
+    Garantías de convergencia
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#k-means-como-caso-especial-de-gmm-y-em" class="md-nav__link">
+    K-Means como caso especial de GMM y EM
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seleccion-del-numero-de-componentes" class="md-nav__link">
+    Selección del número de componentes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementacion" class="md-nav__link">
+    Implementación
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gmm-como-estimador-de-densidad" class="md-nav__link">
+    GMM como estimador de densidad
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consideraciones-finales" class="md-nav__link">
+    Consideraciones finales
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -601,106 +771,758 @@
                   
 
 
-<h1 id="clustering-basado-en-densidad-dbscan">Clustering basado en densidad: DBSCAN<a class="headerlink" href="#clustering-basado-en-densidad-dbscan" title="Permanent link">¶</a></h1>
+<h1 id="gaussian-mixture-models">Gaussian Mixture Models<a class="headerlink" href="#gaussian-mixture-models" title="Permanent link">¶</a></h1>
+<p>En las sesiones anteriores hemos visto métodos de <em>clustering</em> que producen asignaciones <em>hard</em> en las que cada punto pertenece exactamente a un <em>cluster</em>. Esta clasificación en "dentro" o "fuera" es una simplificación que puede ser problemática cuando los <em>clusters</em> se solapan, cuando un punto se encuentra en la frontera entre dos grupos, o cuando nos interesa cuantificar la incertidumbre en la asignación. Un punto a igual distancia de dos centroides de K-Means recibe una etiqueta arbitraria y no hay forma de saber si esa asignación es segura o completamente ambigua.</p>
+<p>Los <em>Gaussian Mixture Models</em> (GMM) resuelven esto mediante un planteamiento estadístico, en el que en lugar de buscar particiones geométricas, se modela explícitamente que los datos han sido <strong>generados por una mezcla de distribuciones gaussianas</strong>. Cada <em>cluster</em> corresponde a una componente gaussiana, y la asignación de un punto a un <em>cluster</em> es una probabilidad, no una etiqueta binaria. Esta diferencia de <em>"hard"</em> a <em>"soft" clustering</em> es el cambio conceptual central que abordaremos en esta sesión.</p>
+<p>Más allá del <em>clustering</em>, los GMM son un modelo de estimación de densidad de probabilidad de propósito general. El algoritmo que los ajusta es conocido como el algoritmo EM (<em>Expectation-Maximization</em>), y constituye una destacable contribución dentro del campo del aprendizaje automático. Tiene múltiples aplicaciones además del ajuste de los GMM, como por ejemplo aplicaciones en la imputación de datos faltantes o en los Modelos Ocultos de Markov (HMM).</p>
+<h2 id="del-hard-al-soft-clustering">Del <em>hard</em> al <em>soft clustering</em><a class="headerlink" href="#del-hard-al-soft-clustering" title="Permanent link">¶</a></h2>
+<p>En K-Means, la asignación de cada punto <span class="arithmatex">\(\mathbf{x}_i\)</span> a un <em>cluster</em> queda recogida en una variable discreta <span class="arithmatex">\(z_i \in \{1, \ldots, K\}\)</span>. Se trata de un variable <strong>latente</strong>, es decir, no la observamos, el algoritmo la infiere junto con los centroides.</p>
+<p>En un GMM la misma variable latente <span class="arithmatex">\(z_i\)</span> existe, pero en lugar de asignarle un valor fijo, mantenemos una <strong>distribución de probabilidad sobre ella</strong>, siendo <span class="arithmatex">\(p(z_i = k \mid \mathbf{x}_i)\)</span> la probabilidad de que el punto <span class="arithmatex">\(\mathbf{x}_i\)</span> haya sido generado por la componente <span class="arithmatex">\(k\)</span>. El resultado es un vector de <span class="arithmatex">\(K\)</span> probabilidades para cada punto, denominado vector de <strong>responsabilidades</strong>. </p>
+<p>De esta forma, en un caso con <span class="arithmatex">\(K = 3\)</span> <em>clusters</em>, un determinado punto <span class="arithmatex">\(\mathbf{x}_i\)</span> podrá tener por ejemplo una probabilidad de <span class="arithmatex">\(0.6\)</span> de pertenecer al <em>cluster</em> <span class="arithmatex">\(1\)</span>, <span class="arithmatex">\(0.25\)</span> de pertenecer al <em>cluster</em> <span class="arithmatex">\(2\)</span> y <span class="arithmatex">\(0.15\)</span> de pertenecer al cluster <span class="arithmatex">\(3\)</span>, siendo su vector de responsabilidades <span class="arithmatex">\(\mathbf{r}_i = [0.6, 0.25, 0.15]\)</span> (nótese que este vector debe sumar <span class="arithmatex">\(1\)</span>).</p>
+<p></p><figure id="fig-hard-vs-soft"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t9_hard_vs_soft.png" data-desc-position="bottom"><img alt="" src="../images/t9_hard_vs_soft.png"></a><figcaption>Figura 1: Comparación entre K-Means (<em>hard clustering</em>) y GMM (soft <em>clustering</em>). K-Means asigna cada punto a un único <em>cluster</em> mientras que GMM asigna una probabilidad de pertenencia a cada <em>cluster</em>. Los puntos en la frontera tienen distribuciones de responsabilidades más inciertas. </figcaption></figure><p></p>
+<p>Esta diferencia no tiene únicamente interés teórico, sino que tiene importantes repercusiones en la práctica. El <em>soft clustering</em> permite:</p>
+<ul>
+<li>Capturar la incertidumbre en puntos frontera, que K-Means asignaría arbitrariamente (ver <a href="#fig-hard-vs-soft">Figura 1</a>).</li>
+<li>Modelar <em>clusters</em> solapados, donde un punto puede pertenecer parcialmente a dos grupos.</li>
+<li>Obtener una estimación de la densidad de probabilidad de los datos, no solo una partición.</li>
+<li>Usar criterios estadísticos formales (BIC, AIC) para seleccionar el número de <em>clusters</em>.</li>
+</ul>
+<h2 id="el-modelo-probabilistico">El modelo probabilístico<a class="headerlink" href="#el-modelo-probabilistico" title="Permanent link">¶</a></h2>
+<p>Un GMM con <span class="arithmatex">\(K\)</span> componentes define la siguiente distribución de probabilidad sobre los datos:</p>
+<div class="arithmatex">\[p(\mathbf{x}) = \sum_{k=1}^{K} \pi_k \, \mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)\]</div>
+<p>Donde:</p>
+<ul>
+<li><span class="arithmatex">\(\pi_k\)</span> es el <strong>peso</strong> o proporción de mezcla de la componente <span class="arithmatex">\(k\)</span>, con <span class="arithmatex">\(\pi_k \geq 0\)</span> y <span class="arithmatex">\(\sum_{k=1}^K \pi_k = 1\)</span>.</li>
+<li><span class="arithmatex">\(\boldsymbol{\mu}_k \in \mathbb{R}^d\)</span> es el vector de medias de la componente <span class="arithmatex">\(k\)</span>.</li>
+<li><span class="arithmatex">\(\boldsymbol{\Sigma}_k \in \mathbb{R}^{d \times d}\)</span> es la matriz de covarianza de la componente <span class="arithmatex">\(k\)</span>, que debe ser semidefinida positiva.</li>
+<li><span class="arithmatex">\(\mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)\)</span> es la densidad gaussiana multivariada evaluada en <span class="arithmatex">\(\mathbf{x}\)</span>. </li>
+</ul>
+<blockquote>
+<p><strong>Matriz semidefinida positiva (SDP)</strong>: Una matriz es SDP si y solo si todos sus autovalores son igual o mayor a <span class="arithmatex">\(0\)</span>. Esto es equivalente a que pueda descomponerse como suma de productos exteriores <span class="arithmatex">\(\mathbf{u} \mathbf{u}^T\)</span>. La matriz de covarianza cumple esto por construcción, ya que se calcula exactamente como suma de términos con la forma <span class="arithmatex">\(\boldsymbol{\Sigma} = \frac{1}{N} \sum_i (\mathbf{x}_i - \boldsymbol{\mu}) (\mathbf{x}_i - \boldsymbol{\mu})^T\)</span>.</p>
+</blockquote>
+<p>Decimos que la densidad gaussiana es multivariada porque la variable aleatoria <span class="arithmatex">\(\mathbf{x}\)</span> no es un número, sino un vector <span class="arithmatex">\(\mathbf{x} \in \mathbb{R}^d\)</span>, y por lo tanto la media también es multivariada <span class="arithmatex">\(\boldsymbol{\mu}_k \in \mathbb{R}^d\)</span>, y como varianza no tenemos únicamente <span class="arithmatex">\(\sigma^2\)</span>, sino una matriz de covarianza <span class="arithmatex">\(\boldsymbol{\Sigma}_k \in \mathbb{R}^{d \times d}\)</span>. Tendremos por lo tanto una campana en <span class="arithmatex">\(d\)</span> dimensiones.</p>
+<p>La ventaja fundamental de las matrices de covarianza <span class="arithmatex">\(\boldsymbol{\Sigma}_k\)</span> generales frente a los centroides de K-Means es que permiten modelar <em>clusters</em> <strong>elípticos de orientación arbitraria</strong> (ver <a href="#fig-geometria">Figura 2</a>). La diagonal de <span class="arithmatex">\(\boldsymbol{\Sigma}_k\)</span> controla la escala de cada dimensión, mientras que los términos fuera de la diagonal capturan correlaciones entre dimensiones, lo que se traduce geométricamente en una rotación de la elipse. K-Means, en cambio, asume implícitamente <span class="arithmatex">\(\boldsymbol{\Sigma}_k = \sigma^2 I\)</span> para todo <span class="arithmatex">\(k\)</span> (todos los <em>clusters</em> son esferas de igual tamaño).</p>
+<p></p><figure id="fig-geometria"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t9_geometria.png" data-desc-position="bottom"><img alt="" src="../images/t9_geometria.png"></a><figcaption>Figura 2: Comparación de la geometría de K-Means (<em>clusters</em> esféricos, igual tamaño) frente a GMM (<em>clusters</em> elípticos, orientación y tamaño arbitrarios). </figcaption></figure><p></p>
+<h3 id="modelo-generativo">Modelo generativo<a class="headerlink" href="#modelo-generativo" title="Permanent link">¶</a></h3>
+<p>La distribución de probabilidad anterior constituye un modelo generativo capaz de generar nuevos datos. El proceso para <strong>generar nuevos ejemplos</strong> a partir de este modelo es el siguiente: </p>
+<p><strong>Paso 1.</strong> Para generar un nuevo punto de datos, primero se elige una componente <span class="arithmatex">\(k\)</span> con probabilidad <span class="arithmatex">\(\pi_k\)</span>:  </p>
+<div class="arithmatex">\[z \sim \text{Categorical}(\boldsymbol{\pi})\]</div>
+<p>Es decir, <span class="arithmatex">\(P(z=k) = \pi_k\)</span>. Es como tirar un dado con <span class="arithmatex">\(K\)</span> caras donde <span class="arithmatex">\(\pi_k\)</span> nos indica la probabilidad de que salga cada cara. El resultado es un índice <span class="arithmatex">\(z \in \{1, 2, \ldots, K\}\)</span> seleccionado aleatoriamente que indica de qué gaussiana va a salir el nuevo punto. </p>
+<p><strong>Paso 2.</strong> Una vez elegida la componente <span class="arithmatex">\(z=k\)</span>, se muestrea un punto desde la gaussiana correspondiente:</p>
+<div class="arithmatex">\[
+\mathbf{x} | z=k \sim \mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)
+\]</div>
+<p>Decimos que <span class="arithmatex">\(z\)</span> es la variable latente del modelo porque la variable existe en el proceso generativo pero no es observable directamente, como salida solo observamos los puntos <span class="arithmatex">\(\mathbf{x}\)</span> generados, no qué componente <span class="arithmatex">\(z\)</span> los originó.</p>
+<p>Partiremos de la asunción que este es el modelo que generó los datos, y a partir de los datos observados <span class="arithmatex">\(\mathbf{x}\)</span> deberemos aprender los parámetros del modelo que los originó. Una vez aprendidos los parámetros, el modelo define una densidad de probabilidad sobre todo el espacio que permite tanto generar nuevos puntos como evaluar la verosimilitud de cualquier punto bajo el modelo aprendido, lo que podrá también servir como base para la detección de anomalías.</p>
+<h3 id="tipos-de-covarianza">Tipos de covarianza<a class="headerlink" href="#tipos-de-covarianza" title="Permanent link">¶</a></h3>
+<p>En la práctica, la forma de las matrices de covarianza es un hiperparámetro que equilibra expresividad y coste computacional. Los tipos principales son:</p>
+<ul>
+<li><strong>Full</strong>: Cada componente <span class="arithmatex">\(k\)</span> tiene su propia matriz de covarianza sin restricciones. Nos da máxima expresividad, pero también mayor número de parámetros (<span class="arithmatex">\(O(Kd^2)\)</span>).</li>
+<li><strong>Tied</strong>: Todas las componentes <span class="arithmatex">\(k\)</span> comparten la misma matriz de covarianza. Útil cuando los <em>clusters</em> tienen formas similares pero diferentes posiciones.</li>
+<li><strong>Diagonal</strong>: Las matrices de covarianza son diagonales (sin correlaciones entre dimensiones). Los <em>clusters</em> son elipses alineadas con los ejes, lo cual simplifica el modelo y lo hace mucho más eficiente (<span class="arithmatex">\(O(Kd)\)</span> parámetros).</li>
+<li><strong>Spherical</strong>: Las matrices de covarianza son múltiplos de la identidad <span class="arithmatex">\(\sigma_k^2 I\)</span>. Producirá <em>clusters</em> esféricos de radio variable, lo cual equivale a K-Means con diferente tamaño de <em>clusters</em>.</li>
+</ul>
+<blockquote>
+<p><strong>Nota</strong>: La elección <code>covariance_type='full'</code> maximiza la flexibilidad pero también el riesgo de <em>overfitting</em> en alta dimensionalidad o con pocos datos. En esos casos conviene empezar con <code>'diag'</code> o <code>'tied'</code>.</p>
+</blockquote>
+<p>Podemos ver los diferentes tipos de matrices de covarianza ilustrados en la <a href="#fig-covariance">Figura 3</a>.</p>
+<p></p><figure id="fig-covariance"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t9_covariance_types.png" data-desc-position="bottom"><img alt="" src="../images/t9_covariance_types.png"></a><figcaption>Figura 3: Comparativa de los diferentes tipos de matrices de covarianza. </figcaption></figure><p></p>
+<h2 id="el-algoritmo-em">El algoritmo EM<a class="headerlink" href="#el-algoritmo-em" title="Permanent link">¶</a></h2>
+<p>El objetivo del ajuste de un GMM es encontrar los parámetros <span class="arithmatex">\(\boldsymbol{\theta} = \{\pi_k, \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k\}_{k=1}^K\)</span> que maximicen la <em>log-likelihood</em> de los datos observados:</p>
+<div class="arithmatex">\[\log p(\mathcal{D} \mid \boldsymbol{\theta}) = \sum_{i=1}^N \log \left( \sum_{k=1}^K \pi_k \, \mathcal{N}(\mathbf{x}_i \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k) \right)\]</div>
+<blockquote>
+<p><strong>Nota:</strong> Aplicar el logaritmo nos permite transformar multiplicaciones en sumas, lo cual es conveniente para facilitar la optimización. Por eso utilizamos <em>log-likelihood</em> en lugar de simplemente <em>likelihood</em>.</p>
+</blockquote>
+<p>La presencia del logaritmo de una suma hace que no exista solución analítica cerrada. Derivar e igualar a cero las ecuaciones de optimización lleva a un sistema acoplado sin solución directa. El <strong>algoritmo EM</strong> (<em>Expectation-Maximization</em>) (Dempster et al., 1977)<sup id="fnref:dempster1977maximum"><a class="footnote-ref" href="#fn:dempster1977maximum">1</a></sup> resuelve este problema explotando la estructura de las variables latentes del modelo.</p>
+<p>La idea central del EM es que, si conociésemos las asignaciones <span class="arithmatex">\(z_i\)</span> (las variables latentes), el problema se descompondría en <span class="arithmatex">\(K\)</span> problemas independientes de ajuste de gaussianas, cada uno con solución analítica trivial. Y a la inversa, si conociésemos los parámetros <span class="arithmatex">\(\boldsymbol{\theta}\)</span>, podríamos calcular la distribución posterior de <span class="arithmatex">\(z_i\)</span> directamente con el teorema de Bayes. </p>
+<p>Es decir, si conociésemos las asignaciones, a partir de ellas y los puntos de datos podríamos calcular los parámetros de cada distribución. Si conociésemos los parámetros de cada distribución, a partir de ellos podríamos estimar las asignaciones. Encontramos aquí el problema <em>"del huevo y la gallina"</em>. Para resolverlo, el EM alterna entre estas dos operaciones hasta llegar a la convergencia.</p>
+<h3 id="e-step-calculo-de-responsabilidades">E-Step: cálculo de responsabilidades<a class="headerlink" href="#e-step-calculo-de-responsabilidades" title="Permanent link">¶</a></h3>
+<p>El objetivo del E-Step
+(<em>Expectation</em>) es estimar las asignaciones de cada punto a cada <em>cluster</em>. </p>
+<p>Dado el conjunto de parámetros actual <span class="arithmatex">\(\boldsymbol{\theta}^{(t)}\)</span>, el E-Step calcula la distribución posterior de la variable latente para cada punto. Esta distribución posterior es la <strong>responsabilidad</strong> <span class="arithmatex">\(r_{ik}\)</span>, es decir, la probabilidad de que el punto <span class="arithmatex">\(\mathbf{x}_i\)</span> haya sido generado por la componente <span class="arithmatex">\(k\)</span>:</p>
+<div class="arithmatex">\[
+r_{ik} = p(z_i = k \mid \mathbf{x}_i, \boldsymbol{\theta}^{(t)})
+\]</div>
+<p>Aplicando Bayes tenemos:</p>
+<div class="arithmatex">\[
+\underbrace{p(z_i = k \mid \mathbf{x}_i)}_{\text{posterior}} = 
+\frac{
+    \overbrace{p(\mathbf{x}_i \mid z_i = k)}^{\text{verosimilitud}} 
+    \cdot 
+    \overbrace{p(z_i = k)}^{\text{prior}}
+}{
+    \underbrace{p(\mathbf{x}_i)}_{\text{evidencia}}
+}\]</div>
+<p>Analizando cada uno de los términos tenemos:</p>
+<ul>
+<li>
+<p><strong>Prior</strong>:  <span class="arithmatex">\(p(z_i = k) = \pi_k\)</span>​: Antes de ver <span class="arithmatex">\(\mathbf{x}_i\)</span> la probabilidad de que venga de <span class="arithmatex">\(k\)</span> es el peso de la componente <span class="arithmatex">\(k\)</span>.</p>
+</li>
+<li>
+<p><strong>Verosimilitud</strong>: <span class="arithmatex">\(p(\mathbf{x}_i \mid z_i = k) = \mathcal{N}(\mathbf{x}_i \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)\)</span>: Indica cómo de probable es <span class="arithmatex">\(\mathbf{x}_i\)</span> si proviene de la componente <span class="arithmatex">\(k\)</span>. </p>
+</li>
+<li>
+<p><strong>Evidencia</strong>: <span class="arithmatex">\(p(\mathbf{x}_i) = \sum_{j=1}^K \pi_j \, \mathcal{N}(\mathbf{x}_i \mid \boldsymbol{\mu}_j, \boldsymbol{\Sigma}_j)\)</span>: Indica la probabilidad total de observar <span class="arithmatex">\(\mathbf{x}_i\)</span>​ bajo el modelo, sumando sobre todas las componentes posibles. Como veremos a continuación, actúa como constante de normalización para que todas las responsabilidades sumen uno.</p>
+</li>
+</ul>
+<p>Con todo lo anterior, dados los parámetros <span class="arithmatex">\(\boldsymbol{\theta}^{(t)}\)</span> en la iteración <span class="arithmatex">\(t\)</span>, podemos calcular las responsabilidades de cada ejemplo de entrada <span class="arithmatex">\(i\)</span> con cada clase <span class="arithmatex">\(k\)</span> de la siguiente forma:</p>
+<div class="arithmatex">\[r_{ik} = p(z_i = k \mid \mathbf{x}_i, \boldsymbol{\theta}^{(t)}) = \frac{\pi_k^{(t)} \, \mathcal{N}(\mathbf{x}_i \mid \boldsymbol{\mu}_k^{(t)}, \boldsymbol{\Sigma}_k^{(t)})}{\sum_{j=1}^K \pi_j^{(t)} \, \mathcal{N}(\mathbf{x}_i \mid \boldsymbol{\mu}_j^{(t)}, \boldsymbol{\Sigma}_j^{(t)})}\]</div>
+<p>Como hemos visto, esta expresión es una aplicación directa del teorema de Bayes. El numerador es la probabilidad conjunta de observar <span class="arithmatex">\(\mathbf{x}_i\)</span> y que haya sido generado por <span class="arithmatex">\(k\)</span>, mientras que el denominador normaliza para obtener la probabilidad condicional. Para cada punto <span class="arithmatex">\(i\)</span>, las responsabilidades forman un vector de probabilidades que suma <span class="arithmatex">\(1\)</span>: <span class="arithmatex">\(\sum_{k=1}^K r_{ik} = 1\)</span>.</p>
+<h3 id="m-step-actualizacion-de-parametros">M-Step: actualización de parámetros<a class="headerlink" href="#m-step-actualizacion-de-parametros" title="Permanent link">¶</a></h3>
+<p>Dado el conjunto de responsabilidades <span class="arithmatex">\(\{r_{ik}\}\)</span> calculadas en el E-Step, el M-Step (<em>Maximization</em>) actualiza los parámetros maximizando la <em>log-likelihood esperada</em> (también llamada función <span class="arithmatex">\(Q\)</span>). Las ecuaciones de actualización tienen solución analítica cerrada.</p>
+<p>Definimos el número efectivo de puntos asignados a la componente <span class="arithmatex">\(k\)</span> como <span class="arithmatex">\(N_k\)</span>:</p>
+<div class="arithmatex">\[N_k = \sum_{i=1}^N r_{ik} \]</div>
+<p>Actualizamos las medias a partir de los puntos y las responsabilidades:</p>
+<div class="arithmatex">\[\boldsymbol{\mu}_k^{(t+1)} = \frac{1}{N_k} \sum_{i=1}^N r_{ik} \, \mathbf{x}_i\]</div>
+<p>Actualizamos la matriz de covarianza:</p>
+<div class="arithmatex">\[\boldsymbol{\Sigma}_k^{(t+1)} = \frac{1}{N_k} \sum_{i=1}^N r_{ik} \, (\mathbf{x}_i - \boldsymbol{\mu}_k^{(t+1)})(\mathbf{x}_i - \boldsymbol{\mu}_k^{(t+1)})^\top\]</div>
+<p>Y por último actualizamos los pesos de cada componente:</p>
+<div class="arithmatex">\[\pi_k^{(t+1)} = \frac{N_k}{N}\]</div>
+<p>Comparando con K-Means, la actualización de <span class="arithmatex">\(\boldsymbol{\mu}_k\)</span> es exactamente la misma que la actualización del centroide, salvo que aquí cada punto contribuye con un peso fraccionario <span class="arithmatex">\(r_{ik}\)</span> en lugar de <span class="arithmatex">\(0\)</span> o <span class="arithmatex">\(1\)</span>.</p>
+<h3 id="algoritmo-completo">Algoritmo completo<a class="headerlink" href="#algoritmo-completo" title="Permanent link">¶</a></h3>
+<p>A continuación se detalla el algoritmo EM completo.</p>
 <div class="admonition abstract">
-<p class="admonition-title">Algoritmo 1 — Gradiente Descendente</p>
-<p><strong>Entrada:</strong> <span class="arithmatex">\(f(x)\)</span>, <span class="arithmatex">\(\eta\)</span>, <span class="arithmatex">\(x_0\)</span><br>
-<strong>Salida:</strong> <span class="arithmatex">\(x^\*\)</span>  </p>
+<p class="admonition-title">Algoritmo EM</p>
+<p><strong>Entrada:</strong> Datos <span class="arithmatex">\(\{\mathbf{x}_i\}_{i=1}^N\)</span>, número de componentes <span class="arithmatex">\(K\)</span>, tipo de covarianza, umbral de convergencia <span class="arithmatex">\(\text{tol}\)</span>. <br>
+<strong>Salida:</strong> Parámetros <span class="arithmatex">\(\boldsymbol{\theta}^* = \{\pi_k, \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k\}_{k=1}^K \text{ y responsabilidades } \{r_{ik}\}\)</span>  </p>
 <p></p><div style="margin-left: 1.5em;">
-<span class="arithmatex">\(x \leftarrow x_0\)</span><p></p>
-<p>Mientras <span class="arithmatex">\(||\nabla f(x)|| &gt; \varepsilon\)</span> hacer
-</p></div><p></p>
+Inicializar <span class="arithmatex">\(\boldsymbol{\theta}^{(0)} = \{\pi_k^{(0)}, \boldsymbol{\mu}_k^{(0)}, \boldsymbol{\Sigma}_k^{(0)}\}_{k=1}^K \quad\)</span> (p.e. con K-Means)<br>
+Repetir hasta convergencia:<br>
+</div><p></p>
 <p></p><div style="margin-left: 3em;">
-<span class="arithmatex">\(x \leftarrow x - \eta \nabla f(x)\)</span>
+<strong>E-Step:</strong>
+</div><p></p>
+<p></p><div style="margin-left: 4.5em;">
+<span class="arithmatex">\(r_{ik} \leftarrow \frac{\pi_k \, \mathcal{N}(\mathbf{x}_i \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)}{\sum_{j} \pi_j \, \mathcal{N}(\mathbf{x}_i \mid \boldsymbol{\mu}_j, \boldsymbol{\Sigma}_j)} \quad \forall i, k\)</span>
+</div><p></p>
+<p></p><div style="margin-left: 3em;">
+<strong>M-Step:</strong>
+</div><p></p>
+<p></p><div style="margin-left: 4.5em;">
+<span class="arithmatex">\(N_k \leftarrow \sum_i r_{ik}\)</span> <br>
+<span class="arithmatex">\(\boldsymbol{\mu}_k \leftarrow \frac{1}{N_k}\sum_i r_{ik}\,\mathbf{x}_i \quad \forall k\)</span> <br>
+<span class="arithmatex">\(\boldsymbol{\Sigma}_k \leftarrow \frac{1}{N_k}\sum_i r_{ik}(\mathbf{x}_i - \boldsymbol{\mu}_k)(\mathbf{x}_i - \boldsymbol{\mu}_k)^\top \quad \forall k\)</span> <br>
+<span class="arithmatex">\(\pi_k \leftarrow \frac{N_k}{N} \quad \forall k\)</span>
+</div><p></p>
+<p></p><div style="margin-left: 3em;">
+Calcular <span class="arithmatex">\(\mathcal{L}^{(t)} = \sum_i \log \sum_k \pi_k\,\mathcal{N}(\mathbf{x}_i \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)\)</span> <br>
+Detener si <span class="arithmatex">\(|\mathcal{L}^{(t)} - \mathcal{L}^{(t-1)}| &lt; \text{tol}\)</span> 
 </div><p></p>
 <p></p><div style="margin-left: 1.5em;">
-Devolver <span class="arithmatex">\(x\)</span>
+Devuelve: <span class="arithmatex">\(\boldsymbol{\theta}^* = \{\pi_k, \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k\}_{k=1}^K\)</span> y responsabilidades <span class="arithmatex">\(\{r_{ik}\}\)</span>
 </div><p></p>
 </div>
-<h1 id="clustering">Clustering<a class="headerlink" href="#clustering" title="Permanent link">¶</a></h1>
-<p>Aplicaciones de DBSCAN
-Aplicaciones de espectral
-Limitaciones de espectral (escalabilidad)
-Uso en segmentación de imágenes</p>
-<h2 id="gaussian-mixture-models-gmm">Gaussian Mixture Models (GMM)<a class="headerlink" href="#gaussian-mixture-models-gmm" title="Permanent link">¶</a></h2>
+<p>En la <a href="#fig-em-proceso">Figura 4</a> se resume de forma esquemática el proceso que realiza el algoritmo EM.</p>
+<p></p><figure id="fig-em-proceso"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t9_pasos_em.png" data-desc-position="bottom"><img alt="" src="../images/t9_pasos_em.png"></a><figcaption>Figura 4: Proceso general del algoritmo EM. </figcaption></figure><p></p>
+<h3 id="garantias-de-convergencia">Garantías de convergencia<a class="headerlink" href="#garantias-de-convergencia" title="Permanent link">¶</a></h3>
+<p>El algoritmo EM tiene una propiedad de convergencia importante: la <em>log-likelihood</em> <strong>nunca disminuye</strong> entre iteraciones, es decir, <span class="arithmatex">\(\mathcal{L}^{(t+1)} \geq \mathcal{L}^{(t)}\)</span>. Esto se puede demostrar mediante la desigualdad de Jensen y garantiza que el algoritmo siempre converge. Sin embargo, la convergencia es a un <strong>máximo local</strong>, que no necesariamente coincidirá con el global.  La función de <em>log-likelihood</em> de una mezcla gaussiana tiene en general múltiples máximos locales, y el punto al que converge el EM depende de la inicialización.</p>
+<p>Por este motivo, en la práctica se ejecuta el algoritmo varias veces con inicializaciones distintas y se queda con la solución de mayor verosimilitud. La inicialización con K-Means (usar los centroides de K-Means como valores iniciales de <span class="arithmatex">\(\boldsymbol{\mu}_k\)</span>) es la estrategia más robusta y la que implementa <em>sklearn</em> por defecto. Una vez inicializadas las medias, la matriz de covarianza inicial se calcula habitualmente como la covarianza global del <em>dataset</em>, calculada sobre todos los puntos sin distinción de <em>cluster</em>. </p>
+<blockquote>
+<p><strong>Nota</strong>: Si una componente queda asignada a un único punto, su covarianza <span class="arithmatex">\(\boldsymbol{\Sigma}_k\)</span> puede colapsar a cero, haciendo que la densidad gaussiana diverja. Esto es numéricamente problemático. La solución estándar es añadir un pequeño valor de regularización a la diagonal de todas las matrices de covarianza, tal que <span class="arithmatex">\(\boldsymbol{\Sigma}_k \leftarrow \boldsymbol{\Sigma}_k + \epsilon I\)</span>, que es exactamente lo que controla el parámetro <code>reg_covar</code> en <em>sklearn</em>.</p>
+</blockquote>
+<h3 id="k-means-como-caso-especial-de-gmm-y-em">K-Means como caso especial de GMM y EM<a class="headerlink" href="#k-means-como-caso-especial-de-gmm-y-em" title="Permanent link">¶</a></h3>
+<p>La relación entre K-Means y GMM se hace explícita cuando se analiza el EM bajo restricciones extremas. Si fijamos todas las matrices de covarianza a <span class="arithmatex">\(\boldsymbol{\Sigma}_k = \sigma^2 I\)</span> (esféricas e iguales) y establecemos <span class="arithmatex">\(\sigma^2 \to 0\)</span>, las responsabilidades del E-Step degeneran: la componente más probable concentra toda la probabilidad y el resto van a cero. El E-Step se convierte exactamente en la asignación al centroide más cercano de K-Means, y el M-Step en la actualización de centroides. <strong>K-Means es, por tanto, un caso límite del EM para GMM con covarianzas esféricas y fijas.</strong></p>
+<p>Esta conexión tiene implicaciones prácticas, ya que cuando K-Means converge a una solución razonable, ejecutar EM a partir de esa inicialización suele converger más rápido y a una solución de mejor calidad que una inicialización aleatoria.</p>
+<h2 id="seleccion-del-numero-de-componentes">Selección del número de componentes<a class="headerlink" href="#seleccion-del-numero-de-componentes" title="Permanent link">¶</a></h2>
+<p>A diferencia de los métodos basados en densidad, que no requieren especificar <span class="arithmatex">\(K\)</span>, los GMM sí lo necesitan. Sin embargo, y también a diferencia de K-Means, ofrecen criterios estadísticos formales para elegirlo: los <strong>criterios de información</strong>.</p>
+<p>La idea común es penalizar la <em>log-likelihood</em> del modelo ajustado por la complejidad del mismo, medida por el número de parámetros libres <span class="arithmatex">\(d_\theta\)</span> (es decir, parámetros que el modelo tiene que aprender de los datos, en este caso son <span class="arithmatex">\(\boldsymbol{\theta} = \{\pi_k, \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k\}_{k=1}^K\)</span>). </p>
+<p>Un modelo con más componentes siempre tendrá mayor verosimilitud, pero a costa de un mayor número de parámetros. Los criterios de información buscan el equilibrio óptimo.</p>
+<p>Los dos criterios más usados son:</p>
+<div class="arithmatex">\[\text{BIC} = -2 \log p(\mathcal{D} \mid \hat{\boldsymbol{\theta}}) + d_\theta \log N\]</div>
+<div class="arithmatex">\[\text{AIC} = -2 \log p(\mathcal{D} \mid \hat{\boldsymbol{\theta}}) + 2 d_\theta\]</div>
+<p>Donde <span class="arithmatex">\(\hat{\boldsymbol{\theta}}\)</span> son los parámetros estimados por máxima verosimilitud y <span class="arithmatex">\(N\)</span> es el número de observaciones. En ambos casos se elige el <span class="arithmatex">\(K\)</span> que <strong>minimiza</strong> el criterio. El primer término evalúa la capacidad del conjunto estimado de parámetros <span class="arithmatex">\(\hat{\boldsymbol{\theta}}\)</span> para representar los datos, mientras que el segundo penaliza con el número <span class="arithmatex">\(d_\theta\)</span> de parámetros utilizados.</p>
+<p>BIC penaliza más fuertemente los modelos complejos (la penalización crece con <span class="arithmatex">\(\log N\)</span>), por lo que tiende a seleccionar modelos más simples. AIC es menos conservador y puede preferir modelos con más componentes, tendiendo a sobreestimar <span class="arithmatex">\(K\)</span>, especialmente cuando <span class="arithmatex">\(N\)</span> es grande.</p>
+<p>En la práctica, la forma estándar de usar estos criterios es ajustar GMM para varios valores de <span class="arithmatex">\(K\)</span> y representar la curva de BIC o AIC (ver <a href="#fig-bic-aic">Figura 5</a>). El mínimo de la curva indica el número de componentes más adecuado.</p>
+<p></p><figure id="fig-bic-aic"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t9_bic_aic.png" data-desc-position="bottom"><img alt="" src="../images/t9_bic_aic.png"></a><figcaption>Figura 5: Curvas de BIC y AIC para diferentes valores de <span class="arithmatex">\(K\)</span>. El mínimo de BIC en <span class="arithmatex">\(K=3\)</span> indica que ese es el número de componentes más adecuado según este criterio. </figcaption></figure><p></p>
+<p>Como recomendación general, se suele utilizar BIC como criterio principal por sus consistencia, y considerar AIC como cota superior de <span class="arithmatex">\(K\)</span>. </p>
+<h2 id="implementacion">Implementación<a class="headerlink" href="#implementacion" title="Permanent link">¶</a></h2>
+<p>En sklearn los GMM están disponibles en la clase <a href="https://scikit-learn.org/stable/modules/generated/sklearn.mixture.GaussianMixture.html"><code>GaussianMixture</code></a>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">X_scaled</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">gmm</span> <span class="o">=</span> <span class="n">GaussianMixture</span><span class="p">(</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">n_components</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>             <span class="c1"># Número de componentes K</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">covariance_type</span><span class="o">=</span><span class="s1">'full'</span><span class="p">,</span>     <span class="c1"># Tipo de covarianza: 'full', 'tied', 'diag', 'spherical'</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>                  <span class="c1"># Número de inicializaciones; se queda con la de mayor verosimilitud</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="n">init_params</span><span class="o">=</span><span class="s1">'kmeans'</span><span class="p">,</span>       <span class="c1"># Estrategia de inicialización: 'kmeans' (recomendado) o 'random'</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>               <span class="c1"># Máximo de iteraciones EM</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>                   <span class="c1"># Criterio de convergencia (cambio mínimo en log-likelihood)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="n">reg_covar</span><span class="o">=</span><span class="mf">1e-6</span>              <span class="c1"># Regularización de la diagonal de las covarianzas</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">)</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">gmm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="c1"># Hard clustering: etiqueta del cluster más probable para cada punto</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="n">etiquetas</span> <span class="o">=</span> <span class="n">gmm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="c1"># Soft clustering: matriz de responsabilidades (N x K)</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="n">responsabilidades</span> <span class="o">=</span> <span class="n">gmm</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="c1"># Log-likelihood media por punto</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Log-likelihood: </span><span class="si">{</span><span class="n">gmm</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Convergió: </span><span class="si">{</span><span class="n">gmm</span><span class="o">.</span><span class="n">converged_</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Iteraciones: </span><span class="si">{</span><span class="n">gmm</span><span class="o">.</span><span class="n">n_iter_</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<p>A diferencia de los métodos jerárquicos, espectrales y de los métodos basados en densidad <code>DBSCAN</code>, <code>OPTICS</code> y <code>HDBSCAN</code>, <code>GaussianMixture</code> <strong>sí implementa <code>predict</code></strong>. Dado que el modelo aprende una distribución de probabilidad explícita, puede evaluar cualquier nuevo punto en esa distribución y asignarlo a la componente de mayor responsabilidad. De forma similar, <code>KMeans</code> y <code>MeanShift</code> también pueden predecir nuevos puntos asignándolos al centroide o modo más cercano, respectivamente. </p>
+<p>Para <strong>seleccionar <span class="arithmatex">\(K\)</span></strong> usando BIC o AIC, la clase <code>GaussianMixture</code> nos da la siguiente información:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">Ks</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">bic_scores</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">aic_scores</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">Ks</span><span class="p">:</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">gmm</span> <span class="o">=</span> <span class="n">GaussianMixture</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">covariance_type</span><span class="o">=</span><span class="s1">'full'</span><span class="p">,</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>                          <span class="n">n_init</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="n">gmm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="n">bic_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gmm</span><span class="o">.</span><span class="n">bic</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">))</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="n">aic_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gmm</span><span class="o">.</span><span class="n">aic</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">))</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Ks</span><span class="p">,</span> <span class="n">bic_scores</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'BIC'</span><span class="p">)</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Ks</span><span class="p">,</span> <span class="n">aic_scores</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'s'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'AIC'</span><span class="p">)</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Número de componentes K'</span><span class="p">)</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Criterio de información'</span><span class="p">)</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Selección de K mediante BIC y AIC'</span><span class="p">)</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="n">K_optimo</span> <span class="o">=</span> <span class="n">Ks</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">bic_scores</span><span class="p">)]</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"K óptimo según BIC: </span><span class="si">{</span><span class="n">K_optimo</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<p>Los parámetros más relevantes son:</p>
 <ul>
-<li>De hard clustering a soft clustering</li>
-<li>Modelo probabilístico: mezcla de gaussianas</li>
-<li>
-<p>EM Algorithm (Expectation-Maximization)</p>
-<ul>
-<li>E-step: asignación probabilística</li>
-<li>M-step: actualización de parámetros</li>
-<li>Convergencia y garantías</li>
+<li><strong><code>n_components</code></strong>: el número de componentes gaussianas <span class="arithmatex">\(K\)</span>. Podemos seleccionarlo con BIC o AIC como se muestra en el fragmento de código anterior.</li>
+<li><strong><code>covariance_type</code></strong>: el tipo de restricción sobre las matrices de covarianza. <code>'full'</code> es el más expresivo, <code>'diag'</code> el más eficiente, <code>'spherical'</code> el más restrictivo (equivalente a K-Means generalizado). La elección depende del volumen de datos disponible, ya que con pocos datos <code>'full'</code> puede sobreajustar.</li>
+<li><strong><code>n_init</code></strong>: número de veces que se ejecuta el algoritmo desde distintas inicializaciones. Aumentarlo reduce el riesgo de quedarse en un mínimo local, a costa de mayor tiempo de cómputo. Con <span class="arithmatex">\(n\_init \geq 5\)</span> el riesgo de mínimos locales problemáticos es bajo en la mayoría de casos.</li>
+<li><strong><code>reg_covar</code></strong>: valor añadido a la diagonal de las matrices de covarianza para evitar el colapso numérico. El valor por defecto (<span class="arithmatex">\(10^{-6}\)</span>) es adecuado para datos normalizados, aunque puede necesitar aumentarse si el ajuste falla con covarianzas singulares.</li>
+<li><strong><code>init_params</code></strong>: la estrategia de inicialización. <code>'kmeans'</code> (por defecto) es robusta y rápida, mientras que <code>'random'</code> puede ser útil cuando K-Means no converge bien o cuando se sospecha que la solución de K-Means es un mal punto de partida. También podemos aplicar el método de inicialización de K-Means++ con <code>'k-means++'</code>. </li>
 </ul>
+<h3 id="gmm-como-estimador-de-densidad">GMM como estimador de densidad<a class="headerlink" href="#gmm-como-estimador-de-densidad" title="Permanent link">¶</a></h3>
+<p>Una capacidad del GMM que no tienen los algoritmos de <em>clustering</em> anteriores es que, una vez ajustado, define una <strong>densidad de probabilidad</strong> sobre todo el espacio. Esto permite evaluar nuevos puntos (obteniendo su <em>log-likelihood</em> a patir del modelo) o utilizarlo como modelo generativo, generando nuevas muestras:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Log-densidad de nuevos puntos bajo el modelo</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">log_densidad</span> <span class="o">=</span> <span class="n">gmm</span><span class="o">.</span><span class="n">score_samples</span><span class="p">(</span><span class="n">X_nuevo</span><span class="p">)</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">densidad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_densidad</span><span class="p">)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># Generar nuevas muestras del modelo aprendido</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">X_muestras</span><span class="p">,</span> <span class="n">etiquetas_muestras</span> <span class="o">=</span> <span class="n">gmm</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+</code></pre></div>
+<p>Esta capacidad generativa conecta los GMM con los modelos generativos más modernos (VAEs, modelos de difusión), y la convierte en la herramienta estándar para <strong>detección de anomalías basada en densidad</strong>: los puntos con baja densidad bajo el modelo aprendido (<span class="arithmatex">\(p(\mathbf{x}) &lt; \text{umbral}\)</span>) se consideran anómalos.</p>
+<!--
+## El algoritmo EM más allá de los GMM
+
+El algoritmo EM (Dempster et al., 1977)[^dempster1977maximum] es mucho más general que su aplicación a los GMM. Su formulación abstracta es aplicable a cualquier modelo con variables latentes cuya _log-likelihood_ completa (incluyendo las variables latentes) sea más fácil de maximizar que la _log-likelihood_ marginal (solo sobre los datos observados).
+
+Formalmente, el EM maximiza la _log-likelihood_ $\log p(\mathcal{D} \mid \boldsymbol{\theta})$ alternando entre:
+
+- **E-Step**: calcular $Q(\boldsymbol{\theta} \mid \boldsymbol{\theta}^{(t)}) = \mathbb{E}_{z \mid \mathcal{D}, \boldsymbol{\theta}^{(t)}} [\log p(\mathcal{D}, z \mid \boldsymbol{\theta})]$, la esperanza de la _log-likelihood_ completa bajo la distribución posterior actual de las variables latentes.
+- **M-Step**: maximizar $Q$ respecto a $\boldsymbol{\theta}$: $\boldsymbol{\theta}^{(t+1)} = \arg\max_{\boldsymbol{\theta}} Q(\boldsymbol{\theta} \mid \boldsymbol{\theta}^{(t)})$.
+
+Esta estructura aparece en muchos modelos clásicos de aprendizaje automático:
+
+- **Hidden Markov Models (HMM)**: las variables latentes son los estados ocultos de la cadena de Markov. El E-Step equivale al algoritmo _forward-backward_, mientras que el M-Step actualiza las probabilidades de transición y emisión.
+- **Análisis de Componentes Latentes (PLSA, LDA)**: en modelado de tópicos, las variables latentes son las asignaciones de palabras a tópicos.
+- **Imputación de datos faltantes**: los valores faltantes se tratan como variables latentes, y el E-Step calcula su distribución condicional dado el modelo actual y los datos observados.
+- **K-Means**: como hemos visto, es el caso límite del EM para GMM cuando las covarianzas son esféricas y fijas.
+
+> **Nota**: La convergencia del EM a un máximo local es la regla, no la excepción, en estos modelos. La estrategia estándar de múltiples inicializaciones (`n_init` en _sklearn_) es aplicable a todos ellos.
+-->
+
+<h2 id="consideraciones-finales">Consideraciones finales<a class="headerlink" href="#consideraciones-finales" title="Permanent link">¶</a></h2>
+<p>Los GMM completan la revisión de métodos de <em>clustering</em> con una perspectiva que ninguno de los métodos anteriores ofrecía: la perspectiva estadística. En lugar de definir <em>clusters</em> geométricamente (por proximidad a centroides, por densidad, por conectividad en grafos), los GMM definen <em>clusters</em> como componentes de un modelo generativo de los datos. Esto tiene como consecuencias prácticas directas producir asignaciones probabilísticas con incertidumbre explícita, capacidad generativa, y criterios de selección de modelo estadísticamente fundados.</p>
+<p>La siguiente tabla resume la revisión completa de métodos de <em>clustering</em> que hemos visto a lo largo del bloque:</p>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Forma <em>clusters</em></th>
+<th>Requiere <span class="arithmatex">\(K\)</span></th>
+<th>Outliers</th>
+<th>Asignación</th>
+<th>Escalabilidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K-Means</td>
+<td>Esféricas, igual tamaño</td>
+<td>Sí</td>
+<td>Sensible</td>
+<td>Hard</td>
+<td>Muy buena</td>
+</tr>
+<tr>
+<td>Jerárquico aglomerativo</td>
+<td>Cualquiera (según linkage)</td>
+<td>No (post-hoc)</td>
+<td>Moderado</td>
+<td>Hard</td>
+<td>Mala</td>
+</tr>
+<tr>
+<td>Espectral</td>
+<td>Arbitraria (no convexa)</td>
+<td>Sí</td>
+<td>Moderado</td>
+<td>Hard</td>
+<td>Mala</td>
+</tr>
+<tr>
+<td>DBSCAN</td>
+<td>Arbitraria</td>
+<td>No</td>
+<td>Explícito</td>
+<td>Hard + ruido</td>
+<td>Buena</td>
+</tr>
+<tr>
+<td>HDBSCAN</td>
+<td>Arbitraria, densidad variable</td>
+<td>No</td>
+<td>Explícito</td>
+<td>Soft parcial</td>
+<td>Buena</td>
+</tr>
+<tr>
+<td>GMM</td>
+<td>Elíptica, orientación libre</td>
+<td>Sí (BIC/AIC)</td>
+<td>Implícito (densidad)</td>
+<td>Soft</td>
+<td>Moderada</td>
+</tr>
+</tbody>
+</table>
+<p>En este bloque hemos realizado un recorrido que ha pasado por métodos jerárquicos, basados en grafos, basados en densidad hasta llegar a GMM, partiendo  de los métodos más intuitivos hasta llegar a los más estadísticamente sofisticados. </p>
+<p>Cada método responde a una limitación del anterior: el <em>clustering</em> espectral supera la limitación de formas convexas de K-Means, DBSCAN añade detección de ruido y elimina la necesidad de <span class="arithmatex">\(K\)</span>, HDBSCAN generaliza DBSCAN a densidades variables y los GMM añaden la perspectiva probabilística de la que todos los anteriores carecen.</p>
+<p>A continuación, cerraremos el bloque de aprendizaje no supervisado con la <strong>detección de anomalías</strong>. Veremos que varios de los métodos estudiados en este bloque producen detección de anomalías de forma natural (los puntos de ruido de DBSCAN, los puntos con baja densidad bajo el GMM, o los puntos alejados de los centroides en K-Means). </p>
+<p>Además, estudiaremos <strong>Isolation Forest</strong>, un método diseñado específicamente para detección de anomalías que parte de una filosofía radicalmente diferente: en lugar de modelar lo que es normal y detectar desviaciones, aísla directamente los puntos anómalos construyendo árboles de decisión aleatorios.</p>
+<h1 id="deteccion-de-anomalias">Detección de Anomalías<a class="headerlink" href="#deteccion-de-anomalias" title="Permanent link">¶</a></h1>
+<p>A lo largo de este bloque hemos estudiado un gran repertorio de métodos de <em>clustering</em>, que buscan estructura de grupo en los datos. En esta última sección cambiaremos nuestro objetivo, y en lugar de encontrar grupos, buscaremos encontrar <strong>puntos que no encajan en ningún grupo</strong>. Esta tarea se denomina <em>detección de anomalías</em> (<em>anomaly detection</em>) o <em>detección de outliers</em> (<em>outlier detection</em>).</p>
+<p>La detección de anomalías es una de las aplicaciones más importantes del aprendizaje no supervisado en la industria. Nos permite detectar cuestiones como fraude en transacciones bancarias, fallos en sistemas industriales, intrusiones en redes, errores de medición en sensores, o resultados clínicos atípicos. Todos estos son problemas donde el interés no está en lo habitual sino en lo excepcional, y donde generalmente no se dispone de ejemplos etiquetados de las anomalías (si las conociésemos de antemano, sería un problema de clasificación supervisada).</p>
+<h2 id="que-es-una-anomalia">¿Qué es una anomalía?<a class="headerlink" href="#que-es-una-anomalia" title="Permanent link">¶</a></h2>
+<p>Hawkins (Hawkins, 1980)<sup id="fnref:hawkins1980identification"><a class="footnote-ref" href="#fn:hawkins1980identification">2</a></sup> definió una anomalía como <em>"una observación que se desvía tanto de las demás observaciones que hace sospechar que fue generada por un mecanismo diferente"</em>. Esta definición, aunque intuitiva, encierra una dificultad fundamental: <strong>¿diferente en qué sentido?</strong> La respuesta depende del tipo de anomalía que buscamos.</p>
+<p>Se distinguen habitualmente tres tipos de anomalías:</p>
+<ul>
+<li>
+<p><strong>Anomalías puntuales</strong> (<em>point anomalies</em>): Se trata de una observación individual que difiere del resto, como puede ser un valor de transacción extraordinariamente alto o una lectura de sensor fuera de rango. Es el caso más común y el que abordaremos en este tema. </p>
 </li>
 <li>
-<p>Selección del número de componentes (BIC, AIC)</p>
+<p><strong>Anomalías contextuales</strong> (<em>contextual anomalies</em>): Se trata de una observación que es anómala en un contexto específico pero no en general. Una temperatura de 35°C es normal en verano pero anómala en invierno. Requiere definir qué constituye el contexto.</p>
 </li>
-<li>Ventajas sobre K-Means: clusters elípticos, asignación probabilística</li>
-<li>Aplicaciones: densidad de probabilidad, inicialización</li>
+<li>
+<p><strong>Anomalías colectivas</strong> (<em>collective anomalies</em>): Se trata de conjuntos de observaciones que individualmente no son anómalas, pero cuyo patrón de conjunto lo es. Una secuencia de transacciones de pequeño importe en localizaciones geográficas incongruentes puede ser normal individualmente pero indicativa de fraude como conjunto.</p>
+</li>
 </ul>
-<p>El EM algorithm es conceptualmente importante porque aparece en muchos otros contextos de ML. Está relacionado con K-Means, que es un caso especial de EM con varianzas fijas. La visualización de elipses vs. círculos ayuda a la comprensión</p>
-<h2 id="isolation-forest-y-deteccion-de-anomalias">Isolation Forest y detección de anomalías<a class="headerlink" href="#isolation-forest-y-deteccion-de-anomalias" title="Permanent link">¶</a></h2>
-<ul>
-<li>Concepto: anomalías son fáciles de aislar</li>
-<li>Construcción de árboles aleatorios</li>
-<li>Path length como score de anomalía</li>
-<li>Ventajas: eficiente, no requiere asumir distribución</li>
-<li>Relación con Random Forest</li>
-</ul>
-<p>Uso de clustering para detección de anomalías</p>
-<ul>
-<li>Puntos lejanos de centroides (K-Means)</li>
-<li>Noise points (DBSCAN)</li>
-<li>Baja probabilidad (GMM)</li>
-</ul>
-<p>Isolation Forest está relacionado con Random Forest, pero con una filosofía completamente diferente. Ambos utilizan conjuntos (ensemble) de árboles de decisión, pero con objetivos y mecanismos distintos.</p>
-<p>Coinciden en que ambos usan ensemble de árboles:</p>
-<ul>
-<li>Construyen múltiples árboles de decisión</li>
-<li>Combinan sus resultados para la predicción final</li>
-<li>Usan aleatorización para crear diversidad entre árboles</li>
-</ul>
-<p>Construcción aleatoria:</p>
-<ul>
-<li>Muestreo aleatorio de datos</li>
-<li>Selección aleatoria de características</li>
-</ul>
-<p>Las diferencias fundamentales son:</p>
+<p>En esta sesión nos centramos en anomalías puntuales, que son el objetivo de todos los métodos que estudiaremos.</p>
+<h2 id="clustering-para-deteccion-de-anomalias"><em>Clustering</em> para detección de anomalías<a class="headerlink" href="#clustering-para-deteccion-de-anomalias" title="Permanent link">¶</a></h2>
+<p>Los métodos de <em>clustering</em> que hemos visto a lo largo del bloque producen, como subproducto natural, una forma de detectar anomalías. La idea común es que los puntos anómalos son aquellos que el modelo de <em>clustering</em> no logra explicar bien. Cada algoritmo lo trata de forma diferente:</p>
+<p><strong>K-Means</strong>: Los puntos anómalos son aquellos con mayor distancia al centroide más cercano. Tras ajustar el modelo, se calcula esta distancia para todos los puntos y se marca como anómalos los que superan un umbral.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">distancias</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">kmeans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">umbral</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">distancias</span><span class="p">,</span> <span class="mi">95</span><span class="p">)</span>  <span class="c1"># Top 5% como anomalías</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">anomalias</span> <span class="o">=</span> <span class="n">distancias</span> <span class="o">&gt;</span> <span class="n">umbral</span>
+</code></pre></div>
+<p><strong>DBSCAN y HDBSCAN</strong>: Los puntos de ruido (etiqueta <code>-1</code>) son directamente las anomalías. No requiere umbral, la detección la realiza el propio algoritmo. HDBSCAN ofrece además probabilidades de pertenencia, por lo que puntos con probabilidad baja pueden etiquetarse como candidatos a anomalías aunque no sean ruido.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">hdbscan</span> <span class="o">=</span> <span class="n">HDBSCAN</span><span class="p">(</span><span class="n">min_cluster_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">anomalias</span> <span class="o">=</span> <span class="n">hdbscan</span><span class="o">.</span><span class="n">labels_</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># HDBSCAN </span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">sospechosos</span> <span class="o">=</span> <span class="n">hdbscan</span><span class="o">.</span><span class="n">probabilities_</span> <span class="o">&lt;</span> <span class="mf">0.05</span>
+</code></pre></div>
+<p><strong>GMM</strong>: Los puntos anómalos son aquellos con baja densidad de probabilidad bajo el modelo aprendido. Este enfoque tiene la ventaja de ser estadísticamente fundado. Se puede establecer un umbral basado en un nivel de significación.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">sklearn.mixture</span> <span class="kn">import</span> <span class="n">GaussianMixture</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">gmm</span> <span class="o">=</span> <span class="n">GaussianMixture</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">log_densidad</span> <span class="o">=</span> <span class="n">gmm</span><span class="o">.</span><span class="n">score_samples</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">umbral</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">log_densidad</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># Bottom 5% de densidad</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">anomalias</span> <span class="o">=</span> <span class="n">log_densidad</span> <span class="o">&lt;</span> <span class="n">umbral</span>
+</code></pre></div>
+<p>Estos enfoques son razonables y a menudo funcionan bien, pero tienen como limitación estructural que el modelo se ajusta para describir la estructura de los datos normales, y la detección de anomalías es un subproducto de ese ajuste. Los parámetros (número de <em>clusters</em>, <span class="arithmatex">\(\varepsilon\)</span>, número de componentes) se optimizan para el <em>clustering</em>, no para la detección de anomalías. Cuando la densidad de anomalías es alta, los modelos de <em>clustering</em> pueden incorporarlas en <em>clusters</em> propios, en lugar de marcarlas como atípicas.</p>
+<p>Isolation Forest propone una filosofía radicalmente diferente para evitar este problema.</p>
+<h2 id="isolation-forest">Isolation Forest<a class="headerlink" href="#isolation-forest" title="Permanent link">¶</a></h2>
+<p>Isolation Forest (Liu et al., 2008)<sup id="fnref:liu2008isolation"><a class="footnote-ref" href="#fn:liu2008isolation">3</a></sup> fue propuesto por Liu, Ting y Zhou en 2008 y se ha convertido en el algoritmo de referencia para detección de anomalías no supervisada. Su contribución fundamental es cambiar completamente la pregunta: en lugar de modelar qué es normal y detectar desviaciones de ese modelo, <strong>aisla directamente los puntos anómalos</strong>.</p>
+<h3 id="idea-intuitiva">Idea intuitiva<a class="headerlink" href="#idea-intuitiva" title="Permanent link">¶</a></h3>
+<p>La idea central de la que parte Isolation Forest es que los datos anómalos son fáciles de aislar. Los puntos anómalos son, por definición, escasos y alejados del grueso de los datos. Si construimos una partición aleatoria del espacio de características, eligiendo aleatoriamente un atributo y un valor de corte, los puntos anómalos quedarán aislados con muy pocos cortes. Los puntos normales, inmersos en regiones densas, necesitarán muchos más cortes para quedar solos. Podemos ver esto ejemplificado en la <a href="#fig-if-intuicion">Figura 6</a>.</p>
+<p></p><figure id="fig-if-intuicion"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t9_if_idea.svg" data-desc-position="bottom"><img alt="" src="../images/t9_if_idea.svg"></a><figcaption>Figura 6: Idea general de Isolation Forest. El punto anómalo (izquierda) queda aislado en pocos cortes. El punto normal (derecha), rodeado de otros puntos, necesita muchos más cortes para quedar solo. </figcaption></figure><p></p>
+<p>Esta idea tiene una ventaja destacable, y es que no requiere definir qué es "normal", no asume ninguna distribución subyacente de los datos, y la detección de anomalías emerge directamente de la estructura geométrica del espacio. Los puntos anómalos se delatan por sí solos al aislarse rápidamente.</p>
+<h3 id="isolation-trees">Isolation Trees<a class="headerlink" href="#isolation-trees" title="Permanent link">¶</a></h3>
+<p>El bloque sobre el que se construye Isolation Forest es el <strong>isolation tree</strong> (<em>árbol de aislamiento</em>). Estos árboles se distinguen de los árboles de decisión ordinarios en dos aspectos fundamentalmente:</p>
 <ol>
-<li>Objetivo</li>
+<li><strong>No hay criterio de pureza</strong>: Los cortes son completamente aleatorios, sin Gini ni entropía. El objetivo no es separar clases sino aislar puntos.</li>
+<li>Se construye sobre una <strong>submuestra pequeña</strong> del <em>dataset</em> <span class="arithmatex">\(\mathcal{X}\)</span> (típicamente <span class="arithmatex">\(\psi = 256\)</span> puntos), no sobre todos los datos.</li>
 </ol>
-<p>Random Forest:</p>
+<p>Definimos la altura límite como <span class="arithmatex">\(h_{\lim} = \lceil \log_2 \psi \rceil\)</span>. Esta limitación garantiza que el árbol no sea más profundo de lo necesario para aislar cualquier punto en una muestra de tamaño <span class="arithmatex">\(\psi\)</span>. En la práctica, los puntos anómalos alcanzan hojas a alturas mucho menores que <span class="arithmatex">\(h_{\lim}\)</span>.</p>
+<p>Para construir el árbol de aislamiento utilizamos el siguiente algoritmo:</p>
+<!-- 
+$$
+\begin{align*}
+& \textbf{IsolationTree}(\mathcal{X}, h_{\lim}): \\
+& \quad \text{Si } |\mathcal{X}| \leq 1 \text{ o } h = h_{\lim}: \text{ devolver nodo hoja con tamaño } |\mathcal{X}| \\
+& \quad q \leftarrow \text{elegir aleatoriamente un atributo de } \mathcal{X} \\
+& \quad p \leftarrow \text{elegir aleatoriamente un valor de corte entre } \min(q) \text{ y } \max(q) \text{ en } \mathcal{X} \\
+& \quad \mathcal{X}_L \leftarrow \{x \in \mathcal{X} \mid x_q < p\} \\
+& \quad \mathcal{X}_R \leftarrow \{x \in \mathcal{X} \mid x_q \geq p\} \\
+& \quad \text{devolver nodo interno con:} \\
+& \quad\quad \text{hijo izquierdo} \leftarrow \textbf{IsolationTree}(\mathcal{X}_L, h_{\lim}) \\
+& \quad\quad \text{hijo derecho} \leftarrow \textbf{IsolationTree}(\mathcal{X}_R, h_{\lim})
+\end{align*}
+$$
+-->
+
+<div class="admonition abstract">
+<p class="admonition-title">Isolation Tree</p>
+<p><strong>Entrada:</strong> Datos <span class="arithmatex">\(\mathcal{X}\)</span>, altura límite <span class="arithmatex">\(h_{\lim}\)</span> <br>
+<strong>Salida:</strong> Árbol de aislamiento (construido de forma recursiva)  </p>
+<p></p><div style="margin-left: 1.5em;">
+Si <span class="arithmatex">\(|\mathcal{X}| \leq 1\)</span> o <span class="arithmatex">\(h = h_{\lim}\)</span>: 
+</div><p></p>
+<p></p><div style="margin-left: 3em;">
+Devolver <strong>nodo hoja</strong> con tamaño <span class="arithmatex">\(|\mathcal{X}|\)</span>
+</div><p></p>
+<p></p><div style="margin-left: 1.5em;">
+<span class="arithmatex">\(q \leftarrow\)</span> elegir aleatoriamente un atributo de <span class="arithmatex">\(\mathcal{X}\)</span>   <br>
+<span class="arithmatex">\(p \leftarrow\)</span> elegir aleatoriamente un valor de corte entre <span class="arithmatex">\(\min(q)\)</span> y <span class="arithmatex">\(\max(q)\)</span> en  <span class="arithmatex">\(\mathcal{X}\)</span>   <br>
+<span class="arithmatex">\(\mathcal{X}_L \leftarrow \{x \in \mathcal{X} \mid x_q &lt; p\}\)</span>  <br>
+<span class="arithmatex">\(\mathcal{X}_R \leftarrow \{x \in \mathcal{X} \mid x_q \geq p\}\)</span>   <br>
+</div><p></p>
+<p></p><div style="margin-left: 1.5em;">
+Devolver <strong>nodo interno</strong> con: 
+</div><p></p>
+<p></p><div style="margin-left: 3em;">
+Hijo izquierdo <span class="arithmatex">\(\leftarrow \textbf{IsolationTree}(\mathcal{X}_L, h_{\lim})\)</span>   <br>
+Hijo derecho <span class="arithmatex">\(\leftarrow \textbf{IsolationTree}(\mathcal{X}_R, h_{\lim})\)</span>
+</div><p></p>
+</div>
+<h3 id="anomaly-score">Anomaly Score<a class="headerlink" href="#anomaly-score" title="Permanent link">¶</a></h3>
+<p>Un Isolation Forest consiste en un ensemble de <span class="arithmatex">\(T\)</span> árboles de aislamiento construidos sobre <em>subsamples</em> independientes. Para puntuar un punto <span class="arithmatex">\(\mathbf{x}\)</span>, se calcula la <strong>longitud de camino</strong> (<em>path length</em>) <span class="arithmatex">\(h(\mathbf{x})\)</span> desde la raíz hasta la hoja donde queda aislado, promediada sobre todos los árboles.</p>
+<p>Para normalizar esta longitud y obtener un <em>score</em> en <span class="arithmatex">\([0,1]\)</span>, se usa como referencia la longitud media esperada en un árbol de búsqueda binaria con <span class="arithmatex">\(\psi\)</span> puntos, <span class="arithmatex">\(c(\psi)\)</span>, que tiene la siguente expresión analítica:</p>
+<div class="arithmatex">\[c(\psi) = 2H(\psi - 1) - \frac{2(\psi-1)}{\psi}\]</div>
+<p>Donde <span class="arithmatex">\(H(i) \approx  \ln(i) + \gamma\)</span> es la función armónica, siendo <span class="arithmatex">\(\gamma\)</span> la constante de Euler-Mascheroni (<span class="arithmatex">\(\gamma = 0.5772\ldots\)</span>). El <strong>anomaly score</strong> es:</p>
+<div class="arithmatex">\[s(\mathbf{x}, \psi) = 2^{-\frac{\mathbb{E}[h(\mathbf{x})]}{c(\psi)}}\]</div>
+<p>La interpretación es la siguiente:</p>
 <ul>
-<li>Aprendizaje supervisado (clasificación o regresión)</li>
-<li>Objetivo: maximizar la precisión de predicción</li>
-<li>Reduce varianza mediante promediado</li>
+<li><span class="arithmatex">\(s(\mathbf{x}) \to 1\)</span>: <span class="arithmatex">\(\mathbb{E}[h(\mathbf{x})]\)</span> es mucho menor que <span class="arithmatex">\(c(\psi)\)</span>, el punto se aísla muy rápido, por lo que se considera <strong>anomalía</strong>.</li>
+<li><span class="arithmatex">\(s(\mathbf{x}) \approx 0.5\)</span>: <span class="arithmatex">\(\mathbb{E}[h(\mathbf{x})] \approx c(\psi)\)</span>, el punto tiene longitud de camino media, el punto se considera <strong>normal</strong>.</li>
+<li><span class="arithmatex">\(s(\mathbf{x}) \to 0\)</span>: <span class="arithmatex">\(\mathbb{E}[h(\mathbf{x})]\)</span> es mucho mayor que <span class="arithmatex">\(c(\psi)\)</span>, el punto es difícil de aislar, por lo que se considera <strong>muy normal</strong> (pertenece a una región densa).</li>
 </ul>
-<p>Isolation Forest:</p>
+<p>Podemos observar los <em>scores</em> obtenidos en un ejemplo concreto en la <a href="#fig-if-score">Figura 7</a>.</p>
+<p></p><figure id="fig-if-score"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t9_if_score.png" data-desc-position="bottom"><img alt="" src="../images/t9_if_score.png"></a><figcaption>Figura 7: Distribución del anomaly score de Isolation Forest. Los puntos anómalos se acumulan cerca de <span class="arithmatex">\(s = 1\)</span>; los normales cerca de <span class="arithmatex">\(s = 0.5\)</span>. </figcaption></figure><p></p>
+<h3 id="el-papel-de-la-submuestra">El papel de la submuestra<a class="headerlink" href="#el-papel-de-la-submuestra" title="Permanent link">¶</a></h3>
+<p>Una característica aparentemente contraintuitiva de Isolation Forest es que funciona mejor con submuestras pequeñas que con el <em>dataset</em> completo. Esto se debe a lo que los autores denominan el <strong>efecto de enmascaramiento</strong> (<em>masking</em>) y el <strong>efecto de difuminado</strong> (<em>swamping</em>).</p>
+<p>El <em>masking</em> ocurre cuando hay muchas anomalías juntas. Si se construye el árbol sobre el <em>dataset</em> completo, las anomalías pueden rodearse entre sí y necesitar caminos largos para aislarse, camuflando su carácter atípico. Con submuestras pequeñas, la probabilidad de que varias anomalías caigan en la misma submuestra es baja.</p>
+<p>El <em>swamping</em> ocurre en el extremo opuesto. Puntos normales cercanos a una región anómala pueden quedar clasificados como anómalos si el árbol se construye con todos los datos y la región anómala "contamina" la partición local. Submuestras pequeñas aíslan mejor las escalas locales.</p>
+<p>La submuestra de <span class="arithmatex">\(\psi = 256\)</span> puntos es el valor por defecto y funciona bien en la práctica para una gran variedad de <em>datasets</em>. Aumentarla raramente mejora los resultados y sí aumenta el coste computacional.</p>
+<h3 id="algoritmo-completo_1">Algoritmo completo<a class="headerlink" href="#algoritmo-completo_1" title="Permanent link">¶</a></h3>
+<!--
+$$
+\begin{align*}
+& \text{Entrada: datos } \mathcal{X}, \text{ número de árboles } T, \text{ tamaño de submuestra } \psi \\
+& \text{Para } t = 1, \ldots, T: \\
+& \quad \mathcal{X}' \leftarrow \text{submuestra aleatoria de } \psi \text{ puntos de } \mathcal{X} \text{ (sin reemplazamiento)} \\
+& \quad \text{iTrees}[t] \leftarrow \textbf{IsolationTree}(\mathcal{X}', h_{\lim} = \lceil \log_2 \psi \rceil) \\
+& \text{Para cada punto } \mathbf{x} \in \mathcal{X}: \\
+& \quad h(\mathbf{x}) \leftarrow \frac{1}{T} \sum_{t=1}^T \textbf{PathLength}(\mathbf{x}, \text{iTrees}[t]) \\
+& \quad s(\mathbf{x}) \leftarrow 2^{-h(\mathbf{x})/c(\psi)} \\
+& \text{Devuelve: scores } s(\mathbf{x}) \in [0,1] \text{ para cada punto}
+\end{align*}
+$$
+-->
+
+<div class="admonition abstract">
+<p class="admonition-title">Isolation Forest</p>
+<p><strong>Entrada:</strong> Datos <span class="arithmatex">\(\mathcal{X}\)</span>, número de árboles <span class="arithmatex">\(T\)</span>, tamaño de la submuestra <span class="arithmatex">\(\psi\)</span> <br>
+<strong>Salida:</strong> <em>Scores</em> para cada punto  </p>
+<p></p><div style="margin-left: 1.5em;">
+Para <span class="arithmatex">\(t = 1, \ldots, T\)</span>:<br>
+</div><p></p>
+<p></p><div style="margin-left: 3em;">
+<span class="arithmatex">\(\mathcal{X}' \leftarrow\)</span> Submuestra aleatoria de <span class="arithmatex">\(\psi\)</span>  puntos de <span class="arithmatex">\(\mathcal{X}\)</span>  (sin reemplazo)<br>
+<span class="arithmatex">\(\text{iTrees}[t] \leftarrow \textbf{IsolationTree}(\mathcal{X}', h_{\lim} = \lceil \log_2 \psi \rceil)\)</span>
+</div><p></p>
+<p></p><div style="margin-left: 1.5em;">
+Para cada punto <span class="arithmatex">\(\mathbf{x} \in \mathcal{X}\)</span>:<br>
+</div><p></p>
+<p></p><div style="margin-left: 3em;">
+<span class="arithmatex">\(h(\mathbf{x}) \leftarrow \frac{1}{T} \sum_{t=1}^T \textbf{PathLength}(\mathbf{x}, \text{iTrees}[t])\)</span>.<br>
+<span class="arithmatex">\(s(\mathbf{x}) \leftarrow 2^{-h(\mathbf{x})/c(\psi)}\)</span> 
+</div><p></p>
+<p></p><div style="margin-left: 1.5em;">
+Devuelve <em>scores</em> <span class="arithmatex">\(s(\mathbf{x}) \in [0,1]\)</span> para cada punto
+</div><p></p>
+</div>
+<p>Donde <span class="arithmatex">\(\textbf{PathLength}(\mathbf{x}, T)\)</span> recorre el árbol <span class="arithmatex">\(T\)</span> siguiendo las particiones hasta llegar al nodo hoja que contiene <span class="arithmatex">\(\mathbf{x}\)</span> y devuelve la profundidad de ese nodo, ajustada por el tamaño del nodo hoja si no se llegó al aislamiento completo. A continuación se detalla la forma en la que se realiza este ajuste:</p>
+<p>Sea <span class="arithmatex">\(e\)</span> la profundidad del nodo hoja donde cae <span class="arithmatex">\(x\)</span> en un árbol dado, y <span class="arithmatex">\(n\)</span> el número de puntos en dicho nodo. El <em>path length</em> se define como:</p>
+<div class="arithmatex">\[
+h(\mathbf{x}) = e + c(n)
+\]</div>
+<p>Donde la corrección <span class="arithmatex">\(c(n)\)</span> es la longitud de <em>path</em> esperada en un árbol de búsqueda binario (BST) con <span class="arithmatex">\(n\)</span> puntos:</p>
+<div class="arithmatex">\[
+c(n) = \begin{cases}
+2H(n-1) - \dfrac{2(n-1)}{n} &amp; \text{si } n &gt; 2 \\
+1 &amp; \text{si } n = 2 \\
+0 &amp; \text{si } n = 1 \quad \text{(Nodo hoja)}
+\end{cases}
+\]</div>
+<h3 id="complejidad">Complejidad<a class="headerlink" href="#complejidad" title="Permanent link">¶</a></h3>
+<p>El coste de entrenamiento es <span class="arithmatex">\(O(T  \psi  \log \psi)\)</span>, ya que se construyen <span class="arithmatex">\(T\)</span> árboles sobre submuestras de tamaño <span class="arithmatex">\(\psi\)</span> con coste logarítmico en <span class="arithmatex">\(\psi\)</span>. Como <span class="arithmatex">\(\psi\)</span> es una constante pequeña (256 por defecto), esto equivale a <span class="arithmatex">\(O(T)\)</span> respecto al tamaño total del dataset <span class="arithmatex">\(N\)</span>. El coste de predicción para un punto es <span class="arithmatex">\(O(T  \log \psi)\)</span>, también constante en <span class="arithmatex">\(N\)</span>. Esta eficiencia es una de las principales ventajas de Isolation Forest frente a métodos basados en densidad.</p>
+<h2 id="isolation-forest-e-isolation-forest-extendido">Isolation Forest e Isolation Forest extendido<a class="headerlink" href="#isolation-forest-e-isolation-forest-extendido" title="Permanent link">¶</a></h2>
+<p>Isolation Forest original tiene como limitación conocida que en espacios de alta dimensionalidad los cortes ortogonales (paralelos a los ejes) no son eficientes para aislar puntos en orientaciones oblicuas. Si una anomalía es atípica en una combinación lineal de variables, pero no en ninguna variable individual, los arboles de aislamiento necesitan muchos más cortes de lo esperado para aislarla.</p>
+<p><strong>Extended Isolation Forest</strong> (Hariri et al., 2021)<sup id="fnref:hariri2019extended"><a class="footnote-ref" href="#fn:hariri2019extended">4</a></sup> resuelve esto generalizando los cortes de ser hiperplanos ortogonales a ser hiperplanos de orientación aleatoria. En lugar de elegir un atributo <span class="arithmatex">\(q\)</span> y un valor de corte <span class="arithmatex">\(p\)</span>, se elige aleatoriamente un vector normal <span class="arithmatex">\(\mathbf{w} \in \mathbb{R}^d\)</span> y un intercepto <span class="arithmatex">\(b\)</span>, y el corte es <span class="arithmatex">\(\{\mathbf{x} \mid \mathbf{w}^\top \mathbf{x} \leq b\}\)</span>. Esto elimina las bandas verticales y horizontales de <em>scores</em> artificialmente uniformes que produce el Isolation Forest original (ver <a href="#fig-eif">Figura 8</a>).</p>
+<p></p><figure id="fig-eif"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t9_eif.png" data-desc-position="bottom"><img alt="" src="../images/t9_eif.png"></a><figcaption>Figura 8: Comparación de los mapas de <em>anomaly score</em> entre Isolation Forest original (izquierda) y Extended Isolation Forest (derecha). El original produce artefactos en las direcciones de los ejes. </figcaption></figure><p></p>
+<p>Extended Isolation Forest no se encuentra en <em>sklearn</em>, pero está disponible en el paquete <code>eif</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">import</span> <span class="nn">eif</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">modelo</span> <span class="o">=</span> <span class="n">eif</span><span class="o">.</span><span class="n">iForest</span><span class="p">(</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">X_scaled</span><span class="p">,</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="n">ntrees</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="n">sample_size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="n">ExtensionLevel</span><span class="o">=</span><span class="n">X_scaled</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># Máxima extensión: cortes totalmente aleatorios</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="p">)</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="n">scores</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">compute_paths</span><span class="p">(</span><span class="n">X_in</span><span class="o">=</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1"># Scores: path length media (menor = más anómalo, inversamente al score de sklearn)</span>
+</code></pre></div>
+<p>El parámetro <code>ExtensionLevel</code> controla el grado de aleatoriedad en la orientación de los cortes: <span class="arithmatex">\(0\)</span> equivale al Isolation Forest original (cortes ortogonales), mientras que <code>d-1</code> es la máxima generalización (orientaciones completamente aleatorias en <span class="arithmatex">\(\mathbb{R}^d\)</span>).</p>
+<h2 id="implementacion-en-sklearn">Implementación en sklearn<a class="headerlink" href="#implementacion-en-sklearn" title="Permanent link">¶</a></h2>
+<p>En <em>sklearn</em> tenemos disponible la clase <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html"><code>IsolationForest</code></a>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">modelo</span> <span class="o">=</span> <span class="n">IsolationForest</span><span class="p">(</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>       <span class="c1"># Número de isolation trees T</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">max_samples</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>        <span class="c1"># Tamaño de submuestra psi; 'auto' usa min(256, N)</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">contamination</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>     <span class="c1"># Fracción esperada de anomalías; determina el umbral</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">max_features</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>       <span class="c1"># Fracción de atributos considerados en cada árbol</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">bootstrap</span><span class="o">=</span><span class="kc">False</span>         <span class="c1"># Si True, muestreo con reemplazamiento</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="p">)</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="n">modelo</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1"># Etiquetas: 1 (normal) o -1 (anomalía), según el umbral de contamination</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="n">etiquetas</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="c1"># Anomaly score continuo: valores más negativos = más anómalo</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="c1"># (sklearn invierte el signo: score_samples devuelve -s(x))</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="n">scores</span> <span class="o">=</span> <span class="n">modelo</span><span class="o">.</span><span class="n">score_samples</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="n">anomalias</span> <span class="o">=</span> <span class="n">etiquetas</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Anomalías detectadas: </span><span class="si">{</span><span class="n">anomalias</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">anomalias</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)"</span><span class="p">)</span>
+</code></pre></div>
+<blockquote>
+<p><strong>Nota sobre el signo del score</strong>: <code>score_samples</code> en <em>sklearn</em> devuelve el opuesto del <em>anomaly score</em> original del artículo: valores más <em>negativos</em> corresponden a puntos más anómalos. Internamente, <em>sklearn</em> calcula <span class="arithmatex">\(-s(\mathbf{x})\)</span> para que la API sea consistente con otros estimadores donde puntos con mayor <em>score</em> son más relevantes.</p>
+</blockquote>
+<p>Podemos representar todos los <em>scores</em> en lugar de utilizar el umbral fijo del parámetro <code>contamination</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Inspeccionar la distribución del score para elegir el umbral</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'steelblue'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>            <span class="n">label</span><span class="o">=</span><span class="s1">'Percentil 5'</span><span class="p">)</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Anomaly score'</span><span class="p">)</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Frecuencia'</span><span class="p">)</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p>Los parámetros más relevantes son:</p>
 <ul>
-<li>Aprendizaje no supervisado (detección de anomalías)</li>
-<li>Objetivo: identificar puntos anómalos</li>
-<li>
-<p>No hay etiquetas, no predice clases</p>
+<li><strong><code>n_estimators</code></strong>: número de isolation trees. A diferencia de Random Forest, los rendimientos mejoran poco más allá de 100 árboles. Los <em>scores</em> se estabilizan rápido al promediar. El valor por defecto de 100 es adecuado para la mayoría de casos.</li>
+<li><strong><code>max_samples</code></strong>: tamaño de la submuestra <span class="arithmatex">\(\psi\)</span>. El valor por defecto <code>'auto'</code> usa <span class="arithmatex">\(\min(256, N)\)</span>. Aumentarlo raramente mejora los resultados salvo en <em>datasets</em> muy pequeños.</li>
+<li><strong><code>contamination</code></strong>: fracción esperada de anomalías en los datos. Controla únicamente el umbral del método <code>predict</code>. Si <code>contamination=0.05</code>, el 5% de los puntos con menor <em>score</em> serán etiquetados como anomalías. No afecta al entrenamiento ni a <code>score_samples</code>. En la práctica, se suele explorar el <em>score</em> continuo y elegir el umbral manualmente.</li>
+<li><strong><code>max_features</code></strong>: fracción de atributos considerados en cada árbol. Reducirlo introduce mayor diversidad entre árboles, a costa de menor poder discriminativo individual. El valor por defecto de <span class="arithmatex">\(1.0\)</span> (todos los atributos) es adecuado en la mayoría de casos.</li>
+</ul>
+<h3 id="comparacion-con-random-forest">Comparación con Random Forest<a class="headerlink" href="#comparacion-con-random-forest" title="Permanent link">¶</a></h3>
+<p>Isolation Forest y Random Forest comparten la arquitectura de <em>ensemble</em> de árboles de decisión, pero sus objetivos y mecanismos son fundamentalmente diferentes. Comprender las diferencias es importante para entender por qué Isolation Forest funciona como funciona.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Random Forest</th>
+<th>Isolation Forest</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Paradigma</strong></td>
+<td>Supervisado (clasificación / regresión)</td>
+<td>No supervisado (detección de anomalías)</td>
+</tr>
+<tr>
+<td><strong>Variable objetivo</strong></td>
+<td>Etiqueta <span class="arithmatex">\(y_i\)</span></td>
+<td>Ninguna</td>
+</tr>
+<tr>
+<td><strong>Criterio de división</strong></td>
+<td>Minimizar impureza (Gini, entropía)</td>
+<td>División aleatoria (sin criterio)</td>
+</tr>
+<tr>
+<td><strong>Profundidad de árboles</strong></td>
+<td>Profundos (hojas puras o casi puras)</td>
+<td>Limitada: <span class="arithmatex">\(\lceil \log_2 \psi \rceil\)</span></td>
+</tr>
+<tr>
+<td><strong>Datos de entrenamiento</strong></td>
+<td><em>Bootstrap</em> del <em>dataset</em> completo</td>
+<td>Submuestra pequeña fija (<span class="arithmatex">\(\psi \approx 256\)</span>)</td>
+</tr>
+<tr>
+<td><strong>Salida</strong></td>
+<td>Clase / valor</td>
+<td><em>Path length</em> (<em>anomaly score</em>)</td>
+</tr>
+<tr>
+<td><strong>Interpretación de la salida</strong></td>
+<td>Predicción de la variable objetivo</td>
+<td>Facilidad de aislamiento</td>
+</tr>
+</tbody>
+</table>
+<p>La diferencia más profunda está en la <strong>finalidad de la aleatorización</strong>. En Random Forest, la aleatorización (<em>bootstrap</em> y selección de atributos) es un mecanismo para reducir la varianza. Cada árbol es un estimador ruidoso, y el promedio de muchos estimadores ruidosos converge al estimador de mínima varianza. En Isolation Forest, la aleatorización es el mecanismo de detección en sí mismo. La aleatoriedad de los cortes es lo que hace que los puntos anómalos (geométricamente aislados) se detecten con caminos cortos.</p>
+<p>Lo que ambos comparten es el beneficio del <strong><em>ensemble</em></strong>. Promediar sobre muchos árboles reduce la varianza del <em>score</em> y lo hace más estable que cualquier árbol individual.</p>
+<h2 id="otros-metodos-de-deteccion-de-anomalias">Otros métodos de detección de anomalías<a class="headerlink" href="#otros-metodos-de-deteccion-de-anomalias" title="Permanent link">¶</a></h2>
+<p>Además de los métodos basados en <em>clustering</em> e Isolation Forest, existen otras familias de algoritmos para detección de anomalías que conviene conocer, y que también tenemos disponibles en <em>sklearn</em>.</p>
+<p><strong>Local Outlier Factor (LOF)</strong> (Breunig et al., 2000)<sup id="fnref:breunig2000lof"><a class="footnote-ref" href="#fn:breunig2000lof">5</a></sup> mide la densidad local de cada punto en comparación con la de sus vecinos. Un punto cuya densidad local es significativamente menor que la de sus vecinos tiene un LOF alto y se considera anómalo. A diferencia de DBSCAN, que usa una densidad global uniforme, LOF adapta la escala de densidad localmente, lo que lo hace robusto a <em>clusters</em> de densidades distintas.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">lof</span> <span class="o">=</span> <span class="n">LocalOutlierFactor</span><span class="p">(</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>         <span class="c1"># Número de vecinos para estimar la densidad local</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="n">contamination</span><span class="o">=</span><span class="mf">0.05</span>      <span class="c1"># Fracción esperada de anomalías</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">)</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1"># LOF en sklearn solo soporta fit_predict, no predict en nuevos datos</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">etiquetas</span> <span class="o">=</span> <span class="n">lof</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="n">scores_lof</span> <span class="o">=</span> <span class="n">lof</span><span class="o">.</span><span class="n">negative_outlier_factor_</span>  <span class="c1"># Más negativo = más anómalo</span>
+</code></pre></div>
+<p><strong>One-Class SVM</strong> (Schölkopf et al., 2001)<sup id="fnref:scholkopf2001estimating"><a class="footnote-ref" href="#fn:scholkopf2001estimating">6</a></sup> aprende una frontera de decisión alrededor de los datos normales en el espacio inducido por un <em>kernel</em>. Los puntos fuera de esa frontera se consideran anómalos. Es efectivo en alta dimensionalidad pero costoso computacionalmente (<span class="arithmatex">\(O(N^2)\)</span>) y sensible a la elección del <em>kernel</em>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">ocsvm</span> <span class="o">=</span> <span class="n">OneClassSVM</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">'rbf'</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1"># nu controla la fracción máxima de errores de entrenamiento (equivalente a contamination)</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">ocsvm</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">etiquetas</span> <span class="o">=</span> <span class="n">ocsvm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>  <span class="c1"># 1 = normal, -1 = anomalía</span>
+</code></pre></div>
+<p><strong>Elliptic Envelope</strong> asume que los datos normales siguen una distribución gaussiana multivariada y ajusta una elipse de covarianza robusta a su alrededor. Es el método más simple y apropiado cuando la distribución de los datos normales es efectivamente gaussiana.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">envelope</span> <span class="o">=</span> <span class="n">EllipticEnvelope</span><span class="p">(</span><span class="n">contamination</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">etiquetas</span> <span class="o">=</span> <span class="n">envelope</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="comparativa-de-metodos">Comparativa de métodos<a class="headerlink" href="#comparativa-de-metodos" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Supuesto sobre los datos</th>
+<th>Escala</th>
+<th>Nuevos datos</th>
+<th>Fortaleza principal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K-Means (distancia)</td>
+<td><em>Clusters</em> esféricos</td>
+<td>Muy buena</td>
+<td>Sí</td>
+<td>Simplicidad</td>
+</tr>
+<tr>
+<td>DBSCAN (ruido)</td>
+<td>Densidad uniforme</td>
+<td>Buena</td>
+<td>No</td>
+<td>Formas arbitrarias</td>
+</tr>
+<tr>
+<td>GMM (densidad)</td>
+<td>Mezcla gaussiana</td>
+<td>Moderada</td>
+<td>Sí</td>
+<td>Base estadística formal</td>
+</tr>
+<tr>
+<td>LOF</td>
+<td>Densidad local comparable</td>
+<td>Moderada</td>
+<td>No*</td>
+<td>Anomalías locales</td>
+</tr>
+<tr>
+<td>One-Class SVM</td>
+<td>Frontera en espacio kernel</td>
+<td>Mala</td>
+<td>Sí</td>
+<td>Alta dimensionalidad</td>
+</tr>
+<tr>
+<td>Isolation Forest</td>
+<td>Ninguno</td>
+<td>Muy buena</td>
+<td>Sí</td>
+<td>General, eficiente</td>
+</tr>
+<tr>
+<td>Extended IF</td>
+<td>Ninguno</td>
+<td>Muy buena</td>
+<td>Sí</td>
+<td>Alta dimensionalidad</td>
+</tr>
+</tbody>
+</table>
+<p>* LOF en sklearn no soporta <code>predict</code> en nuevos puntos (solo <code>fit_predict</code>). Para predicción online podemos utilizar el parámetro <code>novelty=True</code>.</p>
+<h3 id="cuando-usar-cada-metodo">¿Cuándo usar cada método?<a class="headerlink" href="#cuando-usar-cada-metodo" title="Permanent link">¶</a></h3>
+<p>La elección del método de detección de anomalías depende de varias características del problema:</p>
+<ul>
+<li><strong><em>Dataset</em> grande (&gt;100.000 puntos)</strong>: Isolation Forest es prácticamente la única opción viable. LOF y One-Class SVM tienen complejidad cuadrática o mayor.</li>
+<li><strong>Alta dimensionalidad (&gt;20 variables)</strong>: Extended Isolation Forest o One-Class SVM con kernel RBF. Los métodos basados en distancias euclideas (LOF, K-Means) sufren la maldición de la dimensionalidad.</li>
+<li><strong>Distribución gaussiana conocida</strong>: Elliptic Envelope es la elección más eficiente y estadísticamente correcta.</li>
+<li><strong>Clusters de densidad variable</strong>: LOF o HDBSCAN. Isolation Forest también es robusto a esta situación.</li>
+<li><strong>Se necesita probabilidad de anomalía</strong>: GMM es el único método que produce una probabilidad bien calibrada directamente. Isolation Forest produce un score relativo, no una probabilidad.</li>
+<li><strong>Sin hipótesis sobre los datos</strong>: Isolation Forest es la opción más segura y la que menos supuestos hace.</li>
+</ul>
+<h2 id="evaluacion-de-modelos-de-deteccion-de-anomalias">Evaluación de modelos de detección de anomalías<a class="headerlink" href="#evaluacion-de-modelos-de-deteccion-de-anomalias" title="Permanent link">¶</a></h2>
+<p>La evaluación de modelos de detección de anomalías plantea desafíos específicos que no aparecen en clasificación estándar.</p>
+<p>Encontramos <strong>el problema del desequilibrio</strong>, que consiste en que en un <em>dataset</em> con un 1% de anomalías, un modelo que siempre prediga "normal" tendrá un 99% de <em>accuracy</em>, que es completamente inútil como medida de rendimiento. Es necesario usar métricas que tengan en cuenta el desequilibrio de clases.</p>
+<p>Cuando se dispone de etiquetas (<em>ground truth</em>) para evaluación, las métricas más informativas son:</p>
+<ul>
+<li><strong>Precision, Recall y F1</strong> calculados sobre la clase anomalía. Miden la fracción de anomalías correctamente detectadas (<em>recall</em>) y la fracción de alarmas que son reales (<em>precision</em>).</li>
+<li><strong>Area Under ROC Curve (ROC-AUC)</strong> evalúa la calidad del <em>score</em> continuo independientemente del umbral. Es la métrica más recomendada para comparar métodos.</li>
+<li><strong>Average Precision (AP)</strong> es similar al ROC-AUC pero más informativa en <em>datasets</em> muy desequilibrados.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">average_precision_score</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1"># scores_if: anomaly score continuo (más negativo = más anómalo en sklearn)</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># y_true: etiquetas reales (1 = normal, -1 = anomalía)</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="o">-</span><span class="n">scores_if</span><span class="p">)</span>  <span class="c1"># invertir signo para ROC</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="n">ap</span> <span class="o">=</span> <span class="n">average_precision_score</span><span class="p">(</span><span class="n">y_true</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">scores_if</span><span class="p">)</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ROC-AUC: </span><span class="si">{</span><span class="n">roc_auc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Average Precision: </span><span class="si">{</span><span class="n">ap</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>En ausencia de etiquetas</strong> (el escenario más común en la práctica) la evaluación directa es imposible. Las alternativas son:</p>
+<ul>
+<li><strong>Validación manual</strong> de una muestra de las anomalías detectadas por un experto de dominio.</li>
+<li>Uso de <strong>métricas de estabilidad</strong>. Un buen modelo produce <em>scores</em> consistentes ante pequeñas perturbaciones de los datos.</li>
+<li>Inyección de anomalías sintéticas conocidas para medir la tasa de recuperación.</li>
+</ul>
+<h2 id="consideraciones-finales_1">Consideraciones finales<a class="headerlink" href="#consideraciones-finales_1" title="Permanent link">¶</a></h2>
+<p>Esta sesión cierra el bloque de aprendizaje no supervisado. A lo largo de este bloque hemos recorrido un camino que va desde los métodos más estructurales, que buscan particiones de los datos, hasta los métodos más estadísticos y los orientados a detectar lo excepcional.</p>
+<p>Isolation Forest ocupa un lugar destacado porque su filosofía es inversa a la del resto: no modela lo normal para detectar desviaciones, sino que detecta directamente lo anómalo por su facilidad de aislamiento. Esta diferencia conceptual es la razón por la que Isolation Forest funciona bien incluso cuando la "normalidad" es compleja y difícil de modelar, y explica su adopción generalizada en la industria.</p>
+<p>Como reflexión final, todos los métodos que hemos visto comparten la característica de que sus resultados dependen críticamente de las decisiones de preprocesado (escalado, reducción de dimensionalidad, elección de métrica) tanto o más que de la elección del algoritmo. El método DBSCAN o LOF sobre datos sin escalar puede fallar donde K-Means con buen preprocesamiento acierta. El método Isolation Forest con muchas variables irrelevantes puede fallar donde un método más simple con una buena selección de variables acierta. La calidad del aprendizaje no supervisado empieza siempre antes de ejecutar el algoritmo.</p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:dempster1977maximum">
+<p>Dempster, A. P., Laird, N. M., &amp; Rubin, D. B. (1977). Maximum likelihood from incomplete data via the EM algorithm. <em>Journal of the Royal Statistical Society, Series B</em>, <em>39</em>(1), 1--38.&nbsp;<a class="footnote-backref" href="#fnref:dempster1977maximum" title="Jump back to footnote 1 in the text">↩</a></p>
 </li>
-<li>
-<p>Filosofía de los árboles</p>
+<li id="fn:hawkins1980identification">
+<p>Hawkins, D. M. (1980). <em>Identification of outliers</em>. Chapman; Hall.&nbsp;<a class="footnote-backref" href="#fnref:hawkins1980identification" title="Jump back to footnote 2 in the text">↩</a></p>
 </li>
-</ul>
-<p>Random Forest:</p>
-<ul>
-<li>Construye árboles profundos hasta conseguir hojas puras (o casi puras)</li>
-<li>Busca separar bien las clases en el espacio de características</li>
-<li>Usa criterios de división basados en impureza (Gini, entropía)</li>
-</ul>
-<p>Isolation Forest:</p>
-<ul>
-<li>Construye árboles poco profundos (altura limitada)</li>
-<li>No intenta separar clases (no hay etiquetas)</li>
-<li>Hace divisiones aleatorias del espacio</li>
-<li>El objetivo NO es pureza, sino aislar puntos</li>
-</ul>
+<li id="fn:liu2008isolation">
+<p>Liu, F. T., Ting, K. M., &amp; Zhou, Z.-H. (2008). Isolation forest. <em>Proceedings of the 8th IEEE International Conference on Data Mining (ICDM)</em>, 413--422.&nbsp;<a class="footnote-backref" href="#fnref:liu2008isolation" title="Jump back to footnote 3 in the text">↩</a></p>
+</li>
+<li id="fn:hariri2019extended">
+<p>Hariri, S., Kind, M. C., &amp; Brunner, R. J. (2021). Extended isolation forest. <em>IEEE Transactions on Knowledge and Data Engineering</em>, <em>33</em>(4), 1479--1489.&nbsp;<a class="footnote-backref" href="#fnref:hariri2019extended" title="Jump back to footnote 4 in the text">↩</a></p>
+</li>
+<li id="fn:breunig2000lof">
+<p>Breunig, M. M., Kriegel, H.-P., Ng, R. T., &amp; Sander, J. (2000). LOF: Identifying density-based local outliers. <em>Proceedings of the ACM SIGMOD International Conference on Management of Data</em>, 93--104.&nbsp;<a class="footnote-backref" href="#fnref:breunig2000lof" title="Jump back to footnote 5 in the text">↩</a></p>
+</li>
+<li id="fn:scholkopf2001estimating">
+<p>Schölkopf, B., Platt, J. C., Shawe-Taylor, J., Smola, A. J., &amp; Williamson, R. C. (2001). Estimating the support of a high-dimensional distribution. <em>Neural Computation</em>, <em>13</em>(7), 1443--1471.&nbsp;<a class="footnote-backref" href="#fnref:scholkopf2001estimating" title="Jump back to footnote 6 in the text">↩</a></p>
+</li>
+</ol>
+</div>
 
 
 
