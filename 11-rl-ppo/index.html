@@ -1,0 +1,1111 @@
+<!DOCTYPE html><html lang="es" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apuntes de la asignatura Aprendizaje Avanzado del Grado en Ingeniería en Inteligencia Artificial de la Universidad de Alicante">
+      
+      
+        <meta name="author" content="Miguel Angel Lozano">
+      
+      
+        <link rel="canonical" href="https://malozano.github.io/aprendizaje-avanzado/11-rl-ppo/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.1">
+    
+    
+      
+        <title>11 rl ppo - Aprendizaje Avanzado</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.402914a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#55-baseline-y-reduccion-de-varianza" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="Aprendizaje Avanzado" class="md-header__button md-logo" aria-label="Aprendizaje Avanzado" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Aprendizaje Avanzado
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              11 rl ppo
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo" aria-label="Modo oscuro" type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Modo oscuro" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="white" data-md-color-accent="blue" aria-label="Modo claro" type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Modo claro" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Aprendizaje Avanzado" class="md-nav__button md-logo" aria-label="Aprendizaje Avanzado" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
+
+    </a>
+    Aprendizaje Avanzado
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Introducción
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Bloque I. Aprendizaje supervisado
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Bloque I. Aprendizaje supervisado
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-modelos-no-param/" class="md-nav__link">
+        1. Modelos paramétricos y no paramétricos. Logistic Regression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-svm/" class="md-nav__link">
+        2. SVM
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-arboles-decision/" class="md-nav__link">
+        3. Árboles de decisión
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-random-forest/" class="md-nav__link">
+        4. Métodos de ensemble. Random Forest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-adaboost/" class="md-nav__link">
+        5. Boosting. Adaboost
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-gradient-boosting/" class="md-nav__link">
+        6. Gradient Boosting
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Bloque II. Aprendizaje no supervisado
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Bloque II. Aprendizaje no supervisado
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-clustering/" class="md-nav__link">
+        7. Clustering jerárquico y espectral
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-dbscan/" class="md-nav__link">
+        8. Métodos basados en densidad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-gmm/" class="md-nav__link">
+        9. GMM. Detección de anomalías
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Bloque III. Aprendizaje por refuerzo
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Bloque III. Aprendizaje por refuerzo
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-rl-policy/" class="md-nav__link">
+        10. Gradiente de Política. REINFORCE
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5">
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Prácticas
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Prácticas
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/00-datos-y-visualizacion/" class="md-nav__link">
+        0. Datos y visualización
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/01-aprendizaje-supervisado/" class="md-nav__link">
+        1. Aprendizaje supervisado
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/02-no-supervisado/" class="md-nav__link">
+        2. Aprendizaje no supervisado
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6">
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Proyecto final
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Proyecto final
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-proyecto-final/" class="md-nav__link">
+        Aprendizaje Automático en problemas del mundo real
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>11 rl ppo</h1>
+
+<h2 id="55-baseline-y-reduccion-de-varianza">5.5. Baseline y reducción de varianza<a class="headerlink" href="#55-baseline-y-reduccion-de-varianza" title="Permanent link">¶</a></h2>
+<h3 id="551-la-funcion-de-ventaja">5.5.1. La Función de Ventaja<a class="headerlink" href="#551-la-funcion-de-ventaja" title="Permanent link">¶</a></h3>
+<p>Una observación central es que el Teorema del Gradiente de Política sigue siendo válido si restamos cualquier función <span class="arithmatex">\(b(s)\)</span> que dependa únicamente del estado (no de la acción):</p>
+<div class="arithmatex">\[
+\nabla_\theta J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta}\!\left[\sum_{t=0}^{T-1} \nabla_\theta \log \pi_\theta(a_t \mid s_t) \cdot \left(G_t - b(s_t)\right)\right]\,.
+\]</div>
+<p><strong>Esquema de la demostración.</strong> Necesitamos mostrar que <span class="arithmatex">\(\mathbb{E}\left[\nabla_\theta \log \pi_\theta(a|s) \cdot b(s)\right] = 0\)</span>. Como <span class="arithmatex">\(b(s)\)</span> no depende de <span class="arithmatex">\(a\)</span>:</p>
+<div class="arithmatex">\[
+\mathbb{E}_{a \sim \pi_\theta(\cdot|s)}\!\left[\nabla_\theta \log \pi_\theta(a|s)\right] = \nabla_\theta \sum_{a} \pi_\theta(a|s) = \nabla_\theta 1 = 0\,.
+\]</div>
+<p>La baseline no introduce sesgo pero puede reducir drásticamente la varianza si se elige bien.</p>
+<p>La <strong>baseline óptima</strong> (que minimiza la varianza) resulta ser:</p>
+<div class="arithmatex">\[
+b^\ast(s_t) = V_\pi(s_t) = \mathbb{E}_{\pi}\left[G_t \mid s_t\right]\,,
+\]</div>
+<p>¡la función de valor bajo la política actual! Intuitivamente, <span class="arithmatex">\(V_\pi(s_t)\)</span> representa el retorno <em>promedio</em> desde el estado <span class="arithmatex">\(s_t\)</span>, por lo que <span class="arithmatex">\((G_t - V_\pi(s_t))\)</span> captura cuánto <strong>mejor o peor</strong> fue la acción <span class="arithmatex">\(a_t\)</span> respecto al promedio. Esta cantidad con signo es la <strong>función de ventaja</strong> (<em>Advantage function</em>):</p>
+<div class="arithmatex">\[
+\boxed{A_\pi(s_t, a_t) = Q_\pi(s_t, a_t) - V_\pi(s_t)}
+\]</div>
+<p>La ventaja es positiva para acciones mejores que el promedio desde <span class="arithmatex">\(s_t\)</span>, y negativa para acciones peores que el promedio. La actualización del gradiente queda entonces:</p>
+<div class="arithmatex">\[
+\nabla_\theta J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta}\!\left[\sum_{t=0}^{T-1} \nabla_\theta \log \pi_\theta(a_t \mid s_t) \cdot A_\pi(s_t, a_t)\right]\,.
+\]</div>
+<p><strong>Intuición.</strong> Comparemos dos actualizaciones en el mismo estado <span class="arithmatex">\(s\)</span>:
+- Sin baseline, una acción que produce <span class="arithmatex">\(G_t = 7\)</span> siempre recibe un empuje positivo, incluso si todas las acciones desde <span class="arithmatex">\(s\)</span> producen <span class="arithmatex">\(\approx 7\)</span> de media (lo que significa que esta acción no es especial).
+- Con baseline <span class="arithmatex">\(b = V(s) = 7\)</span>, la ventaja es <span class="arithmatex">\(\approx 0\)</span> y la actualización del gradiente es prácticamente nula — reflejando correctamente que ninguna acción merece ser especialmente reforzada.</p>
+<h3 id="552-reinforce-con-baseline">5.5.2. REINFORCE con Baseline<a class="headerlink" href="#552-reinforce-con-baseline" title="Permanent link">¶</a></h3>
+<p>Podemos estimar <span class="arithmatex">\(V_\pi(s_t)\)</span> a partir de los propios datos manteniendo una <strong>red de valor</strong> <span class="arithmatex">\(V_\phi(s)\)</span> con parámetros <span class="arithmatex">\(\phi\)</span>. Tras cada episodio, ajustamos <span class="arithmatex">\(V_\phi\)</span> a los retornos observados minimizando el error cuadrático medio:</p>
+<div class="arithmatex">\[
+\mathcal{L}(\phi) = \sum_{t=0}^{T-1} \left(G_t - V_\phi(s_t)\right)^2\,.
+\]</div>
+<p>La estimación de la ventaja se convierte entonces en <span class="arithmatex">\(\hat{A}_t = G_t - V_\phi(s_t)\)</span>.</p>
+<p>````{prf:algorithm} REINFORCE con Baseline
+:label: reinforce-baseline</p>
+<p><strong>Entradas</strong> Tasas de aprendizaje <span class="arithmatex">\(\alpha_\theta\)</span>, <span class="arithmatex">\(\alpha_\phi\)</span>, descuento <span class="arithmatex">\(\gamma\)</span>, episodios <span class="arithmatex">\(K\)</span></p>
+<p><strong>Salida</strong> Parámetros de política <span class="arithmatex">\(\theta\)</span>, parámetros de valor <span class="arithmatex">\(\phi\)</span></p>
+<ol>
+<li><strong>Inicializar</strong> <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span> aleatoriamente</li>
+<li><strong>para</strong> episodio <span class="arithmatex">\(i = 1, \ldots, K\)</span>:</li>
+<li>Generar trayectoria <span class="arithmatex">\((s_0, a_0, r_1, \ldots, s_{T-1}, a_{T-1}, r_T)\)</span> siguiendo <span class="arithmatex">\(\pi_\theta\)</span></li>
+<li>Calcular retornos hacia atrás: <span class="arithmatex">\(G_t = r_{t+1} + \gamma G_{t+1}\)</span>, <span class="arithmatex">\(G_T = 0\)</span></li>
+<li><strong>para</strong> <span class="arithmatex">\(t = 0, 1, \ldots, T-1\)</span>:<ol>
+<li><span class="arithmatex">\(\hat{A}_t = G_t - V_\phi(s_t)\)</span></li>
+<li><span class="arithmatex">\(\theta \leftarrow \theta + \alpha_\theta \cdot \gamma^t \cdot \hat{A}_t \cdot \nabla_\theta \log \pi_\theta(a_t \mid s_t)\)</span></li>
+<li><span class="arithmatex">\(\phi \leftarrow \phi - \alpha_\phi \cdot \nabla_\phi\left(G_t - V_\phi(s_t)\right)^2\)</span></li>
+</ol>
+</li>
+</ol>
+<p><strong>devolver</strong> <span class="arithmatex">\(\theta\)</span>
+</p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>En la práctica, REINFORCE con baseline converge notablemente más rápido que REINFORCE puro porque:
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>- Las actualizaciones están **centradas**: la señal del gradiente ya no es uniformemente positiva o negativa.
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>- La varianza de $\hat{A}_t$ es mucho menor que la varianza de $G_t$.
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>No obstante, persiste una limitación fundamental: **la actualización sigue siendo por episodios** (Monte Carlo). Debemos esperar al final de cada episodio para calcular $G_t$, lo que impide el aprendizaje en línea. Los métodos Actor-Critic abordan esto.
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>---
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>## 5.6. Actor-Critic (A2C)
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>### 5.6.1. La Arquitectura de Dos Redes
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>Los métodos **Actor-Critic** combinan lo mejor de ambos mundos:
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>- El **actor** es la política $\pi_\theta(a|s)$, actualizada mediante gradiente de política.
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>- El **crítico** (*critic*) es la función de valor $V_\phi(s)$, actualizada mediante Diferencia Temporal — exactamente como en los algoritmos TD del tema anterior.
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>El cambio clave respecto a REINFORCE-con-baseline es que el **crítico utiliza estimaciones TD** en lugar de retornos Monte Carlo. Esto elimina la necesidad de esperar al final del episodio, permitiendo **actualizaciones en línea, paso a paso**.
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>La estimación TD de la ventaja en el instante $t$ es:
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>$$
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>\hat{A}_t = r_{t+1} + \gamma V_\phi(s_{t+1}) - V_\phi(s_t)\,,
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>$$
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>que es precisamente el **error TD** $\delta_t$ que encontramos en SARSA. Se trata de una **estimación bootstrap de un paso** de $A_\pi(s_t, a_t)$: utiliza la estimación de valor actual $V_\phi(s_{t+1})$ en lugar de esperar al retorno futuro completo.
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>Nótese la analogía con SARSA: así como SARSA hace bootstrap de los valores Q, el crítico hace bootstrap de los valores V. La diferencia es que aquí la estimación con bootstrap sirve para guiar al actor en lugar de actualizar una tabla Q.
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>La arquitectura se muestra esquemáticamente a continuación:
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>```
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>       Estado s_t
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>           │
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>    ┌──────┴──────┐
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>    │    Actor    │  π_θ(a|s) → muestrea acción a_t
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>    │  (política) │  ← actualizado por ascenso de gradiente usando Â_t
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>    └─────────────┘
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>           │
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>    ┌──────┴──────┐
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>    │   Crítico   │  V_φ(s_t) → estima el valor del estado
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>    │ (función V) │  ← actualizado por el error TD δ_t
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>    └─────────────┘
+<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>```
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>
+<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>En implementaciones profundas, el actor y el crítico suelen **compartir las capas inferiores** (extracción de características) y divergen únicamente en sus cabezas de salida, lo que mejora la eficiencia en el número de parámetros.
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>
+<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>### 5.6.2. Actualización TD del Crítico
+<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>
+<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>El crítico se actualiza para minimizar el error TD. Dado que el objetivo TD es $r_{t+1} + \gamma V_\phi(s_{t+1})$, la pérdida del crítico es:
+<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a>
+<a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a>$$
+<a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a>\mathcal{L}(\phi) = \left(r_{t+1} + \gamma V_\phi(s_{t+1}) - V_\phi(s_t)\right)^2 = \delta_t^2\,,
+<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a>$$
+<a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a>
+<a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a>y la actualización es un paso estándar de descenso por gradiente:
+<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a>
+<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a>$$
+<a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a>\phi \leftarrow \phi - \alpha_\phi \cdot \nabla_\phi \, \delta_t^2 = \phi + \alpha_\phi \cdot \delta_t \cdot \nabla_\phi V_\phi(s_t)\,.
+<a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a>$$
+<a id="__codelineno-0-61" name="__codelineno-0-61" href="#__codelineno-0-61"></a>
+<a id="__codelineno-0-62" name="__codelineno-0-62" href="#__codelineno-0-62"></a>Nótese que, como en Q-Learning, el objetivo TD $r_{t+1} + \gamma V_\phi(s_{t+1})$ se trata como una **constante** al calcular el gradiente (no se diferencia a través de él), ya que queremos mover $V_\phi(s_t)$ hacia un objetivo fijo y no mover ambos extremos simultáneamente.
+<a id="__codelineno-0-63" name="__codelineno-0-63" href="#__codelineno-0-63"></a>
+<a id="__codelineno-0-64" name="__codelineno-0-64" href="#__codelineno-0-64"></a>La actualización del actor utiliza el error TD como estimación de la ventaja:
+<a id="__codelineno-0-65" name="__codelineno-0-65" href="#__codelineno-0-65"></a>
+<a id="__codelineno-0-66" name="__codelineno-0-66" href="#__codelineno-0-66"></a>$$
+<a id="__codelineno-0-67" name="__codelineno-0-67" href="#__codelineno-0-67"></a>\theta \leftarrow \theta + \alpha_\theta \cdot \delta_t \cdot \nabla_\theta \log \pi_\theta(a_t \mid s_t)\,.
+<a id="__codelineno-0-68" name="__codelineno-0-68" href="#__codelineno-0-68"></a>$$
+<a id="__codelineno-0-69" name="__codelineno-0-69" href="#__codelineno-0-69"></a>
+<a id="__codelineno-0-70" name="__codelineno-0-70" href="#__codelineno-0-70"></a>### 5.6.3. El Algoritmo A2C
+<a id="__codelineno-0-71" name="__codelineno-0-71" href="#__codelineno-0-71"></a>
+<a id="__codelineno-0-72" name="__codelineno-0-72" href="#__codelineno-0-72"></a>**Advantage Actor-Critic (A2C)** es la versión síncrona estándar de la familia Actor-Critic. El nombre «A2C» hace referencia al uso de la ventaja $\hat{A}_t$ en la actualización del actor, lo que estabiliza el entrenamiento en comparación con usar el error TD bruto.
+<a id="__codelineno-0-73" name="__codelineno-0-73" href="#__codelineno-0-73"></a>
+<a id="__codelineno-0-74" name="__codelineno-0-74" href="#__codelineno-0-74"></a>````{prf:algorithm} A2C (Advantage Actor-Critic)
+<a id="__codelineno-0-75" name="__codelineno-0-75" href="#__codelineno-0-75"></a>:label: a2c
+<a id="__codelineno-0-76" name="__codelineno-0-76" href="#__codelineno-0-76"></a>
+<a id="__codelineno-0-77" name="__codelineno-0-77" href="#__codelineno-0-77"></a>**Entradas** Tasas de aprendizaje $\alpha_\theta$, $\alpha_\phi$, descuento $\gamma$, episodios $K$, pasos por episodio $T$, coeficiente de entropía $\beta$
+<a id="__codelineno-0-78" name="__codelineno-0-78" href="#__codelineno-0-78"></a>
+<a id="__codelineno-0-79" name="__codelineno-0-79" href="#__codelineno-0-79"></a>**Salida** Política $\pi_\theta$, función de valor $V_\phi$
+<a id="__codelineno-0-80" name="__codelineno-0-80" href="#__codelineno-0-80"></a>
+<a id="__codelineno-0-81" name="__codelineno-0-81" href="#__codelineno-0-81"></a>1. **Inicializar** $\theta$, $\phi$ aleatoriamente
+<a id="__codelineno-0-82" name="__codelineno-0-82" href="#__codelineno-0-82"></a>2. **para** episodio $i = 1, \ldots, K$:
+<a id="__codelineno-0-83" name="__codelineno-0-83" href="#__codelineno-0-83"></a>   1. $s_t \leftarrow \text{estado inicial}$
+<a id="__codelineno-0-84" name="__codelineno-0-84" href="#__codelineno-0-84"></a>   2. **para** $t = 1, \ldots, T$:
+<a id="__codelineno-0-85" name="__codelineno-0-85" href="#__codelineno-0-85"></a>      1. Muestrear $a_t \sim \pi_\theta(\cdot \mid s_t)$
+<a id="__codelineno-0-86" name="__codelineno-0-86" href="#__codelineno-0-86"></a>      2. Ejecutar $a_t$; observar $r_{t+1}$, $s_{t+1}$, $\text{done}$
+<a id="__codelineno-0-87" name="__codelineno-0-87" href="#__codelineno-0-87"></a>      3. **si** $\text{done}$: $V_{\phi}(s_{t+1}) \leftarrow 0$
+<a id="__codelineno-0-88" name="__codelineno-0-88" href="#__codelineno-0-88"></a>      4. Calcular error TD: $\delta_t = r_{t+1} + \gamma V_\phi(s_{t+1}) - V_\phi(s_t)$
+<a id="__codelineno-0-89" name="__codelineno-0-89" href="#__codelineno-0-89"></a>      5. **Actualización del crítico**: $\phi \leftarrow \phi + \alpha_\phi \cdot \delta_t \cdot \nabla_\phi V_\phi(s_t)$
+<a id="__codelineno-0-90" name="__codelineno-0-90" href="#__codelineno-0-90"></a>      6. **Actualización del actor**: $\theta \leftarrow \theta + \alpha_\theta \cdot \delta_t \cdot \nabla_\theta \log \pi_\theta(a_t \mid s_t) + \beta \cdot \nabla_\theta H(\pi_\theta(\cdot|s_t))$
+<a id="__codelineno-0-91" name="__codelineno-0-91" href="#__codelineno-0-91"></a>      7. $s_t \leftarrow s_{t+1}$
+<a id="__codelineno-0-92" name="__codelineno-0-92" href="#__codelineno-0-92"></a>      8. **si** $\text{done}$: **salir**
+<a id="__codelineno-0-93" name="__codelineno-0-93" href="#__codelineno-0-93"></a>
+<a id="__codelineno-0-94" name="__codelineno-0-94" href="#__codelineno-0-94"></a>**devolver** $\theta$, $\phi$
+</code></pre></div><p></p>
+<p><strong>Nota sobre la regularización por entropía.</strong> El término <span class="arithmatex">\(\beta \cdot \nabla_\theta H(\pi_\theta(\cdot|s_t))\)</span> en la actualización del actor es un <strong>bonus de entropía</strong>, donde <span class="arithmatex">\(H(\pi) = -\sum_a \pi(a|s) \log \pi(a|s)\)</span> es la entropía de la política. Maximizar la entropía incentiva que la política <strong>permanezca estocástica</strong> y evita una convergencia prematura a una política determinista subóptima — una versión más suave de la exploración <span class="arithmatex">\(\epsilon\)</span>-greedy que usamos en Q-Learning. El coeficiente <span class="arithmatex">\(\beta\)</span> es un hiperparámetro pequeño (p.ej. <span class="arithmatex">\(0{,}01\)</span>).</p>
+<p><strong>Comparación con REINFORCE.</strong> La tabla siguiente resume las diferencias clave:</p>
+<table>
+<thead>
+<tr>
+<th>Propiedad</th>
+<th>REINFORCE</th>
+<th>REINFORCE+Baseline</th>
+<th>A2C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Estimación de ventaja</td>
+<td><span class="arithmatex">\(G_t\)</span></td>
+<td><span class="arithmatex">\(G_t - V_\phi(s_t)\)</span></td>
+<td><span class="arithmatex">\(\delta_t\)</span> (error TD)</td>
+</tr>
+<tr>
+<td>Frecuencia de actualización</td>
+<td>Fin de episodio</td>
+<td>Fin de episodio</td>
+<td>Cada paso (en línea)</td>
+</tr>
+<tr>
+<td>Sesgo</td>
+<td>Ninguno (MC)</td>
+<td>Ninguno (MC)</td>
+<td>Pequeño (bootstrap)</td>
+</tr>
+<tr>
+<td>Varianza</td>
+<td>Alta</td>
+<td>Media</td>
+<td>Baja</td>
+</tr>
+<tr>
+<td>Maneja entornos no episódicos</td>
+<td>✗</td>
+<td>✗</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Requiere trayectoria completa</td>
+<td>✓</td>
+<td>✓</td>
+<td>✗</td>
+</tr>
+</tbody>
+</table>
+<p>En la práctica, A2C converge <strong>más rápido y de forma más estable</strong> que REINFORCE porque el crítico TD proporciona una señal de baja varianza y actualizada continuamente, al coste de un pequeño sesgo introducido por el bootstrap.</p>
+<hr>
+<h2 id="57-proximal-policy-optimization-ppo">5.7. Proximal Policy Optimization (PPO)<a class="headerlink" href="#57-proximal-policy-optimization-ppo" title="Permanent link">¶</a></h2>
+<h3 id="571-el-problema-de-las-actualizaciones-grandes">5.7.1. El Problema de las Actualizaciones Grandes<a class="headerlink" href="#571-el-problema-de-las-actualizaciones-grandes" title="Permanent link">¶</a></h3>
+<p>A2C actualiza la política en cada paso, lo que plantea un problema sutil pero crítico: si un paso de gradiente desplaza <span class="arithmatex">\(\theta\)</span> demasiado, la nueva política <span class="arithmatex">\(\pi_{\theta_\text{new}}\)</span> puede volverse muy diferente de <span class="arithmatex">\(\pi_{\theta_\text{old}}\)</span>. Esto es peligroso por dos razones:</p>
+<ol>
+<li><strong>Olvido catastrófico.</strong> Una actualización grande puede destruir el comportamiento aprendido previamente, enviando al agente a una región del espacio de políticas de la que no puede recuperarse.</li>
+<li><strong>Datos no válidos.</strong> Las estimaciones de ventaja <span class="arithmatex">\(\hat{A}_t\)</span> se calcularon bajo <span class="arithmatex">\(\pi_{\theta_\text{old}}\)</span>. Si la política cambia demasiado, esas estimaciones se vuelven inválidas (los datos ya no son representativos de la nueva política), lo que conduce a actualizaciones sesgadas.</li>
+</ol>
+<p>Esto motiva la idea de los métodos de <strong>región de confianza</strong> (<em>trust region</em>): restringir cada actualización para que la nueva política se mantenga «cerca» de la antigua en un sentido bien definido.</p>
+<p>Una medida natural del cambio de política es el <strong>cociente de probabilidades</strong> (<em>probability ratio</em>):</p>
+<div class="arithmatex">\[
+r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_\text{old}}(a_t \mid s_t)}\,.
+\]</div>
+<p>Cuando <span class="arithmatex">\(r_t(\theta) = 1\)</span>, ambas políticas coinciden en <span class="arithmatex">\(a_t\)</span>. Cuando <span class="arithmatex">\(r_t(\theta) \gg 1\)</span> o <span class="arithmatex">\(r_t(\theta) \ll 1\)</span>, la nueva política asigna probabilidades muy diferentes a la acción tomada.</p>
+<p>El objetivo de gradiente de política «estándar» puede reescribirse utilizando este cociente como:</p>
+<div class="arithmatex">\[
+J(\theta) = \mathbb{E}_t\!\left[r_t(\theta) \cdot \hat{A}_t\right]\,.
+\]</div>
+<p>Sin restricciones, maximizar este objetivo empujaría <span class="arithmatex">\(r_t(\theta)\)</span> hacia el infinito siempre que <span class="arithmatex">\(\hat{A}_t &gt; 0\)</span>, que es la raíz de la inestabilidad.</p>
+<h3 id="572-el-objetivo-con-clipping">5.7.2. El Objetivo con Clipping<a class="headerlink" href="#572-el-objetivo-con-clipping" title="Permanent link">¶</a></h3>
+<p><strong>Proximal Policy Optimization (PPO)</strong> (Schulman et al., 2017) resuelve esto con una idea simple pero efectiva: <strong>recortar el cociente de probabilidades</strong> (<em>clip</em>) para que las actualizaciones más allá de la región de confianza se ignoren.</p>
+<p>El objetivo PPO con clipping es:</p>
+<div class="arithmatex">\[
+\boxed{
+J^{\text{CLIP}}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\,\hat{A}_t,\;\; \text{clip}\!\left(r_t(\theta), 1-\epsilon, 1+\epsilon\right)\hat{A}_t\right)\right]
+}
+\]</div>
+<p>donde <span class="arithmatex">\(\epsilon\)</span> es un hiperparámetro pequeño (típicamente <span class="arithmatex">\(0{,}1\)</span> ó <span class="arithmatex">\(0{,}2\)</span>) y <span class="arithmatex">\(\text{clip}(x, l, u) = \max(l, \min(u, x))\)</span>.</p>
+<p>El comportamiento de este objetivo depende del signo de la ventaja:</p>
+<ul>
+<li><strong>Cuando <span class="arithmatex">\(\hat{A}_t &gt; 0\)</span></strong> (la acción fue mejor que el promedio): queremos aumentar <span class="arithmatex">\(r_t(\theta)\)</span>, pero el clip impide que supere <span class="arithmatex">\(1 + \epsilon\)</span>. El <span class="arithmatex">\(\min\)</span> selecciona el valor recortado si <span class="arithmatex">\(r_t &gt; 1 + \epsilon\)</span>.</li>
+<li><strong>Cuando <span class="arithmatex">\(\hat{A}_t &lt; 0\)</span></strong> (la acción fue peor que el promedio): queremos disminuir <span class="arithmatex">\(r_t(\theta)\)</span>, pero el clip impide que baje de <span class="arithmatex">\(1 - \epsilon\)</span>. El <span class="arithmatex">\(\min\)</span> selecciona el valor recortado si <span class="arithmatex">\(r_t &lt; 1 - \epsilon\)</span>.</li>
+</ul>
+<p>En ambos casos, el <span class="arithmatex">\(\min\)</span> actúa como una <strong>cota pesimista</strong>: solo toma el valor recortado cuando hacerlo es peor para el objetivo, actuando como una restricción unilateral que desincentiva los movimientos fuera de la región de confianza.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>J^CLIP
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  ▲
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  │        ────────── (recortado, Â&gt;0)
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  │       /
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  │      /
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  │─────/────────────  ← caso Â &gt; 0
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  │    /
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>  │
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>  │──────────          ← caso Â &lt; 0
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>  │           \
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>  │            ────── (recortado, Â&lt;0)
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>  │
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>  └──────────────────────────────► r_t
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>         1-ε   1   1+ε
+</code></pre></div>
+<h3 id="573-ppo-en-la-practica">5.7.3. PPO en la Práctica<a class="headerlink" href="#573-ppo-en-la-practica" title="Permanent link">¶</a></h3>
+<p>PPO recopila un lote de <span class="arithmatex">\(N\)</span> pasos (o episodios) con la política actual y luego realiza <strong>múltiples épocas de actualizaciones por minilotes</strong> sobre ese lote antes de descartarlo. Esto contrasta con A2C, que utiliza cada muestra para una única actualización.</p>
+<p>La pérdida completa de PPO combina tres términos:</p>
+<div class="arithmatex">\[
+\mathcal{L}^{\text{PPO}}(\theta, \phi) = -J^{\text{CLIP}}(\theta) + c_1 \cdot \mathcal{L}^{\text{VF}}(\phi) - c_2 \cdot H(\pi_\theta)\,,
+\]</div>
+<p>donde:
+- <span class="arithmatex">\(J^{\text{CLIP}}(\theta)\)</span>: pérdida de política (se ha de <strong>maximizar</strong>, de ahí el signo menos para descenso por gradiente).
+- <span class="arithmatex">\(\mathcal{L}^{\text{VF}}(\phi) = \mathbb{E}_t[(V_\phi(s_t) - G_t)^2]\)</span>: pérdida de la función de valor (MSE).
+- <span class="arithmatex">\(H(\pi_\theta)\)</span>: bonus de entropía para la exploración.
+- <span class="arithmatex">\(c_1, c_2\)</span>: coeficientes de ponderación.</p>
+<p>````{prf:algorithm} PPO (Proximal Policy Optimization)
+:label: ppo</p>
+<p><strong>Entradas</strong> Parámetro de recorte <span class="arithmatex">\(\epsilon\)</span>, épocas por actualización <span class="arithmatex">\(K_\text{epoch}\)</span>, tamaño de minilote <span class="arithmatex">\(M\)</span>, pasos por rollout <span class="arithmatex">\(N\)</span>, coeficientes <span class="arithmatex">\(c_1\)</span>, <span class="arithmatex">\(c_2\)</span></p>
+<p><strong>Salida</strong> Parámetros de política <span class="arithmatex">\(\theta\)</span>, parámetros de valor <span class="arithmatex">\(\phi\)</span></p>
+<ol>
+<li><strong>Inicializar</strong> <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span> aleatoriamente</li>
+<li><strong>repetir</strong> hasta convergencia:</li>
+<li><strong>Fase de rollout</strong>: recopilar <span class="arithmatex">\(N\)</span> pasos <span class="arithmatex">\((s_t, a_t, r_{t+1}, s_{t+1})\)</span> siguiendo <span class="arithmatex">\(\pi_\theta\)</span></li>
+<li>Calcular estimaciones de ventaja <span class="arithmatex">\(\hat{A}_t\)</span> usando GAE (o errores TD)</li>
+<li>Calcular retornos <span class="arithmatex">\(\hat{G}_t = \hat{A}_t + V_\phi(s_t)\)</span></li>
+<li><span class="arithmatex">\(\theta_\text{old} \leftarrow \theta\)</span></li>
+<li><strong>para</strong> época <span class="arithmatex">\(= 1, \ldots, K_\text{epoch}\)</span>:<ol>
+<li><strong>para</strong> cada minilote de tamaño <span class="arithmatex">\(M\)</span> del rollout:<ol>
+<li>Calcular <span class="arithmatex">\(r_t(\theta) = \pi_\theta(a_t|s_t) / \pi_{\theta_\text{old}}(a_t|s_t)\)</span></li>
+<li><span class="arithmatex">\(\mathcal{L} = -\mathbb{E}\left[\min(r_t \hat{A}_t, \text{clip}(r_t, 1\!-\!\epsilon, 1\!+\!\epsilon)\hat{A}_t)\right]\)</span>
+                <span class="arithmatex">\(+ c_1 \cdot \mathbb{E}[(V_\phi(s_t) - \hat{G}_t)^2]\)</span>
+                <span class="arithmatex">\(- c_2 \cdot \mathbb{E}[H(\pi_\theta(\cdot|s_t))]\)</span></li>
+<li>Actualizar <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span> por descenso de gradiente sobre <span class="arithmatex">\(\mathcal{L}\)</span></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p><strong>devolver</strong> <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span>
+````</p>
+<p><strong>¿Por qué PPO es tan ampliamente utilizado?</strong></p>
+<p>PPO consigue un excelente equilibrio entre eficiencia de muestras y estabilidad. A diferencia de métodos de región de confianza anteriores (p.ej. TRPO), no requiere optimización de segundo orden y es sencillo de implementar. Se ha convertido en el <strong>estándar de facto</strong> en RL profundo para control continuo, robótica y — de manera especialmente relevante — en el <strong>Aprendizaje por Refuerzo a partir de Retroalimentación Humana (RLHF)</strong>, la técnica utilizada para ajustar los grandes modelos de lenguaje como ChatGPT, Claude o Gemini para que sigan instrucciones y se alineen con las preferencias humanas.</p>
+<hr>
+<h2 id="resumen">Resumen<a class="headerlink" href="#resumen" title="Permanent link">¶</a></h2>
+<p>La siguiente tabla sitúa todos los algoritmos de este tema en el contexto del panorama general del RL visto en el curso:</p>
+<table>
+<thead>
+<tr>
+<th>Algoritmo</th>
+<th>Paradigma</th>
+<th>Sin modelo</th>
+<th>En línea</th>
+<th>Función V/Q</th>
+<th>Función de política</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Iteración de Valor</td>
+<td>PD</td>
+<td>✗</td>
+<td>✗</td>
+<td><span class="arithmatex">\(V(s)\)</span></td>
+<td>derivada</td>
+</tr>
+<tr>
+<td>Monte Carlo MDP</td>
+<td>Basado en valor</td>
+<td>✓</td>
+<td>✗</td>
+<td><span class="arithmatex">\(Q(s,a)\)</span></td>
+<td><span class="arithmatex">\(\epsilon\)</span>-greedy</td>
+</tr>
+<tr>
+<td>SARSA</td>
+<td>Basado en valor</td>
+<td>✓</td>
+<td>✓</td>
+<td><span class="arithmatex">\(Q(s,a)\)</span></td>
+<td><span class="arithmatex">\(\epsilon\)</span>-greedy</td>
+</tr>
+<tr>
+<td>Q-Learning</td>
+<td>Basado en valor</td>
+<td>✓</td>
+<td>✓</td>
+<td><span class="arithmatex">\(Q(s,a)\)</span></td>
+<td><span class="arithmatex">\(\epsilon\)</span>-greedy</td>
+</tr>
+<tr>
+<td>DQN</td>
+<td>Basado en valor</td>
+<td>✓</td>
+<td>✓</td>
+<td><span class="arithmatex">\(\hat{Q}_\theta(s,a)\)</span></td>
+<td><span class="arithmatex">\(\epsilon\)</span>-greedy</td>
+</tr>
+<tr>
+<td>REINFORCE</td>
+<td><strong>Basado en política</strong></td>
+<td>✓</td>
+<td>✗</td>
+<td>—</td>
+<td>$\pi_\theta(a</td>
+</tr>
+<tr>
+<td>REINFORCE+B</td>
+<td><strong>Basado en política</strong></td>
+<td>✓</td>
+<td>✗</td>
+<td><span class="arithmatex">\(V_\phi(s)\)</span></td>
+<td>$\pi_\theta(a</td>
+</tr>
+<tr>
+<td>A2C</td>
+<td><strong>Actor-Critic</strong></td>
+<td>✓</td>
+<td>✓</td>
+<td><span class="arithmatex">\(V_\phi(s)\)</span></td>
+<td>$\pi_\theta(a</td>
+</tr>
+<tr>
+<td>PPO</td>
+<td><strong>Actor-Critic</strong></td>
+<td>✓</td>
+<td>✓</td>
+<td><span class="arithmatex">\(V_\phi(s)\)</span></td>
+<td>$\pi_\theta(a</td>
+</tr>
+</tbody>
+</table>
+<p>La idea fundamental de este tema es que <strong>optimizar la política directamente</strong> — en lugar de derivarla de una función de valor — abre la puerta a los espacios de acción continuos, a las políticas óptimas estocásticas y a las modernas técnicas de alineamiento que sustentan los grandes modelos de lenguaje actuales.</p>
+<hr>
+<p><em>Referencias:</em>
+- <em>Williams, R.J. (1992). Simple statistical gradient-following algorithms for connectionist reinforcement learning. Machine Learning.</em>
+- <em>Sutton, R.S. et al. (2000). Policy gradient methods for reinforcement learning with function approximation. NeurIPS.</em>
+- <em>Mnih, V. et al. (2016). Asynchronous methods for deep reinforcement learning. ICML.</em>
+- <em>Schulman, J. et al. (2017). Proximal policy optimization algorithms. arXiv:1707.06347.</em>
+- <em>Sutton, R.S. &amp; Barto, A.G. (2018). Reinforcement Learning: An Introduction (2ª ed.). MIT Press.</em></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+            Volver al principio
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "toc.follow", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.b78d2936.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
