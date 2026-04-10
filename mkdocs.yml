@@ -108,17 +108,17 @@ nav:
   - 5. Boosting. Adaboost: '05-adaboost.md'
   - 6. Gradient Boosting: '06-gradient-boosting.md'
 - Bloque II. Aprendizaje no supervisado:
-  - 7. Clustering: '07-clustering.md'
-  - 8. DBSCAN: '08-dbscan.md'
-  - 9. GMM: '09-gmm.md'
+  - 7. Clustering jerárquico y espectral: '07-clustering.md'
+  - 8. Métodos basados en densidad: '08-dbscan.md'
+  - 9. GMM. Detección de anomalías: '09-gmm.md'
+- Bloque III. Aprendizaje por refuerzo:
+  - 10. Gradiente de Política. REINFORCE: '10-rl-policy.md'
 - Prácticas: 
   - 0. Datos y visualización: 'practicas/00-datos-y-visualizacion.md'
   - 1. Aprendizaje supervisado: 'practicas/01-aprendizaje-supervisado.md'
   - 2. Aprendizaje no supervisado: 'practicas/02-no-supervisado.md'
 - Proyecto final:
   - Aprendizaje Automático en problemas del mundo real: '14-proyecto-final.md'
-#- Bloque III. Aprendizaje por refuerzo:
-#  - 10. Métodos basados en política: '10-rl-policy.md'
 #- Bloque IV. Aplicación del Aprendizaje Automático:
 #  - 12. Selección y optimización de modelos: '07-optimizacion.md'
 #  - 13. Aprendizaje automático en problemas del mundo real: '08-aplicaciones.md'

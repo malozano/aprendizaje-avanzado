@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="100%"
+   viewBox="0 0 680 380"
+   font-family="Georgia, serif"
+   version="1.1"
+   id="svg37"
+   sodipodi:docname="fig10_cartpole.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview37"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.3229813"
+     inkscape:cx="400.23242"
+     inkscape:cy="129.25353"
+     inkscape:window-width="1754"
+     inkscape:window-height="995"
+     inkscape:window-x="43"
+     inkscape:window-y="30"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg37" />
+  <defs
+     id="defs4">
+    <marker
+       id="arr"
+       viewBox="0 0 10 10"
+       refX="8"
+       refY="5"
+       markerWidth="6"
+       markerHeight="6"
+       orient="auto-start-reverse">
+      <path
+         d="M2 1L8 5L2 9"
+         fill="none"
+         stroke="#444"
+         stroke-width="1.5"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         id="path1" />
+    </marker>
+    <marker
+       id="arr-blue"
+       viewBox="0 0 10 10"
+       refX="8"
+       refY="5"
+       markerWidth="6"
+       markerHeight="6"
+       orient="auto-start-reverse">
+      <path
+         d="M2 1L8 5L2 9"
+         fill="none"
+         stroke="#4051b5"
+         stroke-width="1.5"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         id="path2" />
+    </marker>
+    <marker
+       id="arr-teal"
+       viewBox="0 0 10 10"
+       refX="8"
+       refY="5"
+       markerWidth="6"
+       markerHeight="6"
+       orient="auto-start-reverse">
+      <path
+         d="M2 1L8 5L2 9"
+         fill="none"
+         stroke="#1d9e75"
+         stroke-width="1.5"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         id="path3" />
+    </marker>
+    <marker
+       id="arr-coral"
+       viewBox="0 0 10 10"
+       refX="8"
+       refY="5"
+       markerWidth="6"
+       markerHeight="6"
+       orient="auto-start-reverse">
+      <path
+         d="M2 1L8 5L2 9"
+         fill="none"
+         stroke="#d85a30"
+         stroke-width="1.5"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         id="path4" />
+    </marker>
+  </defs>
+  <!-- ── Suelo ──────────────────────────────────────────────────────── -->
+  <line
+     x1="60"
+     y1="268"
+     x2="620"
+     y2="268"
+     stroke="#888780"
+     stroke-width="2"
+     id="line4" />
+  <!-- Rayas de suelo -->
+  <g
+     stroke="#d3d1c7"
+     stroke-width="1"
+     id="g18">
+    <line
+       x1="80"
+       y1="268"
+       x2="70"
+       y2="278"
+       id="line5" />
+    <line
+       x1="120"
+       y1="268"
+       x2="110"
+       y2="278"
+       id="line6" />
+    <line
+       x1="160"
+       y1="268"
+       x2="150"
+       y2="278"
+       id="line7" />
+    <line
+       x1="200"
+       y1="268"
+       x2="190"
+       y2="278"
+       id="line8" />
+    <line
+       x1="240"
+       y1="268"
+       x2="230"
+       y2="278"
+       id="line9" />
+    <line
+       x1="280"
+       y1="268"
+       x2="270"
+       y2="278"
+       id="line10" />
+    <line
+       x1="320"
+       y1="268"
+       x2="310"
+       y2="278"
+       id="line11" />
+    <line
+       x1="360"
+       y1="268"
+       x2="350"
+       y2="278"
+       id="line12" />
+    <line
+       x1="400"
+       y1="268"
+       x2="390"
+       y2="278"
+       id="line13" />
+    <line
+       x1="440"
+       y1="268"
+       x2="430"
+       y2="278"
+       id="line14" />
+    <line
+       x1="480"
+       y1="268"
+       x2="470"
+       y2="278"
+       id="line15" />
+    <line
+       x1="520"
+       y1="268"
+       x2="510"
+       y2="278"
+       id="line16" />
+    <line
+       x1="560"
+       y1="268"
+       x2="550"
+       y2="278"
+       id="line17" />
+    <line
+       x1="600"
+       y1="268"
+       x2="590"
+       y2="278"
+       id="line18" />
+  </g>
+  <!-- ── Ruedas del carro ────────────────────────────────────────────── -->
+  <circle
+     cx="280"
+     cy="270"
+     r="12"
+     fill="#d3d1c7"
+     stroke="#888780"
+     stroke-width="1.5"
+     id="circle18" />
+  <circle
+     cx="370"
+     cy="270"
+     r="12"
+     fill="#d3d1c7"
+     stroke="#888780"
+     stroke-width="1.5"
+     id="circle19" />
+  <!-- ── Carro ───────────────────────────────────────────────────────── -->
+  <rect
+     x="248"
+     y="228"
+     width="154"
+     height="40"
+     rx="6"
+     fill="#b5d4f4"
+     stroke="#4051b5"
+     stroke-width="2"
+     id="rect19" />
+  <text
+     x="325"
+     y="253"
+     text-anchor="middle"
+     font-size="12"
+     fill="#0c447c"
+     font-weight="bold"
+     id="text19">carro</text>
+  <!-- ── Pivote del poste ───────────────────────────────────────────── -->
+  <circle
+     cx="325"
+     cy="228"
+     r="5"
+     fill="#4051b5"
+     id="circle20" />
+  <!-- ── Poste inclinado (θ pequeño) ───────────────────────────────── -->
+  <!-- Poste: desde pivote (325,228) hacia arriba-izquierda ~12° -->
+  <line
+     x1="325"
+     y1="228"
+     x2="295"
+     y2="78"
+     stroke="#2c2c2a"
+     stroke-width="7"
+     stroke-linecap="round"
+     id="line20" />
+  <!-- Masa en el extremo del poste -->
+  <circle
+     cx="295"
+     cy="78"
+     r="10"
+     fill="#d85a30"
+     stroke="#993c1d"
+     stroke-width="1.5"
+     id="circle21" />
+  <!-- ── Línea vertical de referencia ──────────────────────────────── -->
+  <line
+     x1="325"
+     y1="228"
+     x2="325"
+     y2="60"
+     stroke="#888780"
+     stroke-width="1.2"
+     stroke-dasharray="6,4"
+     id="line21" />
+  <!-- ── Ángulo θ ───────────────────────────────────────────────────── -->
+  <text
+     x="382"
+     y="107"
+     font-size="14px"
+     fill="#d85a30"
+     font-style="italic"
+     id="text21">θ</text>
+  <!-- ══ Anotaciones de variables de estado ═══════════════════════════ -->
+  <!-- x: posición del carro -->
+  <line
+     x1="325"
+     y1="283"
+     x2="325"
+     y2="298"
+     stroke="#444444"
+     stroke-width="1"
+     stroke-dasharray="3, 2"
+     id="line22" />
+  <line
+     x1="200"
+     y1="298"
+     x2="325"
+     y2="298"
+     stroke="#444444"
+     stroke-width="1.5"
+     marker-end="url(#arr)"
+     id="line23" />
+  <line
+     x1="450"
+     y1="298"
+     x2="325"
+     y2="298"
+     stroke="#444444"
+     stroke-width="1.5"
+     marker-end="url(#arr)"
+     id="line24" />
+  <text
+     x="324"
+     y="314"
+     text-anchor="middle"
+     font-size="12px"
+     fill="#444444"
+     font-style="italic"
+     id="text24">x</text>
+  <text
+     x="324"
+     y="325"
+     text-anchor="middle"
+     font-size="10px"
+     fill="#666666"
+     id="text25">posición del carro</text>
+  <!-- ẋ: velocidad del carro -->
+  <line
+     x1="402"
+     y1="232"
+     x2="440"
+     y2="232"
+     stroke="#1d9e75"
+     stroke-width="2"
+     marker-end="url(#arr-teal)"
+     id="line25" />
+  <text
+     x="418"
+     y="214"
+     font-size="12px"
+     fill="#1d9e75"
+     font-style="italic"
+     id="text26">ẋ</text>
+  <text
+     x="400"
+     y="226"
+     font-size="10px"
+     fill="#1d9e75"
+     id="text27">velocidad</text>
+  <!-- θ: ángulo del poste (ya marcado arriba) -->
+  <line
+     x1="306"
+     y1="119"
+     x2="376"
+     y2="104"
+     stroke="#d85a30"
+     stroke-width="1"
+     stroke-dasharray="3, 2"
+     id="line27" />
+  <text
+     x="349"
+     y="121"
+     font-size="10px"
+     fill="#d85a30"
+     id="text29">ángulo del poste</text>
+  <!-- θ̇: velocidad angular -->
+  <!-- Arco pequeño alrededor del extremo del poste -->
+  <path
+     d="m 283,64 a 22,22 0 0 1 23,-5"
+     fill="none"
+     stroke="#ba7517"
+     stroke-width="1.8"
+     marker-end="url(#arr)"
+     id="path29" />
+  <text
+     x="274"
+     y="70"
+     font-size="12px"
+     fill="#ba7517"
+     font-style="italic"
+     id="text30">θ̇</text>
+  <text
+     x="228"
+     y="81"
+     font-size="10px"
+     fill="#ba7517"
+     id="text31">vel. angular</text>
+  <!-- ══ Acciones ════════════════════════════════════════════════════ -->
+  <!-- Acción izquierda -->
+  <line
+     x1="228"
+     y1="248"
+     x2="168"
+     y2="248"
+     stroke="#4051b5"
+     stroke-width="2.5"
+     marker-end="url(#arr-blue)"
+     id="line31" />
+  <rect
+     x="90"
+     y="232"
+     width="72"
+     height="26"
+     rx="6"
+     fill="#eeedfe"
+     stroke="#4051b5"
+     stroke-width="1.2"
+     id="rect31" />
+  <text
+     x="126"
+     y="248"
+     text-anchor="middle"
+     font-size="10"
+     fill="#3c3489"
+     font-weight="bold"
+     id="text32">a = 0</text>
+  <!-- Acción derecha -->
+  <line
+     x1="422"
+     y1="248"
+     x2="482"
+     y2="248"
+     stroke="#4051b5"
+     stroke-width="2.5"
+     marker-end="url(#arr-blue)"
+     id="line32" />
+  <rect
+     x="488"
+     y="232"
+     width="72"
+     height="26"
+     rx="6"
+     fill="#eeedfe"
+     stroke="#4051b5"
+     stroke-width="1.2"
+     id="rect32" />
+  <text
+     x="524"
+     y="248"
+     text-anchor="middle"
+     font-size="10"
+     fill="#3c3489"
+     font-weight="bold"
+     id="text33">a = 1</text>
+  <!-- Etiquetas de acciones -->
+  <text
+     x="126"
+     y="224"
+     text-anchor="middle"
+     font-size="9px"
+     fill="#4051b5"
+     id="text34">izquierda</text>
+  <text
+     x="524"
+     y="224"
+     text-anchor="middle"
+     font-size="9px"
+     fill="#4051b5"
+     id="text35">derecha</text>
+  <!-- ══ Título ════════════════════════════════════════════════════ -->
+  <text
+     x="340"
+     y="22"
+     text-anchor="middle"
+     font-size="14"
+     fill="#2c2c2a"
+     font-weight="bold"
+     id="text36">
+    Entorno CartPole-v1
+  </text>
+  <text
+     x="340"
+     y="40"
+     text-anchor="middle"
+     font-size="11"
+     fill="#5f5e5a"
+     id="text37">
+    Estado: s = (x, ẋ, θ, θ̇) ∈ ℝ⁴  |  Acciones: {izquierda, derecha}
+  </text>
+</svg>
