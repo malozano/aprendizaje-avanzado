@@ -9,7 +9,7 @@
         <meta name="author" content="Miguel Angel Lozano">
       
       
-        <link rel="canonical" href="https://malozano.github.io/aprendizaje-avanzado/11-rl-ppo/">
+        <link rel="canonical" href="https://malozano.github.io/aprendizaje-avanzado/11-rl-actor-critic/">
       
       
       
@@ -18,7 +18,7 @@
     
     
       
-        <title>11 rl ppo - Aprendizaje Avanzado</title>
+        <title>Aprendizaje por Refuerzo - Aprendizaje Avanzado</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#55-baseline-y-reduccion-de-varianza" class="md-skip">
+        <a href="#aprendizaje-por-refuerzo" class="md-skip">
           Saltar a contenido
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              11 rl ppo
+              Aprendizaje por Refuerzo
             
           </span>
         </div>
@@ -540,6 +540,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -590,6 +592,20 @@
     <li class="md-nav__item">
       <a href="../practicas/02-no-supervisado/" class="md-nav__link">
         2. Aprendizaje no supervisado
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/03-aprendizaje-por-refuerzo/" class="md-nav__link">
+        3. Aprendizaje por refuerzo
       </a>
     </li>
   
@@ -674,154 +690,166 @@
                   
 
 
-  <h1>11 rl ppo</h1>
-
-<h2 id="55-baseline-y-reduccion-de-varianza">5.5. Baseline y reducción de varianza<a class="headerlink" href="#55-baseline-y-reduccion-de-varianza" title="Permanent link">¶</a></h2>
-<h3 id="551-la-funcion-de-ventaja">5.5.1. La Función de Ventaja<a class="headerlink" href="#551-la-funcion-de-ventaja" title="Permanent link">¶</a></h3>
-<p>Una observación central es que el Teorema del Gradiente de Política sigue siendo válido si restamos cualquier función <span class="arithmatex">\(b(s)\)</span> que dependa únicamente del estado (no de la acción):</p>
+<h1 id="aprendizaje-por-refuerzo">Aprendizaje por Refuerzo<a class="headerlink" href="#aprendizaje-por-refuerzo" title="Permanent link">¶</a></h1>
+<p>En la sesión anterior estudiamos los fundamentos de los métodos de aprendizaje por refuerzo basados en gradiente de política, y de forma particular el algoritmo REINFORCE, que constituye el algoritmo más básico de esta familia de métodos. Vimos que su principal debilidad es su alta varianza. Vamos a ver en esta sesión tres propuestas orientadas a corregir las debilidades de REINFORCE básico: REINFORCE con <em>baseline</em>, Actor-Critic y PPO.</p>
+<h2 id="baseline-y-reduccion-de-varianza">Baseline y reducción de varianza<a class="headerlink" href="#baseline-y-reduccion-de-varianza" title="Permanent link">¶</a></h2>
+<p>Una de las formas más sencillas de reducir la varianza consiste en introducir una estimación de la función valor y un término llamado "ventaja".</p>
+<h3 id="la-funcion-de-ventaja">La Función de Ventaja<a class="headerlink" href="#la-funcion-de-ventaja" title="Permanent link">¶</a></h3>
+<p>Para introducir la función de ventaja, en primer lugar vamos a ver que el Teorema del Gradiente de Política seguirá siendo válido si restamos cualquier función <span class="arithmatex">\(b(s)\)</span> que dependa únicamente del estado (no de la acción):</p>
 <div class="arithmatex">\[
-\nabla_\theta J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta}\!\left[\sum_{t=0}^{T-1} \nabla_\theta \log \pi_\theta(a_t \mid s_t) \cdot \left(G_t - b(s_t)\right)\right]\,.
+\nabla_\theta J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta}\!\left[\sum_{t=0}^{T-1} \gamma^t \left(G_t - b(s_t)\right) \nabla_\theta \log \pi_\theta(a_t \mid s_t) \right]\,.
 \]</div>
-<p><strong>Esquema de la demostración.</strong> Necesitamos mostrar que <span class="arithmatex">\(\mathbb{E}\left[\nabla_\theta \log \pi_\theta(a|s) \cdot b(s)\right] = 0\)</span>. Como <span class="arithmatex">\(b(s)\)</span> no depende de <span class="arithmatex">\(a\)</span>:</p>
+<p><strong>Demostración:</strong> Necesitamos mostrar que <span class="arithmatex">\(\mathbb{E}\left[ b(s) \nabla_\theta \log \pi_\theta(a|s) \right] = 0\)</span>. Como <span class="arithmatex">\(b(s)\)</span> no depende de <span class="arithmatex">\(a\)</span>, tenemos:</p>
+<div class="arithmatex">\[
+\mathbb{E}_{a \sim \pi_\theta(\cdot|s)}\!\left[ b(s) \nabla_\theta \log \pi_\theta(a|s)\right] = \mathbb{E}_{a \sim \pi_\theta(\cdot|s)}\!\left[ b(s) \right] \mathbb{E}_{a \sim \pi_\theta(\cdot|s)}\!\left[  \nabla_\theta \log \pi_\theta(a|s)\right].
+\]</div>
+<p>Dado que <span class="arithmatex">\(\pi_\theta(a \mid s)\)</span> es una distribución de probabilidad, la esperanza de su gradiente será siempre 0, como mostramos a continuación:</p>
 <div class="arithmatex">\[
 \mathbb{E}_{a \sim \pi_\theta(\cdot|s)}\!\left[\nabla_\theta \log \pi_\theta(a|s)\right] = \nabla_\theta \sum_{a} \pi_\theta(a|s) = \nabla_\theta 1 = 0\,.
 \]</div>
-<p>La baseline no introduce sesgo pero puede reducir drásticamente la varianza si se elige bien.</p>
-<p>La <strong>baseline óptima</strong> (que minimiza la varianza) resulta ser:</p>
+<p>Por lo tanto, al ser este término <span class="arithmatex">\(0\)</span>, la multiplicación por la esperanza del <em>baseline</em> <span class="arithmatex">\(b(s)\)</span> será también <span class="arithmatex">\(0\)</span> y por lo tanto no afectará a <span class="arithmatex">\(\nabla_\theta J(\theta)\)</span>. </p>
+<p>Vemos entonces que la <em>baseline</em> no introduce sesgo en el gradiente, pero puede reducir drásticamente la varianza si se elige bien. </p>
+<p>Una elección común para la <strong>baseline</strong> (que minimiza la varianza) es:</p>
 <div class="arithmatex">\[
 b^\ast(s_t) = V_\pi(s_t) = \mathbb{E}_{\pi}\left[G_t \mid s_t\right]\,,
 \]</div>
-<p>¡la función de valor bajo la política actual! Intuitivamente, <span class="arithmatex">\(V_\pi(s_t)\)</span> representa el retorno <em>promedio</em> desde el estado <span class="arithmatex">\(s_t\)</span>, por lo que <span class="arithmatex">\((G_t - V_\pi(s_t))\)</span> captura cuánto <strong>mejor o peor</strong> fue la acción <span class="arithmatex">\(a_t\)</span> respecto al promedio. Esta cantidad con signo es la <strong>función de ventaja</strong> (<em>Advantage function</em>):</p>
+<p>es decir, <strong>la función de valor bajo la política actual</strong>. Intuitivamente, <span class="arithmatex">\(V_\pi(s_t)\)</span> representa el retorno <em>promedio</em> desde el estado <span class="arithmatex">\(s_t\)</span>, por lo que <span class="arithmatex">\((G_t - V_\pi(s_t))\)</span> captura cuánto <strong>mejor o peor</strong> fue la acción <span class="arithmatex">\(a_t\)</span> respecto al promedio. Esta cantidad con signo es la <strong>función de ventaja</strong> (<em>Advantage function</em>):</p>
 <div class="arithmatex">\[
-\boxed{A_\pi(s_t, a_t) = Q_\pi(s_t, a_t) - V_\pi(s_t)}
+\boxed{A_\pi(s_t, a_t) = G_t - V_\pi(s_t)}
 \]</div>
 <p>La ventaja es positiva para acciones mejores que el promedio desde <span class="arithmatex">\(s_t\)</span>, y negativa para acciones peores que el promedio. La actualización del gradiente queda entonces:</p>
 <div class="arithmatex">\[
-\nabla_\theta J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta}\!\left[\sum_{t=0}^{T-1} \nabla_\theta \log \pi_\theta(a_t \mid s_t) \cdot A_\pi(s_t, a_t)\right]\,.
+\nabla_\theta J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta}\!\left[\sum_{t=0}^{T-1} \gamma^t A_\pi(s_t, a_t) \nabla_\theta \log \pi_\theta(a_t \mid s_t) \right]\,.
 \]</div>
-<p><strong>Intuición.</strong> Comparemos dos actualizaciones en el mismo estado <span class="arithmatex">\(s\)</span>:
-- Sin baseline, una acción que produce <span class="arithmatex">\(G_t = 7\)</span> siempre recibe un empuje positivo, incluso si todas las acciones desde <span class="arithmatex">\(s\)</span> producen <span class="arithmatex">\(\approx 7\)</span> de media (lo que significa que esta acción no es especial).
-- Con baseline <span class="arithmatex">\(b = V(s) = 7\)</span>, la ventaja es <span class="arithmatex">\(\approx 0\)</span> y la actualización del gradiente es prácticamente nula — reflejando correctamente que ninguna acción merece ser especialmente reforzada.</p>
-<h3 id="552-reinforce-con-baseline">5.5.2. REINFORCE con Baseline<a class="headerlink" href="#552-reinforce-con-baseline" title="Permanent link">¶</a></h3>
+<p>Intuitivamente, si comparamos dos actualizaciones en el mismo estado <span class="arithmatex">\(s\)</span> con y sin <em>baseline</em>, tenemos:</p>
+<ul>
+<li>Sin <em>baseline</em>, una acción que produce <span class="arithmatex">\(G_t = 7\)</span> siempre recibe un empuje positivo, incluso si todas las acciones desde <span class="arithmatex">\(s\)</span> producen <span class="arithmatex">\(\approx 7\)</span> de media (lo que significa que esta acción no es especial).</li>
+<li>Con baseline <span class="arithmatex">\(b = V(s) = 7\)</span>, la ventaja es <span class="arithmatex">\(\approx 0\)</span> y la actualización del gradiente es prácticamente nula, reflejando correctamente que ninguna acción merece ser especialmente reforzada.</li>
+</ul>
+<h3 id="reinforce-con-baseline">REINFORCE con Baseline<a class="headerlink" href="#reinforce-con-baseline" title="Permanent link">¶</a></h3>
 <p>Podemos estimar <span class="arithmatex">\(V_\pi(s_t)\)</span> a partir de los propios datos manteniendo una <strong>red de valor</strong> <span class="arithmatex">\(V_\phi(s)\)</span> con parámetros <span class="arithmatex">\(\phi\)</span>. Tras cada episodio, ajustamos <span class="arithmatex">\(V_\phi\)</span> a los retornos observados minimizando el error cuadrático medio:</p>
 <div class="arithmatex">\[
 \mathcal{L}(\phi) = \sum_{t=0}^{T-1} \left(G_t - V_\phi(s_t)\right)^2\,.
 \]</div>
 <p>La estimación de la ventaja se convierte entonces en <span class="arithmatex">\(\hat{A}_t = G_t - V_\phi(s_t)\)</span>.</p>
-<p>````{prf:algorithm} REINFORCE con Baseline
-:label: reinforce-baseline</p>
-<p><strong>Entradas</strong> Tasas de aprendizaje <span class="arithmatex">\(\alpha_\theta\)</span>, <span class="arithmatex">\(\alpha_\phi\)</span>, descuento <span class="arithmatex">\(\gamma\)</span>, episodios <span class="arithmatex">\(K\)</span></p>
-<p><strong>Salida</strong> Parámetros de política <span class="arithmatex">\(\theta\)</span>, parámetros de valor <span class="arithmatex">\(\phi\)</span></p>
+<p>Es importante destacar que es beneficioso en este caso utilizar tasas de aprendizaje diferentes para la red de política (<span class="arithmatex">\(\alpha_\theta\)</span>) y para la red de valor (<span class="arithmatex">\(\alpha_\phi\)</span>), ya que su naturaleza es distinta. A continuación, mostramos el algoritmo de REINFORCE con baseline:</p>
+<div class="admonition algorithm">
+<p class="admonition-title">Algoritmo: REINFORCE con baseline</p>
+<p><strong>Entradas</strong> Tasas de aprendizaje <span class="arithmatex">\(\alpha_\theta\)</span>, <span class="arithmatex">\(\alpha_\phi\)</span>, descuento <span class="arithmatex">\(\gamma\)</span>, número de episodios <span class="arithmatex">\(K\)</span></p>
+<p><strong>Salida</strong> Parámetros de política <span class="arithmatex">\(\theta\)</span></p>
 <ol>
 <li><strong>Inicializar</strong> <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span> aleatoriamente</li>
-<li><strong>para</strong> episodio <span class="arithmatex">\(i = 1, \ldots, K\)</span>:</li>
+<li><strong>Para</strong> cada episodio <span class="arithmatex">\(i = 1, \ldots, K\)</span>:<ol>
 <li>Generar trayectoria <span class="arithmatex">\((s_0, a_0, r_1, \ldots, s_{T-1}, a_{T-1}, r_T)\)</span> siguiendo <span class="arithmatex">\(\pi_\theta\)</span></li>
 <li>Calcular retornos hacia atrás: <span class="arithmatex">\(G_t = r_{t+1} + \gamma G_{t+1}\)</span>, <span class="arithmatex">\(G_T = 0\)</span></li>
 <li><strong>para</strong> <span class="arithmatex">\(t = 0, 1, \ldots, T-1\)</span>:<ol>
 <li><span class="arithmatex">\(\hat{A}_t = G_t - V_\phi(s_t)\)</span></li>
-<li><span class="arithmatex">\(\theta \leftarrow \theta + \alpha_\theta \cdot \gamma^t \cdot \hat{A}_t \cdot \nabla_\theta \log \pi_\theta(a_t \mid s_t)\)</span></li>
-<li><span class="arithmatex">\(\phi \leftarrow \phi - \alpha_\phi \cdot \nabla_\phi\left(G_t - V_\phi(s_t)\right)^2\)</span></li>
+<li><span class="arithmatex">\(\theta \leftarrow \theta + \alpha_\theta  \gamma^t  \hat{A}_t  \nabla_\theta \log \pi_\theta(a_t \mid s_t)\)</span></li>
+<li><span class="arithmatex">\(\phi \leftarrow \phi - \alpha_\phi  \nabla_\phi\left(G_t - V_\phi(s_t)\right)^2\)</span></li>
 </ol>
 </li>
 </ol>
-<p><strong>devolver</strong> <span class="arithmatex">\(\theta\)</span>
-</p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>En la práctica, REINFORCE con baseline converge notablemente más rápido que REINFORCE puro porque:
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>- Las actualizaciones están **centradas**: la señal del gradiente ya no es uniformemente positiva o negativa.
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>- La varianza de $\hat{A}_t$ es mucho menor que la varianza de $G_t$.
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>No obstante, persiste una limitación fundamental: **la actualización sigue siendo por episodios** (Monte Carlo). Debemos esperar al final de cada episodio para calcular $G_t$, lo que impide el aprendizaje en línea. Los métodos Actor-Critic abordan esto.
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>---
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>## 5.6. Actor-Critic (A2C)
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>### 5.6.1. La Arquitectura de Dos Redes
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>Los métodos **Actor-Critic** combinan lo mejor de ambos mundos:
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>- El **actor** es la política $\pi_\theta(a|s)$, actualizada mediante gradiente de política.
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>- El **crítico** (*critic*) es la función de valor $V_\phi(s)$, actualizada mediante Diferencia Temporal — exactamente como en los algoritmos TD del tema anterior.
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>El cambio clave respecto a REINFORCE-con-baseline es que el **crítico utiliza estimaciones TD** en lugar de retornos Monte Carlo. Esto elimina la necesidad de esperar al final del episodio, permitiendo **actualizaciones en línea, paso a paso**.
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>La estimación TD de la ventaja en el instante $t$ es:
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>$$
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>\hat{A}_t = r_{t+1} + \gamma V_\phi(s_{t+1}) - V_\phi(s_t)\,,
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>$$
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>que es precisamente el **error TD** $\delta_t$ que encontramos en SARSA. Se trata de una **estimación bootstrap de un paso** de $A_\pi(s_t, a_t)$: utiliza la estimación de valor actual $V_\phi(s_{t+1})$ en lugar de esperar al retorno futuro completo.
-<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>Nótese la analogía con SARSA: así como SARSA hace bootstrap de los valores Q, el crítico hace bootstrap de los valores V. La diferencia es que aquí la estimación con bootstrap sirve para guiar al actor en lugar de actualizar una tabla Q.
-<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>
-<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>La arquitectura se muestra esquemáticamente a continuación:
-<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>
-<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>```
-<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>       Estado s_t
-<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>           │
-<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>    ┌──────┴──────┐
-<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>    │    Actor    │  π_θ(a|s) → muestrea acción a_t
-<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>    │  (política) │  ← actualizado por ascenso de gradiente usando Â_t
-<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>    └─────────────┘
-<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>           │
-<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>    ┌──────┴──────┐
-<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>    │   Crítico   │  V_φ(s_t) → estima el valor del estado
-<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>    │ (función V) │  ← actualizado por el error TD δ_t
-<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>    └─────────────┘
-<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>```
-<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>
-<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>En implementaciones profundas, el actor y el crítico suelen **compartir las capas inferiores** (extracción de características) y divergen únicamente en sus cabezas de salida, lo que mejora la eficiencia en el número de parámetros.
-<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>
-<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>### 5.6.2. Actualización TD del Crítico
-<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>
-<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>El crítico se actualiza para minimizar el error TD. Dado que el objetivo TD es $r_{t+1} + \gamma V_\phi(s_{t+1})$, la pérdida del crítico es:
-<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a>
-<a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a>$$
-<a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a>\mathcal{L}(\phi) = \left(r_{t+1} + \gamma V_\phi(s_{t+1}) - V_\phi(s_t)\right)^2 = \delta_t^2\,,
-<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a>$$
-<a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a>
-<a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a>y la actualización es un paso estándar de descenso por gradiente:
-<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a>
-<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a>$$
-<a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a>\phi \leftarrow \phi - \alpha_\phi \cdot \nabla_\phi \, \delta_t^2 = \phi + \alpha_\phi \cdot \delta_t \cdot \nabla_\phi V_\phi(s_t)\,.
-<a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a>$$
-<a id="__codelineno-0-61" name="__codelineno-0-61" href="#__codelineno-0-61"></a>
-<a id="__codelineno-0-62" name="__codelineno-0-62" href="#__codelineno-0-62"></a>Nótese que, como en Q-Learning, el objetivo TD $r_{t+1} + \gamma V_\phi(s_{t+1})$ se trata como una **constante** al calcular el gradiente (no se diferencia a través de él), ya que queremos mover $V_\phi(s_t)$ hacia un objetivo fijo y no mover ambos extremos simultáneamente.
-<a id="__codelineno-0-63" name="__codelineno-0-63" href="#__codelineno-0-63"></a>
-<a id="__codelineno-0-64" name="__codelineno-0-64" href="#__codelineno-0-64"></a>La actualización del actor utiliza el error TD como estimación de la ventaja:
-<a id="__codelineno-0-65" name="__codelineno-0-65" href="#__codelineno-0-65"></a>
-<a id="__codelineno-0-66" name="__codelineno-0-66" href="#__codelineno-0-66"></a>$$
-<a id="__codelineno-0-67" name="__codelineno-0-67" href="#__codelineno-0-67"></a>\theta \leftarrow \theta + \alpha_\theta \cdot \delta_t \cdot \nabla_\theta \log \pi_\theta(a_t \mid s_t)\,.
-<a id="__codelineno-0-68" name="__codelineno-0-68" href="#__codelineno-0-68"></a>$$
-<a id="__codelineno-0-69" name="__codelineno-0-69" href="#__codelineno-0-69"></a>
-<a id="__codelineno-0-70" name="__codelineno-0-70" href="#__codelineno-0-70"></a>### 5.6.3. El Algoritmo A2C
-<a id="__codelineno-0-71" name="__codelineno-0-71" href="#__codelineno-0-71"></a>
-<a id="__codelineno-0-72" name="__codelineno-0-72" href="#__codelineno-0-72"></a>**Advantage Actor-Critic (A2C)** es la versión síncrona estándar de la familia Actor-Critic. El nombre «A2C» hace referencia al uso de la ventaja $\hat{A}_t$ en la actualización del actor, lo que estabiliza el entrenamiento en comparación con usar el error TD bruto.
-<a id="__codelineno-0-73" name="__codelineno-0-73" href="#__codelineno-0-73"></a>
-<a id="__codelineno-0-74" name="__codelineno-0-74" href="#__codelineno-0-74"></a>````{prf:algorithm} A2C (Advantage Actor-Critic)
-<a id="__codelineno-0-75" name="__codelineno-0-75" href="#__codelineno-0-75"></a>:label: a2c
-<a id="__codelineno-0-76" name="__codelineno-0-76" href="#__codelineno-0-76"></a>
-<a id="__codelineno-0-77" name="__codelineno-0-77" href="#__codelineno-0-77"></a>**Entradas** Tasas de aprendizaje $\alpha_\theta$, $\alpha_\phi$, descuento $\gamma$, episodios $K$, pasos por episodio $T$, coeficiente de entropía $\beta$
-<a id="__codelineno-0-78" name="__codelineno-0-78" href="#__codelineno-0-78"></a>
-<a id="__codelineno-0-79" name="__codelineno-0-79" href="#__codelineno-0-79"></a>**Salida** Política $\pi_\theta$, función de valor $V_\phi$
-<a id="__codelineno-0-80" name="__codelineno-0-80" href="#__codelineno-0-80"></a>
-<a id="__codelineno-0-81" name="__codelineno-0-81" href="#__codelineno-0-81"></a>1. **Inicializar** $\theta$, $\phi$ aleatoriamente
-<a id="__codelineno-0-82" name="__codelineno-0-82" href="#__codelineno-0-82"></a>2. **para** episodio $i = 1, \ldots, K$:
-<a id="__codelineno-0-83" name="__codelineno-0-83" href="#__codelineno-0-83"></a>   1. $s_t \leftarrow \text{estado inicial}$
-<a id="__codelineno-0-84" name="__codelineno-0-84" href="#__codelineno-0-84"></a>   2. **para** $t = 1, \ldots, T$:
-<a id="__codelineno-0-85" name="__codelineno-0-85" href="#__codelineno-0-85"></a>      1. Muestrear $a_t \sim \pi_\theta(\cdot \mid s_t)$
-<a id="__codelineno-0-86" name="__codelineno-0-86" href="#__codelineno-0-86"></a>      2. Ejecutar $a_t$; observar $r_{t+1}$, $s_{t+1}$, $\text{done}$
-<a id="__codelineno-0-87" name="__codelineno-0-87" href="#__codelineno-0-87"></a>      3. **si** $\text{done}$: $V_{\phi}(s_{t+1}) \leftarrow 0$
-<a id="__codelineno-0-88" name="__codelineno-0-88" href="#__codelineno-0-88"></a>      4. Calcular error TD: $\delta_t = r_{t+1} + \gamma V_\phi(s_{t+1}) - V_\phi(s_t)$
-<a id="__codelineno-0-89" name="__codelineno-0-89" href="#__codelineno-0-89"></a>      5. **Actualización del crítico**: $\phi \leftarrow \phi + \alpha_\phi \cdot \delta_t \cdot \nabla_\phi V_\phi(s_t)$
-<a id="__codelineno-0-90" name="__codelineno-0-90" href="#__codelineno-0-90"></a>      6. **Actualización del actor**: $\theta \leftarrow \theta + \alpha_\theta \cdot \delta_t \cdot \nabla_\theta \log \pi_\theta(a_t \mid s_t) + \beta \cdot \nabla_\theta H(\pi_\theta(\cdot|s_t))$
-<a id="__codelineno-0-91" name="__codelineno-0-91" href="#__codelineno-0-91"></a>      7. $s_t \leftarrow s_{t+1}$
-<a id="__codelineno-0-92" name="__codelineno-0-92" href="#__codelineno-0-92"></a>      8. **si** $\text{done}$: **salir**
-<a id="__codelineno-0-93" name="__codelineno-0-93" href="#__codelineno-0-93"></a>
-<a id="__codelineno-0-94" name="__codelineno-0-94" href="#__codelineno-0-94"></a>**devolver** $\theta$, $\phi$
-</code></pre></div><p></p>
-<p><strong>Nota sobre la regularización por entropía.</strong> El término <span class="arithmatex">\(\beta \cdot \nabla_\theta H(\pi_\theta(\cdot|s_t))\)</span> en la actualización del actor es un <strong>bonus de entropía</strong>, donde <span class="arithmatex">\(H(\pi) = -\sum_a \pi(a|s) \log \pi(a|s)\)</span> es la entropía de la política. Maximizar la entropía incentiva que la política <strong>permanezca estocástica</strong> y evita una convergencia prematura a una política determinista subóptima — una versión más suave de la exploración <span class="arithmatex">\(\epsilon\)</span>-greedy que usamos en Q-Learning. El coeficiente <span class="arithmatex">\(\beta\)</span> es un hiperparámetro pequeño (p.ej. <span class="arithmatex">\(0{,}01\)</span>).</p>
-<p><strong>Comparación con REINFORCE.</strong> La tabla siguiente resume las diferencias clave:</p>
+</li>
+</ol>
+<p><strong>devolver</strong> <span class="arithmatex">\(\theta\)</span></p>
+</div>
+<p>En la práctica, REINFORCE con baseline converge notablemente más rápido que REINFORCE puro porque:</p>
+<ul>
+<li>Las actualizaciones están <strong>centradas</strong>, y la señal del gradiente ya no es uniformemente positiva o negativa.</li>
+<li>La varianza de <span class="arithmatex">\(\hat{A}_t\)</span> es mucho menor que la varianza de <span class="arithmatex">\(G_t\)</span>.</li>
+</ul>
+<p>No obstante, seguimos encontrando como limitación que <strong>la actualización sigue siendo por episodios</strong> (Monte Carlo). Debemos esperar al final de cada episodio para calcular <span class="arithmatex">\(G_t\)</span>, lo que impide el aprendizaje en línea. Los métodos Actor-Critic abordan esta limitación.</p>
+<h2 id="actor-critic-a2c">Actor-Critic (A2C)<a class="headerlink" href="#actor-critic-a2c" title="Permanent link">¶</a></h2>
+<p>Como hemos comentado, una desventaja que comparten tanto la versión básica de REINFORCE como su versión con <em>baseline</em> es que son algoritmos <em>offline</em>, en los que el agente debe esperar hasta el final del episodio para actualizar los parámetros de la política. La familia de algoritmos Actor-Critic, propuesta por Sutton y  Barto (Sutton &amp; Barto, 2018)<sup id="fnref:sutton2018reinforcement"><a class="footnote-ref" href="#fn:sutton2018reinforcement">1</a></sup> vienen a resolver este problema.</p>
+<p>En Actor-Critic, denominamos <strong>actor</strong> a la política aprendida, y <strong>crítico</strong>  a la función <em>baseline</em>. </p>
+<h3 id="arquitectura-de-dos-redes">Arquitectura de dos redes<a class="headerlink" href="#arquitectura-de-dos-redes" title="Permanent link">¶</a></h3>
+<p>Hemos visto dos grandes familias de métodos de RL: los métodos basados en valor y los métodos basados en gradiente de política. Los métodos <strong>Actor-Critic</strong> combinan lo mejor de ambos mundos:</p>
+<ul>
+<li>El <strong>actor</strong> es la política <span class="arithmatex">\(\pi_\theta(a|s)\)</span>, actualizada mediante gradiente de política.</li>
+<li>El <strong>crítico</strong> (<em>critic</em>) es la función de valor <span class="arithmatex">\(V_\phi(s)\)</span>, actualizada mediante Diferencia Temporal (TD).</li>
+</ul>
+<p>El cambio fundamental respecto a REINFORCE con <em>baseline</em> es que el <strong>crítico utiliza estimaciones TD</strong> en lugar de retornos Monte Carlo. Esto elimina la necesidad de esperar al final del episodio, permitiendo <strong>actualizaciones en línea, paso a paso</strong>.</p>
+<p>La estimación TD de la ventaja en el instante <span class="arithmatex">\(t\)</span> es:</p>
+<div class="arithmatex">\[
+\hat{A}_t = r_{t+1} + \gamma V_\phi(s_{t+1}) - V_\phi(s_t)\,,
+\]</div>
+<p>Esta expresión recibe el nombre de <strong>error TD</strong> y se denota habitualmente como <span class="arithmatex">\(\delta_t\)</span>.</p>
+<p>Esta cantidad es exactamente la diferencia entre el objetivo (<em>target</em>) TD <span class="arithmatex">\([r_{t+1} + \gamma V_\phi(s_{t+1})]\)</span> y la estimación actual <span class="arithmatex">\(V_\phi(s_t)\)</span>, que en SARSA se utilizaba para actualizar <span class="arithmatex">\(Q(s,a)\)</span>. Aquí se reutiliza con un propósito diferente, ya que se aplica como estimador de la ventaja  <span class="arithmatex">\(A_\pi(s_t, a_t)\)</span>, midiendo cuánto mejor o peor fue la acción tomada respecto a lo que el crítico esperaba en ese estado. Se trata de una estimación de un paso, en la que en lugar de esperar al final del episodio para conocer el retorno real <span class="arithmatex">\(G_t\)</span>, usamos la recompensa inmediata <span class="arithmatex">\(r_{t+1}\)</span> más nuestra estimación del valor del siguiente estado <span class="arithmatex">\(V_\phi(s_{t+1})\)</span> como sustituto del retorno futuro. Es decir, el crítico usa su propia estimación del futuro para actualizar su estimación del presente, sin necesidad de completar el episodio.</p>
+<p>A esta técnica de usar la propia estimación aprendida <span class="arithmatex">\(V_\phi(s_{t+1})\)</span> como sustituto del retorno futuro, en lugar de esperar al valor real observado al final del episodio, se le denomina
+<strong>bootstrap</strong>. La ventaja es que permite actualizar la política en cada paso de tiempo sin esperar al final del episodio, a costa de introducir un pequeño sesgo derivado del error de aproximación del crítico.</p>
+<p>De forma análoga a SARSA, así como SARSA hace <em>bootstrap</em> de los valores <span class="arithmatex">\(Q\)</span>, el crítico hace <em>bootstrap</em> de los valores <span class="arithmatex">\(V\)</span>. La diferencia es que aquí la estimación con <em>bootstrap</em> sirve para guiar al actor en lugar de actualizar una tabla <span class="arithmatex">\(Q\)</span>.</p>
+<p>La arquitectura se muestra esquemáticamente a continuación:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>       Estado s_t
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>           │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    ┌──────┴──────┐
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    │    Actor    │  π_θ(a|s) → muestrea acción a_t
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    │  (política) │  ← actualizado por ascenso de gradiente usando Â_t
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    └─────────────┘
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>           │
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    ┌──────┴──────┐
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    │   Crítico   │  V_φ(s_t) → estima el valor del estado
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    │ (función V) │  ← actualizado por el error TD δ_t
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    └─────────────┘
+</code></pre></div>
+<p>En implementaciones basadas en <em>deep learning</em>, el actor y el crítico suelen <strong>compartir las capas inferiores</strong> (extracción de características) y divergen únicamente en sus cabezas de salida, lo que mejora la eficiencia en el número de parámetros.</p>
+<h3 id="actualizacion-td-del-critico">Actualización TD del Crítico<a class="headerlink" href="#actualizacion-td-del-critico" title="Permanent link">¶</a></h3>
+<p>El crítico se actualiza para minimizar el error TD. Dado que el objetivo TD es <span class="arithmatex">\(r_{t+1} + \gamma V_\phi(s_{t+1})\)</span>, la pérdida del crítico es:</p>
+<div class="arithmatex">\[
+\mathcal{L}(\phi) = \left(r_{t+1} + \gamma V_\phi(s_{t+1}) - V_\phi(s_t)\right)^2 = \delta_t^2\,,
+\]</div>
+<p>y la actualización es un paso estándar de descenso por gradiente:</p>
+<div class="arithmatex">\[
+\phi \leftarrow \phi - \alpha_\phi  \nabla_\phi \, \delta_t^2 = \phi + \alpha_\phi  \delta_t  \nabla_\phi V_\phi(s_t)\,.
+\]</div>
+<p>Nótese que, como en Q-Learning, el objetivo TD <span class="arithmatex">\(r_{t+1} + \gamma V_\phi(s_{t+1})\)</span> se trata como una <strong>constante</strong> al calcular el gradiente (no se diferencia a través de él), ya que queremos mover <span class="arithmatex">\(V_\phi(s_t)\)</span> hacia un objetivo fijo y no mover ambos extremos simultáneamente.</p>
+<p>La actualización del actor utiliza el error TD como estimación de la ventaja:</p>
+<div class="arithmatex">\[
+\theta \leftarrow \theta + \alpha_\theta  \delta_t  \nabla_\theta \log \pi_\theta(a_t \mid s_t)\,.
+\]</div>
+<h3 id="el-algoritmo-a2c">El Algoritmo A2C<a class="headerlink" href="#el-algoritmo-a2c" title="Permanent link">¶</a></h3>
+<p><strong>Advantage Actor-Critic (A2C)</strong> es la versión síncrona estándar de la familia Actor-Critic. Para entender qué aporta A2C respecto a Actor-Critic básico conviene aclarar primero la relación entre el error TD y la ventaja.</p>
+<h4 id="error-td-y-ventaja">Error TD y ventaja<a class="headerlink" href="#error-td-y-ventaja" title="Permanent link">¶</a></h4>
+<p>En Actor-Critic básico el crítico calcula el error TD de un paso:</p>
+<div class="arithmatex">\[\delta_t = r_{t+1} + \gamma V_\phi(s_{t+1}) - V_\phi(s_t)\]</div>
+<p>La ventaja verdadera se define como:</p>
+<div class="arithmatex">\[A^\pi(s_t, a_t) = Q^\pi(s_t, a_t) - V^\pi(s_t)\]</div>
+<p>Dado que <span class="arithmatex">\(Q^\pi(s_t, a_t) = \mathbb{E}[r_{t+1} + \gamma V^\pi(s_{t+1})]\)</span> por definición, se puede demostrar que <span class="arithmatex">\(\delta_t\)</span> es un estimador <strong>insesgado</strong> (es decir, que en promedio no sobreestima ni subestima el valor verdadero) de un paso de <span class="arithmatex">\(A^\pi(s_t, a_t)\)</span>. Por tanto en la práctica se usan de forma intercambiable: <span class="arithmatex">\(\hat{A}_t \approx \delta_t\)</span>.</p>
+<p>Nótese que esta propiedad solo se cumple cuando el crítico <span class="arithmatex">\(V_\phi\)</span> está perfectamente entrenado. En la práctica, el error de aproximación de la red introduce un pequeño sesgo.</p>
+<h4 id="aportacion-de-a2c">Aportación de A2C<a class="headerlink" href="#aportacion-de-a2c" title="Permanent link">¶</a></h4>
+<p>La diferencia de A2C respecto a Actor-Critic básico consiste fundamentalmente en dos aspectos:</p>
+<p><strong>1. Múltiples procesos en paralelo.</strong> A2C lanza <span class="arithmatex">\(N\)</span> copias del entorno simultáneamente, cada una generando su propia trayectoria con la política actual. Los gradientes de todos los procesos se promedian antes de actualizar <span class="arithmatex">\(\theta\)</span> y <span class="arithmatex">\(\phi\)</span>:</p>
+<div class="arithmatex">\[\nabla_\theta J(\theta) \approx \frac{1}{N} \sum_{i=1}^{N} \hat{A}_t^{(i)} \nabla_\theta \log \pi_\theta(a_t^{(i)} \mid s_t^{(i)})\]</div>
+<p>Este promedio reduce la varianza del estimador del gradiente de forma análoga a aumentar el tamaño del <em>batch</em> en aprendizaje supervisado.</p>
+<p><strong>2. Actualización síncrona.</strong> A diferencia de su predecesor A3C (Mnih et al., 2016)<sup id="fnref:mnih2016asynchronous"><a class="footnote-ref" href="#fn:mnih2016asynchronous">2</a></sup> (<em>Asynchronous Advantage Actor-Critic</em>), donde cada trabajador actualiza los parámetros de forma independiente y asíncrona, A2C espera a que todos los procesos terminen antes de actualizar. Esto simplifica la implementación y en la práctica produce resultados equivalentes o mejores.</p>
+<h3 id="algoritmo">Algoritmo<a class="headerlink" href="#algoritmo" title="Permanent link">¶</a></h3>
+<p>A continuación se muestra el pseudocódigo del algoritmo A2C:</p>
+<div class="admonition algorithm">
+<p class="admonition-title">Algoritmo: A2C (Advantage Actor-Critic)</p>
+<p><strong>Entradas:</strong> Tasas de aprendizaje <span class="arithmatex">\(\alpha_\theta\)</span>, <span class="arithmatex">\(\alpha_\phi\)</span>, descuento <span class="arithmatex">\(\gamma\)</span>, número de episodios <span class="arithmatex">\(K\)</span>, pasos por episodio <span class="arithmatex">\(T\)</span>, coeficiente de entropía <span class="arithmatex">\(\beta\)</span></p>
+<p><strong>Salida:</strong> Política <span class="arithmatex">\(\pi_\theta\)</span>, función de valor <span class="arithmatex">\(V_\phi\)</span></p>
+<ol>
+<li><strong>Inicializar</strong> <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span> aleatoriamente</li>
+<li><strong>Para</strong> cada episodio <span class="arithmatex">\(i = 1, \ldots, K\)</span>:<ol>
+<li><span class="arithmatex">\(s_t \leftarrow \text{estado inicial}\)</span></li>
+<li><strong>Para</strong> <span class="arithmatex">\(t = 1, \ldots, T\)</span>:<ol>
+<li>Muestrear <span class="arithmatex">\(a_t \sim \pi_\theta(\cdot \mid s_t)\)</span></li>
+<li>Ejecutar <span class="arithmatex">\(a_t\)</span> y observar <span class="arithmatex">\(r_{t+1}\)</span>, <span class="arithmatex">\(s_{t+1}\)</span>, <span class="arithmatex">\(\text{done}\)</span></li>
+<li><strong>Si</strong> <span class="arithmatex">\(\text{done}\)</span>: <span class="arithmatex">\(V_{\phi}(s_{t+1}) \leftarrow 0\)</span></li>
+<li>Calcular error TD: <span class="arithmatex">\(\delta_t = r_{t+1} + \gamma V_\phi(s_{t+1}) - V_\phi(s_t)\)</span></li>
+<li><strong>Actualización del crítico</strong>: <span class="arithmatex">\(\phi \leftarrow \phi + \alpha_\phi  \delta_t  \nabla_\phi V_\phi(s_t)\)</span></li>
+<li><strong>Actualización del actor</strong>: <span class="arithmatex">\(\theta \leftarrow \theta + \alpha_\theta  \delta_t  \nabla_\theta \log \pi_\theta(a_t \mid s_t) + \beta  \nabla_\theta H(\pi_\theta(\cdot|s_t))\)</span></li>
+<li><span class="arithmatex">\(s_t \leftarrow s_{t+1}\)</span></li>
+<li><strong>Si</strong> <span class="arithmatex">\(\text{done}\)</span>: <strong>terminar</strong></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p><strong>devolver</strong> <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span></p>
+</div>
+<p><strong>Nota sobre la regularización por entropía:</strong> El término <span class="arithmatex">\(\beta \cdot \nabla_\theta H(\pi_\theta(\cdot|s_t))\)</span> en la actualización del actor es un <strong>bonus de entropía</strong>, donde <span class="arithmatex">\(H(\pi) = -\sum_a \pi(a|s) \log \pi(a|s)\)</span> es la entropía de la política. Maximizar la entropía incentiva que la política <strong>permanezca estocástica</strong> y evita una convergencia prematura a una política determinista subóptima. Se trata de una versión más suave de la exploración <span class="arithmatex">\(\epsilon\)</span>-<em>greedy</em> que usamos en Q-Learning. El coeficiente <span class="arithmatex">\(\beta\)</span> es un hiperparámetro pequeño (p.ej. <span class="arithmatex">\(0{,}01\)</span>).</p>
+<p><strong>Comparación con REINFORCE</strong> </p>
+<p>La tabla siguiente resume las diferencias clave:</p>
 <table>
 <thead>
 <tr>
@@ -871,26 +899,25 @@ b^\ast(s_t) = V_\pi(s_t) = \mathbb{E}_{\pi}\left[G_t \mid s_t\right]\,,
 </tbody>
 </table>
 <p>En la práctica, A2C converge <strong>más rápido y de forma más estable</strong> que REINFORCE porque el crítico TD proporciona una señal de baja varianza y actualizada continuamente, al coste de un pequeño sesgo introducido por el bootstrap.</p>
-<hr>
-<h2 id="57-proximal-policy-optimization-ppo">5.7. Proximal Policy Optimization (PPO)<a class="headerlink" href="#57-proximal-policy-optimization-ppo" title="Permanent link">¶</a></h2>
-<h3 id="571-el-problema-de-las-actualizaciones-grandes">5.7.1. El Problema de las Actualizaciones Grandes<a class="headerlink" href="#571-el-problema-de-las-actualizaciones-grandes" title="Permanent link">¶</a></h3>
+<h2 id="proximal-policy-optimization-ppo">Proximal Policy Optimization (PPO)<a class="headerlink" href="#proximal-policy-optimization-ppo" title="Permanent link">¶</a></h2>
+<h3 id="el-problema-de-las-actualizaciones-grandes">El problema de las actualizaciones grandes<a class="headerlink" href="#el-problema-de-las-actualizaciones-grandes" title="Permanent link">¶</a></h3>
 <p>A2C actualiza la política en cada paso, lo que plantea un problema sutil pero crítico: si un paso de gradiente desplaza <span class="arithmatex">\(\theta\)</span> demasiado, la nueva política <span class="arithmatex">\(\pi_{\theta_\text{new}}\)</span> puede volverse muy diferente de <span class="arithmatex">\(\pi_{\theta_\text{old}}\)</span>. Esto es peligroso por dos razones:</p>
 <ol>
 <li><strong>Olvido catastrófico.</strong> Una actualización grande puede destruir el comportamiento aprendido previamente, enviando al agente a una región del espacio de políticas de la que no puede recuperarse.</li>
 <li><strong>Datos no válidos.</strong> Las estimaciones de ventaja <span class="arithmatex">\(\hat{A}_t\)</span> se calcularon bajo <span class="arithmatex">\(\pi_{\theta_\text{old}}\)</span>. Si la política cambia demasiado, esas estimaciones se vuelven inválidas (los datos ya no son representativos de la nueva política), lo que conduce a actualizaciones sesgadas.</li>
 </ol>
-<p>Esto motiva la idea de los métodos de <strong>región de confianza</strong> (<em>trust region</em>): restringir cada actualización para que la nueva política se mantenga «cerca» de la antigua en un sentido bien definido.</p>
+<p>Esto motiva la idea de los métodos de <strong>región de confianza</strong> (<em>trust region</em>), que consiste en restringir cada actualización para que la nueva política se mantenga cerca de la antigua en un sentido bien definido.</p>
 <p>Una medida natural del cambio de política es el <strong>cociente de probabilidades</strong> (<em>probability ratio</em>):</p>
 <div class="arithmatex">\[
 r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_\text{old}}(a_t \mid s_t)}\,.
 \]</div>
 <p>Cuando <span class="arithmatex">\(r_t(\theta) = 1\)</span>, ambas políticas coinciden en <span class="arithmatex">\(a_t\)</span>. Cuando <span class="arithmatex">\(r_t(\theta) \gg 1\)</span> o <span class="arithmatex">\(r_t(\theta) \ll 1\)</span>, la nueva política asigna probabilidades muy diferentes a la acción tomada.</p>
-<p>El objetivo de gradiente de política «estándar» puede reescribirse utilizando este cociente como:</p>
+<p>El objetivo de gradiente de política estándar puede reescribirse utilizando este cociente como:</p>
 <div class="arithmatex">\[
-J(\theta) = \mathbb{E}_t\!\left[r_t(\theta) \cdot \hat{A}_t\right]\,.
+J(\theta) = \mathbb{E}_t\!\left[r_t(\theta)  \hat{A}_t\right]\,.
 \]</div>
 <p>Sin restricciones, maximizar este objetivo empujaría <span class="arithmatex">\(r_t(\theta)\)</span> hacia el infinito siempre que <span class="arithmatex">\(\hat{A}_t &gt; 0\)</span>, que es la raíz de la inestabilidad.</p>
-<h3 id="572-el-objetivo-con-clipping">5.7.2. El Objetivo con Clipping<a class="headerlink" href="#572-el-objetivo-con-clipping" title="Permanent link">¶</a></h3>
+<h3 id="el-objetivo-con-clipping">El objetivo con <em>clipping</em><a class="headerlink" href="#el-objetivo-con-clipping" title="Permanent link">¶</a></h3>
 <p><strong>Proximal Policy Optimization (PPO)</strong> (Schulman et al., 2017) resuelve esto con una idea simple pero efectiva: <strong>recortar el cociente de probabilidades</strong> (<em>clip</em>) para que las actualizaciones más allá de la región de confianza se ignoren.</p>
 <p>El objetivo PPO con clipping es:</p>
 <div class="arithmatex">\[
@@ -898,7 +925,7 @@ J(\theta) = \mathbb{E}_t\!\left[r_t(\theta) \cdot \hat{A}_t\right]\,.
 J^{\text{CLIP}}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\,\hat{A}_t,\;\; \text{clip}\!\left(r_t(\theta), 1-\epsilon, 1+\epsilon\right)\hat{A}_t\right)\right]
 }
 \]</div>
-<p>donde <span class="arithmatex">\(\epsilon\)</span> es un hiperparámetro pequeño (típicamente <span class="arithmatex">\(0{,}1\)</span> ó <span class="arithmatex">\(0{,}2\)</span>) y <span class="arithmatex">\(\text{clip}(x, l, u) = \max(l, \min(u, x))\)</span>.</p>
+<p>donde <span class="arithmatex">\(\epsilon\)</span> es un hiperparámetro pequeño (típicamente <span class="arithmatex">\(0.1\)</span> ó <span class="arithmatex">\(0.2\)</span>) y <span class="arithmatex">\(\text{clip}(x, l, u) = \max(l, \min(u, x))\)</span>.</p>
 <p>El comportamiento de este objetivo depende del signo de la ventaja:</p>
 <ul>
 <li><strong>Cuando <span class="arithmatex">\(\hat{A}_t &gt; 0\)</span></strong> (la acción fue mejor que el promedio): queremos aumentar <span class="arithmatex">\(r_t(\theta)\)</span>, pero el clip impide que supere <span class="arithmatex">\(1 + \epsilon\)</span>. El <span class="arithmatex">\(\min\)</span> selecciona el valor recortado si <span class="arithmatex">\(r_t &gt; 1 + \epsilon\)</span>.</li>
@@ -920,47 +947,47 @@ J^{\text{CLIP}}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\,\hat{A}_t
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>  └──────────────────────────────► r_t
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>         1-ε   1   1+ε
 </code></pre></div>
-<h3 id="573-ppo-en-la-practica">5.7.3. PPO en la Práctica<a class="headerlink" href="#573-ppo-en-la-practica" title="Permanent link">¶</a></h3>
+<h3 id="ppo-en-la-practica">PPO en la práctica<a class="headerlink" href="#ppo-en-la-practica" title="Permanent link">¶</a></h3>
 <p>PPO recopila un lote de <span class="arithmatex">\(N\)</span> pasos (o episodios) con la política actual y luego realiza <strong>múltiples épocas de actualizaciones por minilotes</strong> sobre ese lote antes de descartarlo. Esto contrasta con A2C, que utiliza cada muestra para una única actualización.</p>
 <p>La pérdida completa de PPO combina tres términos:</p>
 <div class="arithmatex">\[
-\mathcal{L}^{\text{PPO}}(\theta, \phi) = -J^{\text{CLIP}}(\theta) + c_1 \cdot \mathcal{L}^{\text{VF}}(\phi) - c_2 \cdot H(\pi_\theta)\,,
+\mathcal{L}^{\text{PPO}}(\theta, \phi) = -J^{\text{CLIP}}(\theta) + c_1  \mathcal{L}^{\text{VF}}(\phi) - c_2  H(\pi_\theta)\,,
 \]</div>
 <p>donde:
 - <span class="arithmatex">\(J^{\text{CLIP}}(\theta)\)</span>: pérdida de política (se ha de <strong>maximizar</strong>, de ahí el signo menos para descenso por gradiente).
 - <span class="arithmatex">\(\mathcal{L}^{\text{VF}}(\phi) = \mathbb{E}_t[(V_\phi(s_t) - G_t)^2]\)</span>: pérdida de la función de valor (MSE).
 - <span class="arithmatex">\(H(\pi_\theta)\)</span>: bonus de entropía para la exploración.
 - <span class="arithmatex">\(c_1, c_2\)</span>: coeficientes de ponderación.</p>
-<p>````{prf:algorithm} PPO (Proximal Policy Optimization)
-:label: ppo</p>
-<p><strong>Entradas</strong> Parámetro de recorte <span class="arithmatex">\(\epsilon\)</span>, épocas por actualización <span class="arithmatex">\(K_\text{epoch}\)</span>, tamaño de minilote <span class="arithmatex">\(M\)</span>, pasos por rollout <span class="arithmatex">\(N\)</span>, coeficientes <span class="arithmatex">\(c_1\)</span>, <span class="arithmatex">\(c_2\)</span></p>
-<p><strong>Salida</strong> Parámetros de política <span class="arithmatex">\(\theta\)</span>, parámetros de valor <span class="arithmatex">\(\phi\)</span></p>
+<div class="admonition algorithm">
+<p class="admonition-title">Algoritmo: PPO (Proximal Policy Optimization)</p>
+<p><strong>Entradas:</strong> Parámetro de recorte <span class="arithmatex">\(\epsilon\)</span>, épocas por actualización <span class="arithmatex">\(K_\text{epoch}\)</span>, tamaño de minilote <span class="arithmatex">\(M\)</span>, pasos por rollout <span class="arithmatex">\(N\)</span>, coeficientes <span class="arithmatex">\(c_1\)</span>, <span class="arithmatex">\(c_2\)</span></p>
+<p><strong>Salida:</strong> Parámetros de política <span class="arithmatex">\(\theta\)</span>, parámetros de valor <span class="arithmatex">\(\phi\)</span></p>
 <ol>
 <li><strong>Inicializar</strong> <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span> aleatoriamente</li>
-<li><strong>repetir</strong> hasta convergencia:</li>
+<li><strong>Repetir</strong> hasta convergencia:<ol>
 <li><strong>Fase de rollout</strong>: recopilar <span class="arithmatex">\(N\)</span> pasos <span class="arithmatex">\((s_t, a_t, r_{t+1}, s_{t+1})\)</span> siguiendo <span class="arithmatex">\(\pi_\theta\)</span></li>
 <li>Calcular estimaciones de ventaja <span class="arithmatex">\(\hat{A}_t\)</span> usando GAE (o errores TD)</li>
 <li>Calcular retornos <span class="arithmatex">\(\hat{G}_t = \hat{A}_t + V_\phi(s_t)\)</span></li>
 <li><span class="arithmatex">\(\theta_\text{old} \leftarrow \theta\)</span></li>
-<li><strong>para</strong> época <span class="arithmatex">\(= 1, \ldots, K_\text{epoch}\)</span>:<ol>
-<li><strong>para</strong> cada minilote de tamaño <span class="arithmatex">\(M\)</span> del rollout:<ol>
+<li><strong>Para</strong> cada época <span class="arithmatex">\(= 1, \ldots, K_\text{epoch}\)</span>:<ol>
+<li><strong>Para</strong> cada minilote de tamaño <span class="arithmatex">\(M\)</span> del rollout:</li>
 <li>Calcular <span class="arithmatex">\(r_t(\theta) = \pi_\theta(a_t|s_t) / \pi_{\theta_\text{old}}(a_t|s_t)\)</span></li>
 <li><span class="arithmatex">\(\mathcal{L} = -\mathbb{E}\left[\min(r_t \hat{A}_t, \text{clip}(r_t, 1\!-\!\epsilon, 1\!+\!\epsilon)\hat{A}_t)\right]\)</span>
-                <span class="arithmatex">\(+ c_1 \cdot \mathbb{E}[(V_\phi(s_t) - \hat{G}_t)^2]\)</span>
-                <span class="arithmatex">\(- c_2 \cdot \mathbb{E}[H(\pi_\theta(\cdot|s_t))]\)</span></li>
+                  <span class="arithmatex">\(+ c_1 \cdot \mathbb{E}[(V_\phi(s_t) - \hat{G}_t)^2]\)</span>
+                  <span class="arithmatex">\(- c_2 \cdot \mathbb{E}[H(\pi_\theta(\cdot|s_t))]\)</span></li>
 <li>Actualizar <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span> por descenso de gradiente sobre <span class="arithmatex">\(\mathcal{L}\)</span></li>
 </ol>
 </li>
 </ol>
 </li>
 </ol>
-<p><strong>devolver</strong> <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span>
-````</p>
+<p><strong>devolver</strong> <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span></p>
+</div>
 <p><strong>¿Por qué PPO es tan ampliamente utilizado?</strong></p>
 <p>PPO consigue un excelente equilibrio entre eficiencia de muestras y estabilidad. A diferencia de métodos de región de confianza anteriores (p.ej. TRPO), no requiere optimización de segundo orden y es sencillo de implementar. Se ha convertido en el <strong>estándar de facto</strong> en RL profundo para control continuo, robótica y — de manera especialmente relevante — en el <strong>Aprendizaje por Refuerzo a partir de Retroalimentación Humana (RLHF)</strong>, la técnica utilizada para ajustar los grandes modelos de lenguaje como ChatGPT, Claude o Gemini para que sigan instrucciones y se alineen con las preferencias humanas.</p>
 <hr>
 <h2 id="resumen">Resumen<a class="headerlink" href="#resumen" title="Permanent link">¶</a></h2>
-<p>La siguiente tabla sitúa todos los algoritmos de este tema en el contexto del panorama general del RL visto en el curso:</p>
+<p>La siguiente tabla sitúa todos los algoritmos de Aprendizaje por Refuerzo vistos tanto en la asignatura de Agentes Inteligentes como en Aprendizaje Avanzado:</p>
 <table>
 <thead>
 <tr>
@@ -1019,7 +1046,7 @@ J^{\text{CLIP}}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\,\hat{A}_t
 <td>✓</td>
 <td>✗</td>
 <td>—</td>
-<td>$\pi_\theta(a</td>
+<td><span class="arithmatex">\(\pi_\theta(a \mid s)\)</span></td>
 </tr>
 <tr>
 <td>REINFORCE+B</td>
@@ -1027,7 +1054,7 @@ J^{\text{CLIP}}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\,\hat{A}_t
 <td>✓</td>
 <td>✗</td>
 <td><span class="arithmatex">\(V_\phi(s)\)</span></td>
-<td>$\pi_\theta(a</td>
+<td><span class="arithmatex">\(\pi_\theta(a \mid s)\)</span></td>
 </tr>
 <tr>
 <td>A2C</td>
@@ -1035,7 +1062,7 @@ J^{\text{CLIP}}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\,\hat{A}_t
 <td>✓</td>
 <td>✓</td>
 <td><span class="arithmatex">\(V_\phi(s)\)</span></td>
-<td>$\pi_\theta(a</td>
+<td><span class="arithmatex">\(\pi_\theta(a \mid s)\)</span></td>
 </tr>
 <tr>
 <td>PPO</td>
@@ -1043,11 +1070,11 @@ J^{\text{CLIP}}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\,\hat{A}_t
 <td>✓</td>
 <td>✓</td>
 <td><span class="arithmatex">\(V_\phi(s)\)</span></td>
-<td>$\pi_\theta(a</td>
+<td><span class="arithmatex">\(\pi_\theta(a\mid s)\)</span></td>
 </tr>
 </tbody>
 </table>
-<p>La idea fundamental de este tema es que <strong>optimizar la política directamente</strong> — en lugar de derivarla de una función de valor — abre la puerta a los espacios de acción continuos, a las políticas óptimas estocásticas y a las modernas técnicas de alineamiento que sustentan los grandes modelos de lenguaje actuales.</p>
+<p>La idea fundamental de este tema es que <strong>optimizar la política directamente</strong>, en lugar de derivarla de una función de valor, abre la puerta a los espacios de acción continuos, a las políticas óptimas estocásticas y a las nuevas técnicas de alineamiento que dan soporte a los grandes modelos de lenguaje actuales.</p>
 <hr>
 <p><em>Referencias:</em>
 - <em>Williams, R.J. (1992). Simple statistical gradient-following algorithms for connectionist reinforcement learning. Machine Learning.</em>
@@ -1055,6 +1082,17 @@ J^{\text{CLIP}}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\,\hat{A}_t
 - <em>Mnih, V. et al. (2016). Asynchronous methods for deep reinforcement learning. ICML.</em>
 - <em>Schulman, J. et al. (2017). Proximal policy optimization algorithms. arXiv:1707.06347.</em>
 - <em>Sutton, R.S. &amp; Barto, A.G. (2018). Reinforcement Learning: An Introduction (2ª ed.). MIT Press.</em></p>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:sutton2018reinforcement">
+<p>Sutton, R. S., &amp; Barto, A. G. (2018). <em>Reinforcement learning: An introduction</em> (2nd ed.). MIT Press.&nbsp;<a class="footnote-backref" href="#fnref:sutton2018reinforcement" title="Jump back to footnote 1 in the text">↩</a></p>
+</li>
+<li id="fn:mnih2016asynchronous">
+<p>Mnih, V., Badia, A. P., Mirza, M., Graves, A., Lillicrap, T., Harley, T., Silver, D., &amp; Kavukcuoglu, K. (2016). Asynchronous methods for deep reinforcement learning. <em>Proceedings of the 33rd International Conference on Machine Learning</em>, <em>48</em>, 1928--1937.&nbsp;<a class="footnote-backref" href="#fnref:mnih2016asynchronous" title="Jump back to footnote 2 in the text">↩</a></p>
+</li>
+</ol>
+</div>
 
 
 

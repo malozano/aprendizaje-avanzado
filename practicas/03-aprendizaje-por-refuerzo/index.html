@@ -1,0 +1,1270 @@
+<!DOCTYPE html><html lang="es" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apuntes de la asignatura Aprendizaje Avanzado del Grado en Ingeniería en Inteligencia Artificial de la Universidad de Alicante">
+      
+      
+        <meta name="author" content="Miguel Angel Lozano">
+      
+      
+        <link rel="canonical" href="https://malozano.github.io/aprendizaje-avanzado/practicas/03-aprendizaje-por-refuerzo/">
+      
+      
+        <link rel="prev" href="../02-no-supervisado/">
+      
+      
+        <link rel="next" href="../../14-proyecto-final/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.1">
+    
+    
+      
+        <title>3. Aprendizaje por refuerzo - Aprendizaje Avanzado</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.402914a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#practica-3-aprendizaje-por-refuerzo" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Aprendizaje Avanzado" class="md-header__button md-logo" aria-label="Aprendizaje Avanzado" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Aprendizaje Avanzado
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3. Aprendizaje por refuerzo
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo" aria-label="Modo oscuro" type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Modo oscuro" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="white" data-md-color-accent="blue" aria-label="Modo claro" type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Modo claro" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Aprendizaje Avanzado" class="md-nav__button md-logo" aria-label="Aprendizaje Avanzado" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Aprendizaje Avanzado
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Introducción
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Bloque I. Aprendizaje supervisado
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Bloque I. Aprendizaje supervisado
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01-modelos-no-param/" class="md-nav__link">
+        1. Modelos paramétricos y no paramétricos. Logistic Regression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02-svm/" class="md-nav__link">
+        2. SVM
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03-arboles-decision/" class="md-nav__link">
+        3. Árboles de decisión
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04-random-forest/" class="md-nav__link">
+        4. Métodos de ensemble. Random Forest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05-adaboost/" class="md-nav__link">
+        5. Boosting. Adaboost
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06-gradient-boosting/" class="md-nav__link">
+        6. Gradient Boosting
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Bloque II. Aprendizaje no supervisado
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Bloque II. Aprendizaje no supervisado
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07-clustering/" class="md-nav__link">
+        7. Clustering jerárquico y espectral
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08-dbscan/" class="md-nav__link">
+        8. Métodos basados en densidad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09-gmm/" class="md-nav__link">
+        9. GMM. Detección de anomalías
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Bloque III. Aprendizaje por refuerzo
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Bloque III. Aprendizaje por refuerzo
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10-rl-policy/" class="md-nav__link">
+        10. Gradiente de Política. REINFORCE
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Prácticas
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Prácticas
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-datos-y-visualizacion/" class="md-nav__link">
+        0. Datos y visualización
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-aprendizaje-supervisado/" class="md-nav__link">
+        1. Aprendizaje supervisado
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-no-supervisado/" class="md-nav__link">
+        2. Aprendizaje no supervisado
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          3. Aprendizaje por refuerzo
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        3. Aprendizaje por refuerzo
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduccion" class="md-nav__link">
+    Introducción
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#descripcion-del-problema-entorno-lunarlander-v3" class="md-nav__link">
+    Descripción del Problema: Entorno LunarLander-v3
+  </a>
+  
+    <nav class="md-nav" aria-label="Descripción del Problema: Entorno LunarLander-v3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proceso-de-decision-de-markov" class="md-nav__link">
+    Proceso de Decisión de Markov
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interaccion-agente-entorno" class="md-nav__link">
+    Interacción Agente-Entorno
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#politica-pi" class="md-nav__link">
+    Política (\(\pi\))
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-1-politica-aleatoria" class="md-nav__link">
+    Ejercicio 1: Política Aleatoria
+  </a>
+  
+    <nav class="md-nav" aria-label="Ejercicio 1: Política Aleatoria">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos" class="md-nav__link">
+    Objetivos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tareas-a-realizar" class="md-nav__link">
+    Tareas a Realizar
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creacion-de-los-gifs" class="md-nav__link">
+    Creación de los GIFs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analisis-de-resultados" class="md-nav__link">
+    Análisis de Resultados
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preparacion-del-entorno" class="md-nav__link">
+    Preparación del Entorno
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-2-reinforce" class="md-nav__link">
+    Ejercicio 2: REINFORCE
+  </a>
+  
+    <nav class="md-nav" aria-label="Ejercicio 2: REINFORCE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos_1" class="md-nav__link">
+    Objetivos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-arquitectura-del-agente" class="md-nav__link">
+    La Arquitectura del Agente
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-regla-de-actualizacion-de-reinforce" class="md-nav__link">
+    La Regla de Actualización de REINFORCE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tareas-a-realizar_1" class="md-nav__link">
+    Tareas a Realizar
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tarea-opcional" class="md-nav__link">
+    Tarea Opcional
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejercicio-3-reinforce-con-linea-base" class="md-nav__link">
+    Ejercicio 3: REINFORCE con Línea Base
+  </a>
+  
+    <nav class="md-nav" aria-label="Ejercicio 3: REINFORCE con Línea Base">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#objetivos_2" class="md-nav__link">
+    Objetivos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-arquitectura-del-critico" class="md-nav__link">
+    La Arquitectura del Crítico
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pseudocodigo-de-reinforce-con-linea-base" class="md-nav__link">
+    Pseudocódigo de REINFORCE con Línea Base
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tareas-a-realizar_2" class="md-nav__link">
+    Tareas a Realizar
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tarea-opcional_1" class="md-nav__link">
+    Tarea Opcional
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6">
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Proyecto final
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Proyecto final
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../14-proyecto-final/" class="md-nav__link">
+        Aprendizaje Automático en problemas del mundo real
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="practica-3-aprendizaje-por-refuerzo">Práctica 3: Aprendizaje por Refuerzo<a class="headerlink" href="#practica-3-aprendizaje-por-refuerzo" title="Permanent link">¶</a></h1>
+<h2 id="introduccion">Introducción<a class="headerlink" href="#introduccion" title="Permanent link">¶</a></h2>
+<p>En esta práctica, profundizaremos en el campo del <strong>Aprendizaje por Refuerzo (RL)</strong>, una rama del Aprendizaje Automático donde un <strong>agente</strong> aprende a tomar decisiones interactuando continuamente con un <strong>entorno</strong>. A diferencia del Aprendizaje Supervisado, donde el modelo aprende a partir de un conjunto de datos estático y etiquetado previamente, un agente de RL descubre qué acciones maximizan una serie de recompensas a través de un proceso de prueba y error.</p>
+<p>El objetivo fundamental del agente es aprender una <strong>política</strong> óptima <span class="arithmatex">\(\pi\)</span>—un mapeo de estados a acciones—que maximice la suma de <strong>recompensas</strong> descontadas (retorno) a lo largo del tiempo.</p>
+<h2 id="descripcion-del-problema-entorno-lunarlander-v3">Descripción del Problema: Entorno LunarLander-v3<a class="headerlink" href="#descripcion-del-problema-entorno-lunarlander-v3" title="Permanent link">¶</a></h2>
+<p>Para esta práctica, nos centraremos en el entorno <strong>LunarLander-v3</strong>, un problema clásico de optimización de trayectorias disponible en la librería <a href="https://gymnasium.farama.org/environments/box2d/lunar_lander/">Gymnasium</a>.</p>
+<p>En este escenario, controlamos un módulo de aterrizaje lunar. El objetivo es pilotar la nave para que aterrice de forma segura y suave en una plataforma de aterrizaje designada, que siempre se encuentra en las coordenadas <span class="arithmatex">\((0, 0)\)</span>. El combustible es infinito, por lo que el agente tiene libertad para aprender a volar, estabilizarse y finalmente aterrizar en su primer intento. Se trata de un entorno desafiante debido a la inercia de la nave, la gravedad y las posibles turbulencias.</p>
+<h3 id="proceso-de-decision-de-markov">Proceso de Decisión de Markov<a class="headerlink" href="#proceso-de-decision-de-markov" title="Permanent link">¶</a></h3>
+<p>Para resolver este problema utilizando algoritmos de Aprendizaje por Refuerzo, primero debemos formalizarlo como un <strong>Proceso de Decisión de Markov (MDP)</strong>, definido por la tupla <span class="arithmatex">\((S, A, P, R)\)</span>:</p>
+<p><strong>Espacio de Estados (<span class="arithmatex">\(S\)</span>)</strong></p>
+<p>El estado u observación es un <strong>vector continuo formado por 8 valores</strong> que describe la cinemática de la nave y el contacto con el suelo. Un estado está compuesto por:</p>
+<ul>
+<li>Posición de la nave en los ejes <span class="arithmatex">\(X\)</span> e <span class="arithmatex">\(Y\)</span>.</li>
+<li>Velocidades lineales en <span class="arithmatex">\(X\)</span> e <span class="arithmatex">\(Y\)</span>.</li>
+<li>Ángulo u orientación de la nave.</li>
+<li>Velocidad angular.</li>
+<li>Dos variables <em>booleanas</em> que indican si la pata izquierda y/o derecha están en contacto con el suelo.</li>
+</ul>
+<p><strong>Espacio de Acciones (<span class="arithmatex">\(A\)</span>)</strong></p>
+<p>El espacio de acciones es discreto, de acuerdo con el principio del máximo de Pontryagin, que sugiere que en este tipo de problemas es óptimo encender el motor al máximo o apagarlo por completo. En cada paso de tiempo, el agente puede ejecutar una de <strong>4 posibles acciones</strong>:</p>
+<ul>
+<li><span class="arithmatex">\(a = 0\)</span>: No hacer nada.</li>
+<li><span class="arithmatex">\(a = 1\)</span>: Encender el motor de orientación izquierdo.</li>
+<li><span class="arithmatex">\(a = 2\)</span>: Encender el motor principal.</li>
+<li><span class="arithmatex">\(a = 3\)</span>: Encender el motor de orientación derecho.</li>
+</ul>
+<p><strong>Función de Recompensa (<span class="arithmatex">\(R\)</span>)</strong></p>
+<p>La función de recompensa <span class="arithmatex">\(R(s, a)\)</span> está diseñada para guiar a la nave hacia un aterrizaje seguro:</p>
+<ul>
+<li>Se otorgan <strong>recompensas positivas</strong> por acercarse a la plataforma de aterrizaje y por moverse lentamente al hacerlo.</li>
+<li>Se otorgan <strong>recompensas negativas</strong> por una mayor inclinación de la nave (ángulo no horizontal), por alejarse de la plataforma de aterrizaje y por moverse rápidamente al hacerlo.</li>
+<li>Para fomentar la eficiencia, se penaliza el uso de los motores laterales (<strong>-0.03</strong> puntos) y del motor principal (<strong>-0.3</strong> puntos).</li>
+<li>El contacto de cada pata con el suelo otorga <strong>+10</strong> puntos. Una vez producido el contacto, la pérdida del mismo otorga <strong>-10</strong> puntos.</li>
+<li>El episodio termina otorgando <strong>+100</strong> puntos si la nave aterriza de forma segura o <strong>-100</strong> puntos si se estrella.</li>
+</ul>
+<p>Un episodio se considera oficialmente "resuelto" cuando el agente logra una puntuación igual o superior a <strong>200</strong> puntos.</p>
+<p><strong>Función de Transición (<span class="arithmatex">\(P\)</span>)</strong></p>
+<p>La dinámica del entorno, <span class="arithmatex">\(P(s^{\prime} | s, a)\)</span>, viene dictada de forma interna por el motor de físicas bidimensionales <strong>Box2D</strong>. Aunque las leyes físicas son <strong>deterministas</strong>, el entorno introduce <strong>estocasticidad</strong> mediante perturbaciones iniciales aleatorias (fuerzas) al comienzo de cada episodio, lo que obliga al agente a generalizar su política en lugar de memorizar una única trayectoria.</p>
+<h3 id="interaccion-agente-entorno">Interacción Agente-Entorno<a class="headerlink" href="#interaccion-agente-entorno" title="Permanent link">¶</a></h3>
+<p>A continuación, se presenta el pseudocódigo que ilustra el bucle básico de interacción entre nuestro agente y el entorno de Gymnasium. Este bucle será la columna vertebral de vuestra implementación, independientemente de si usáis una política aleatoria o basada en gradientes.</p>
+<div class="admonition example">
+<p class="admonition-title">Algoritmo: Bucle de Interacción Agente-Entorno</p>
+<ol>
+<li>Inicializar el entorno <span class="arithmatex">\(Env\)</span>.</li>
+<li>Inicializar la política <span class="arithmatex">\(\pi\)</span> del agente.</li>
+<li><strong>Para</strong> cada episodio:<ol>
+<li>Reiniciar el entorno <span class="arithmatex">\(Env\)</span> y obtener el estado inicial <span class="arithmatex">\(s_{0}\)</span>.</li>
+<li><strong>Para</strong> cada paso <span class="arithmatex">\(t\)</span> del episodio:<ol>
+<li>Seleccionar la acción <span class="arithmatex">\(a_t\)</span> en función de la política <span class="arithmatex">\(\pi\)</span>.</li>
+<li>Ejecutar la acción <span class="arithmatex">\(a_t\)</span> en el entorno <span class="arithmatex">\(Env\)</span>.</li>
+<li>Observar la recompensa <span class="arithmatex">\(r_t\)</span> y el nuevo estado <span class="arithmatex">\(s_{t + 1}\)</span>.</li>
+<li>(Opcional)   Actualizar <span class="arithmatex">\(\pi\)</span> en función de <span class="arithmatex">\((s_t, a_t, r_t, s_{t + 1})\)</span>.</li>
+<li><span class="arithmatex">\(s_t \leftarrow s_{t + 1}\)</span>.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<h3 id="politica-pi">Política (<span class="arithmatex">\(\pi\)</span>)<a class="headerlink" href="#politica-pi" title="Permanent link">¶</a></h3>
+<p>Para que podáis observar el contraste entre un agente sin conocimiento del entorno y uno plenamente entrenado, a continuación os mostramos dos ejecuciones de prueba:</p>
+<p><strong>Agente No Entrenado</strong></p>
+<p>Este agente toma decisiones de forma aleatoria. Un agente con este comportamiento suele malgastar combustible y, normalmente, termina estrellándose o saliéndose de los límites de la pantalla.</p>
+<figure>
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/Practice3/random_policy.gif" data-desc-position="bottom"><img align="center" alt="RandomWalk" src="../images/Practice3/random_policy.gif" width="500"></a>
+<br>
+<figcaption>Agente que selecciona acciones aleatorias sin ningún tipo de entrenamiento previo.</figcaption>
+</figure>
+<p><strong>Agente Entrenado</strong></p>
+<p>Tras un proceso de entrenamiento guiado por algoritmos de RL, el agente aprende a encender los motores direccionales en los momentos precisos para contrarrestar la inercia, estabilizar su caída y aterrizar de forma segura entre las balizas.</p>
+<figure>
+  <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/Practice3/learned_policy.gif" data-desc-position="bottom"><img align="center" alt="RLBehavior" src="../images/Practice3/learned_policy.gif" width="500"></a>
+<br>
+<figcaption>Agente que ha aprendido a tomar decisiones inteligentes mediante Aprendizaje por Refuerzo.</figcaption>
+</figure>
+<h2 id="ejercicio-1-politica-aleatoria">Ejercicio 1: Política Aleatoria<a class="headerlink" href="#ejercicio-1-politica-aleatoria" title="Permanent link">¶</a></h2>
+<h3 id="objetivos">Objetivos<a class="headerlink" href="#objetivos" title="Permanent link">¶</a></h3>
+<p>En este primer ejercicio, deberéis implementar el bucle de interacción básico donde el agente selecciona acciones de forma puramente aleatoria en el entorno <strong>LunarLander-v3</strong>. Evaluar el rendimiento de un agente aleatorio nos permitirá cuantificar la dificultad del entorno y valorar objetivamente la mejora que aportan los métodos de aprendizaje por refuerzo.</p>
+<h3 id="tareas-a-realizar">Tareas a Realizar<a class="headerlink" href="#tareas-a-realizar" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p><strong>Implementación del Bucle de Interacción</strong>: Desarrollad un <em>script</em> en Python que ejecute <strong>100 episodios consecutivos</strong> de evaluación. En cada paso de tiempo, el agente debe seleccionar una acción utilizando <code>env.action_space.sample()</code>.</p>
+</li>
+<li>
+<p><strong>Recogida de Métricas</strong>: Durante la ejecución de estos 100 episodios, deberéis almacenar los siguientes datos:</p>
+<ul>
+<li><strong>Recompensa Acumulada</strong>: La suma de todas las recompensas obtenidas por el agente desde el inicio hasta el final de cada episodio.</li>
+<li><strong>Duración del Episodio</strong>: El número total de pasos de tiempo que el agente sobrevive o tarda en alcanzar un estado terminal.</li>
+</ul>
+</li>
+<li>
+<p><strong>Visualización de los Resultados</strong>: Utilizando la librería <strong>Matplotlib</strong>, generad dos gráficas que muestren la evolución de estas métricas a lo largo de los 100 episodios y calculad el <strong>valor medio</strong> y la <strong>desviación estándar</strong> para cada métrica.</p>
+</li>
+<li>
+<p><strong>Visualización de la Política</strong>: Para ilustrar el comportamiento del agente, deberéis renderizar uno de los episodios y guardarlo como un archivo <strong>GIF</strong>. Para ello, aseguraos de renderizar el entorno con el modo <code>rgb_array</code> y de almacenar los <em>frames</em> resultantes dentro del bucle de interacción agente-entorno.</p>
+</li>
+</ol>
+<h3 id="creacion-de-los-gifs">Creación de los GIFs<a class="headerlink" href="#creacion-de-los-gifs" title="Permanent link">¶</a></h3>
+<p>Para facilitar la exportación de vuestros resultados visuales, utilizad la siguiente función. Esta permite procesar la lista de <em>frames</em> (imágenes RGB) capturadas durante el renderizado del entorno:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">moviepy</span> <span class="k">as</span> <span class="nn">mp</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">def</span> <span class="nf">save_gif</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">fps</span> <span class="o">=</span> <span class="mi">30</span><span class="p">):</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="sd">"""</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="sd">    Crea y serializa un archivo GIF a partir de un conjunto de frames RGB.</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="sd">    """</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="n">clip</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">ImageSequenceClip</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">fps</span> <span class="o">=</span> <span class="n">fps</span><span class="p">)</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="n">clip</span><span class="o">.</span><span class="n">write_gif</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">fps</span> <span class="o">=</span> <span class="n">fps</span><span class="p">)</span> 
+</code></pre></div>
+<h3 id="analisis-de-resultados">Análisis de Resultados<a class="headerlink" href="#analisis-de-resultados" title="Permanent link">¶</a></h3>
+<p>Una vez completada la ejecución, incluid en vuestra memoria un breve análisis respondiendo a las siguientes cuestiones:</p>
+<ul>
+<li>
+<p>¿Por qué la política aleatoria es ineficaz en el entorno <code>LunarLander-v3</code>?</p>
+</li>
+<li>
+<p>Observando el GIF, ¿qué comportamientos erráticos impiden que el agente aterrice correctamente?</p>
+</li>
+<li>
+<p>¿Cuál es la recompensa media obtenida y qué distancia existe respecto a los 200 puntos necesarios para considerar el entorno como "resuelto"?</p>
+</li>
+</ul>
+<h3 id="preparacion-del-entorno">Preparación del Entorno<a class="headerlink" href="#preparacion-del-entorno" title="Permanent link">¶</a></h3>
+<p>Para poder realizar esta práctica, necesitaréis instalar las librerías básicas de <strong>Gymnasium</strong> junto con las dependencias de <strong>Box2D</strong> y las herramientas de visualización. Ejecutad los siguientes comandos en vuestro terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"gymnasium[box2d]"</span><span class="w"> </span>numpy<span class="w"> </span>matplotlib<span class="w"> </span>moviepy
+</code></pre></div>
+<h2 id="ejercicio-2-reinforce">Ejercicio 2: REINFORCE<a class="headerlink" href="#ejercicio-2-reinforce" title="Permanent link">¶</a></h2>
+<h3 id="objetivos_1">Objetivos<a class="headerlink" href="#objetivos_1" title="Permanent link">¶</a></h3>
+<p>En este segundo ejercicio, deberéis implementar el algoritmo <strong>REINFORCE</strong>, un método <em>on-policy</em> basado en <strong>Gradientes de Políticas</strong> fundamental en Aprendizaje por Refuerzo. En este caso, representaremos a nuestro agente (la política <span class="arithmatex">\(\pi\)</span>) directamente como una <strong>Red Neuronal</strong>. Aquí es donde entra en juego <a href="https://pytorch.org">PyTorch</a>, uno de los <em>frameworks</em> de Aprendizaje Profundo más utilizados en investigación y la industria por su facilidad para calcular gradientes de forma dinámica.</p>
+<p>Para instalar PyTorch en vuestro entorno virtual, ejecutad el siguiente comando <code>pip</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pip<span class="w"> </span>install<span class="w"> </span>torch
+</code></pre></div>
+<h3 id="la-arquitectura-del-agente">La Arquitectura del Agente<a class="headerlink" href="#la-arquitectura-del-agente" title="Permanent link">¶</a></h3>
+<p>A continuación, se os proporciona la clase base en PyTorch que representará el "cerebro" de vuestro agente:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span> <span class="nn">torch</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="k">class</span> <span class="nc">PolicyNetwork</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">n_actions</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">):</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>        <span class="nb">super</span><span class="p">(</span><span class="n">PolicyNetwork</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_shape</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">)</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_actions</span><span class="p">)</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>        <span class="c1"># Creación de una distribución categórica a partir de los logits</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>        <span class="n">distribution</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">logits</span> <span class="o">=</span> <span class="n">x</span><span class="p">)</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>        <span class="c1"># Muestreo de la acción y obtención de logaritmos y entropía</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>        <span class="n">action</span> <span class="o">=</span> <span class="n">distribution</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>        <span class="n">entropy</span> <span class="o">=</span> <span class="n">distribution</span><span class="o">.</span><span class="n">entropy</span><span class="p">()</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>        <span class="n">log_prob</span> <span class="o">=</span> <span class="n">distribution</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>        <span class="k">return</span> <span class="n">action</span><span class="p">,</span> <span class="n">log_prob</span><span class="p">,</span> <span class="n">entropy</span>
+</code></pre></div>
+<p><strong>Explicación de la Arquitectura</strong></p>
+<ul>
+<li><strong>Capas Completamente Conectadas</strong>: La red consta de un Perceptrón Multicapa (MLP) con dos capas ocultas y una capa de salida. <code>input_shape</code> recibirá los 8 valores del estado, y la última capa generará salidas (logits) para las 4 posibles acciones.</li>
+<li><strong>Activaciones</strong>: Se utiliza la Unidad Lineal Rectificada (ReLU) para llevar a cabo transformaciones no lineales, permitiendo a la red aprender mapeos complejos entre los estados y las acciones.</li>
+<li><strong>Distribución Categórica</strong>: A diferencia del Aprendizaje Supervisado clásico, el agente debe explorar. Por ello, la salida de la red define una distribución de probabilidad sobre las acciones. El agente utiliza esta distribución para muestrear (<code>sample()</code>) una acción. Además, la red devuelve el logaritmo de la probabilidad (<code>log_prob</code>), un valor estrictamente necesario para nuestra función de pérdida.</li>
+</ul>
+<h3 id="la-regla-de-actualizacion-de-reinforce">La Regla de Actualización de REINFORCE<a class="headerlink" href="#la-regla-de-actualizacion-de-reinforce" title="Permanent link">¶</a></h3>
+<p>El algoritmo <strong>REINFORCE</strong> actualiza los parámetros de la Red Neuronal <span class="arithmatex">\(\theta\)</span> en la dirección que maximiza el retorno esperado.</p>
+<p>La regla de actualización basada en el descenso del gradiente estocástico (ascenso en este caso, ya que queremos maximizar la recompensa) se define matemáticamente como:</p>
+<div class="arithmatex">\[
+\theta \leftarrow \theta + \alpha \gamma^t G_t \nabla_\theta \log \pi(a_t | s_t; \theta).
+\]</div>
+<p>Donde:</p>
+<ul>
+<li><span class="arithmatex">\(\theta\)</span>: Son los pesos y sesgos de la Red Neuronal (<code>PolicyNetwork</code>).</li>
+<li><span class="arithmatex">\(\alpha\)</span>: Es la <strong>Tasa de Aprendizaje</strong> del optimizador.</li>
+<li><span class="arithmatex">\(\gamma\)</span>: Es el <strong>Factor de Descuento</strong>, utilizado para cuantificar la importancia de las recompensas futuras.</li>
+<li><span class="arithmatex">\(G_t\)</span>: Es el retorno descontado acumulado desde el instante <span class="arithmatex">\(t\)</span> hasta el final del episodio (<span class="arithmatex">\(G_t = \sum_{k=t}^{T} \gamma^{k-t} r_k\)</span>). Actúa como un factor de escala: si la trayectoria fue buena (<span class="arithmatex">\(G_t &gt; 0\)</span>), la probabilidad de la acción aumentará. Si fue mala (<span class="arithmatex">\(G_t &lt; 0\)</span>), disminuirá.</li>
+<li><span class="arithmatex">\(\nabla_\theta \log \pi(a_t | s_t; \theta)\)</span>: Es el gradiente del logaritmo de la probabilidad de haber tomado la acción <span class="arithmatex">\(a_t\)</span> en el estado <span class="arithmatex">\(s_t\)</span>. Representa la dirección en la que hay que modificar los pesos para aumentar la probabilidad de tomar esa acción en el futuro.</li>
+</ul>
+<h3 id="tareas-a-realizar_1">Tareas a Realizar<a class="headerlink" href="#tareas-a-realizar_1" title="Permanent link">¶</a></h3>
+<p>En este ejercicio, deberéis dividir vuestra implementación en dos fases claramente diferenciadas:</p>
+<p><strong>Fase A: Entrenamiento</strong></p>
+<p>Deberéis implementar el bucle principal de entrenamiento del algoritmo <strong>REINFORCE</strong> puro a lo largo de <strong>1000 episodios</strong> en el entorno <strong>LunarLander-v3</strong>.</p>
+<ul>
+<li>
+<p><strong>Hiperparámetros</strong>: El éxito del Aprendizaje por Refuerzo Profundo depende en gran medida de los hiperparámetros. Deberéis realizar pruebas empíricas para determinar y fijar la <strong>Tasa de Aprendizaje</strong> (<span class="arithmatex">\(\alpha\)</span>), el <strong>Factor de Descuento</strong> (<span class="arithmatex">\(\gamma\)</span>) y el <strong>número de neuronas ocultas</strong> (<code>n_hidden</code>) de la red neuronal.</p>
+</li>
+<li>
+<p><strong>Optimizador</strong>: La elección del optimizador neuronal en PyTorch es crucial. Debéis instanciar un optimizador apropiado (por ejemplo, Adam o SGD).</p>
+</li>
+<li>
+<p><strong>Justificación</strong>: En la memoria, justificad exhaustivamente la elección de los hiperparámetros y del optimizador. ¿Qué ocurre si la tasa de aprendizaje es demasiado alta? ¿Y si <span class="arithmatex">\(\gamma\)</span> es cercano a 0?</p>
+</li>
+<li>
+<p><strong>Calidad del Código</strong>: Todo el proceso de cálculo de retornos descontados, la construcción de la función de pérdida y el paso de optimización (retropropagación) debe estar <strong>debidamente comentado</strong> para demostrar que comprendéis la mecánica interna del algoritmo.</p>
+</li>
+<li>
+<p><strong>Visualización del Progreso</strong>: Utilizando la librería Matplotlib, generad dos gráficas que muestren la evolución de la <strong>recompensa acumulada</strong> y el <strong>número total de pasos de tiempo</strong> a lo largo de los 1000 episodios de entrenamiento y calculad el <strong>valor medio</strong> y la <strong>desviación estándar</strong> para cada métrica.</p>
+</li>
+</ul>
+<p><strong>Fase B: Evaluación</strong></p>
+<p>Una vez que el modelo esté entrenado, evaluaréis sus pesos finales a lo largo de <strong>100 episodios</strong>.</p>
+<ul>
+<li>
+<p><strong>Métricas y Gráficas</strong>: Al igual que en el primer ejercicio, debéis generar gráficas con Matplotlib mostrando la <strong>recompensa acumulada</strong> y la <strong>duración</strong> (pasos de tiempo) de cada episodio de evaluación.</p>
+</li>
+<li>
+<p><strong>Análisis Visual y Estadístico</strong>: Generad un nuevo <strong>GIF</strong> con un episodio completo guiado por la red neuronal entrenada. En la memoria, comparad rigurosamente estos resultados con los obtenidos mediante fuerza bruta en el Ejercicio 1. Discutid cómo el gradiente de la política ha transformado un comportamiento aleatorio en uno sistemático e inteligente.</p>
+</li>
+</ul>
+<h3 id="tarea-opcional">Tarea Opcional<a class="headerlink" href="#tarea-opcional" title="Permanent link">¶</a></h3>
+<p>La versión <em>vanilla</em> de <strong>REINFORCE</strong> que implementaréis en la parte obligatoria suele sufrir de <strong>alta varianza</strong> durante el entrenamiento, lo que provoca curvas de aprendizaje inestables. Para obtener una puntuación extra, podéis implementar una de (o ambas) las siguientes mejoras en el algoritmo básico:</p>
+<ol>
+<li>
+<p><strong>Normalización de Retornos</strong>: Antes de multiplicar el logaritmo de las probabilidades por el retorno <span class="arithmatex">\(G_t\)</span>, normalizad el tensor de retornos de cada episodio.</p>
+</li>
+<li>
+<p><strong>Bonus de Entropía</strong>: Modificad la función de pérdida usando el valor de la entropía. La entropía, que la clase <code>PolicyNetwork</code> ya devuelve, mide la incertidumbre de la política. Fomentar una alta entropía evita la convergencia prematura a políticas subóptimas y fomenta la exploración.</p>
+</li>
+</ol>
+<p>Si implementáis estas mejoras, incluid nuevas gráficas para las dos métricas, tanto en la fase de entrenamiento como en la fase de evaluación. Redactad una breve discusión analizando empíricamente cómo la normalización o la entropía estabilizan y/o aceleran la convergencia del agente en el entorno <strong>LunarLander-v3</strong>.</p>
+<h2 id="ejercicio-3-reinforce-con-linea-base">Ejercicio 3: REINFORCE con Línea Base<a class="headerlink" href="#ejercicio-3-reinforce-con-linea-base" title="Permanent link">¶</a></h2>
+<h3 id="objetivos_2">Objetivos<a class="headerlink" href="#objetivos_2" title="Permanent link">¶</a></h3>
+<p>Como seguramente habréis notado al analizar los resultados del Ejercicio 2, el algoritmo <strong>REINFORCE</strong> en su versión más básica (o <em>vanilla</em>) presenta un problema fundamental: <strong>una alta varianza</strong> durante el proceso de entrenamiento. Al depender de la recompensa total de una trayectoria completa, una única mala acción puede penalizar injustamente a todo un conjunto de buenas decisiones anteriores, haciendo que el aprendizaje sea inestable y requiera muchos episodios para converger.</p>
+<p>Para mitigar este problema, en este tercer y último ejercicio, deberéis mejorar vuestro algoritmo introduciendo una <strong>Línea Base</strong> (<em>baseline</em>). Matemáticamente, podemos restar un valor <span class="arithmatex">\(b(s_t)\)</span> al retorno <span class="arithmatex">\(G_t\)</span> sin introducir sesgo en el gradiente de la política, siempre y cuando <span class="arithmatex">\(b(s_t)\)</span> no dependa de la acción <span class="arithmatex">\(a_t\)</span>.</p>
+<p>La elección óptima para esta línea base es la <strong>Función de Valor del Estado</strong> <span class="arithmatex">\(V(s_t)\)</span>. Al hacer esto, la actualización de nuestra política ya no dependerá de si el retorno absoluto es alto o bajo, sino de la <strong>ventaja</strong> <span class="arithmatex">\(\delta_t\)</span>: ¿fue el retorno obtenido tras ejecutar una acción mejor o peor de lo que esperábamos obtener desde ese estado?</p>
+<div class="arithmatex">\[
+\delta_t = G_t - V(s_t)
+\]</div>
+<h3 id="la-arquitectura-del-critico">La Arquitectura del Crítico<a class="headerlink" href="#la-arquitectura-del-critico" title="Permanent link">¶</a></h3>
+<p>Dado que <span class="arithmatex">\(V(s_t)\)</span> es generalmente desconocida, la aproximaremos utilizando una segunda red neuronal (<code>ValueNetwork</code>). A esta red, que "critica" o evalúa lo bueno que es un estado, la llamaremos <strong>Crítico</strong>, mientras que nuestra <code>PolicyNetwork</code> original actuará como el <strong>Actor</strong>.</p>
+<p>A continuación, se os proporciona la implementación en PyTorch de la red de valor. Podéis utilizar el mismo valor para el hiperparámetro <code>n_hidden</code> que usasteis en la red de la política:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">class</span> <span class="nc">ValueNetwork</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_features</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">):</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        <span class="nb">super</span><span class="p">(</span><span class="n">ValueNetwork</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_features</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_hidden</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>        <span class="k">return</span> <span class="n">x</span>
+</code></pre></div>
+<p>A diferencia de la red de la política, observad que la capa de salida de la <code>ValueNetwork</code> consta de una única neurona sin función de activación final (salida lineal), ya que su objetivo es predecir un valor continuo escalar: el retorno esperado <span class="arithmatex">\(G_t\)</span>.</p>
+<h3 id="pseudocodigo-de-reinforce-con-linea-base">Pseudocódigo de REINFORCE con Línea Base<a class="headerlink" href="#pseudocodigo-de-reinforce-con-linea-base" title="Permanent link">¶</a></h3>
+<p>Para facilitar vuestra implementación, a continuación se presenta el esquema algorítmico básico que debéis seguir en la fase de entrenamiento:</p>
+<div class="admonition example">
+<p class="admonition-title">Algoritmo: REINFORCE con Línea Base</p>
+<ol>
+<li>Inicializar <code>PolicyNetwork</code> (Actor) con pesos <span class="arithmatex">\(\theta\)</span>.</li>
+<li>Inicializar <code>ValueNetwork</code> (Crítico) con pesos <span class="arithmatex">\(\phi\)</span>.</li>
+<li><strong>Para</strong> cada episodio:<ol>
+<li>Generar una trayectoria completa usando la política <span class="arithmatex">\(\pi_\theta\)</span>.</li>
+<li>Calcular los retornos descontados <span class="arithmatex">\(G_t\)</span> para cada paso <span class="arithmatex">\(t\)</span>.</li>
+<li><strong>Para</strong> cada paso <span class="arithmatex">\(t\)</span> en la trayectoria:<ol>
+<li>Obtener la estimación de valor: <span class="arithmatex">\(V_\phi(s_t)\)</span>.</li>
+<li>Calcular la ventaja: <span class="arithmatex">\(\delta_t = G_t - V_\phi(s_t)\)</span>.</li>
+<li>Calcular la pérdida del Actor.</li>
+<li>Calcular la pérdida del Crítico.</li>
+</ol>
+</li>
+<li>Actualizar <span class="arithmatex">\(\phi\)</span> minimizando la pérdida del Crítico.</li>
+<li>Actualizar <span class="arithmatex">\(\theta\)</span> minimizando la pérdida del Actor.</li>
+</ol>
+</li>
+</ol>
+</div>
+<h3 id="tareas-a-realizar_2">Tareas a Realizar<a class="headerlink" href="#tareas-a-realizar_2" title="Permanent link">¶</a></h3>
+<p>Al igual que en el ejercicio anterior, estructuraréis vuestra solución en dos fases:</p>
+<p><strong>Fase A: Entrenamiento</strong></p>
+<p>Implementad el bucle de entrenamiento descrito en el pseudocódigo durante <strong>1000 episodios</strong> en el entorno <strong>LunarLander-v3</strong>.</p>
+<ul>
+<li><strong>Optimizadores</strong>: Necesitaréis instanciar dos optimizadores (uno para los parámetros de la red de la política y otro para la red de valor). Reflexionad y justificad si ambas redes deben aprender a la misma velocidad (<strong>Tasa de Aprendizaje</strong>) o si una debería ser más rápida que la otra.</li>
+</ul>
+<p><strong>Fase B: Evaluación</strong></p>
+<p>Evaluad los pesos finales de vuestro <strong>Actor</strong> (<code>PolicyNetwork</code>) a lo largo de <strong>100 episodios</strong> en modo inferencia.</p>
+<ul>
+<li>
+<p><strong>Métricas y Visualización</strong>: Generad las gráficas de <strong>recompensa acumulada</strong> y <strong>duración</strong> de los episodios. Cread el <strong>GIF</strong> del agente interactuando con el entorno.</p>
+</li>
+<li>
+<p><strong>Discusión Crítica</strong>: Comparad directamente estas gráficas con las obtenidas en el Ejercicio 2 (<strong>REINFORCE</strong> puro). ¿Cómo ha afectado la introducción de la línea base a la velocidad de aprendizaje y a la estabilidad de la curva de recompensas?</p>
+</li>
+</ul>
+<h3 id="tarea-opcional_1">Tarea Opcional<a class="headerlink" href="#tarea-opcional_1" title="Permanent link">¶</a></h3>
+<p>De manera análoga al ejercicio anterior, para obtener la máxima puntuación posible, podéis implementar un sistema de mejoras sobre vuestro algoritmo <strong>REINFORCE</strong> con línea base.</p>
+<p>Integrad en vuestro bucle de entrenamiento:</p>
+<ol>
+<li>
+<p><strong>Normalización de Retornos/Ventajas:</strong> Normalizad matemáticamente las <strong>Ventajas</strong> (<span class="arithmatex">\(\delta_t\)</span>) obtenidas en cada episodio.</p>
+</li>
+<li>
+<p><strong>Bonus de Entropía:</strong> Añadid el término de entropía a la pérdida del <strong>Actor</strong> para fomentar la exploración.</p>
+</li>
+</ol>
+<p>En vuestra memoria, estableced una comparación empírica entre esta versión mejorada del algoritmo <strong>REINFORCE</strong> con línea base y el algoritmo <strong>REINFORCE</strong> con línea base que implementaréis en la parte obligatoria de este ejercicio.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+            Volver al principio
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "toc.follow", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.b78d2936.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

@@ -1,0 +1,1148 @@
+<!DOCTYPE html><html lang="es" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Apuntes de la asignatura Aprendizaje Avanzado del Grado en Ingeniería en Inteligencia Artificial de la Universidad de Alicante">
+      
+      
+        <meta name="author" content="Miguel Angel Lozano">
+      
+      
+        <link rel="canonical" href="https://malozano.github.io/aprendizaje-avanzado/13-aplicaciones/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.1">
+    
+    
+      
+        <title>Aprendizaje Automático en Problemas del Mundo Real - Aprendizaje Avanzado</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.402914a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#aprendizaje-automatico-en-problemas-del-mundo-real" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href=".." title="Aprendizaje Avanzado" class="md-header__button md-logo" aria-label="Aprendizaje Avanzado" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Aprendizaje Avanzado
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Aprendizaje Automático en Problemas del Mundo Real
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="indigo" aria-label="Modo oscuro" type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Modo oscuro" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="white" data-md-color-accent="blue" aria-label="Modo claro" type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Modo claro" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Aprendizaje Avanzado" class="md-nav__button md-logo" aria-label="Aprendizaje Avanzado" data-md-component="logo">
+      
+  <img src="../images/logo.png" alt="logo">
+
+    </a>
+    Aprendizaje Avanzado
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Introducción
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Bloque I. Aprendizaje supervisado
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Bloque I. Aprendizaje supervisado
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-modelos-no-param/" class="md-nav__link">
+        1. Modelos paramétricos y no paramétricos. Logistic Regression
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-svm/" class="md-nav__link">
+        2. SVM
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-arboles-decision/" class="md-nav__link">
+        3. Árboles de decisión
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-random-forest/" class="md-nav__link">
+        4. Métodos de ensemble. Random Forest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-adaboost/" class="md-nav__link">
+        5. Boosting. Adaboost
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-gradient-boosting/" class="md-nav__link">
+        6. Gradient Boosting
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Bloque II. Aprendizaje no supervisado
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Bloque II. Aprendizaje no supervisado
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-clustering/" class="md-nav__link">
+        7. Clustering jerárquico y espectral
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-dbscan/" class="md-nav__link">
+        8. Métodos basados en densidad
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-gmm/" class="md-nav__link">
+        9. GMM. Detección de anomalías
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Bloque III. Aprendizaje por refuerzo
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Bloque III. Aprendizaje por refuerzo
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-rl-policy/" class="md-nav__link">
+        10. Gradiente de Política. REINFORCE
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5">
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Prácticas
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Prácticas
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/00-datos-y-visualizacion/" class="md-nav__link">
+        0. Datos y visualización
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/01-aprendizaje-supervisado/" class="md-nav__link">
+        1. Aprendizaje supervisado
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/02-no-supervisado/" class="md-nav__link">
+        2. Aprendizaje no supervisado
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practicas/03-aprendizaje-por-refuerzo/" class="md-nav__link">
+        3. Aprendizaje por refuerzo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6">
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Proyecto final
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Proyecto final
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../14-proyecto-final/" class="md-nav__link">
+        Aprendizaje Automático en problemas del mundo real
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="aprendizaje-automatico-en-problemas-del-mundo-real">Aprendizaje Automático en Problemas del Mundo Real<a class="headerlink" href="#aprendizaje-automatico-en-problemas-del-mundo-real" title="Permanent link">¶</a></h1>
+<h2 id="apuntes-de-clase-tema-final">Apuntes de clase — Tema final<a class="headerlink" href="#apuntes-de-clase-tema-final" title="Permanent link">¶</a></h2>
+<hr>
+<h2 id="indice">Índice<a class="headerlink" href="#indice" title="Permanent link">¶</a></h2>
+<ol>
+<li><a href="#1-introducci%C3%B3n">Introducción: la brecha entre el laboratorio y la producción</a></li>
+<li><a href="#2-marco-legal-y-%C3%A9tico">Marco legal y ético</a></li>
+<li><a href="#3-privacidad">Privacidad: Federated Learning y Privacidad Diferencial</a></li>
+<li><a href="#4-sesgo-y-fairness">Sesgo y Fairness</a></li>
+<li><a href="#5-explicabilidad-xai">Explicabilidad (XAI)</a></li>
+<li><a href="#6-robustez-y-ataques-adversariales">Robustez y Ataques Adversariales</a></li>
+<li><a href="#7-deriva-del-modelo-y-mlops">Deriva del Modelo y MLOps</a></li>
+<li><a href="#8-datos-escasos-y-sint%C3%A9ticos">Datos Escasos y Sintéticos</a></li>
+<li><a href="#9-referencias-y-recursos">Referencias y recursos</a></li>
+</ol>
+<hr>
+<h2 id="1-introduccion">1. Introducción<a class="headerlink" href="#1-introduccion" title="Permanent link">¶</a></h2>
+<p>A lo largo de la asignatura hemos estudiado algoritmos de ML bajo un supuesto implícito y cómodo: disponemos de un dataset limpio, estático y representativo, lo entrenamos, lo evaluamos y reportamos métricas. Este modelo de trabajo es útil para aprender los fundamentos, pero es una simplificación que omite casi todo lo que hace difícil el ML en la práctica.</p>
+<p>Cuando un sistema de ML se despliega en el mundo real, enfrenta al menos cinco problemas que no aparecen en Kaggle:</p>
+<ul>
+<li><strong>Los datos son privados o sensibles</strong> y no pueden centralizarse libremente.</li>
+<li><strong>Los datos reflejan sesgos históricos</strong> que el modelo puede amplificar.</li>
+<li><strong>El modelo es una caja negra</strong> y las decisiones que toma afectan a personas reales.</li>
+<li><strong>El mundo cambia</strong> y la distribución de los datos en producción difiere de la del entrenamiento.</li>
+<li><strong>Los atacantes pueden manipular las entradas</strong> para engañar al modelo.</li>
+</ul>
+<p>Este tema revisa cada uno de estos problemas, las herramientas matemáticas y computacionales que la comunidad ha desarrollado para tratarlos, y el marco legal que en Europa obliga a tenerlos en cuenta.</p>
+<h3 id="11-el-ciclo-de-vida-real-de-un-sistema-de-ml">1.1. El ciclo de vida real de un sistema de ML<a class="headerlink" href="#11-el-ciclo-de-vida-real-de-un-sistema-de-ml" title="Permanent link">¶</a></h3>
+<p>En producción, el ML no es un proyecto con inicio y fin: es un ciclo continuo.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Datos del mundo real
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>        ↓
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  Recopilación y etiquetado   ← sesgos de selección, privacidad
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        ↓
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  Preprocesamiento            ← decisiones que afectan al fairness
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        ↓
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  Entrenamiento               ← privacidad, sesgo, robustez
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        ↓
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>  Evaluación offline          ← métricas que pueden engañar
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        ↓
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>  Despliegue                  ← deriva, ataques, explicabilidad
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>        ↓
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>  Monitorización              ← detección de degradación
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>        ↓
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>  Reentrenamiento  ───────────────────────────────────┐
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>        ↑                                             │
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>        └─────────────────────────────────────────────┘
+</code></pre></div>
+<p>Cada flecha de este diagrama es un punto donde algo puede salir mal. Este tema estudia los más importantes.</p>
+<hr>
+<h2 id="2-marco-legal-y-etico">2. Marco Legal y Ético<a class="headerlink" href="#2-marco-legal-y-etico" title="Permanent link">¶</a></h2>
+<h3 id="21-el-reglamento-general-de-proteccion-de-datos-rgpd">2.1. El Reglamento General de Protección de Datos (RGPD)<a class="headerlink" href="#21-el-reglamento-general-de-proteccion-de-datos-rgpd" title="Permanent link">¶</a></h3>
+<p>El RGPD (Reglamento UE 2016/679), en vigor desde 2018, es el marco legal principal que afecta al ML en Europa. Sus implicaciones para los sistemas de aprendizaje automático son directas y no opcionales.</p>
+<p><strong>Principios clave con impacto en ML:</strong></p>
+<ul>
+<li><strong>Minimización de datos:</strong> solo se pueden recopilar los datos estrictamente necesarios para el fin declarado. Esto limita la posibilidad de recopilar datos "por si acaso" para entrenar modelos.</li>
+<li><strong>Limitación de la finalidad:</strong> los datos recogidos para un propósito no pueden usarse para entrenar un modelo con un propósito distinto.</li>
+<li><strong>Exactitud:</strong> los datos deben ser correctos y estar actualizados, lo que tiene implicaciones para el mantenimiento de los datasets de entrenamiento.</li>
+<li><strong>Limitación del plazo de conservación:</strong> los datos no pueden guardarse indefinidamente; los modelos entrenados con datos que ya no pueden conservarse legalmente plantean preguntas sobre el "derecho al olvido" en ML.</li>
+</ul>
+<p><strong>El derecho a explicación (Art. 22):</strong> Cuando una decisión automatizada afecta significativamente a una persona (concesión de crédito, contratación, diagnóstico médico), el interesado tiene derecho a obtener "información significativa sobre la lógica aplicada". Esto hace que la explicabilidad no sea solo una buena práctica sino una obligación legal. Los modelos de caja negra como las redes neuronales profundas o los ensembles son problemáticos en estos contextos sin herramientas de XAI adicionales.</p>
+<h3 id="22-el-reglamento-de-inteligencia-artificial-de-la-ue-ai-act">2.2. El Reglamento de Inteligencia Artificial de la UE (AI Act)<a class="headerlink" href="#22-el-reglamento-de-inteligencia-artificial-de-la-ue-ai-act" title="Permanent link">¶</a></h3>
+<p>El AI Act (Reglamento UE 2024/1689), publicado en 2024, es el primer marco regulatorio integral sobre IA del mundo. Clasifica los sistemas de IA en cuatro categorías de riesgo:</p>
+<p><strong>Riesgo inaceptable (prohibidos):</strong>
+- Sistemas de puntuación social por parte de gobiernos.
+- Manipulación subliminal del comportamiento.
+- Reconocimiento facial en tiempo real en espacios públicos (con excepciones muy limitadas).</p>
+<p><strong>Alto riesgo (regulados con obligaciones estrictas):</strong>
+Esta categoría incluye la mayoría de aplicaciones ML de impacto real: infraestructura crítica, educación, empleo, crédito, acceso a servicios públicos, justicia penal y gestión de fronteras. Los sistemas de alto riesgo deben cumplir requisitos de gestión de riesgos, calidad de datos, transparencia, supervisión humana, robustez y exactitud. Deben registrarse y someterse a evaluaciones de conformidad.</p>
+<p><strong>Riesgo limitado:</strong> sistemas con obligaciones de transparencia (chatbots deben identificarse como IA).</p>
+<p><strong>Riesgo mínimo:</strong> la mayoría de aplicaciones (filtros de spam, recomendadores de contenido, videojuegos).</p>
+<p><strong>Implicación práctica para el desarrollo de ML:</strong> cualquier sistema que se pretenda desplegar en categorías de alto riesgo debe diseñarse desde el principio con estos requisitos en mente — no como una capa añadida al final. Esto implica documentación exhaustiva de los datos de entrenamiento, trazabilidad de las decisiones del modelo, y capacidad de auditoría.</p>
+<h3 id="23-etica-mas-alla-de-la-ley">2.3. Ética más allá de la ley<a class="headerlink" href="#23-etica-mas-alla-de-la-ley" title="Permanent link">¶</a></h3>
+<p>El cumplimiento legal es el mínimo, no el objetivo. La comunidad de ML ha desarrollado marcos éticos más amplios. Los más influyentes son los <strong>principios de IA de la OCDE</strong> (beneficio para las personas y el planeta, valores centrados en el ser humano, transparencia, robustez y rendición de cuentas) y las <strong>directrices de IA fiable de la Comisión Europea</strong> (agencia y supervisión humanas, solidez técnica y seguridad, privacidad y gobernanza de datos, transparencia, diversidad y no discriminación, bienestar social y medioambiental, y rendición de cuentas).</p>
+<p>Estos marcos no tienen fuerza legal directa pero orientan la práctica del sector y están siendo progresivamente incorporados a la regulación.</p>
+<hr>
+<h2 id="3-privacidad">3. Privacidad<a class="headerlink" href="#3-privacidad" title="Permanent link">¶</a></h2>
+<h3 id="31-el-problema-de-la-centralizacion-de-datos">3.1. El problema de la centralización de datos<a class="headerlink" href="#31-el-problema-de-la-centralizacion-de-datos" title="Permanent link">¶</a></h3>
+<p>El paradigma clásico del ML asume que todos los datos de entrenamiento están disponibles en un único servidor. Esto es incompatible con muchos dominios reales:</p>
+<ul>
+<li><strong>Salud:</strong> los historiales clínicos de diferentes hospitales no pueden compartirse por regulación (RGPD, HIPAA en EEUU). Sin embargo, un modelo entrenado sobre datos de múltiples hospitales sería mucho más potente que uno entrenado en un solo centro.</li>
+<li><strong>Banca y finanzas:</strong> los datos de transacciones son sensibles y los bancos no pueden compartirlos entre sí, aunque colaborar mejoraría los modelos de detección de fraude.</li>
+<li><strong>Dispositivos móviles:</strong> los teclados predictivos o asistentes de voz aprenden de lo que el usuario escribe o dice, datos que son extremadamente privados.</li>
+</ul>
+<p>Existen dos grandes enfoques complementarios para entrenar modelos con garantías de privacidad: el <strong>aprendizaje federado</strong> y la <strong>privacidad diferencial</strong>.</p>
+<h3 id="32-federated-learning-fl">3.2. Federated Learning (FL)<a class="headerlink" href="#32-federated-learning-fl" title="Permanent link">¶</a></h3>
+<h4 id="motivacion-e-intuicion">Motivación e intuición<a class="headerlink" href="#motivacion-e-intuicion" title="Permanent link">¶</a></h4>
+<p>El aprendizaje federado, introducido por Google en 2017 en el contexto de Gboard, invierte el paradigma clásico: en lugar de llevar los datos al modelo, llevamos el modelo a los datos.</p>
+<p>En FL, existe un <strong>servidor central</strong> que coordina el entrenamiento y <span class="arithmatex">\(K\)</span> <strong>clientes</strong> (hospitales, bancos, dispositivos móviles) que tienen datos locales que nunca salen de su entorno. El proceso es iterativo:</p>
+<ol>
+<li>El servidor envía el modelo global actual <span class="arithmatex">\(w^t\)</span> a un subconjunto de clientes.</li>
+<li>Cada cliente <span class="arithmatex">\(k\)</span> entrena el modelo localmente sobre sus datos <span class="arithmatex">\(\mathcal{D}_k\)</span> durante <span class="arithmatex">\(E\)</span> épocas locales, obteniendo una actualización <span class="arithmatex">\(w_k^{t+1}\)</span>.</li>
+<li>Los clientes envían sus actualizaciones (gradientes o pesos) al servidor.</li>
+<li>El servidor agrega las actualizaciones para obtener el nuevo modelo global <span class="arithmatex">\(w^{t+1}\)</span>.</li>
+</ol>
+<h4 id="fedavg-el-algoritmo-fundacional">FedAvg: el algoritmo fundacional<a class="headerlink" href="#fedavg-el-algoritmo-fundacional" title="Permanent link">¶</a></h4>
+<p>El algoritmo <strong>FedAvg</strong> (McMahan et al., 2017) es el punto de partida de la mayoría de métodos de FL. La agregación en el servidor se realiza como una media ponderada por el tamaño del dataset local:</p>
+<div class="arithmatex">\[w^{t+1} = \sum_{k=1}^{K} \frac{n_k}{n} w_k^{t+1}\]</div>
+<p>donde <span class="arithmatex">\(n_k = |\mathcal{D}_k|\)</span> es el número de ejemplos del cliente <span class="arithmatex">\(k\)</span> y <span class="arithmatex">\(n = \sum_k n_k\)</span> el total.</p>
+<p>La actualización local de cada cliente minimiza su pérdida local mediante SGD:</p>
+<div class="arithmatex">\[w_k^{t+1} = w^t - \eta \nabla \mathcal{L}_k(w^t)\]</div>
+<p>donde <span class="arithmatex">\(\mathcal{L}_k\)</span> es la función de pérdida evaluada sobre <span class="arithmatex">\(\mathcal{D}_k\)</span>.</p>
+<h4 id="el-problema-de-los-datos-no-iid">El problema de los datos no-IID<a class="headerlink" href="#el-problema-de-los-datos-no-iid" title="Permanent link">¶</a></h4>
+<p>El supuesto implícito de FedAvg es que los datos locales son representativos de la distribución global. En la práctica, los datos de cada cliente son <strong>heterogéneos</strong> (non-IID): el hospital A puede tener principalmente pacientes diabéticos mientras que el B tiene principalmente cardíacos. Esta heterogeneidad causa <strong>client drift</strong>: el modelo local de cada cliente se aleja del óptimo global durante el entrenamiento local, lo que degrada la convergencia.</p>
+<p><strong>FedProx</strong> (Li et al., 2020) aborda esto añadiendo un término de regularización proximal a la pérdida local que penaliza el alejamiento del modelo global:</p>
+<div class="arithmatex">\[\mathcal{L}_k^{\text{prox}}(w) = \mathcal{L}_k(w) + \frac{\mu}{2} \|w - w^t\|^2\]</div>
+<p>El hiperparámetro <span class="arithmatex">\(\mu \geq 0\)</span> controla el trade-off entre adaptación local y coherencia global. Cuando <span class="arithmatex">\(\mu = 0\)</span> recuperamos FedAvg.</p>
+<h4 id="limitaciones-del-fl">Limitaciones del FL<a class="headerlink" href="#limitaciones-del-fl" title="Permanent link">¶</a></h4>
+<p>El FL no garantiza privacidad perfecta por sí solo. Los gradientes que los clientes envían al servidor pueden filtrar información sobre los datos locales. Ataques como el <strong>gradient inversion</strong> (Zhu et al., 2019) demuestran que es posible reconstruir las imágenes de entrenamiento a partir de los gradientes con alta fidelidad. Para garantías formales de privacidad es necesario combinar FL con <strong>privacidad diferencial</strong>.</p>
+<h3 id="33-privacidad-diferencial-dp">3.3. Privacidad Diferencial (DP)<a class="headerlink" href="#33-privacidad-diferencial-dp" title="Permanent link">¶</a></h3>
+<h4 id="definicion-formal">Definición formal<a class="headerlink" href="#definicion-formal" title="Permanent link">¶</a></h4>
+<p>La privacidad diferencial (Dwork et al., 2006) proporciona una garantía matemática formal sobre cuánta información sobre un individuo puede inferirse a partir de la salida de un algoritmo.</p>
+<p><strong>Definición (<span class="arithmatex">\(\varepsilon, \delta\)</span>-DP):</strong> Un mecanismo aleatorio <span class="arithmatex">\(\mathcal{M}: \mathcal{D} \to \mathcal{R}\)</span> satisface <span class="arithmatex">\((\varepsilon, \delta)\)</span>-privacidad diferencial si para todo par de datasets vecinos <span class="arithmatex">\(D, D'\)</span> que difieren en exactamente un individuo, y para todo subconjunto de salidas <span class="arithmatex">\(S \subseteq \mathcal{R}\)</span>:</p>
+<div class="arithmatex">\[\Pr[\mathcal{M}(D) \in S] \leq e^\varepsilon \cdot \Pr[\mathcal{M}(D') \in S] + \delta\]</div>
+<p>La interpretación intuitiva es: la presencia o ausencia de un individuo en el dataset cambia la distribución de salidas del mecanismo a lo sumo por un factor <span class="arithmatex">\(e^\varepsilon\)</span> (más un término aditivo <span class="arithmatex">\(\delta\)</span>). Un <span class="arithmatex">\(\varepsilon\)</span> pequeño (en torno a 1) implica privacidad fuerte; <span class="arithmatex">\(\varepsilon &gt; 10\)</span> comienza a ser una garantía débil.</p>
+<p>El parámetro <span class="arithmatex">\(\varepsilon\)</span> se denomina <strong>presupuesto de privacidad</strong>: cuantos más algoritmos DP se apliquen secuencialmente sobre el mismo dataset, mayor es el <span class="arithmatex">\(\varepsilon\)</span> acumulado (composición).</p>
+<h4 id="el-mecanismo-gaussiano">El mecanismo gaussiano<a class="headerlink" href="#el-mecanismo-gaussiano" title="Permanent link">¶</a></h4>
+<p>El mecanismo más utilizado en ML añade ruido gaussiano calibrado a la sensibilidad <span class="arithmatex">\(\Delta f\)</span> de la función que se desea privatizar:</p>
+<div class="arithmatex">\[\mathcal{M}(D) = f(D) + \mathcal{N}(0, \sigma^2 \cdot \mathbf{I})\]</div>
+<p>donde la sensibilidad global <span class="arithmatex">\(\Delta f = \max_{D, D'} \|f(D) - f(D')\|_2\)</span> mide cuánto puede cambiar la salida de <span class="arithmatex">\(f\)</span> al cambiar un individuo. Para lograr <span class="arithmatex">\((\varepsilon, \delta)\)</span>-DP se puede demostrar que es suficiente tomar <span class="arithmatex">\(\sigma = \frac{\Delta f \cdot \sqrt{2 \ln(1.25/\delta)}}{\varepsilon}\)</span>.</p>
+<h4 id="dp-sgd-entrenamiento-diferencialment-privado-de-redes-neuronales">DP-SGD: entrenamiento diferencialment privado de redes neuronales<a class="headerlink" href="#dp-sgd-entrenamiento-diferencialment-privado-de-redes-neuronales" title="Permanent link">¶</a></h4>
+<p>El algoritmo <strong>DP-SGD</strong> (Abadi et al., 2016), implementado en la librería <strong>Opacus</strong> de Meta, adapta SGD para satisfacer DP:</p>
+<ol>
+<li>Por cada batch, calcular el gradiente por cada ejemplo individual: <span class="arithmatex">\(g_i = \nabla_w \mathcal{L}(w; x_i, y_i)\)</span>.</li>
+<li><strong>Clipping:</strong> limitar la norma de cada gradiente a <span class="arithmatex">\(C\)</span>: <span class="arithmatex">\(\tilde{g}_i = g_i / \max(1, \|g_i\|_2 / C)\)</span>. Esto acota la sensibilidad.</li>
+<li><strong>Perturbación:</strong> añadir ruido gaussiano al gradiente agregado: <span class="arithmatex">\(\tilde{g} = \frac{1}{B}\left(\sum_i \tilde{g}_i + \mathcal{N}(0, \sigma^2 C^2 \mathbf{I})\right)\)</span>.</li>
+<li>Actualizar los pesos con el gradiente privatizado.</li>
+</ol>
+<p>El coste de la privacidad diferencial es la <strong>pérdida de utilidad</strong>: el modelo entrenado con DP-SGD suele rendir peor que sin DP. El trade-off privacidad-utilidad es uno de los problemas de investigación activa más importantes del área.</p>
+<p><strong>Herramientas:</strong> <a href="https://opacus.ai/">Opacus</a> (PyTorch), <a href="https://github.com/tensorflow/privacy">TensorFlow Privacy</a>, <a href="https://diffprivlib.readthedocs.io/">diffprivlib</a> (scikit-learn compatible).</p>
+<h3 id="34-ataques-de-inferencia-de-pertenencia-membership-inference-attacks">3.4. Ataques de inferencia de pertenencia (Membership Inference Attacks)<a class="headerlink" href="#34-ataques-de-inferencia-de-pertenencia-membership-inference-attacks" title="Permanent link">¶</a></h3>
+<h4 id="motivacion">Motivación<a class="headerlink" href="#motivacion" title="Permanent link">¶</a></h4>
+<p>Hasta ahora hemos tratado la privacidad como un problema sobre los <strong>datos</strong>: cómo evitar que los datos brutos salgan del entorno donde residen. Pero el modelo entrenado en sí mismo puede filtrar información sobre los datos de entrenamiento, incluso cuando esos datos nunca se comparten directamente. Los <strong>ataques de inferencia de pertenencia</strong> (MIA, Shokri et al., 2017) demuestran que, dado acceso a un modelo entrenado, un adversario puede determinar con notable precisión si un registro concreto formó parte del conjunto de entrenamiento.</p>
+<p>Esto tiene consecuencias legales directas bajo el RGPD: si un hospital entrena un modelo sobre historiales clínicos y lo publica, un adversario podría inferir qué pacientes están en el dataset, violando su privacidad incluso sin acceder a ningún dato directamente.</p>
+<h4 id="mecanismo-del-ataque">Mecanismo del ataque<a class="headerlink" href="#mecanismo-del-ataque" title="Permanent link">¶</a></h4>
+<p>El ataque explota una propiedad bien conocida de los modelos sobreajustados: los modelos tienen mayor confianza (probabilidades de salida más altas y más concentradas) sobre los ejemplos que han visto durante el entrenamiento que sobre los que no han visto.</p>
+<p>Formalmente, dado un modelo <span class="arithmatex">\(f_\theta\)</span> y una instancia <span class="arithmatex">\((x, y)\)</span>, el objetivo del adversario es construir un clasificador binario <span class="arithmatex">\(\mathcal{A}\)</span> que prediga:</p>
+<div class="arithmatex">\[\mathcal{A}(f_\theta(x), y) = \begin{cases} 1 &amp; \text{si } (x, y) \in \mathcal{D}_{\text{train}} \\ 0 &amp; \text{en caso contrario} \end{cases}\]</div>
+<p>El ataque de Shokri et al. se basa en <strong>modelos sombra</strong> (<em>shadow models</em>): el adversario entrena <span class="arithmatex">\(k\)</span> modelos <span class="arithmatex">\(\{f_{\theta_i}^{\text{shadow}}\}\)</span> sobre datos con distribución similar a la del modelo objetivo, con la diferencia de que sí conoce qué instancias forman parte del entrenamiento de cada modelo sombra. Con estos modelos genera un dataset de entrenamiento para <span class="arithmatex">\(\mathcal{A}\)</span>:</p>
+<ul>
+<li>Ejemplos positivos (<span class="arithmatex">\(\text{miembro} = 1\)</span>): pares <span class="arithmatex">\((f_{\theta_i}^{\text{shadow}}(x), y)\)</span> para <span class="arithmatex">\((x, y) \in \mathcal{D}_{\text{train}}^{\text{shadow}_i}\)</span>.</li>
+<li>Ejemplos negativos (<span class="arithmatex">\(\text{miembro} = 0\)</span>): pares <span class="arithmatex">\((f_{\theta_i}^{\text{shadow}}(x), y)\)</span> para <span class="arithmatex">\((x, y) \notin \mathcal{D}_{\text{train}}^{\text{shadow}_i}\)</span>.</li>
+</ul>
+<p>El clasificador de ataque <span class="arithmatex">\(\mathcal{A}\)</span> aprende a distinguir los patrones en el vector de probabilidades de salida <span class="arithmatex">\(f_\theta(x)\)</span> que caracterizan a los miembros del entrenamiento. En la práctica, el vector de salida de los miembros tiende a tener una probabilidad mucho más alta en la clase correcta y una entropía más baja que el de los no miembros.</p>
+<h4 id="variantes-sin-modelos-sombra">Variantes sin modelos sombra<a class="headerlink" href="#variantes-sin-modelos-sombra" title="Permanent link">¶</a></h4>
+<p>Yeom et al. (2018) propusieron un ataque más simple que no requiere modelos sombra: clasificar <span class="arithmatex">\((x, y)\)</span> como miembro si y solo si la pérdida del modelo sobre ese ejemplo es inferior a la pérdida media sobre el conjunto de entrenamiento:</p>
+<div class="arithmatex">\[\mathcal{A}(x, y) = \mathbf{1}\left[\mathcal{L}(f_\theta(x), y) &lt; \tau\right]\]</div>
+<p>Este ataque es menos preciso pero revela con claridad la causa raíz del problema: la <strong>brecha de generalización</strong> <span class="arithmatex">\(\mathcal{L}_{\text{test}} - \mathcal{L}_{\text{train}}\)</span>. Cuanto mayor es el sobreajuste, más fácil es el ataque. Un modelo perfectamente generalizado (sin sobreajuste) sería trivialmente resistente a este ataque.</p>
+<h4 id="evaluacion-de-la-vulnerabilidad">Evaluación de la vulnerabilidad<a class="headerlink" href="#evaluacion-de-la-vulnerabilidad" title="Permanent link">¶</a></h4>
+<p>La vulnerabilidad de un modelo ante MIA se cuantifica habitualmente con dos métricas:</p>
+<ul>
+<li><strong>Ventaja del adversario:</strong> <span class="arithmatex">\(\text{Adv}(\mathcal{A}) = |P(\mathcal{A}(x,y)=1 \mid \text{miembro}) - P(\mathcal{A}(x,y)=1 \mid \text{no miembro})|\)</span>. Un valor de 0 indica que el ataque no es mejor que el azar; un valor cercano a 1 indica alta vulnerabilidad.</li>
+<li><strong>AUC de la curva ROC</strong> del clasificador de ataque <span class="arithmatex">\(\mathcal{A}\)</span>. Un AUC de 0.5 equivale a azar; un AUC alto indica que el modelo es muy vulnerable.</li>
+</ul>
+<h4 id="conexion-con-la-privacidad-diferencial">Conexión con la privacidad diferencial<a class="headerlink" href="#conexion-con-la-privacidad-diferencial" title="Permanent link">¶</a></h4>
+<p>La privacidad diferencial ofrece una garantía formal contra los MIA. Bajo <span class="arithmatex">\((\varepsilon, \delta)\)</span>-DP, puede demostrarse que la ventaja máxima de cualquier adversario está acotada:</p>
+<div class="arithmatex">\[\text{Adv}(\mathcal{A}) \leq \frac{e^\varepsilon - 1}{e^\varepsilon + 1} + \frac{2\delta}{e^\varepsilon + 1}\]</div>
+<p>Para <span class="arithmatex">\(\varepsilon\)</span> pequeño, esta cota es pequeña, limitando formalmente cuánto puede aprender el adversario sobre la pertenencia de cualquier individuo al conjunto de entrenamiento. Esto cierra el argumento de DP-SGD: el ruido añadido durante el entrenamiento no solo protege los datos individuales en el gradiente, sino que también limita la capacidad de un adversario de hacer inferencias sobre el dataset a partir del modelo publicado.</p>
+<p><strong>Herramientas:</strong> <a href="https://github.com/privacytrustlab/ml_privacy_meter">ML Privacy Meter</a> (herramienta de auditoría de privacidad basada en MIA), <a href="https://github.com/tensorflow/privacy">TensorFlow Privacy</a> (incluye utilidades de evaluación de MIA).</p>
+<hr>
+<h2 id="4-sesgo-y-fairness">4. Sesgo y Fairness<a class="headerlink" href="#4-sesgo-y-fairness" title="Permanent link">¶</a></h2>
+<h3 id="41-origenes-del-sesgo-en-sistemas-de-ml">4.1. Orígenes del sesgo en sistemas de ML<a class="headerlink" href="#41-origenes-del-sesgo-en-sistemas-de-ml" title="Permanent link">¶</a></h3>
+<p>El sesgo en ML no surge de la nada: los modelos aprenden de datos históricos que reflejan desigualdades y discriminaciones del mundo real. Si históricamente ciertos grupos han tenido menos acceso al crédito, los datos de impago reflejarán esa historia, y un modelo entrenado sobre ellos perpetuará esa desigualdad — incluso si no tiene acceso explícito al atributo protegido (raza, género, etc.).</p>
+<p>Los orígenes del sesgo pueden clasificarse en tres categorías:</p>
+<ul>
+<li><strong>Sesgo de representación:</strong> el dataset de entrenamiento no es representativo de la población sobre la que el modelo se aplicará. Por ejemplo, datasets médicos construidos mayoritariamente sobre población masculina caucásica.</li>
+<li><strong>Sesgo de medición:</strong> los proxies que se usan como variables objetivo son imperfectos y pueden introducir sesgo. La tasa de reincidencia criminal, por ejemplo, depende de quién es arrestado, no de quién comete delitos.</li>
+<li><strong>Sesgo de retroalimentación:</strong> cuando las predicciones del modelo influyen sobre el comportamiento del mundo real, que a su vez genera los próximos datos de entrenamiento. Los modelos de vigilancia policial predictiva son el ejemplo más estudiado.</li>
+</ul>
+<h3 id="42-metricas-de-fairness">4.2. Métricas de fairness<a class="headerlink" href="#42-metricas-de-fairness" title="Permanent link">¶</a></h3>
+<p>El primer problema al que nos enfrentamos es que "justicia" es un concepto ambiguo con múltiples definiciones matemáticamente precisas que son <strong>mutuamente incompatibles</strong> (teorema de imposibilidad de Chouldechova, 2017; Kleinberg et al., 2017). Definimos las métricas sobre un clasificador binario con predicción <span class="arithmatex">\(\hat{Y} \in \{0,1\}\)</span>, variable objetivo real <span class="arithmatex">\(Y \in \{0,1\}\)</span> y atributo protegido <span class="arithmatex">\(A \in \{a, b\}\)</span>.</p>
+<p><strong>Paridad demográfica (Independence):</strong></p>
+<div class="arithmatex">\[P(\hat{Y} = 1 \mid A = a) = P(\hat{Y} = 1 \mid A = b)\]</div>
+<p>El modelo predice la clase positiva con la misma tasa para todos los grupos. No tiene en cuenta si las tasas base de <span class="arithmatex">\(Y=1\)</span> difieren entre grupos.</p>
+<p><strong>Igualdad de oportunidades (Equalized Opportunity):</strong></p>
+<div class="arithmatex">\[P(\hat{Y} = 1 \mid Y = 1, A = a) = P(\hat{Y} = 1 \mid Y = 1, A = b)\]</div>
+<p>La tasa de verdaderos positivos (sensibilidad o recall) es igual entre grupos. En el contexto de crédito: la tasa de aprobación entre quienes realmente devolverían el préstamo es la misma independientemente del grupo.</p>
+<p><strong>Odds igualadas (Equalized Odds):</strong></p>
+<div class="arithmatex">\[P(\hat{Y} = 1 \mid Y = y, A = a) = P(\hat{Y} = 1 \mid Y = y, A = b) \quad \forall y \in \{0, 1\}\]</div>
+<p>Tanto la tasa de verdaderos positivos como la de falsos positivos son iguales entre grupos. Es una condición más fuerte que la igualdad de oportunidades.</p>
+<p><strong>Calibración:</strong></p>
+<div class="arithmatex">\[P(Y = 1 \mid \hat{p} = p, A = a) = P(Y = 1 \mid \hat{p} = p, A = b) = p\]</div>
+<p>La probabilidad predicha tiene el mismo significado independientemente del grupo: si el modelo predice 0.7 de riesgo, eso debe significar lo mismo para ambos grupos.</p>
+<h4 id="el-teorema-de-imposibilidad">El teorema de imposibilidad<a class="headerlink" href="#el-teorema-de-imposibilidad" title="Permanent link">¶</a></h4>
+<p>Chouldechova (2017) demostró que cuando las tasas base de <span class="arithmatex">\(Y=1\)</span> difieren entre grupos (lo cual es casi siempre el caso en problemas reales), <strong>no es posible satisfacer simultáneamente paridad demográfica, odds igualadas y calibración</strong>. Esto significa que cualquier decisión de diseño de un sistema de ML que afecte a grupos con tasas base distintas es una decisión ética implícita: elegir una métrica de fairness implica sacrificar otra.</p>
+<p>Este resultado tiene consecuencias profundas: no existe una solución técnica "objetiva" al problema del sesgo. La elección de qué métrica priorizar es una decisión política y ética que debe tomarse explícitamente, no delegarse al algoritmo.</p>
+<h3 id="43-tecnicas-de-mitigacion">4.3. Técnicas de mitigación<a class="headerlink" href="#43-tecnicas-de-mitigacion" title="Permanent link">¶</a></h3>
+<p>Las técnicas de mitigación se clasifican según en qué fase del pipeline actúan:</p>
+<p><strong>Pre-procesamiento (sobre los datos):</strong></p>
+<ul>
+<li><em>Reweighing:</em> asignar pesos a los ejemplos de entrenamiento para que la combinación de grupo y etiqueta esté balanceada. Los grupos subrepresentados o con etiquetas históricamente sesgadas reciben mayor peso.</li>
+<li><em>Resampling:</em> sobremuestrear grupos desfavorecidos o submuestrear los favorecidos.</li>
+<li><em>Aprendizaje de representaciones justas:</em> entrenar un encoder que elimine la información del atributo protegido de la representación latente antes del entrenamiento del clasificador.</li>
+</ul>
+<p><strong>In-procesamiento (durante el entrenamiento):</strong></p>
+<p>Añadir una restricción de fairness al problema de optimización:</p>
+<div class="arithmatex">\[\min_w \mathcal{L}(w) \quad \text{sujeto a} \quad |P(\hat{Y}=1|A=a) - P(\hat{Y}=1|A=b)| \leq \epsilon_{\text{fair}}\]</div>
+<p>Esta restricción puede incorporarse mediante multiplicadores de Lagrange, convirtiendo el problema restringido en uno sin restricciones:</p>
+<div class="arithmatex">\[\min_w \max_\lambda \; \mathcal{L}(w) + \lambda \cdot g_{\text{fair}}(w)\]</div>
+<p>donde <span class="arithmatex">\(g_{\text{fair}}(w)\)</span> mide la violación de la restricción de fairness.</p>
+<p><strong>Post-procesamiento (sobre las predicciones):</strong></p>
+<p>Una vez entrenado el modelo, se ajustan los umbrales de decisión de forma diferenciada por grupo para satisfacer la métrica de fairness deseada. Es la técnica más sencilla de implementar pero requiere acceso al atributo protegido en tiempo de inferencia.</p>
+<p><strong>Herramientas:</strong> <a href="https://fairlearn.org/">Fairlearn</a> (Microsoft), <a href="https://aif360.readthedocs.io/">AI Fairness 360</a> (IBM), <a href="https://pair-code.github.io/what-if-tool/">What-If Tool</a> (Google).</p>
+<hr>
+<h2 id="5-explicabilidad-xai">5. Explicabilidad (XAI)<a class="headerlink" href="#5-explicabilidad-xai" title="Permanent link">¶</a></h2>
+<h3 id="51-motivacion-interpretabilidad-vs-precision">5.1. Motivación: interpretabilidad vs. precisión<a class="headerlink" href="#51-motivacion-interpretabilidad-vs-precision" title="Permanent link">¶</a></h3>
+<p>Existe una tensión percibida (aunque no siempre real) entre la precisión de un modelo y su interpretabilidad. Los modelos lineales y los árboles de decisión son fácilmente interpretables, pero en muchos problemas complejos los modelos de caja negra (redes neuronales, ensembles) obtienen mejores resultados. La XAI busca abrir esas cajas negras sin sacrificar su potencia.</p>
+<p>Distinguimos dos tipos de explicaciones:</p>
+<ul>
+<li><strong>Explicaciones globales:</strong> describen el comportamiento del modelo en general. ¿Qué variables son más importantes para el modelo en conjunto?</li>
+<li><strong>Explicaciones locales:</strong> describen por qué el modelo tomó una decisión particular para una instancia concreta. ¿Por qué se denegó <em>este</em> crédito?</li>
+</ul>
+<p>Y dos tipos de métodos según su relación con el modelo:</p>
+<ul>
+<li><strong>Métodos agnósticos al modelo (model-agnostic):</strong> funcionan para cualquier modelo tratándolo como caja negra. SHAP y LIME son los ejemplos principales.</li>
+<li><strong>Métodos específicos del modelo:</strong> aprovechan la estructura interna del modelo. Grad-CAM para redes convolucionales, por ejemplo.</li>
+</ul>
+<h3 id="52-shap-shapley-additive-explanations">5.2. SHAP (SHapley Additive exPlanations)<a class="headerlink" href="#52-shap-shapley-additive-explanations" title="Permanent link">¶</a></h3>
+<p>SHAP (Lundberg y Lee, 2017) es el método de explicabilidad más utilizado en la práctica. Se basa en los <strong>valores de Shapley</strong> de la teoría de juegos cooperativos.</p>
+<h4 id="valores-de-shapley">Valores de Shapley<a class="headerlink" href="#valores-de-shapley" title="Permanent link">¶</a></h4>
+<p>En un juego cooperativo con <span class="arithmatex">\(d\)</span> jugadores (features), el valor de Shapley <span class="arithmatex">\(\phi_j\)</span> del jugador <span class="arithmatex">\(j\)</span> mide su contribución marginal promedio sobre todas las posibles coaliciones (subconjuntos) de jugadores:</p>
+<div class="arithmatex">\[\phi_j(f, x) = \sum_{S \subseteq \mathcal{F} \setminus \{j\}} \frac{|S|!(d - |S| - 1)!}{d!} \left[ f_{S \cup \{j\}}(x_{S \cup \{j\}}) - f_S(x_S) \right]\]</div>
+<p>donde <span class="arithmatex">\(\mathcal{F}\)</span> es el conjunto de todas las features, <span class="arithmatex">\(S\)</span> es una coalición que no incluye a <span class="arithmatex">\(j\)</span>, y <span class="arithmatex">\(f_S(x_S)\)</span> es la predicción del modelo usando solo las features en <span class="arithmatex">\(S\)</span> (marginalizando el resto).</p>
+<p>Los valores de Shapley satisfacen cuatro propiedades axiomáticas deseables: eficiencia (<span class="arithmatex">\(\sum_j \phi_j = f(x) - \mathbb{E}[f(x)]\)</span>, las contribuciones suman la diferencia entre la predicción y la media), simetría, nulidad (features que no afectan al modelo tienen <span class="arithmatex">\(\phi_j = 0\)</span>), y aditividad.</p>
+<h4 id="treeshap-eficiencia-para-modelos-de-arbol">TreeSHAP: eficiencia para modelos de árbol<a class="headerlink" href="#treeshap-eficiencia-para-modelos-de-arbol" title="Permanent link">¶</a></h4>
+<p>El cálculo exacto de los valores de Shapley requiere <span class="arithmatex">\(O(2^d)\)</span> evaluaciones del modelo, lo que es inviable para <span class="arithmatex">\(d\)</span> grande. Para modelos basados en árboles (Random Forest, XGBoost, etc.), Lundberg et al. (2018) desarrollaron <strong>TreeSHAP</strong>, un algoritmo exacto en <span class="arithmatex">\(O(TLD^2)\)</span> donde <span class="arithmatex">\(T\)</span> es el número de árboles, <span class="arithmatex">\(L\)</span> el número de hojas y <span class="arithmatex">\(D\)</span> la profundidad máxima — polinomial en lugar de exponencial.</p>
+<h4 id="interpretacion-de-los-valores-shap">Interpretación de los valores SHAP<a class="headerlink" href="#interpretacion-de-los-valores-shap" title="Permanent link">¶</a></h4>
+<p>Para una instancia <span class="arithmatex">\(x\)</span>, la predicción del modelo se descompone como:</p>
+<div class="arithmatex">\[f(x) = \mathbb{E}[f(X)] + \sum_{j=1}^{d} \phi_j\]</div>
+<p>donde <span class="arithmatex">\(\mathbb{E}[f(X)]\)</span> es la predicción base (media sobre el dataset) y <span class="arithmatex">\(\phi_j\)</span> es la contribución de la feature <span class="arithmatex">\(j\)</span> — positiva si empuja la predicción hacia arriba, negativa si la empuja hacia abajo.</p>
+<p>El <strong>summary plot</strong> de SHAP muestra, para cada feature, la distribución de valores de Shapley sobre todo el dataset: permite identificar qué features son globalmente más importantes y cómo su valor se relaciona con su contribución.</p>
+<h3 id="53-lime-local-interpretable-model-agnostic-explanations">5.3. LIME (Local Interpretable Model-agnostic Explanations)<a class="headerlink" href="#53-lime-local-interpretable-model-agnostic-explanations" title="Permanent link">¶</a></h3>
+<p>LIME (Ribeiro et al., 2016) genera explicaciones locales construyendo un modelo interpretable (lineal) que aproxima el modelo de caja negra en el entorno de la instancia a explicar.</p>
+<p>El proceso para explicar la predicción <span class="arithmatex">\(f(x)\)</span> sobre una instancia <span class="arithmatex">\(x\)</span>:</p>
+<ol>
+<li>Generar una muestra de instancias <span class="arithmatex">\(\{z_i\}\)</span> perturbando <span class="arithmatex">\(x\)</span> (activando/desactivando features o añadiendo ruido).</li>
+<li>Obtener las predicciones <span class="arithmatex">\(f(z_i)\)</span> del modelo de caja negra sobre esas instancias.</li>
+<li>Ponderar cada <span class="arithmatex">\(z_i\)</span> según su proximidad a <span class="arithmatex">\(x\)</span>: <span class="arithmatex">\(\pi_x(z_i) = \exp(-d(x, z_i)^2 / \sigma^2)\)</span>.</li>
+<li>Ajustar un modelo lineal <span class="arithmatex">\(g\)</span> minimizando la pérdida local ponderada con una penalización de complejidad <span class="arithmatex">\(\Omega(g)\)</span>:</li>
+</ol>
+<div class="arithmatex">\[\xi(x) = \arg\min_{g \in G} \mathcal{L}(f, g, \pi_x) + \Omega(g)\]</div>
+<p>Los coeficientes del modelo lineal <span class="arithmatex">\(g\)</span> son la explicación local: indican qué features contribuyeron positiva o negativamente a la predicción en el entorno de <span class="arithmatex">\(x\)</span>.</p>
+<p><strong>Limitación crítica:</strong> LIME es inherentemente inestable. Pequeñas variaciones en el muestreo de perturbaciones o en el ancho de banda <span class="arithmatex">\(\sigma\)</span> pueden producir explicaciones muy diferentes para la misma instancia. Esto es un problema grave en contextos de alto impacto donde la consistencia de las explicaciones es necesaria.</p>
+<h3 id="54-explicaciones-contrafactuales-con-dice">5.4. Explicaciones contrafactuales con DiCE<a class="headerlink" href="#54-explicaciones-contrafactuales-con-dice" title="Permanent link">¶</a></h3>
+<p>Las explicaciones contrafactuales responden a la pregunta más accionable: <strong>¿qué tendría que cambiar en mi situación para obtener una decisión diferente?</strong> En el contexto de un crédito denegado: "si sus ingresos fueran 5.000€ en lugar de 3.000€, el crédito habría sido aprobado".</p>
+<p><strong>DiCE</strong> (Diverse Counterfactual Explanations, Mothilal et al., 2020) genera múltiples explicaciones contrafactuales diversas minimizando el siguiente objetivo:</p>
+<div class="arithmatex">\[\min_{c_1, \ldots, c_k} \frac{1}{k} \sum_{i=1}^k \text{yloss}(f(c_i), \hat{y}) + \frac{\lambda_1}{k} \sum_{i=1}^k \text{dist}(c_i, x) - \frac{\lambda_2}{k^2} \sum_{i,j} \text{dist}(c_i, c_j)\]</div>
+<p>El primer término obliga a que los contrafactuales tengan la clase deseada, el segundo que sean cercanos al punto original <span class="arithmatex">\(x\)</span> (cambios mínimos), y el tercero que sean diversos entre sí (no todos el mismo cambio).</p>
+<p><strong>Herramientas:</strong> <a href="https://shap.readthedocs.io/">SHAP</a>, <a href="https://github.com/marcotcr/lime">LIME</a>, <a href="https://github.com/interpretml/DiCE">DiCE</a>, <a href="https://captum.ai/">Captum</a> (para redes neuronales, gradiente-based).</p>
+<hr>
+<h2 id="6-robustez-y-ataques-adversariales">6. Robustez y Ataques Adversariales<a class="headerlink" href="#6-robustez-y-ataques-adversariales" title="Permanent link">¶</a></h2>
+<h3 id="61-el-fenomeno-adversarial">6.1. El fenómeno adversarial<a class="headerlink" href="#61-el-fenomeno-adversarial" title="Permanent link">¶</a></h3>
+<p>En 2013, Szegedy et al. descubrieron que los clasificadores de imagen basados en redes neuronales profundas son extremadamente vulnerables a perturbaciones imperceptibles al ojo humano. Una imagen correctamente clasificada puede modificarse con un ruido tan pequeño que ningún humano lo detectaría, pero la red neuronal cambia su predicción completamente — y con alta confianza.</p>
+<p>Este fenómeno no es exclusivo de imágenes: se ha demostrado en texto, audio, series temporales, grafos y datos tabulares. La existencia de ejemplos adversariales es una propiedad estructural de los clasificadores de alta dimensión, no un fallo de implementación.</p>
+<h3 id="62-taxonomia-de-ataques">6.2. Taxonomía de ataques<a class="headerlink" href="#62-taxonomia-de-ataques" title="Permanent link">¶</a></h3>
+<p><strong>Por el conocimiento del atacante:</strong></p>
+<ul>
+<li><strong>Caja blanca (white-box):</strong> el atacante conoce la arquitectura del modelo, sus pesos y puede calcular gradientes. Es el escenario más favorable para el atacante y el más usado en investigación para encontrar cotas superiores de vulnerabilidad.</li>
+<li><strong>Caja negra (black-box):</strong> el atacante solo puede hacer consultas al modelo (entrada → salida) sin acceder a su estructura interna. Más realista en la práctica.</li>
+</ul>
+<p><strong>Por el objetivo del ataque:</strong></p>
+<ul>
+<li><strong>No dirigido (untargeted):</strong> hacer que el modelo prediga cualquier clase incorrecta.</li>
+<li><strong>Dirigido (targeted):</strong> hacer que el modelo prediga una clase específica.</li>
+</ul>
+<p><strong>Por el momento del ataque:</strong></p>
+<ul>
+<li><strong>Ataques de inferencia (evasion):</strong> modificar las entradas en tiempo de prueba para engañar al modelo sin modificarlo.</li>
+<li><strong>Ataques de envenenamiento (poisoning):</strong> modificar el dataset de entrenamiento para que el modelo aprendido tenga el comportamiento deseado por el atacante.</li>
+<li><strong>Ataques de backdoor:</strong> insertar un patrón "trigger" en el dataset de entrenamiento de modo que el modelo se comporte correctamente en general pero prediga una clase específica cuando aparece el trigger.</li>
+</ul>
+<h3 id="63-ataques-de-evasion-principales">6.3. Ataques de evasión principales<a class="headerlink" href="#63-ataques-de-evasion-principales" title="Permanent link">¶</a></h3>
+<h4 id="fgsm-fast-gradient-sign-method">FGSM (Fast Gradient Sign Method)<a class="headerlink" href="#fgsm-fast-gradient-sign-method" title="Permanent link">¶</a></h4>
+<p>FGSM (Goodfellow et al., 2014) es el ataque más simple y sirvió para establecer la conexión entre la linealidad de las redes neuronales en el espacio de entrada y su vulnerabilidad adversarial. Dado un ejemplo <span class="arithmatex">\((x, y)\)</span>, genera un ejemplo adversarial <span class="arithmatex">\(x'\)</span> con:</p>
+<div class="arithmatex">\[x' = x + \varepsilon \cdot \text{sign}(\nabla_x \mathcal{L}(\theta, x, y))\]</div>
+<p>La perturbación <span class="arithmatex">\(\varepsilon \cdot \text{sign}(\nabla_x \mathcal{L})\)</span> se añade en la dirección que maximiza la pérdida, con magnitud limitada a <span class="arithmatex">\(\varepsilon\)</span> en norma <span class="arithmatex">\(L_\infty\)</span>. Es un ataque de un solo paso, computacionalmente barato pero no el más fuerte.</p>
+<h4 id="pgd-projected-gradient-descent">PGD (Projected Gradient Descent)<a class="headerlink" href="#pgd-projected-gradient-descent" title="Permanent link">¶</a></h4>
+<p>PGD (Madry et al., 2018) es la versión iterativa de FGSM. Aplica <span class="arithmatex">\(T\)</span> pasos de FGSM con paso pequeño <span class="arithmatex">\(\alpha\)</span>, proyectando después de cada paso sobre la bola <span class="arithmatex">\(L_\infty\)</span> de radio <span class="arithmatex">\(\varepsilon\)</span> centrada en <span class="arithmatex">\(x\)</span>:</p>
+<div class="arithmatex">\[x'^{(t+1)} = \Pi_{x, \varepsilon} \left( x'^{(t)} + \alpha \cdot \text{sign}(\nabla_x \mathcal{L}(\theta, x'^{(t)}, y)) \right)\]</div>
+<p>donde <span class="arithmatex">\(\Pi_{x, \varepsilon}\)</span> es la proyección sobre el hipercubo <span class="arithmatex">\([x - \varepsilon, x + \varepsilon]^d\)</span>. PGD con múltiples reinicios aleatorios es considerado el ataque de caja blanca más fuerte bajo la norma <span class="arithmatex">\(L_\infty\)</span>.</p>
+<h4 id="cw-carlini-wagner">C&amp;W (Carlini &amp; Wagner)<a class="headerlink" href="#cw-carlini-wagner" title="Permanent link">¶</a></h4>
+<p>El ataque C&amp;W (Carlini y Wagner, 2017) formula la búsqueda del ejemplo adversarial como un problema de optimización con dos objetivos: ser cercano al original y ser clasificado como la clase objetivo <span class="arithmatex">\(t\)</span>:</p>
+<div class="arithmatex">\[\min_\delta \|\delta\|_2 + c \cdot \max(\max_{j \neq t} f(x + \delta)_j - f(x + \delta)_t, -\kappa)\]</div>
+<p>Es más caro computacionalmente pero produce perturbaciones mucho más pequeñas que FGSM/PGD.</p>
+<h3 id="64-defensa-adversarial-training">6.4. Defensa: Adversarial Training<a class="headerlink" href="#64-defensa-adversarial-training" title="Permanent link">¶</a></h3>
+<p>El método de defensa más efectivo conocido hasta la fecha es el <strong>entrenamiento adversarial</strong> (Madry et al., 2018): aumentar el dataset de entrenamiento con ejemplos adversariales generados durante el propio entrenamiento. El objetivo de optimización se convierte en un minimax:</p>
+<div class="arithmatex">\[\min_\theta \mathbb{E}_{(x,y) \sim \mathcal{D}} \left[ \max_{\delta \in \mathcal{B}(0, \varepsilon)} \mathcal{L}(\theta, x + \delta, y) \right]\]</div>
+<p>El problema interno (max) se resuelve con PGD, y el problema externo (min) con SGD estándar. El coste es un mayor tiempo de entrenamiento y habitualmente una degradación de la precisión en ejemplos limpios.</p>
+<p><strong>Transferibilidad:</strong> un hallazgo importante es que los ejemplos adversariales generados sobre un modelo <span class="arithmatex">\(A\)</span> son frecuentemente efectivos también sobre un modelo <span class="arithmatex">\(B\)</span> diferente (incluso si <span class="arithmatex">\(B\)</span> tiene arquitectura distinta). Esto hace que los ataques de caja negra sean más peligrosos de lo que parecería, ya que un atacante puede entrenar un modelo sustituto sobre el que generar ejemplos adversariales.</p>
+<p><strong>Herramientas:</strong> <a href="https://adversarial-robustness-toolbox.readthedocs.io/">Adversarial Robustness Toolbox</a> (IBM, soporta múltiples ataques y defensas), <a href="https://foolbox.jonasrauber.de/">Foolbox</a>, <a href="https://github.com/cleverhans-lab/cleverhans">CleverHans</a>.</p>
+<hr>
+<h2 id="7-deriva-del-modelo-y-mlops">7. Deriva del Modelo y MLOps<a class="headerlink" href="#7-deriva-del-modelo-y-mlops" title="Permanent link">¶</a></h2>
+<h3 id="71-el-supuesto-de-estacionariedad">7.1. El supuesto de estacionariedad<a class="headerlink" href="#71-el-supuesto-de-estacionariedad" title="Permanent link">¶</a></h3>
+<p>Todos los modelos de ML que hemos estudiado asumen implícitamente que la distribución de los datos es estacionaria: que los datos de producción siguen la misma distribución que los de entrenamiento. En la práctica, el mundo cambia, y los modelos que no se monitorizan ni actualizan se degradan silenciosamente.</p>
+<h3 id="72-taxonomia-de-la-deriva">7.2. Taxonomía de la deriva<a class="headerlink" href="#72-taxonomia-de-la-deriva" title="Permanent link">¶</a></h3>
+<p><strong>Data drift (covariable shift):</strong> la distribución marginal de las entradas <span class="arithmatex">\(P(X)\)</span> cambia, pero la relación <span class="arithmatex">\(P(Y|X)\)</span> se mantiene. Ejemplo: el perfil demográfico de los usuarios de un sistema cambia con el tiempo, pero el comportamiento de cada tipo de usuario es el mismo.</p>
+<p><strong>Concept drift:</strong> la relación <span class="arithmatex">\(P(Y|X)\)</span> cambia. Ejemplo: el fraude bancario evoluciona y los patrones que antes eran fraudulentos ya no lo son, o nuevos patrones emergen. Es el tipo de deriva más dañino y difícil de detectar, porque el modelo puede seguir viendo inputs similares pero con una relación distinta con la salida.</p>
+<p><strong>Label shift (prior probability shift):</strong> la distribución marginal de <span class="arithmatex">\(P(Y)\)</span> cambia. Ejemplo: la prevalencia de una enfermedad aumenta estacionalmente.</p>
+<p><strong>Concept drift repentino vs. gradual vs. recurrente:</strong> el drift puede ocurrir de forma abrupta (un cambio normativo que altera el comportamiento), gradual (evolución lenta de los hábitos), o recurrente (patrones estacionales que se repiten).</p>
+<h3 id="73-deteccion-de-deriva">7.3. Detección de deriva<a class="headerlink" href="#73-deteccion-de-deriva" title="Permanent link">¶</a></h3>
+<p>La detección de deriva en la distribución de las entradas puede abordarse estadísticamente. Para cada feature <span class="arithmatex">\(j\)</span>, queremos contrastar si la distribución en producción <span class="arithmatex">\(P_t(X_j)\)</span> difiere de la distribución de referencia <span class="arithmatex">\(P_{\text{ref}}(X_j)\)</span>.</p>
+<p><strong>Para variables continuas — Kolmogorov-Smirnov:</strong></p>
+<div class="arithmatex">\[D = \sup_x |F_{\text{ref}}(x) - F_t(x)|\]</div>
+<p>donde <span class="arithmatex">\(F\)</span> denota la función de distribución acumulada empírica. El test KS contrasta <span class="arithmatex">\(H_0\)</span>: ambas muestras proceden de la misma distribución.</p>
+<p><strong>Para variables categóricas — chi-cuadrado:</strong></p>
+<div class="arithmatex">\[\chi^2 = \sum_{k} \frac{(O_k - E_k)^2}{E_k}\]</div>
+<p>donde <span class="arithmatex">\(O_k\)</span> son las frecuencias observadas en producción y <span class="arithmatex">\(E_k\)</span> las esperadas según la distribución de referencia.</p>
+<p><strong>Population Stability Index (PSI):</strong> ampliamente usado en el sector financiero, mide el cambio global en la distribución de una variable:</p>
+<div class="arithmatex">\[\text{PSI} = \sum_{k=1}^{K} (p_k^t - p_k^{\text{ref}}) \cdot \ln\frac{p_k^t}{p_k^{\text{ref}}}\]</div>
+<p>donde <span class="arithmatex">\(p_k\)</span> es la proporción de observaciones en el bin <span class="arithmatex">\(k\)</span>. Regla práctica: PSI &lt; 0.1 estable, 0.1–0.25 requiere atención, &gt; 0.25 cambio significativo.</p>
+<p>La detección del concept drift es más difícil porque requiere etiquetas en producción, que habitualmente llegan con retraso (o no llegan). Cuando se dispone de etiquetas, se pueden monitorizar las métricas del modelo (precisión, F1, AUC) con tests estadísticos sobre ventanas temporales deslizantes.</p>
+<h3 id="74-estrategias-de-reentrenamiento">7.4. Estrategias de reentrenamiento<a class="headerlink" href="#74-estrategias-de-reentrenamiento" title="Permanent link">¶</a></h3>
+<p>Una vez detectada la deriva, hay que decidir cómo actualizar el modelo:</p>
+<ul>
+<li><strong>Reentrenamiento completo:</strong> descartar el modelo actual y entrenar desde cero con datos recientes. Garantiza que el modelo refleja la distribución actual pero es costoso y puede perder patrones que sí son estables.</li>
+<li><strong>Reentrenamiento incremental (online learning):</strong> actualizar el modelo continuamente con cada nuevo dato o batch. La librería <a href="https://riverml.xyz/">River</a> implementa algoritmos de ML online (Hoeffding Trees, etc.) diseñados para este escenario.</li>
+<li><strong>Ventana deslizante:</strong> entrenar solo con los datos más recientes (últimos <span class="arithmatex">\(N\)</span> días/meses). El tamaño de la ventana es un hiperparámetro que controla el trade-off entre adaptabilidad y estabilidad.</li>
+<li><strong>Ponderación temporal:</strong> mantener todos los datos pero asignar mayor peso a los más recientes.</li>
+</ul>
+<h3 id="75-mlops">7.5. MLOps<a class="headerlink" href="#75-mlops" title="Permanent link">¶</a></h3>
+<p><strong>MLOps</strong> (Machine Learning Operations) es el conjunto de prácticas, herramientas y culturas organizativas que permiten desplegar y mantener sistemas de ML de forma fiable y escalable. Es la aplicación de los principios de DevOps al ciclo de vida del ML.</p>
+<p>Los componentes principales de una infraestructura MLOps son:</p>
+<ul>
+<li><strong>Tracking de experimentos:</strong> registro de hiperparámetros, métricas y artefactos de cada experimento. <a href="https://mlflow.org/">MLflow</a>, <a href="https://wandb.ai/">Weights &amp; Biases</a>.</li>
+<li><strong>Versionado de datos y modelos:</strong> <a href="https://dvc.org/">DVC</a> permite versionar datasets y modelos de la misma forma que Git versiona el código.</li>
+<li><strong>Pipelines reproducibles:</strong> <a href="https://kedro.org/">Kedro</a>, <a href="https://zenml.io/">ZenML</a>.</li>
+<li><strong>Serving y despliegue:</strong> <a href="https://bentoml.com/">BentoML</a>, <a href="https://www.seldon.io/">Seldon Core</a>, <a href="https://docs.ray.io/en/latest/serve/index.html">Ray Serve</a>.</li>
+<li><strong>Monitorización en producción:</strong> <a href="https://www.evidentlyai.com/">Evidently AI</a>, <a href="https://whylabs.ai/">WhyLogs/WhyLabs</a>.</li>
+</ul>
+<hr>
+<h2 id="8-datos-escasos-y-sinteticos">8. Datos Escasos y Sintéticos<a class="headerlink" href="#8-datos-escasos-y-sinteticos" title="Permanent link">¶</a></h2>
+<h3 id="81-el-problema-de-los-datos-escasos">8.1. El problema de los datos escasos<a class="headerlink" href="#81-el-problema-de-los-datos-escasos" title="Permanent link">¶</a></h3>
+<p>En muchos dominios críticos, los datos etiquetados son escasos o muy desbalanceados:</p>
+<ul>
+<li><strong>Enfermedades raras:</strong> pocos casos disponibles por definición.</li>
+<li><strong>Eventos de fraude:</strong> tasas de fraude del 0.1-1% generan datasets extremadamente desbalanceados.</li>
+<li><strong>Accidentes industriales:</strong> por suerte, son infrecuentes, pero eso hace difícil aprender a predecirlos.</li>
+<li><strong>Etiquetado caro:</strong> el etiquetado por expertos (radiólogos, juristas, lingüistas) es lento y costoso.</li>
+</ul>
+<h3 id="82-tecnicas-de-aumentacion-clasica">8.2. Técnicas de aumentación clásica<a class="headerlink" href="#82-tecnicas-de-aumentacion-clasica" title="Permanent link">¶</a></h3>
+<p>La <strong>aumentación de datos</strong> aplica transformaciones que preservan la etiqueta para generar nuevas instancias de entrenamiento a partir de las existentes.</p>
+<p><strong>Para imágenes:</strong> rotaciones, traslaciones, recortes, volteos horizontales, cambios de brillo y contraste, mezclas de imágenes (Mixup, CutMix).</p>
+<p><strong>Para series temporales:</strong> escalado temporal (time warping), jitter (adición de ruido), permutación de segmentos, inversión temporal.</p>
+<p><strong>Para datos tabulares:</strong> el enfoque más directo es la interpolación en el espacio de features, implementada por la familia de métodos SMOTE.</p>
+<h4 id="smote-synthetic-minority-over-sampling-technique">SMOTE (Synthetic Minority Over-sampling Technique)<a class="headerlink" href="#smote-synthetic-minority-over-sampling-technique" title="Permanent link">¶</a></h4>
+<p>SMOTE (Chawla et al., 2002) genera instancias sintéticas de la clase minoritaria interpolando entre instancias reales. Para cada instancia <span class="arithmatex">\(x_i\)</span> de la clase minoritaria:</p>
+<ol>
+<li>Encontrar sus <span class="arithmatex">\(k\)</span> vecinos más cercanos en la clase minoritaria: <span class="arithmatex">\(\{x_{i_1}, \ldots, x_{i_k}\}\)</span>.</li>
+<li>Seleccionar aleatoriamente uno de ellos: <span class="arithmatex">\(x_{i_j}\)</span>.</li>
+<li>Generar un nuevo ejemplo: <span class="arithmatex">\(x_{\text{new}} = x_i + \lambda (x_{i_j} - x_i)\)</span>, donde <span class="arithmatex">\(\lambda \sim U(0,1)\)</span>.</li>
+</ol>
+<p>El resultado es un punto aleatorio en el segmento entre <span class="arithmatex">\(x_i\)</span> y <span class="arithmatex">\(x_{i_j}\)</span>. Variantes como <strong>SMOTE-NC</strong> manejan variables categóricas, <strong>SMOTE-ENN</strong> combina sobremuestreo con submuestreo eliminando ejemplos ruidosos, y <strong>ADASYN</strong> pondera más los ejemplos de la clase minoritaria que son más difíciles de aprender.</p>
+<h3 id="83-generacion-de-datos-sinteticos">8.3. Generación de datos sintéticos<a class="headerlink" href="#83-generacion-de-datos-sinteticos" title="Permanent link">¶</a></h3>
+<p>Más allá de la aumentación, los modelos generativos permiten aprender la distribución de los datos y muestrear instancias completamente nuevas.</p>
+<h4 id="ctgan-para-datos-tabulares">CTGAN para datos tabulares<a class="headerlink" href="#ctgan-para-datos-tabulares" title="Permanent link">¶</a></h4>
+<p>Los datos tabulares son más difíciles de modelar que las imágenes porque mezclan variables continuas y categóricas con distribuciones arbitrarias (no gaussianas). <strong>CTGAN</strong> (Xu et al., 2019), implementado en la librería <a href="https://sdv.dev/">SDV</a>, adapta las GANs a este dominio con dos innovaciones:</p>
+<ul>
+<li><strong>Mode-specific normalization:</strong> en lugar de normalizar las variables continuas con media y varianza, estima una mezcla de gaussianas (VGM) y normaliza cada muestra relativa al modo más probable. Esto maneja distribuciones multimodales o sesgadas.</li>
+<li><strong>Conditional generator con training-by-sampling:</strong> el generador recibe como condición el valor de una variable categórica y el entrenamiento muestrea condiciones con frecuencia inversamente proporcional a su frecuencia real, mejorando la generación de categorías raras.</li>
+</ul>
+<p>La GAN tiene la arquitectura estándar: generador <span class="arithmatex">\(G\)</span> que transforma ruido <span class="arithmatex">\(z \sim \mathcal{N}(0, I)\)</span> en datos sintéticos, y discriminador <span class="arithmatex">\(D\)</span> que intenta distinguir datos reales de sintéticos. El objetivo es el minimax estándar:</p>
+<div class="arithmatex">\[\min_G \max_D \; \mathbb{E}_{x \sim p_{\text{data}}}[\log D(x)] + \mathbb{E}_{z \sim p_z}[\log(1 - D(G(z)))]\]</div>
+<h4 id="evaluacion-de-datos-sinteticos">Evaluación de datos sintéticos<a class="headerlink" href="#evaluacion-de-datos-sinteticos" title="Permanent link">¶</a></h4>
+<p>La evaluación de la calidad de los datos sintéticos es un problema complejo que debe cubrir tres dimensiones:</p>
+<ol>
+<li>
+<p><strong>Fidelidad estadística:</strong> ¿se parece la distribución sintética a la real? Métricas: distancia de Jensen-Shannon entre distribuciones marginales, Wasserstein distance, diferencias en correlaciones entre variables.</p>
+</li>
+<li>
+<p><strong>Utilidad:</strong> ¿sirven los datos sintéticos para entrenar modelos? El protocolo <strong>Train-on-Synthetic, Test-on-Real (TSTR)</strong> entrena un clasificador sobre datos sintéticos y lo evalúa sobre datos reales, comparando con el resultado de Train-on-Real, Test-on-Real (TRTR). Una brecha pequeña indica alta utilidad.</p>
+</li>
+<li>
+<p><strong>Privacidad:</strong> los datos sintéticos pueden filtrar información sobre los datos de entrenamiento. Métricas:</p>
+</li>
+<li><strong>Membership inference attack:</strong> ¿puede un atacante determinar si un registro específico estaba en el dataset de entrenamiento? La resistencia a este ataque se mide con la métrica <span class="arithmatex">\(\text{DCR}\)</span> (Distance to Closest Record): si los sintéticos son muy cercanos a los reales, se corre el riesgo de memorización.</li>
+<li><strong>Attribute disclosure:</strong> ¿puede inferirse un atributo sensible de un individuo a partir de los datos sintéticos?</li>
+</ol>
+<p><strong>Herramientas:</strong> <a href="https://sdv.dev/">SDV/CTGAN</a>, <a href="https://imbalanced-learn.org/">Imbalanced-learn</a> (SMOTE y variantes), <a href="https://github.com/jsyoon0823/TimeGAN">TimeGAN</a> (series temporales), <a href="https://gretel.ai/">Gretel.ai</a>.</p>
+<hr>
+<h2 id="9-referencias-y-recursos">9. Referencias y Recursos<a class="headerlink" href="#9-referencias-y-recursos" title="Permanent link">¶</a></h2>
+<h3 id="articulos-seminales">Artículos seminales<a class="headerlink" href="#articulos-seminales" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>FL:</strong> McMahan, H. B. et al. (2017). <em>Communication-Efficient Learning of Deep Networks from Decentralized Data.</em> AISTATS.</li>
+<li><strong>FedProx:</strong> Li, T. et al. (2020). <em>Federated Optimization in Heterogeneous Networks.</em> MLSys.</li>
+<li><strong>DP:</strong> Dwork, C. et al. (2006). <em>Calibrating Noise to Sensitivity in Private Data Analysis.</em> TCC.</li>
+<li><strong>DP-SGD:</strong> Abadi, M. et al. (2016). <em>Deep Learning with Differential Privacy.</em> CCS.</li>
+<li><strong>SHAP:</strong> Lundberg, S. M. &amp; Lee, S.-I. (2017). <em>A Unified Approach to Interpreting Model Predictions.</em> NeurIPS.</li>
+<li><strong>LIME:</strong> Ribeiro, M. T. et al. (2016). <em>"Why Should I Trust You?": Explaining the Predictions of Any Classifier.</em> KDD.</li>
+<li><strong>DiCE:</strong> Mothilal, R. K. et al. (2020). <em>Explaining Machine Learning Classifiers through Diverse Counterfactual Explanations.</em> FAccT.</li>
+<li><strong>Fairness imposibility:</strong> Chouldechova, A. (2017). <em>Fair Prediction with Disparate Impact.</em> Big Data.</li>
+<li><strong>FGSM:</strong> Goodfellow, I. et al. (2015). <em>Explaining and Harnessing Adversarial Examples.</em> ICLR.</li>
+<li><strong>PGD / Adversarial training:</strong> Madry, A. et al. (2018). <em>Towards Deep Learning Models Resistant to Adversarial Attacks.</em> ICLR.</li>
+<li><strong>MIA (shadow models):</strong> Shokri, R. et al. (2017). <em>Membership Inference Attacks Against Machine Learning Models.</em> IEEE S&amp;P.</li>
+<li><strong>MIA (loss threshold):</strong> Yeom, S. et al. (2018). <em>Privacy Risk in Machine Learning: Analyzing the Connection to Overfitting.</em> CSF.</li>
+<li><strong>SMOTE:</strong> Chawla, N. V. et al. (2002). <em>SMOTE: Synthetic Minority Over-sampling Technique.</em> JAIR.</li>
+<li><strong>CTGAN:</strong> Xu, L. et al. (2019). <em>Modeling Tabular Data using Conditional GAN.</em> NeurIPS.</li>
+</ul>
+<h3 id="recursos-de-referencia">Recursos de referencia<a class="headerlink" href="#recursos-de-referencia" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Libros:</strong> <em>Fairness and Machine Learning</em> (Barocas, Hardt, Narayanan) — disponible en <a href="https://fairmlbook.org/">fairmlbook.org</a>. <em>Interpretable Machine Learning</em> (Molnar) — disponible en <a href="https://christophm.github.io/interpretable-ml-book/">christophm.github.io/interpretable-ml-book</a>.</li>
+<li><strong>Legislación:</strong> <a href="https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32016R0679">RGPD completo</a>. <a href="https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32024R1689">AI Act</a>.</li>
+<li><strong>Datasets de referencia:</strong> <a href="https://github.com/propublica/compas-analysis">COMPAS (ProPublica)</a>, <a href="https://archive.ics.uci.edu/">UCI ML Repository</a>, <a href="https://paperswithcode.com/">Papers with Code</a>.</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+            Volver al principio
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "toc.follow", "toc.integrate", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.b78d2936.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
