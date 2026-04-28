@@ -113,6 +113,7 @@ nav:
   - 9. GMM. Detección de anomalías: '09-gmm.md'
 - Bloque III. Aprendizaje por refuerzo:
   - 10. Gradiente de Política. REINFORCE: '10-rl-policy.md'
+  - 11. Actor-Critic: '11-rl-actor-critic.md'
 - Prácticas: 
   - 0. Datos y visualización: 'practicas/00-datos-y-visualizacion.md'
   - 1. Aprendizaje supervisado: 'practicas/01-aprendizaje-supervisado.md'
@@ -120,7 +121,6 @@ nav:
   - 3. Aprendizaje por refuerzo: 'practicas/03-aprendizaje-por-refuerzo.md'
 - Proyecto final:
   - Aprendizaje Automático en problemas del mundo real: '14-proyecto-final.md'
-#   - 11. Actor-Critic. PPO: '11-rl-actor-critic.md'
 # - Bloque IV. Aplicación del Aprendizaje Automático:
 #   - 12. Selección y optimización de modelos: '12-optimizacion.md'
 #   - 13. Aprendizaje automático en problemas del mundo real: '13-aplicaciones.md'
