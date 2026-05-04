@@ -552,21 +552,78 @@
         
           
         
-          
-        
-          
-        
-          
-        
       
       
         <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-          Prácticas
+          Bloque IV. Aplicación del Aprendizaje Automático
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Bloque IV. Aplicación del Aprendizaje Automático
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-aplicaciones/" class="md-nav__link">
+        12. Aprendizaje automático en problemas del mundo real
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6">
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Prácticas
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
           <span class="md-nav__icon md-icon"></span>
           Prácticas
         </label>
@@ -651,7 +708,7 @@
       
         
       
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6">
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7">
       
       
         
@@ -659,13 +716,13 @@
         
       
       
-        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
           Proyecto final
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_6">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
           <span class="md-nav__icon md-icon"></span>
           Proyecto final
         </label>
@@ -720,143 +777,6 @@
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    │ (función V) │  ← actualizado por el error TD δ_t
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    └─────────────┘
 </code></pre></div>
-<div class="admonition algorithm">
-<p class="admonition-title">Algoritmo: Actor-Critic</p>
-<p><strong>Entradas:</strong> Tasas de aprendizaje <span class="arithmatex">\(\alpha_\theta\)</span>, <span class="arithmatex">\(\alpha_\phi\)</span>, descuento <span class="arithmatex">\(\gamma\)</span>, número de episodios <span class="arithmatex">\(K\)</span>, coeficiente de entropía <span class="arithmatex">\(\beta\)</span></p>
-<p><strong>Salida:</strong> Política <span class="arithmatex">\(\pi_\theta\)</span>, función de valor <span class="arithmatex">\(V_\phi\)</span></p>
-<ol>
-<li><strong>Inicializar</strong> <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span> aleatoriamente</li>
-<li><strong>Para</strong> cada episodio <span class="arithmatex">\(i = 1, \ldots, K\)</span>:<ol>
-<li><span class="arithmatex">\(s_t \leftarrow \text{estado inicial}\)</span></li>
-<li><strong>Repetir</strong> hasta que el episodio termine:<ol>
-<li>Muestrear <span class="arithmatex">\(a_t \sim \pi_\theta(\cdot \mid s_t)\)</span></li>
-<li>Ejecutar <span class="arithmatex">\(a_t\)</span> y observar <span class="arithmatex">\(r_{t+1}\)</span>, <span class="arithmatex">\(s_{t+1}\)</span>, <span class="arithmatex">\(\text{done}\)</span></li>
-<li><strong>Si</strong> <span class="arithmatex">\(\text{done}\)</span>: <span class="arithmatex">\(V_{\phi}(s_{t+1}) \leftarrow 0\)</span></li>
-<li>Calcular error TD: <span class="arithmatex">\(\delta_t = r_{t+1} + \gamma V_\phi(s_{t+1}) - V_\phi(s_t)\)</span></li>
-<li><strong>Actualización del crítico</strong>: <span class="arithmatex">\(\phi \leftarrow \phi + \alpha_\phi \, \delta_t \, \nabla_\phi V_\phi(s_t)\)</span></li>
-<li><strong>Actualización del actor</strong>: <span class="arithmatex">\(\theta \leftarrow \theta + \alpha_\theta \, \delta_t \, \nabla_\theta \log \pi_\theta(a_t \mid s_t) + \beta \, \nabla_\theta H(\pi_\theta(\cdot|s_t))\)</span></li>
-<li><span class="arithmatex">\(s_t \leftarrow s_{t+1}\)</span></li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<p><strong>devolver</strong> <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span></p>
-</div>
-<h3 id="el-algoritmo-a2c">El Algoritmo A2C<a class="headerlink" href="#el-algoritmo-a2c" title="Permanent link">¶</a></h3>
-<p><strong>Advantage Actor-Critic (A2C)</strong> es la versión síncrona estándar de la familia Actor-Critic. Para entender qué aporta A2C respecto a Actor-Critic básico conviene aclarar primero la relación entre el error TD y la ventaja.</p>
-<h4 id="aportacion-de-a2c">Aportación de A2C<a class="headerlink" href="#aportacion-de-a2c" title="Permanent link">¶</a></h4>
-<p>La diferencia de A2C respecto a Actor-Critic básico consiste fundamentalmente en dos aspectos:</p>
-<p><strong>1. Múltiples procesos en paralelo.</strong> A2C lanza <span class="arithmatex">\(N\)</span> copias del entorno simultáneamente, cada una generando su propia trayectoria con la política actual. Los gradientes de todos los procesos se promedian antes de actualizar <span class="arithmatex">\(\theta\)</span> y <span class="arithmatex">\(\phi\)</span>:</p>
-<div class="arithmatex">\[\nabla_\theta J(\theta) \approx \frac{1}{N} \sum_{i=1}^{N} \delta_t^{(i)} \nabla_\theta \log \pi_\theta(a_t^{(i)} \mid s_t^{(i)})\]</div>
-<p>Este promedio reduce la varianza del estimador del gradiente de forma análoga a aumentar el tamaño del <em>batch</em> en aprendizaje supervisado.</p>
-<p><strong>2. Actualización síncrona.</strong> A diferencia de su predecesor A3C (Mnih et al., 2016)<sup id="fnref:mnih2016asynchronous"><a class="footnote-ref" href="#fn:mnih2016asynchronous">1</a></sup> (<em>Asynchronous Advantage Actor-Critic</em>), donde cada trabajador actualiza los parámetros de forma independiente y asíncrona, A2C espera a que todos los procesos terminen antes de actualizar. Esto simplifica la implementación y en la práctica produce resultados equivalentes o mejores.</p>
-<h3 id="algoritmo">Algoritmo<a class="headerlink" href="#algoritmo" title="Permanent link">¶</a></h3>
-<p>El pseudocódigo siguiente muestra la versión simplificada de A2C con un único entorno. En una implementación completa, el bucle exterior sobre pasos se replicaría en <span class="arithmatex">\(N\)</span> entornos paralelos y los gradientes se promediarían antes de cada actualización.</p>
-<div class="admonition algorithm">
-<p class="admonition-title">Algoritmo: A2C (Advantage Actor-Critic, versión un entorno)</p>
-<p><strong>Entradas:</strong> Tasas de aprendizaje <span class="arithmatex">\(\alpha_\theta\)</span>, <span class="arithmatex">\(\alpha_\phi\)</span>, descuento <span class="arithmatex">\(\gamma\)</span>, número de episodios <span class="arithmatex">\(K\)</span>, pasos por episodio <span class="arithmatex">\(T\)</span>, coeficiente de entropía <span class="arithmatex">\(\beta\)</span></p>
-<p><strong>Salida:</strong> Política <span class="arithmatex">\(\pi_\theta\)</span>, función de valor <span class="arithmatex">\(V_\phi\)</span></p>
-<ol>
-<li><strong>Inicializar</strong> <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span> aleatoriamente</li>
-<li><strong>Para</strong> cada episodio <span class="arithmatex">\(i = 1, \ldots, K\)</span>:<ol>
-<li><span class="arithmatex">\(s_t \leftarrow \text{estado inicial}\)</span></li>
-<li><strong>Para</strong> <span class="arithmatex">\(t = 1, \ldots, T\)</span>:<ol>
-<li>Muestrear <span class="arithmatex">\(a_t \sim \pi_\theta(\cdot \mid s_t)\)</span></li>
-<li>Ejecutar <span class="arithmatex">\(a_t\)</span> y observar <span class="arithmatex">\(r_{t+1}\)</span>, <span class="arithmatex">\(s_{t+1}\)</span>, <span class="arithmatex">\(\text{done}\)</span></li>
-<li><strong>Si</strong> <span class="arithmatex">\(\text{done}\)</span>: <span class="arithmatex">\(V_{\phi}(s_{t+1}) \leftarrow 0\)</span></li>
-<li>Calcular error TD: <span class="arithmatex">\(\delta_t = r_{t+1} + \gamma V_\phi(s_{t+1}) - V_\phi(s_t)\)</span></li>
-<li><strong>Actualización del crítico</strong>: <span class="arithmatex">\(\phi \leftarrow \phi + \alpha_\phi  \delta_t  \nabla_\phi V_\phi(s_t)\)</span></li>
-<li><strong>Actualización del actor</strong>: <span class="arithmatex">\(\theta \leftarrow \theta + \alpha_\theta  \delta_t  \nabla_\theta \log \pi_\theta(a_t \mid s_t) + \beta  \nabla_\theta H(\pi_\theta(\cdot|s_t))\)</span></li>
-<li><span class="arithmatex">\(s_t \leftarrow s_{t+1}\)</span></li>
-<li><strong>Si</strong> <span class="arithmatex">\(\text{done}\)</span>: <strong>terminar</strong></li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<p><strong>devolver</strong> <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span></p>
-</div>
-<p><strong>Nota sobre la regularización por entropía:</strong> El término <span class="arithmatex">\(\beta  \nabla_\theta H(\pi_\theta(\cdot|s_t))\)</span> en la actualización del actor es un <strong>bonus de entropía</strong>, donde <span class="arithmatex">\(H(\pi) = -\sum_a \pi(a|s) \log \pi(a|s)\)</span> es la entropía de la política. Maximizar la entropía incentiva que la política <strong>permanezca estocástica</strong> y evita una convergencia prematura a una política determinista subóptima. Se trata de una versión más suave de la exploración <span class="arithmatex">\(\epsilon\)</span>-<em>greedy</em> que usamos en Q-Learning. El coeficiente <span class="arithmatex">\(\beta\)</span> es un hiperparámetro pequeño (p.ej. <span class="arithmatex">\(0{,}01\)</span>).</p>
-<p><strong>Comparación con REINFORCE</strong></p>
-<p>La tabla siguiente resume las diferencias clave:</p>
-<table>
-<thead>
-<tr>
-<th>Propiedad</th>
-<th>REINFORCE</th>
-<th>REINFORCE+Baseline</th>
-<th>A2C</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Estimación de ventaja</td>
-<td><span class="arithmatex">\(G_t\)</span></td>
-<td><span class="arithmatex">\(G_t - V_\phi(s_t)\)</span></td>
-<td><span class="arithmatex">\(\delta_t\)</span> (error TD)</td>
-</tr>
-<tr>
-<td>Frecuencia de actualización</td>
-<td>Fin de episodio</td>
-<td>Fin de episodio</td>
-<td>Cada paso (en línea)</td>
-</tr>
-<tr>
-<td>Sesgo</td>
-<td>Ninguno (MC)</td>
-<td>Ninguno (MC)</td>
-<td>Pequeño (bootstrap)</td>
-</tr>
-<tr>
-<td>Varianza</td>
-<td>Alta</td>
-<td>Media</td>
-<td>Baja</td>
-</tr>
-<tr>
-<td>Maneja entornos no episódicos</td>
-<td>✗</td>
-<td>✗</td>
-<td>✓</td>
-</tr>
-</tbody>
-</table>
-<p>En la práctica, A2C converge <strong>más rápido y de forma más estable</strong> que REINFORCE porque el crítico TD proporciona una señal de baja varianza y actualizada continuamente, al coste de un pequeño sesgo introducido por el bootstrap.</p>
-<h2 id="proximal-policy-optimization-ppo">Proximal Policy Optimization (PPO)<a class="headerlink" href="#proximal-policy-optimization-ppo" title="Permanent link">¶</a></h2>
-<p>Podemos ver Proximal Policy Optimization (PPO)  (<strong>schulman2017ppo?</strong>) como una evolución de A2C, y constituye en la actualidad el principal algoritmo del estado del arte en Aprendizaje por Refuerzo.</p>
-<h3 id="el-problema-de-las-actualizaciones-grandes">El problema de las actualizaciones grandes<a class="headerlink" href="#el-problema-de-las-actualizaciones-grandes" title="Permanent link">¶</a></h3>
-<p>A2C actualiza la política en cada paso, lo cual plantea un problema que puede parecer pequeño pero que resulta crítico: si un paso de gradiente desplaza <span class="arithmatex">\(\theta\)</span> demasiado, la nueva política <span class="arithmatex">\(\pi_{\theta_\text{new}}\)</span> puede volverse muy diferente de <span class="arithmatex">\(\pi_{\theta_\text{old}}\)</span>. Esto es peligroso por dos razones:</p>
-<ol>
-<li><strong>Olvido catastrófico.</strong> Una actualización grande puede destruir el comportamiento aprendido previamente, enviando al agente a una región del espacio de políticas de la que no puede recuperarse.</li>
-<li><strong>Datos no válidos.</strong> Las estimaciones de ventaja <span class="arithmatex">\(\hat{A}_t\)</span> se calcularon bajo <span class="arithmatex">\(\pi_{\theta_\text{old}}\)</span>. Si la política cambia demasiado, esas estimaciones se vuelven inválidas (los datos ya no son representativos de la nueva política), lo que conduce a actualizaciones sesgadas.</li>
-</ol>
-<p>Esto motiva la idea de los métodos de <strong>región de confianza</strong> (<em>trust region</em>), que consiste en restringir cada actualización para que la nueva política se mantenga cerca de la antigua en un sentido bien definido.</p>
-<p>Una medida natural del cambio de política es el <strong>cociente de probabilidades</strong> (<em>probability ratio</em>):</p>
-<div class="arithmatex">\[
-r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_\text{old}}(a_t \mid s_t)}\,.
-\]</div>
-<p>Cuando <span class="arithmatex">\(r_t(\theta) = 1\)</span>, ambas políticas coinciden en <span class="arithmatex">\(a_t\)</span>. Cuando <span class="arithmatex">\(r_t(\theta) \gg 1\)</span> o <span class="arithmatex">\(r_t(\theta) \ll 1\)</span>, la nueva política asigna probabilidades muy diferentes a la acción tomada.</p>
-<p>El objetivo de gradiente de política estándar puede reescribirse utilizando este cociente como:</p>
-<div class="arithmatex">\[
-J(\theta) = \mathbb{E}_t\!\left[r_t(\theta)  \hat{A}_t\right]\,.
-\]</div>
-<p>Sin restricciones, maximizar este objetivo empujaría <span class="arithmatex">\(r_t(\theta)\)</span> hacia el infinito siempre que <span class="arithmatex">\(\hat{A}_t &gt; 0\)</span>, que es la raíz de la inestabilidad.</p>
-<h3 id="el-objetivo-con-clipping">El objetivo con <em>clipping</em><a class="headerlink" href="#el-objetivo-con-clipping" title="Permanent link">¶</a></h3>
-<p><strong>Proximal Policy Optimization (PPO)</strong> (<strong>schulman2017ppo?</strong>) resuelve esto con una idea simple pero efectiva: <strong>recortar el cociente de probabilidades</strong> (<em>clip</em>) para que las actualizaciones más allá de la región de confianza se ignoren.</p>
-<p>El objetivo PPO con clipping es:</p>
-<div class="arithmatex">\[
-\boxed{
-J^{\text{CLIP}}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\,\hat{A}_t,\;\; \text{clip}\!\left(r_t(\theta), 1-\epsilon, 1+\epsilon\right)\hat{A}_t\right)\right]
-}
-\]</div>
-<p>donde <span class="arithmatex">\(\epsilon\)</span> es un hiperparámetro pequeño (típicamente <span class="arithmatex">\(0.1\)</span> ó <span class="arithmatex">\(0.2\)</span>) y <span class="arithmatex">\(\text{clip}(x, l, u) = \max(l, \min(u, x))\)</span>.</p>
-<p>El comportamiento de este objetivo depende del signo de la ventaja:</p>
-<ul>
-<li><strong>Cuando <span class="arithmatex">\(\hat{A}_t &gt; 0\)</span></strong> (la acción fue mejor que el promedio): queremos aumentar <span class="arithmatex">\(r_t(\theta)\)</span>, pero el <span class="arithmatex">\(\min\)</span> selecciona el valor recortado en cuanto <span class="arithmatex">\(r_t &gt; 1 + \epsilon\)</span>, creando una meseta que impide explotar en exceso la acción. Por debajo de <span class="arithmatex">\(1+\epsilon\)</span> el objetivo es lineal (sin recorte activo).</li>
-<li><strong>Cuando <span class="arithmatex">\(\hat{A}_t &lt; 0\)</span></strong> (la acción fue peor que el promedio): queremos disminuir <span class="arithmatex">\(r_t(\theta)\)</span>, pero el <span class="arithmatex">\(\min\)</span> selecciona el valor recortado en cuanto <span class="arithmatex">\(r_t &lt; 1 - \epsilon\)</span>, creando una meseta que impide penalizar en exceso la acción. Por encima de <span class="arithmatex">\(1-\epsilon\)</span> el objetivo es lineal.</li>
-</ul>
-<p>En ambos casos, el <span class="arithmatex">\(\min\)</span> actúa como una <strong>cota pesimista</strong>: solo toma el valor recortado cuando hacerlo es peor para el objetivo, actuando como una restricción unilateral que desincentiva los movimientos fuera de la región de confianza.</p>
 <p>La figura siguiente muestra la forma de <span class="arithmatex">\(J^{\text{CLIP}}\)</span> en función de <span class="arithmatex">\(r_t\)</span> para cada signo de la ventaja:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>         Â &gt; 0                          Â &lt; 0
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>J^CLIP                         J^CLIP
@@ -876,159 +796,6 @@ J^{\text{CLIP}}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\,\hat{A}_t
 <blockquote>
 <p><strong>Nota de implementación:</strong> Dado que esta figura es relevante para la comprensión del algoritmo, es un buen candidato para sustituirse por una figura SVG generada con matplotlib o similar.</p>
 </blockquote>
-<h3 id="estimacion-generalizada-de-ventaja-gae">Estimación Generalizada de Ventaja (GAE)<a class="headerlink" href="#estimacion-generalizada-de-ventaja-gae" title="Permanent link">¶</a></h3>
-<p>En la práctica, PPO no utiliza únicamente el error TD de un paso (<span class="arithmatex">\(n=1\)</span>) para estimar la ventaja, sino una combinación ponderada de estimadores de todos los horizontes <span class="arithmatex">\(n\)</span>, conocida como <strong>Estimación Generalizada de Ventaja</strong> (<em>Generalized Advantage Estimation</em>, GAE) (Schulman et al., 2016)<sup id="fnref:schulman2016gae"><a class="footnote-ref" href="#fn:schulman2016gae">2</a></sup>.</p>
-<p>Recordemos que el estimador de <span class="arithmatex">\(n\)</span> pasos de la ventaja es:</p>
-<div class="arithmatex">\[
-\hat{A}_t^{(n)} = \sum_{k=0}^{n-1} \gamma^k r_{t+k+1} + \gamma^n V_\phi(s_{t+n}) - V_\phi(s_t)\,.
-\]</div>
-<p>GAE define la ventaja como una suma exponencialmente ponderada de estos estimadores para todos los horizontes, controlada por un parámetro <span class="arithmatex">\(\lambda \in [0,1]\)</span>:</p>
-<div class="arithmatex">\[
-\hat{A}_t^{\text{GAE}(\gamma,\lambda)} = (1-\lambda)\sum_{n=1}^{\infty} \lambda^{n-1} \hat{A}_t^{(n)}\,.
-\]</div>
-<p>Esta expresión puede simplificarse de forma muy eficiente. Definiendo <span class="arithmatex">\(\delta_t = r_{t+1} + \gamma V_\phi(s_{t+1}) - V_\phi(s_t)\)</span> como el error TD de un paso, se puede demostrar que:</p>
-<div class="arithmatex">\[
-\hat{A}_t^{\text{GAE}(\gamma,\lambda)} = \sum_{l=0}^{\infty} (\gamma\lambda)^l \,\delta_{t+l}\,,
-\]</div>
-<p>lo que permite calcularlo en una sola pasada hacia atrás sobre la trayectoria, de manera análoga a como calculamos los retornos <span class="arithmatex">\(G_t\)</span> en REINFORCE.</p>
-<p>El parámetro <span class="arithmatex">\(\lambda\)</span> controla el compromiso entre sesgo y varianza:</p>
-<ul>
-<li><strong><span class="arithmatex">\(\lambda = 0\)</span></strong>: <span class="arithmatex">\(\hat{A}_t^{\text{GAE}} = \delta_t\)</span> (error TD de un paso). Baja varianza, pero sesgo mayor si el crítico no es exacto.</li>
-<li><strong><span class="arithmatex">\(\lambda = 1\)</span></strong>: <span class="arithmatex">\(\hat{A}_t^{\text{GAE}} = \sum_{l=0}^{\infty} \gamma^l \delta_{t+l} = G_t - V_\phi(s_t)\)</span> (estimador Monte Carlo). Sin sesgo (dado <span class="arithmatex">\(V_\phi\)</span>), pero mayor varianza.</li>
-<li><strong><span class="arithmatex">\(0 &lt; \lambda &lt; 1\)</span></strong>: interpolación suave entre ambos extremos. En la práctica se usan valores como <span class="arithmatex">\(\lambda = 0.95\)</span>.</li>
-</ul>
-<p>En combinación con el descuento <span class="arithmatex">\(\gamma\)</span>, el factor efectivo de descuento de los errores TD es <span class="arithmatex">\(\gamma\lambda\)</span>, lo que introduce un decaimiento exponencial adicional que reduce aún más la influencia de los errores temporalmente lejanos.</p>
-<h3 id="ppo-en-la-practica">PPO en la práctica<a class="headerlink" href="#ppo-en-la-practica" title="Permanent link">¶</a></h3>
-<p>PPO recopila un lote de <span class="arithmatex">\(N\)</span> pasos (o episodios) con la política actual y luego realiza <strong>múltiples épocas de actualizaciones por minilotes</strong> sobre ese lote antes de descartarlo. Esto contrasta con A2C, que utiliza cada muestra para una única actualización.</p>
-<p>La pérdida completa de PPO combina tres términos:</p>
-<div class="arithmatex">\[
-\mathcal{L}^{\text{PPO}}(\theta, \phi) = -J^{\text{CLIP}}(\theta) + c_1  \mathcal{L}^{\text{VF}}(\phi) - c_2  H(\pi_\theta)\,,
-\]</div>
-<p>donde:</p>
-<ul>
-<li><span class="arithmatex">\(J^{\text{CLIP}}(\theta)\)</span>: pérdida de política (se ha de <strong>maximizar</strong>, de ahí el signo menos para descenso por gradiente).</li>
-<li><span class="arithmatex">\(\mathcal{L}^{\text{VF}}(\phi) = \mathbb{E}_t[(V_\phi(s_t) - \hat{G}_t)^2]\)</span>: pérdida de la función de valor (MSE).</li>
-<li><span class="arithmatex">\(H(\pi_\theta)\)</span>: bonus de entropía para la exploración.</li>
-<li><span class="arithmatex">\(c_1, c_2\)</span>: coeficientes de ponderación.</li>
-</ul>
-<div class="admonition algorithm">
-<p class="admonition-title">Algoritmo: PPO (Proximal Policy Optimization)</p>
-<p><strong>Entradas:</strong> Parámetro de recorte <span class="arithmatex">\(\epsilon\)</span>, épocas por actualización <span class="arithmatex">\(K_\text{epoch}\)</span>, tamaño de minilote <span class="arithmatex">\(M\)</span>, pasos por rollout <span class="arithmatex">\(N\)</span>, coeficientes <span class="arithmatex">\(c_1\)</span>, <span class="arithmatex">\(c_2\)</span>, parámetro GAE <span class="arithmatex">\(\lambda\)</span></p>
-<p><strong>Salida:</strong> Parámetros de política <span class="arithmatex">\(\theta\)</span>, parámetros de valor <span class="arithmatex">\(\phi\)</span></p>
-<ol>
-<li><strong>Inicializar</strong> <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span> aleatoriamente</li>
-<li><strong>Repetir</strong> hasta convergencia:<ol>
-<li><strong>Fase de rollout</strong>: recopilar <span class="arithmatex">\(N\)</span> pasos <span class="arithmatex">\((s_t, a_t, r_{t+1}, s_{t+1})\)</span> siguiendo <span class="arithmatex">\(\pi_\theta\)</span></li>
-<li>Calcular errores TD: <span class="arithmatex">\(\delta_t = r_{t+1} + \gamma V_\phi(s_{t+1}) - V_\phi(s_t)\)</span></li>
-<li>Calcular ventajas GAE en pasada hacia atrás: <span class="arithmatex">\(\hat{A}_t = \sum_{l \geq 0}(\gamma\lambda)^l \delta_{t+l}\)</span></li>
-<li>Calcular retornos objetivo: <span class="arithmatex">\(\hat{G}_t = \hat{A}_t + V_\phi(s_t)\)</span></li>
-<li><span class="arithmatex">\(\theta_\text{old} \leftarrow \theta\)</span></li>
-<li><strong>Para</strong> cada época <span class="arithmatex">\(= 1, \ldots, K_\text{epoch}\)</span>:<ol>
-<li><strong>Para</strong> cada minilote de tamaño <span class="arithmatex">\(M\)</span> del rollout:</li>
-<li>Calcular <span class="arithmatex">\(r_t(\theta) = \pi_\theta(a_t|s_t) / \pi_{\theta_\text{old}}(a_t|s_t)\)</span></li>
-<li><span class="arithmatex">\(\mathcal{L} = -\mathbb{E}\left[\min(r_t \hat{A}_t, \text{clip}(r_t, 1\!-\!\epsilon, 1\!+\!\epsilon)\hat{A}_t)\right]\)</span>
-                  <span class="arithmatex">\(+ c_1 \cdot \mathbb{E}[(V_\phi(s_t) - \hat{G}_t)^2]\)</span>
-                  <span class="arithmatex">\(- c_2 \cdot \mathbb{E}[H(\pi_\theta(\cdot|s_t))]\)</span></li>
-<li>Actualizar <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span> por descenso de gradiente sobre <span class="arithmatex">\(\mathcal{L}\)</span></li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<p><strong>devolver</strong> <span class="arithmatex">\(\theta\)</span>, <span class="arithmatex">\(\phi\)</span></p>
-</div>
-<p><strong>¿Por qué PPO es tan ampliamente utilizado?</strong></p>
-<p>PPO consigue un excelente equilibrio entre eficiencia de muestras y estabilidad. A diferencia de métodos de región de confianza anteriores (p.ej. TRPO), no requiere optimización de segundo orden y es sencillo de implementar. Se ha convertido en el <strong>estándar de facto</strong> en RL profundo para control continuo, robótica y — de manera especialmente relevante — en el <strong>Aprendizaje por Refuerzo a partir de Retroalimentación Humana (RLHF)</strong>, la técnica utilizada para ajustar los grandes modelos de lenguaje como ChatGPT, Claude o Gemini para que sigan instrucciones y se alineen con las preferencias humanas.</p>
-<hr>
-<h2 id="resumen">Resumen<a class="headerlink" href="#resumen" title="Permanent link">¶</a></h2>
-<p>La siguiente tabla sitúa todos los algoritmos de Aprendizaje por Refuerzo vistos tanto en la asignatura de Agentes Inteligentes como en Aprendizaje Avanzado:</p>
-<table>
-<thead>
-<tr>
-<th>Algoritmo</th>
-<th>Paradigma</th>
-<th>Sin modelo</th>
-<th>En línea</th>
-<th>Función V/Q</th>
-<th>Función de política</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Iteración de Valor</td>
-<td>PD</td>
-<td>✗</td>
-<td>✗</td>
-<td><span class="arithmatex">\(V(s)\)</span></td>
-<td>derivada</td>
-</tr>
-<tr>
-<td>Monte Carlo MDP</td>
-<td>Basado en valor</td>
-<td>✓</td>
-<td>✗</td>
-<td><span class="arithmatex">\(Q(s,a)\)</span></td>
-<td><span class="arithmatex">\(\epsilon\)</span>-greedy</td>
-</tr>
-<tr>
-<td>SARSA</td>
-<td>Basado en valor</td>
-<td>✓</td>
-<td>✓</td>
-<td><span class="arithmatex">\(Q(s,a)\)</span></td>
-<td><span class="arithmatex">\(\epsilon\)</span>-greedy</td>
-</tr>
-<tr>
-<td>Q-Learning</td>
-<td>Basado en valor</td>
-<td>✓</td>
-<td>✓</td>
-<td><span class="arithmatex">\(Q(s,a)\)</span></td>
-<td><span class="arithmatex">\(\epsilon\)</span>-greedy</td>
-</tr>
-<tr>
-<td>DQN</td>
-<td>Basado en valor</td>
-<td>✓</td>
-<td>✓</td>
-<td><span class="arithmatex">\(\hat{Q}_\theta(s,a)\)</span></td>
-<td><span class="arithmatex">\(\epsilon\)</span>-greedy</td>
-</tr>
-<tr>
-<td>REINFORCE</td>
-<td><strong>Basado en política</strong></td>
-<td>✓</td>
-<td>✗</td>
-<td>—</td>
-<td><span class="arithmatex">\(\pi_\theta(a \mid s)\)</span></td>
-</tr>
-<tr>
-<td>REINFORCE+B</td>
-<td><strong>Basado en política</strong></td>
-<td>✓</td>
-<td>✗</td>
-<td><span class="arithmatex">\(V_\phi(s)\)</span></td>
-<td><span class="arithmatex">\(\pi_\theta(a \mid s)\)</span></td>
-</tr>
-<tr>
-<td>A2C</td>
-<td><strong>Actor-Critic</strong></td>
-<td>✓</td>
-<td>✓</td>
-<td><span class="arithmatex">\(V_\phi(s)\)</span></td>
-<td><span class="arithmatex">\(\pi_\theta(a \mid s)\)</span></td>
-</tr>
-<tr>
-<td>PPO</td>
-<td><strong>Actor-Critic</strong></td>
-<td>✓</td>
-<td>✓</td>
-<td><span class="arithmatex">\(V_\phi(s)\)</span></td>
-<td><span class="arithmatex">\(\pi_\theta(a\mid s)\)</span></td>
-</tr>
-</tbody>
-</table>
-<p>La idea fundamental de este tema es que <strong>optimizar la política directamente</strong>, en lugar de derivarla de una función de valor, abre la puerta a los espacios de acción continuos, a las políticas óptimas estocásticas y a las nuevas técnicas de alineamiento que dan soporte a los grandes modelos de lenguaje actuales.</p>
 <hr>
 <p>A lo largo del curso hemos estudiado modelos muy distintos: regresión logística, SVMs, árboles de decisión, Random Forest, métodos de boosting, clustering, GMM y aprendizaje por refuerzo. Cada uno tiene supuestos, fortalezas y debilidades distintas. La pregunta natural que surge al final es: <strong>¿cómo decidir cuál usar en un problema concreto? ¿Y cómo extraer el máximo rendimiento del modelo elegido?</strong></p>
 <p>Vamos a abordar esas preguntas desde tres puntos de vista complementarios:</p>
@@ -1162,50 +929,345 @@ J^{\text{CLIP}}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\,\hat{A}_t
 <p>Cuando se comparan muchos modelos mediante CV sobre el mismo <em>dataset</em>, el riesgo de seleccionar el mejor por azar aumenta con el número de comparaciones. </p>
 <p>El <strong>test de Diebold-Mariano</strong> o el <strong>test de Friedman</strong> (para múltiples modelos sobre múltiples <em>datasets</em>) permiten determinar si las diferencias de rendimiento son estadísticamente significativas.</p>
 <p>Una regla práctica conservadora es la <strong>regla 1-SE de Breiman</strong>: entre todos los modelos cuyo error CV está dentro de un error estándar del mejor, elegir el más simple. Esto favorece la parsimonia sin sacrificar rendimiento de forma estadísticamente significativa.</p>
+<h3 id="el-problema-de-la-comparacion-multiple-en-seleccion-de-modelos_1">El problema de la comparación múltiple en selección de modelos<a class="headerlink" href="#el-problema-de-la-comparacion-multiple-en-seleccion-de-modelos_1" title="Permanent link">¶</a></h3>
+<p>Cuando se usa validación cruzada (CV) para comparar modelos, se comete un error frecuente, que es tratar el valor de CV como si fuera el <strong>error de generalización real</strong> del modelo. No lo es, se trata de una <strong>estimación</strong> de ese error, y como toda estimación, tiene ruido.</p>
+<p>La pregunta relevante no es <em>"¿qué modelo tiene el menor error de CV?"</em>, sino <em>"¿tenemos evidencia suficiente de que ese modelo es realmente mejor, o estamos viendo ruido de estimación?"</em></p>
+<h4 id="el-error-de-cv-como-estimador-ruidoso">El error de CV como estimador ruidoso<a class="headerlink" href="#el-error-de-cv-como-estimador-ruidoso" title="Permanent link">¶</a></h4>
+<p>Dado un modelo <span class="arithmatex">\(h\)</span> y un dataset <span class="arithmatex">\(\mathcal{D}\)</span>, el error de generalización real es:</p>
+<div class="arithmatex">\[\mathcal{E}(h) = \mathbb{E}_{(x,y) \sim P}\left[L(h(x), y)\right]\]</div>
+<p>Lo que obtenemos con <span class="arithmatex">\(k\)</span>-fold CV es una estimación de este valor:</p>
+<div class="arithmatex">\[\widehat{\mathcal{E}}_{\text{CV}}(h) = \frac{1}{k}\sum_{i=1}^{k} L_i(h)\]</div>
+<p>Esta estimación tiene <strong>varianza propia</strong> por dos razones:</p>
+<ol>
+<li>
+<p><strong>Variabilidad de los <em>folds</em></strong>: Cada <em>fold</em> es una muestra aleatoria distinta del
+   <em>dataset</em>. Si hubiéramos partido los datos de otra forma, habríamos obtenido un
+   valor numérico diferente.</p>
+</li>
+<li>
+<p><strong>Correlación entre <em>folds</em></strong>: Los modelos entrenados en distintos <em>folds</em> comparten
+   una fracción <span class="arithmatex">\((1 - 1/k)\)</span> de los datos de entrenamiento. Esto introduce
+   dependencia entre las <span class="arithmatex">\(k\)</span> estimaciones y hace que la varianza real del estimador
+   sea mayor de lo que sugiere la fórmula naïve de la varianza de la media.</p>
+</li>
+</ol>
+<p>Podemos escribir la relación entre lo observado y lo real como:</p>
+<div class="arithmatex">\[\widehat{\mathcal{E}}_{\text{CV}}(h) = \mathcal{E}(h) + \varepsilon_h\]</div>
+<p>donde <span class="arithmatex">\(\varepsilon_h\)</span> es el error de estimación, que depende tanto del modelo como
+de la <strong>partición aleatoria concreta</strong> que se usó.</p>
+<h4 id="ejemplo-numerico">Ejemplo numérico<a class="headerlink" href="#ejemplo-numerico" title="Permanent link">¶</a></h4>
+<p>Supón que se comparan dos modelos cuyos errores reales de generalización son:</p>
+<div class="arithmatex">\[\mathcal{E}(h_1) = 0.2100, \quad \mathcal{E}(h_2) = 0.2120\]</div>
+<p><span class="arithmatex">\(h_1\)</span> es marginalmente mejor. Sin embargo, tras aplicar 10-fold CV se observa:</p>
+<div class="arithmatex">\[\widehat{\mathcal{E}}_{\text{CV}}(h_1) = 0.2140, \quad \widehat{\mathcal{E}}_{\text{CV}}(h_2) = 0.2090\]</div>
+<p>El ruido de estimación (<span class="arithmatex">\(\varepsilon_{h_1} = +0.004\)</span>, <span class="arithmatex">\(\varepsilon_{h_2} = -0.003\)</span>)
+fue suficiente para <strong>invertir el orden real</strong> de los modelos. Se selecciona <span class="arithmatex">\(h_2\)</span>
+como ganador cuando en realidad <span class="arithmatex">\(h_1\)</span> generaliza mejor. No ha habido trampa ni
+error metodológico, sino simplemente varianza estadística.</p>
+<h2 id="por-que-el-problema-escala-con-el-numero-de-comparaciones">Por qué el problema escala con el número de comparaciones<a class="headerlink" href="#por-que-el-problema-escala-con-el-numero-de-comparaciones" title="Permanent link">¶</a></h2>
+<p>Con un único par de modelos, el riesgo de error por ruido es limitado. El problema
+se agrava cuando se comparan muchos modelos simultáneamente, como ocurre en un
+<code>GridSearchCV</code> con decenas de combinaciones de hiperparámetros.</p>
+<p>Cada comparación tiene una probabilidad <span class="arithmatex">\(\alpha\)</span> de producir un falso positivo (concluir
+que un modelo es mejor cuando no lo es). Al realizar <span class="arithmatex">\(m\)</span> comparaciones, la
+probabilidad de cometer <strong>al menos un error</strong> es:</p>
+<div class="arithmatex">\[P(\text{al menos un error}) = 1 - (1 - \alpha)^m\]</div>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Número de modelos <span class="arithmatex">\(m\)</span></th>
+<th style="text-align: center;"><span class="arithmatex">\(P(\text{error})\)</span> con <span class="arithmatex">\(\alpha = 0.05\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">10%</td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">40%</td>
+</tr>
+<tr>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">64%</td>
+</tr>
+<tr>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">92%</td>
+</tr>
+<tr>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">99.4%</td>
+</tr>
+</tbody>
+</table>
+<p>Con 50 combinaciones de hiperparámetros (un <code>GridSearchCV</code> modesto), es casi
+seguro que el modelo "ganador" tiene una componente de suerte incorporada en su
+puntuación. Esto se conoce como el <strong>problema de comparaciones múltiples</strong> o, en
+su versión más extrema, <em>p-hacking</em> o <em>data dredging</em>.</p>
+<blockquote>
+<p><strong>Nota intuitiva</strong>: con suficientes intentos, un modelo mediocre acabará
+obteniendo una buena puntuación de CV simplemente por azar. Cuantos más modelos
+se comparan, mayor es la probabilidad de que el "mejor" lo sea en parte por
+ruido.</p>
+</blockquote>
+<hr>
+<h2 id="herramientas-para-afrontar-el-problema">Herramientas para afrontar el problema<a class="headerlink" href="#herramientas-para-afrontar-el-problema" title="Permanent link">¶</a></h2>
+<h3 id="1-test-t-pareado-sobre-los-folds-comparacion-de-dos-modelos">1. Test <span class="arithmatex">\(t\)</span> pareado sobre los folds (comparación de dos modelos)<a class="headerlink" href="#1-test-t-pareado-sobre-los-folds-comparacion-de-dos-modelos" title="Permanent link">¶</a></h3>
+<p>La aproximación más práctica cuando se comparan <strong>dos modelos</strong> sobre el mismo
+dataset. En lugar de comparar las medias de CV, se comprueba si la diferencia
+media es estadísticamente significativa.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span><span class="p">,</span> <span class="n">Lasso</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">scores_A</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>                           <span class="n">scoring</span><span class="o">=</span><span class="s1">'neg_mean_squared_error'</span><span class="p">)</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">scores_B</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>                           <span class="n">scoring</span><span class="o">=</span><span class="s1">'neg_mean_squared_error'</span><span class="p">)</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">t_stat</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_rel</span><span class="p">(</span><span class="n">scores_A</span><span class="p">,</span> <span class="n">scores_B</span><span class="p">)</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Media A: </span><span class="si">{</span><span class="n">scores_A</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">scores_A</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Media B: </span><span class="si">{</span><span class="n">scores_B</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> ± </span><span class="si">{</span><span class="n">scores_B</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"p-valor: </span><span class="si">{</span><span class="n">p_value</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="k">if</span> <span class="n">p_value</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"→ Sin evidencia de diferencia real. Elegir el más simple."</span><span class="p">)</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"→ Diferencia estadísticamente significativa."</span><span class="p">)</span>
+</code></pre></div>
+<p>Si <span class="arithmatex">\(p &gt; 0.05\)</span>, no hay evidencia suficiente para preferir un modelo sobre el otro
+basándose en el rendimiento. En ese caso, el modelo más simple debe guiar la decisión.</p>
+<blockquote>
+<p><strong>Limitación</strong>: El test <span class="arithmatex">\(t\)</span> asume independencia entre folds, que no se cumple
+estrictamente en CV. Dietterich (1998) propone correcciones específicas para este
+caso, pero en la práctica el test <span class="arithmatex">\(t\)</span> pareado es la aproximación estándar por su
+simplicidad.</p>
+</blockquote>
+<hr>
+<h3 id="2-test-de-friedman-post-hoc-de-nemenyi-multiples-modelos">2. Test de Friedman + post-hoc de Nemenyi (múltiples modelos)<a class="headerlink" href="#2-test-de-friedman-post-hoc-de-nemenyi-multiples-modelos" title="Permanent link">¶</a></h3>
+<p>Cuando se comparan <strong>más de dos modelos</strong>, la metodología recomendada en ML
+(Demšar, 2006) es el test no paramétrico de Friedman sobre rangos.</p>
+<p><strong>Procedimiento:</strong></p>
+<ol>
+<li>Para cada dataset (o fold), se asigna un rango a cada modelo (1 = mejor).</li>
+<li>Se calcula el rango medio <span class="arithmatex">\(\bar{r}_j\)</span> de cada modelo <span class="arithmatex">\(j\)</span> sobre todos los datasets.</li>
+<li>El test de Friedman contrasta <span class="arithmatex">\(H_0\)</span>: todos los modelos tienen el mismo rango
+   esperado.</li>
+<li>Si se rechaza <span class="arithmatex">\(H_0\)</span>, se aplica el post-hoc de Nemenyi para identificar qué pares
+   difieren significativamente.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">friedmanchisquare</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">import</span> <span class="nn">scikit_posthocs</span> <span class="k">as</span> <span class="nn">sp</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># Puntuaciones de cada modelo en múltiples datasets o repeticiones</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">scores</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="s1">'Ridge'</span><span class="p">:</span>    <span class="p">[</span><span class="mf">0.82</span><span class="p">,</span> <span class="mf">0.79</span><span class="p">,</span> <span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.81</span><span class="p">,</span> <span class="mf">0.83</span><span class="p">],</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="s1">'Lasso'</span><span class="p">:</span>    <span class="p">[</span><span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.81</span><span class="p">,</span> <span class="mf">0.83</span><span class="p">,</span> <span class="mf">0.79</span><span class="p">,</span> <span class="mf">0.82</span><span class="p">],</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="s1">'ElasticNet'</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.77</span><span class="p">,</span> <span class="mf">0.79</span><span class="p">,</span> <span class="mf">0.76</span><span class="p">,</span> <span class="mf">0.78</span><span class="p">],</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">}</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="n">stat</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">friedmanchisquare</span><span class="p">(</span><span class="o">*</span><span class="n">scores</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Friedman: χ²=</span><span class="si">{</span><span class="n">stat</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">, p=</span><span class="si">{</span><span class="n">p</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="k">if</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mf">0.05</span><span class="p">:</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Post-hoc de Nemenyi (p-valores por pares):"</span><span class="p">)</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">posthoc_nemenyi_friedman</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+</code></pre></div>
+<hr>
+<h4 id="la-regla-1-se-de-breiman">La regla 1-SE de Breiman<a class="headerlink" href="#la-regla-1-se-de-breiman" title="Permanent link">¶</a></h4>
+<p>Es la herramienta más directamente aplicable con sklearn y la más usada en la
+práctica. No requiere tests adicionales y es visualmente interpretable.</p>
+<h4 id="idea-central">Idea central<a class="headerlink" href="#idea-central" title="Permanent link">¶</a></h4>
+<p>Después de CV, cada modelo tiene un error medio y un error estándar asociado a esa
+estimación. El error estándar cuantifica la incertidumbre de la estimación:</p>
+<div class="arithmatex">\[\text{SE}_j = \frac{\sigma_j}{\sqrt{k}}\]</div>
+<p>donde <span class="arithmatex">\(\sigma_j\)</span> es la desviación estándar de los errores en los <span class="arithmatex">\(k\)</span> folds. La
+regla dice:</p>
+<blockquote>
+<p><strong>Entre todos los modelos cuyo error de CV cae dentro de</strong> <span class="arithmatex">\(\bar{e}_{\min} + \text{SE}_{\min}\)</span>,
+<strong>elegir el más simple.</strong></p>
+</blockquote>
+<p>La lógica estadística es clara: si el error de un modelo más simple está dentro del
+margen de incertidumbre del mejor modelo, <strong>no tenemos evidencia para afirmar que
+el mejor es realmente mejor</strong>. La diferencia es estadísticamente indistinguible del
+ruido.</p>
+<h4 id="visualizacion-conceptual">Visualización conceptual<a class="headerlink" href="#visualizacion-conceptual" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Error CV
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  │
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  │         ●  ← mejor valor de CV (mínimo)
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>  │       ●   ●
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>  │─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─  umbral = mín + 1·SE
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  │                 ●    ●   ●  ← modelos dentro del umbral
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>  │                          ▲
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>  │                          └── elegir éste (el más simple)
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>  └──────────────────────────────── complejidad →
+</code></pre></div>
+<h4 id="implementacion-completa-con-sklearn">Implementación completa con sklearn<a class="headerlink" href="#implementacion-completa-con-sklearn" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># Grid de hiperparámetros (mayor alpha = mayor regularización = más simple)</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">alphas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">mean_errors</span><span class="p">,</span> <span class="n">std_errors</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="n">alphas</span><span class="p">:</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">),</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>                             <span class="n">cv</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">'neg_mean_squared_error'</span><span class="p">)</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>    <span class="n">mean_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">scores</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>    <span class="n">std_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)))</span>  <span class="c1"># error estándar</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="n">mean_errors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mean_errors</span><span class="p">)</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="n">std_errors</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">std_errors</span><span class="p">)</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="c1"># --- Regla 1-SE ---</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="n">best_idx</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">mean_errors</span><span class="p">)</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="n">umbral_1se</span> <span class="o">=</span> <span class="n">mean_errors</span><span class="p">[</span><span class="n">best_idx</span><span class="p">]</span> <span class="o">+</span> <span class="n">std_errors</span><span class="p">[</span><span class="n">best_idx</span><span class="p">]</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="n">within_1se</span> <span class="o">=</span> <span class="n">mean_errors</span> <span class="o">&lt;=</span> <span class="n">umbral_1se</span>
+<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>
+<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="c1"># El índice más a la derecha dentro del umbral = mayor alpha = más simple</span>
+<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="n">chosen_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">within_1se</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>
+<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Alpha óptimo (mínimo CV):     </span><span class="si">{</span><span class="n">alphas</span><span class="p">[</span><span class="n">best_idx</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  "</span>
+<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>      <span class="sa">f</span><span class="s2">"| MSE = </span><span class="si">{</span><span class="n">mean_errors</span><span class="p">[</span><span class="n">best_idx</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Alpha elegido (regla 1-SE):   </span><span class="si">{</span><span class="n">alphas</span><span class="p">[</span><span class="n">chosen_idx</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  "</span>
+<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>      <span class="sa">f</span><span class="s2">"| MSE = </span><span class="si">{</span><span class="n">mean_errors</span><span class="p">[</span><span class="n">chosen_idx</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>
+<a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="c1"># --- Visualización ---</span>
+<a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="n">ax</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">alphas</span><span class="p">,</span> <span class="n">mean_errors</span><span class="p">,</span> <span class="s1">'b-'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Error CV medio'</span><span class="p">)</span>
+<a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">alphas</span><span class="p">,</span>
+<a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a>                <span class="n">mean_errors</span> <span class="o">-</span> <span class="n">std_errors</span><span class="p">,</span>
+<a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a>                <span class="n">mean_errors</span> <span class="o">+</span> <span class="n">std_errors</span><span class="p">,</span>
+<a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a>                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'blue'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'±1 SE'</span><span class="p">)</span>
+<a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a><span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">umbral_1se</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+<a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a>           <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'Umbral 1-SE = </span><span class="si">{</span><span class="n">umbral_1se</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<a id="__codelineno-6-41" name="__codelineno-6-41" href="#__codelineno-6-41"></a><span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">alphas</span><span class="p">[</span><span class="n">best_idx</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'green'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">':'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+<a id="__codelineno-6-42" name="__codelineno-6-42" href="#__codelineno-6-42"></a>           <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'Mejor (α=</span><span class="si">{</span><span class="n">alphas</span><span class="p">[</span><span class="n">best_idx</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
+<a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a><span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">alphas</span><span class="p">[</span><span class="n">chosen_idx</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'-'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+<a id="__codelineno-6-44" name="__codelineno-6-44" href="#__codelineno-6-44"></a>           <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'Elegido 1-SE (α=</span><span class="si">{</span><span class="n">alphas</span><span class="p">[</span><span class="n">chosen_idx</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">)'</span><span class="p">)</span>
+<a id="__codelineno-6-45" name="__codelineno-6-45" href="#__codelineno-6-45"></a><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'alpha (regularización creciente →)'</span><span class="p">)</span>
+<a id="__codelineno-6-46" name="__codelineno-6-46" href="#__codelineno-6-46"></a><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'MSE (CV)'</span><span class="p">)</span>
+<a id="__codelineno-6-47" name="__codelineno-6-47" href="#__codelineno-6-47"></a><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Regla 1-SE de Breiman — Ridge Regression'</span><span class="p">)</span>
+<a id="__codelineno-6-48" name="__codelineno-6-48" href="#__codelineno-6-48"></a><span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<a id="__codelineno-6-49" name="__codelineno-6-49" href="#__codelineno-6-49"></a><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<a id="__codelineno-6-50" name="__codelineno-6-50" href="#__codelineno-6-50"></a><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'regla_1se.svg'</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">'svg'</span><span class="p">)</span>
+<a id="__codelineno-6-51" name="__codelineno-6-51" href="#__codelineno-6-51"></a><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<h4 id="nota-importante-que-es-mas-simple">Nota importante: ¿qué es "más simple"?<a class="headerlink" href="#nota-importante-que-es-mas-simple" title="Permanent link">¶</a></h4>
+<p>La dirección de la complejidad depende del modelo:</p>
+<table>
+<thead>
+<tr>
+<th>Modelo</th>
+<th>Dirección "más simple"</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ridge / Lasso</td>
+<td>Mayor <code>alpha</code> (más regularización)</td>
+</tr>
+<tr>
+<td>Árbol de decisión</td>
+<td>Menor <code>max_depth</code></td>
+</tr>
+<tr>
+<td>KNN</td>
+<td>Mayor <code>n_neighbors</code></td>
+</tr>
+<tr>
+<td>SVM</td>
+<td>Mayor <code>C</code> → más margen (menor complejidad efectiva)</td>
+</tr>
+<tr>
+<td>Número de componentes (PCA, GMM)</td>
+<td>Menor <code>n_components</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="resumen-cuando-usar-cada-herramienta">Resumen: cuándo usar cada herramienta<a class="headerlink" href="#resumen-cuando-usar-cada-herramienta" title="Permanent link">¶</a></h4>
+<table>
+<thead>
+<tr>
+<th>Situación</th>
+<th>Herramienta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Comparar 2 modelos, mismo dataset</td>
+<td>Test <span class="arithmatex">\(t\)</span> pareado sobre folds de CV</td>
+</tr>
+<tr>
+<td>Comparar <span class="arithmatex">\(m &gt; 2\)</span> modelos en múltiples datasets</td>
+<td>Friedman + Nemenyi</td>
+</tr>
+<tr>
+<td>Seleccionar hiperparámetros con parsimonia</td>
+<td><strong>Regla 1-SE</strong></td>
+</tr>
+<tr>
+<td>Corrección rápida en búsqueda exhaustiva</td>
+<td>Bonferroni o Benjamini-Hochberg</td>
+</tr>
+</tbody>
+</table>
+<p>En la práctica de ML, la <strong>regla 1-SE es la opción por defecto recomendada</strong>
+para selección de hiperparámetros: no requiere infraestructura estadística
+adicional, favorece la parsimonia y produce modelos que generalizan al menos tan
+bien como el "ganador" nominal.</p>
 <h2 id="curvas-de-aprendizaje-y-diagnostico-de-modelos">Curvas de aprendizaje y diagnóstico de modelos<a class="headerlink" href="#curvas-de-aprendizaje-y-diagnostico-de-modelos" title="Permanent link">¶</a></h2>
 <h3 id="curvas-de-aprendizaje">Curvas de aprendizaje<a class="headerlink" href="#curvas-de-aprendizaje" title="Permanent link">¶</a></h3>
 <p>Las <strong>curvas de aprendizaje</strong> representan el error de entrenamiento y de validación en función del tamaño del <em>dataset</em> de entrenamiento <span class="arithmatex">\(N\)</span>. Son la herramienta más directa para diagnosticar si un modelo sufre de sesgo o varianza.</p>
 <p>Para generarlas, se entrena el modelo repetidamente sobre subconjuntos de tamaño <span class="arithmatex">\(m \in \{m_1, m_2, \ldots, N\}\)</span> y se registra el error de entrenamiento y de validación (estimado por CV) para cada <span class="arithmatex">\(m\)</span>.</p>
 <h4 id="diagnostico-de-alto-sesgo-underfitting">Diagnóstico de alto sesgo (underfitting)<a class="headerlink" href="#diagnostico-de-alto-sesgo-underfitting" title="Permanent link">¶</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Error
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  |
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  |-------- Error val  ─────────────
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  |                                         
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  |-------- Error train ────────────
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>  |_____________________________________ n
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Error
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>  |
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>  |-------- Error val  ─────────────
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  |                                         
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>  |-------- Error train ────────────
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>  |_____________________________________ n
 </code></pre></div>
 <p>Cuando el modelo tiene <strong>alto sesgo</strong>, tanto el error de entrenamiento como el de validación son altos y <strong>convergen rápidamente</strong> a un valor similar. Añadir más datos no mejora el rendimiento significativamente porque el modelo no tiene capacidad para aprender la estructura del problema.</p>
 <p><strong>Diagnóstico:</strong> El modelo es demasiado simple. La solución es aumentar la capacidad del modelo (mayor profundidad en el árbol, kernel más expresivo en SVM, más <em>features</em>, modelo más complejo).</p>
 <h4 id="diagnostico-de-alta-varianza-overfitting">Diagnóstico de alta varianza (overfitting)<a class="headerlink" href="#diagnostico-de-alta-varianza-overfitting" title="Permanent link">¶</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Error
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  |
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  |-------- Error val  ─────────────
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  |                          ╲
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>  |                           ╲______
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>  |-------- Error train ──────────────
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>  |_____________________________________ n
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Error
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>  |
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>  |-------- Error val  ─────────────
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>  |                          ╲
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>  |                           ╲______
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>  |-------- Error train ──────────────
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>  |_____________________________________ n
 </code></pre></div>
 <p>Cuando el modelo tiene <strong>alta varianza</strong>, el error de entrenamiento es bajo, pero el error de validación es considerablemente más alto y la <strong>brecha entre ambos no se cierra</strong> al aumentar <span class="arithmatex">\(N\)</span> (o lo hace muy lentamente).</p>
 <p><strong>Diagnóstico:</strong> El modelo memoriza el <em>training set</em>. Las soluciones son regularización, reducción de la complejidad del modelo, o más datos.</p>
 <h4 id="comportamiento-ideal">Comportamiento ideal<a class="headerlink" href="#comportamiento-ideal" title="Permanent link">¶</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Error
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>  |
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>  |---- Error val  ─╲
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>  |                  ╲_______________
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>  |---- Error train ─────────────────
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>  |_____________________________________ n
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Error
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>  |
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>  |---- Error val  ─╲
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>  |                  ╲_______________
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>  |---- Error train ─────────────────
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>  |_____________________________________ n
 </code></pre></div>
 <p>Ambas curvas convergen a un error bajo a medida que aumenta <span class="arithmatex">\(N\)</span>. La brecha es pequeña y disminuye con más datos.</p>
 <h3 id="curvas-de-validacion">Curvas de validación<a class="headerlink" href="#curvas-de-validacion" title="Permanent link">¶</a></h3>
 <p>Las <strong>curvas de validación</strong> representan el error de entrenamiento y validación en función de un hiperparámetro del modelo (no del tamaño del <em>dataset</em>). Permiten identificar la zona de <em>underfitting</em> y <em>overfitting</em> para ese hiperparámetro.</p>
 <p>Por ejemplo, para la profundidad máxima de un árbol de decisión:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Error
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  |
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>  |  Error val:   ╲              ╱
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  |                ╲____________╱
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>  |  Error train:   ╲___________
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>  |__________________________________________________ profundidad
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>       underfitting  │  óptimo  │  overfitting
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Error
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>  |
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>  |  Error val:   ╲              ╱
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>  |                ╲____________╱
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>  |  Error train:   ╲___________
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>  |__________________________________________________ profundidad
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>       underfitting  │  óptimo  │  overfitting
 </code></pre></div>
 <p>La profundidad óptima es aquella que minimiza el error de validación. A la izquierda del mínimo el modelo tiene sesgo (demasiado simple), mientras que a la derecha tiene varianza (demasiado complejo).</p>
 <h3 id="matriz-de-confusion-y-metricas-de-diagnostico">Matriz de confusión y métricas de diagnóstico<a class="headerlink" href="#matriz-de-confusion-y-metricas-de-diagnostico" title="Permanent link">¶</a></h3>
@@ -1214,7 +1276,7 @@ J^{\text{CLIP}}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\,\hat{A}_t
 <div class="arithmatex">\[C = \begin{pmatrix} \text{TN} &amp; \text{FP} \\ \text{FN} &amp; \text{TP} \end{pmatrix}\]</div>
 <p>Las métricas derivadas más importantes:</p>
 <div class="arithmatex">\[\text{Precisión} = \frac{\text{TP}}{\text{TP} + \text{FP}} \qquad \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} \qquad F_1 = \frac{2 \cdot \text{Prec} \cdot \text{Rec}}{\text{Prec} + \text{Rec}}\]</div>
-<p>El <strong>F<span class="arithmatex">\(_\beta\)</span> score</strong> generaliza el F1 permitiendo ponderar diferente la precisión y el recall:</p>
+<p>El <strong><span class="arithmatex">\(F_\beta\)</span> score</strong> generaliza el F1 permitiendo ponderar diferente la precisión y el recall:</p>
 <div class="arithmatex">\[F_\beta = (1 + \beta^2) \cdot \frac{\text{Prec} \cdot \text{Rec}}{\beta^2 \cdot \text{Prec} + \text{Rec}}\]</div>
 <p>Con <span class="arithmatex">\(\beta &gt; 1\)</span> se pondera más el recall (importante cuando los falsos negativos son más costosos que los falsos positivos, p.ej. diagnóstico de enfermedades); con <span class="arithmatex">\(\beta &lt; 1\)</span> se pondera más la precisión.</p>
 <p>La <strong>curva ROC</strong> representa la tasa de verdaderos positivos (recall) frente a la tasa de falsos positivos para todos los umbrales de decisión posibles. El <strong>AUC-ROC</strong> es el área bajo esa curva: 0.5 equivale a predicción aleatoria y 1.0 a clasificación perfecta. Es una métrica robusta al desbalanceo de clases porque es invariante al umbral y a la distribución de clases.</p>
@@ -1334,12 +1396,12 @@ J^{\text{CLIP}}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\,\hat{A}_t
 <div class="arithmatex">\[\text{EI}(\lambda) = ({\mu_t(\lambda) - f^*}) \Phi(Z) + \sigma_t(\lambda) \phi(Z), \quad Z = \frac{\mu_t(\lambda) - f^*}{\sigma_t(\lambda)}\]</div>
 <p>donde <span class="arithmatex">\(\Phi\)</span> y <span class="arithmatex">\(\phi\)</span> son la CDF y PDF de la normal estándar. Puntos con <span class="arithmatex">\(\mu_t(\lambda) \gg f^*\)</span> (alta explotación) o <span class="arithmatex">\(\sigma_t(\lambda)\)</span> alta (alta exploración) tienen EI alto.</p>
 <h4 id="el-algoritmo-completo">El algoritmo completo<a class="headerlink" href="#el-algoritmo-completo" title="Permanent link">¶</a></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>1. Evaluar f en unos pocos puntos iniciales (aleatorios o por diseño).
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>2. Ajustar el GP sobre los puntos evaluados.
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>3. Maximizar la función de adquisición: λ* = argmax α(λ).
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>4. Evaluar f(λ*) (entrenar y validar el modelo con hiperparámetros λ*).
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>5. Añadir (λ*, f(λ*)) al conjunto de observaciones.
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>6. Volver al paso 2.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>1. Evaluar f en unos pocos puntos iniciales (aleatorios o por diseño).
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>2. Ajustar el GP sobre los puntos evaluados.
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>3. Maximizar la función de adquisición: λ* = argmax α(λ).
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>4. Evaluar f(λ*) (entrenar y validar el modelo con hiperparámetros λ*).
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>5. Añadir (λ*, f(λ*)) al conjunto de observaciones.
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>6. Volver al paso 2.
 </code></pre></div>
 <p>La clave es que maximizar <span class="arithmatex">\(\alpha(\lambda)\)</span> es barato (no requiere entrenar el modelo real), mientras que evaluar <span class="arithmatex">\(f(\lambda)\)</span> es caro. La BO concentra las evaluaciones costosas donde tienen mayor esperanza de mejora.</p>
 <h4 id="alternativa-tree-structured-parzen-estimator-tpe">Alternativa: Tree-structured Parzen Estimator (TPE)<a class="headerlink" href="#alternativa-tree-structured-parzen-estimator-tpe" title="Permanent link">¶</a></h4>
@@ -1501,17 +1563,160 @@ J^{\text{CLIP}}(\theta) = \mathbb{E}_t\!\left[\min\!\left(r_t(\theta)\,\hat{A}_t
 <li><a href="https://shap.readthedocs.io/">SHAP</a> — importancia de features e interpretabilidad.</li>
 <li><a href="https://www.scikit-yb.org/">yellowbrick</a> — visualizaciones de diagnóstico de modelos (curvas de aprendizaje, validación, matrices de confusión).</li>
 </ul>
-<div class="footnote">
 <hr>
+<h2 id="6-robustez-y-ataques-adversariales">6. Robustez y Ataques Adversariales<a class="headerlink" href="#6-robustez-y-ataques-adversariales" title="Permanent link">¶</a></h2>
+<h3 id="61-el-fenomeno-adversarial">6.1. El fenómeno adversarial<a class="headerlink" href="#61-el-fenomeno-adversarial" title="Permanent link">¶</a></h3>
+<p>En 2013, Szegedy et al. descubrieron que los clasificadores de imagen basados en redes neuronales profundas son extremadamente vulnerables a perturbaciones imperceptibles al ojo humano. Una imagen correctamente clasificada puede modificarse con un ruido tan pequeño que ningún humano lo detectaría, pero la red neuronal cambia su predicción completamente — y con alta confianza.</p>
+<p>Este fenómeno no es exclusivo de imágenes: se ha demostrado en texto, audio, series temporales, grafos y datos tabulares. La existencia de ejemplos adversariales es una propiedad estructural de los clasificadores de alta dimensión, no un fallo de implementación.</p>
+<h3 id="62-taxonomia-de-ataques">6.2. Taxonomía de ataques<a class="headerlink" href="#62-taxonomia-de-ataques" title="Permanent link">¶</a></h3>
+<p><strong>Por el conocimiento del atacante:</strong></p>
+<ul>
+<li><strong>Caja blanca (white-box):</strong> el atacante conoce la arquitectura del modelo, sus pesos y puede calcular gradientes. Es el escenario más favorable para el atacante y el más usado en investigación para encontrar cotas superiores de vulnerabilidad.</li>
+<li><strong>Caja negra (black-box):</strong> el atacante solo puede hacer consultas al modelo (entrada → salida) sin acceder a su estructura interna. Más realista en la práctica.</li>
+</ul>
+<p><strong>Por el objetivo del ataque:</strong></p>
+<ul>
+<li><strong>No dirigido (untargeted):</strong> hacer que el modelo prediga cualquier clase incorrecta.</li>
+<li><strong>Dirigido (targeted):</strong> hacer que el modelo prediga una clase específica.</li>
+</ul>
+<p><strong>Por el momento del ataque:</strong></p>
+<ul>
+<li><strong>Ataques de inferencia (evasion):</strong> modificar las entradas en tiempo de prueba para engañar al modelo sin modificarlo.</li>
+<li><strong>Ataques de envenenamiento (poisoning):</strong> modificar el dataset de entrenamiento para que el modelo aprendido tenga el comportamiento deseado por el atacante.</li>
+<li><strong>Ataques de backdoor:</strong> insertar un patrón "trigger" en el dataset de entrenamiento de modo que el modelo se comporte correctamente en general pero prediga una clase específica cuando aparece el trigger.</li>
+</ul>
+<h3 id="63-ataques-de-evasion-principales">6.3. Ataques de evasión principales<a class="headerlink" href="#63-ataques-de-evasion-principales" title="Permanent link">¶</a></h3>
+<h4 id="fgsm-fast-gradient-sign-method">FGSM (Fast Gradient Sign Method)<a class="headerlink" href="#fgsm-fast-gradient-sign-method" title="Permanent link">¶</a></h4>
+<p>FGSM (Goodfellow et al., 2014) es el ataque más simple y sirvió para establecer la conexión entre la linealidad de las redes neuronales en el espacio de entrada y su vulnerabilidad adversarial. Dado un ejemplo <span class="arithmatex">\((x, y)\)</span>, genera un ejemplo adversarial <span class="arithmatex">\(x'\)</span> con:</p>
+<div class="arithmatex">\[x' = x + \varepsilon \cdot \text{sign}(\nabla_x \mathcal{L}(\theta, x, y))\]</div>
+<p>La perturbación <span class="arithmatex">\(\varepsilon \cdot \text{sign}(\nabla_x \mathcal{L})\)</span> se añade en la dirección que maximiza la pérdida, con magnitud limitada a <span class="arithmatex">\(\varepsilon\)</span> en norma <span class="arithmatex">\(L_\infty\)</span>. Es un ataque de un solo paso, computacionalmente barato pero no el más fuerte.</p>
+<h4 id="pgd-projected-gradient-descent">PGD (Projected Gradient Descent)<a class="headerlink" href="#pgd-projected-gradient-descent" title="Permanent link">¶</a></h4>
+<p>PGD (Madry et al., 2018) es la versión iterativa de FGSM. Aplica <span class="arithmatex">\(T\)</span> pasos de FGSM con paso pequeño <span class="arithmatex">\(\alpha\)</span>, proyectando después de cada paso sobre la bola <span class="arithmatex">\(L_\infty\)</span> de radio <span class="arithmatex">\(\varepsilon\)</span> centrada en <span class="arithmatex">\(x\)</span>:</p>
+<div class="arithmatex">\[x'^{(t+1)} = \Pi_{x, \varepsilon} \left( x'^{(t)} + \alpha \cdot \text{sign}(\nabla_x \mathcal{L}(\theta, x'^{(t)}, y)) \right)\]</div>
+<p>donde <span class="arithmatex">\(\Pi_{x, \varepsilon}\)</span> es la proyección sobre el hipercubo <span class="arithmatex">\([x - \varepsilon, x + \varepsilon]^d\)</span>. PGD con múltiples reinicios aleatorios es considerado el ataque de caja blanca más fuerte bajo la norma <span class="arithmatex">\(L_\infty\)</span>.</p>
+<h4 id="cw-carlini-wagner">C&amp;W (Carlini &amp; Wagner)<a class="headerlink" href="#cw-carlini-wagner" title="Permanent link">¶</a></h4>
+<p>El ataque C&amp;W (Carlini y Wagner, 2017) formula la búsqueda del ejemplo adversarial como un problema de optimización con dos objetivos: ser cercano al original y ser clasificado como la clase objetivo <span class="arithmatex">\(t\)</span>:</p>
+<div class="arithmatex">\[\min_\delta \|\delta\|_2 + c \cdot \max(\max_{j \neq t} f(x + \delta)_j - f(x + \delta)_t, -\kappa)\]</div>
+<p>Es más caro computacionalmente pero produce perturbaciones mucho más pequeñas que FGSM/PGD.</p>
+<h3 id="64-defensa-adversarial-training">6.4. Defensa: Adversarial Training<a class="headerlink" href="#64-defensa-adversarial-training" title="Permanent link">¶</a></h3>
+<p>El método de defensa más efectivo conocido hasta la fecha es el <strong>entrenamiento adversarial</strong> (Madry et al., 2018): aumentar el dataset de entrenamiento con ejemplos adversariales generados durante el propio entrenamiento. El objetivo de optimización se convierte en un minimax:</p>
+<div class="arithmatex">\[\min_\theta \mathbb{E}_{(x,y) \sim \mathcal{D}} \left[ \max_{\delta \in \mathcal{B}(0, \varepsilon)} \mathcal{L}(\theta, x + \delta, y) \right]\]</div>
+<p>El problema interno (max) se resuelve con PGD, y el problema externo (min) con SGD estándar. El coste es un mayor tiempo de entrenamiento y habitualmente una degradación de la precisión en ejemplos limpios.</p>
+<p><strong>Transferibilidad:</strong> un hallazgo importante es que los ejemplos adversariales generados sobre un modelo <span class="arithmatex">\(A\)</span> son frecuentemente efectivos también sobre un modelo <span class="arithmatex">\(B\)</span> diferente (incluso si <span class="arithmatex">\(B\)</span> tiene arquitectura distinta). Esto hace que los ataques de caja negra sean más peligrosos de lo que parecería, ya que un atacante puede entrenar un modelo sustituto sobre el que generar ejemplos adversariales.</p>
+<p><strong>Herramientas:</strong> <a href="https://adversarial-robustness-toolbox.readthedocs.io/">Adversarial Robustness Toolbox</a> (IBM, soporta múltiples ataques y defensas), <a href="https://foolbox.jonasrauber.de/">Foolbox</a>, <a href="https://github.com/cleverhans-lab/cleverhans">CleverHans</a>.</p>
+<hr>
+<h2 id="7-deriva-del-modelo-y-mlops">7. Deriva del Modelo y MLOps<a class="headerlink" href="#7-deriva-del-modelo-y-mlops" title="Permanent link">¶</a></h2>
+<h3 id="71-el-supuesto-de-estacionariedad">7.1. El supuesto de estacionariedad<a class="headerlink" href="#71-el-supuesto-de-estacionariedad" title="Permanent link">¶</a></h3>
+<p>Todos los modelos de ML que hemos estudiado asumen implícitamente que la distribución de los datos es estacionaria: que los datos de producción siguen la misma distribución que los de entrenamiento. En la práctica, el mundo cambia, y los modelos que no se monitorizan ni actualizan se degradan silenciosamente.</p>
+<h3 id="72-taxonomia-de-la-deriva">7.2. Taxonomía de la deriva<a class="headerlink" href="#72-taxonomia-de-la-deriva" title="Permanent link">¶</a></h3>
+<p><strong>Data drift (covariable shift):</strong> la distribución marginal de las entradas <span class="arithmatex">\(P(X)\)</span> cambia, pero la relación <span class="arithmatex">\(P(Y|X)\)</span> se mantiene. Ejemplo: el perfil demográfico de los usuarios de un sistema cambia con el tiempo, pero el comportamiento de cada tipo de usuario es el mismo.</p>
+<p><strong>Concept drift:</strong> la relación <span class="arithmatex">\(P(Y|X)\)</span> cambia. Ejemplo: el fraude bancario evoluciona y los patrones que antes eran fraudulentos ya no lo son, o nuevos patrones emergen. Es el tipo de deriva más dañino y difícil de detectar, porque el modelo puede seguir viendo inputs similares pero con una relación distinta con la salida.</p>
+<p><strong>Label shift (prior probability shift):</strong> la distribución marginal de <span class="arithmatex">\(P(Y)\)</span> cambia. Ejemplo: la prevalencia de una enfermedad aumenta estacionalmente.</p>
+<p><strong>Concept drift repentino vs. gradual vs. recurrente:</strong> el drift puede ocurrir de forma abrupta (un cambio normativo que altera el comportamiento), gradual (evolución lenta de los hábitos), o recurrente (patrones estacionales que se repiten).</p>
+<h3 id="73-deteccion-de-deriva">7.3. Detección de deriva<a class="headerlink" href="#73-deteccion-de-deriva" title="Permanent link">¶</a></h3>
+<p>La detección de deriva en la distribución de las entradas puede abordarse estadísticamente. Para cada feature <span class="arithmatex">\(j\)</span>, queremos contrastar si la distribución en producción <span class="arithmatex">\(P_t(X_j)\)</span> difiere de la distribución de referencia <span class="arithmatex">\(P_{\text{ref}}(X_j)\)</span>.</p>
+<p><strong>Para variables continuas — Kolmogorov-Smirnov:</strong></p>
+<div class="arithmatex">\[D = \sup_x |F_{\text{ref}}(x) - F_t(x)|\]</div>
+<p>donde <span class="arithmatex">\(F\)</span> denota la función de distribución acumulada empírica. El test KS contrasta <span class="arithmatex">\(H_0\)</span>: ambas muestras proceden de la misma distribución.</p>
+<p><strong>Para variables categóricas — chi-cuadrado:</strong></p>
+<div class="arithmatex">\[\chi^2 = \sum_{k} \frac{(O_k - E_k)^2}{E_k}\]</div>
+<p>donde <span class="arithmatex">\(O_k\)</span> son las frecuencias observadas en producción y <span class="arithmatex">\(E_k\)</span> las esperadas según la distribución de referencia.</p>
+<p><strong>Population Stability Index (PSI):</strong> ampliamente usado en el sector financiero, mide el cambio global en la distribución de una variable:</p>
+<div class="arithmatex">\[\text{PSI} = \sum_{k=1}^{K} (p_k^t - p_k^{\text{ref}}) \cdot \ln\frac{p_k^t}{p_k^{\text{ref}}}\]</div>
+<p>donde <span class="arithmatex">\(p_k\)</span> es la proporción de observaciones en el bin <span class="arithmatex">\(k\)</span>. Regla práctica: PSI &lt; 0.1 estable, 0.1–0.25 requiere atención, &gt; 0.25 cambio significativo.</p>
+<p>La detección del concept drift es más difícil porque requiere etiquetas en producción, que habitualmente llegan con retraso (o no llegan). Cuando se dispone de etiquetas, se pueden monitorizar las métricas del modelo (precisión, F1, AUC) con tests estadísticos sobre ventanas temporales deslizantes.</p>
+<h3 id="74-estrategias-de-reentrenamiento">7.4. Estrategias de reentrenamiento<a class="headerlink" href="#74-estrategias-de-reentrenamiento" title="Permanent link">¶</a></h3>
+<p>Una vez detectada la deriva, hay que decidir cómo actualizar el modelo:</p>
+<ul>
+<li><strong>Reentrenamiento completo:</strong> descartar el modelo actual y entrenar desde cero con datos recientes. Garantiza que el modelo refleja la distribución actual pero es costoso y puede perder patrones que sí son estables.</li>
+<li><strong>Reentrenamiento incremental (online learning):</strong> actualizar el modelo continuamente con cada nuevo dato o batch. La librería <a href="https://riverml.xyz/">River</a> implementa algoritmos de ML online (Hoeffding Trees, etc.) diseñados para este escenario.</li>
+<li><strong>Ventana deslizante:</strong> entrenar solo con los datos más recientes (últimos <span class="arithmatex">\(N\)</span> días/meses). El tamaño de la ventana es un hiperparámetro que controla el trade-off entre adaptabilidad y estabilidad.</li>
+<li><strong>Ponderación temporal:</strong> mantener todos los datos pero asignar mayor peso a los más recientes.</li>
+</ul>
+<h3 id="75-mlops">7.5. MLOps<a class="headerlink" href="#75-mlops" title="Permanent link">¶</a></h3>
+<p><strong>MLOps</strong> (Machine Learning Operations) es el conjunto de prácticas, herramientas y culturas organizativas que permiten desplegar y mantener sistemas de ML de forma fiable y escalable. Es la aplicación de los principios de DevOps al ciclo de vida del ML.</p>
+<p>Los componentes principales de una infraestructura MLOps son:</p>
+<ul>
+<li><strong>Tracking de experimentos:</strong> registro de hiperparámetros, métricas y artefactos de cada experimento. <a href="https://mlflow.org/">MLflow</a>, <a href="https://wandb.ai/">Weights &amp; Biases</a>.</li>
+<li><strong>Versionado de datos y modelos:</strong> <a href="https://dvc.org/">DVC</a> permite versionar datasets y modelos de la misma forma que Git versiona el código.</li>
+<li><strong>Pipelines reproducibles:</strong> <a href="https://kedro.org/">Kedro</a>, <a href="https://zenml.io/">ZenML</a>.</li>
+<li><strong>Serving y despliegue:</strong> <a href="https://bentoml.com/">BentoML</a>, <a href="https://www.seldon.io/">Seldon Core</a>, <a href="https://docs.ray.io/en/latest/serve/index.html">Ray Serve</a>.</li>
+<li><strong>Monitorización en producción:</strong> <a href="https://www.evidentlyai.com/">Evidently AI</a>, <a href="https://whylabs.ai/">WhyLogs/WhyLabs</a>.</li>
+</ul>
+<hr>
+<h2 id="8-datos-escasos-y-sinteticos">8. Datos Escasos y Sintéticos<a class="headerlink" href="#8-datos-escasos-y-sinteticos" title="Permanent link">¶</a></h2>
+<h3 id="81-el-problema-de-los-datos-escasos">8.1. El problema de los datos escasos<a class="headerlink" href="#81-el-problema-de-los-datos-escasos" title="Permanent link">¶</a></h3>
+<p>En muchos dominios críticos, los datos etiquetados son escasos o muy desbalanceados:</p>
+<ul>
+<li><strong>Enfermedades raras:</strong> pocos casos disponibles por definición.</li>
+<li><strong>Eventos de fraude:</strong> tasas de fraude del 0.1-1% generan datasets extremadamente desbalanceados.</li>
+<li><strong>Accidentes industriales:</strong> por suerte, son infrecuentes, pero eso hace difícil aprender a predecirlos.</li>
+<li><strong>Etiquetado caro:</strong> el etiquetado por expertos (radiólogos, juristas, lingüistas) es lento y costoso.</li>
+</ul>
+<h3 id="82-tecnicas-de-aumentacion-clasica">8.2. Técnicas de aumentación clásica<a class="headerlink" href="#82-tecnicas-de-aumentacion-clasica" title="Permanent link">¶</a></h3>
+<p>La <strong>aumentación de datos</strong> aplica transformaciones que preservan la etiqueta para generar nuevas instancias de entrenamiento a partir de las existentes.</p>
+<p><strong>Para imágenes:</strong> rotaciones, traslaciones, recortes, volteos horizontales, cambios de brillo y contraste, mezclas de imágenes (Mixup, CutMix).</p>
+<p><strong>Para series temporales:</strong> escalado temporal (time warping), jitter (adición de ruido), permutación de segmentos, inversión temporal.</p>
+<p><strong>Para datos tabulares:</strong> el enfoque más directo es la interpolación en el espacio de features, implementada por la familia de métodos SMOTE.</p>
+<h4 id="smote-synthetic-minority-over-sampling-technique">SMOTE (Synthetic Minority Over-sampling Technique)<a class="headerlink" href="#smote-synthetic-minority-over-sampling-technique" title="Permanent link">¶</a></h4>
+<p>SMOTE (Chawla et al., 2002) genera instancias sintéticas de la clase minoritaria interpolando entre instancias reales. Para cada instancia <span class="arithmatex">\(x_i\)</span> de la clase minoritaria:</p>
 <ol>
-<li id="fn:mnih2016asynchronous">
-<p>Mnih, V., Badia, A. P., Mirza, M., Graves, A., Lillicrap, T., Harley, T., Silver, D., &amp; Kavukcuoglu, K. (2016). Asynchronous methods for deep reinforcement learning. <em>Proceedings of the 33rd International Conference on Machine Learning</em>, <em>48</em>, 1928--1937.&nbsp;<a class="footnote-backref" href="#fnref:mnih2016asynchronous" title="Jump back to footnote 1 in the text">↩</a></p>
-</li>
-<li id="fn:schulman2016gae">
-<p>Schulman, J., Moritz, P., Levine, S., Jordan, M. I., &amp; Abbeel, P. (2016). High-dimensional continuous control using generalized advantage estimation. <em>4th International Conference on Learning Representations (ICLR 2016)</em>. <a href="https://arxiv.org/abs/1506.02438">https://arxiv.org/abs/1506.02438</a>&nbsp;<a class="footnote-backref" href="#fnref:schulman2016gae" title="Jump back to footnote 2 in the text">↩</a></p>
-</li>
+<li>Encontrar sus <span class="arithmatex">\(k\)</span> vecinos más cercanos en la clase minoritaria: <span class="arithmatex">\(\{x_{i_1}, \ldots, x_{i_k}\}\)</span>.</li>
+<li>Seleccionar aleatoriamente uno de ellos: <span class="arithmatex">\(x_{i_j}\)</span>.</li>
+<li>Generar un nuevo ejemplo: <span class="arithmatex">\(x_{\text{new}} = x_i + \lambda (x_{i_j} - x_i)\)</span>, donde <span class="arithmatex">\(\lambda \sim U(0,1)\)</span>.</li>
 </ol>
-</div>
+<p>El resultado es un punto aleatorio en el segmento entre <span class="arithmatex">\(x_i\)</span> y <span class="arithmatex">\(x_{i_j}\)</span>. Variantes como <strong>SMOTE-NC</strong> manejan variables categóricas, <strong>SMOTE-ENN</strong> combina sobremuestreo con submuestreo eliminando ejemplos ruidosos, y <strong>ADASYN</strong> pondera más los ejemplos de la clase minoritaria que son más difíciles de aprender.</p>
+<h3 id="83-generacion-de-datos-sinteticos">8.3. Generación de datos sintéticos<a class="headerlink" href="#83-generacion-de-datos-sinteticos" title="Permanent link">¶</a></h3>
+<p>Más allá de la aumentación, los modelos generativos permiten aprender la distribución de los datos y muestrear instancias completamente nuevas.</p>
+<h4 id="ctgan-para-datos-tabulares">CTGAN para datos tabulares<a class="headerlink" href="#ctgan-para-datos-tabulares" title="Permanent link">¶</a></h4>
+<p>Los datos tabulares son más difíciles de modelar que las imágenes porque mezclan variables continuas y categóricas con distribuciones arbitrarias (no gaussianas). <strong>CTGAN</strong> (Xu et al., 2019), implementado en la librería <a href="https://sdv.dev/">SDV</a>, adapta las GANs a este dominio con dos innovaciones:</p>
+<ul>
+<li><strong>Mode-specific normalization:</strong> en lugar de normalizar las variables continuas con media y varianza, estima una mezcla de gaussianas (VGM) y normaliza cada muestra relativa al modo más probable. Esto maneja distribuciones multimodales o sesgadas.</li>
+<li><strong>Conditional generator con training-by-sampling:</strong> el generador recibe como condición el valor de una variable categórica y el entrenamiento muestrea condiciones con frecuencia inversamente proporcional a su frecuencia real, mejorando la generación de categorías raras.</li>
+</ul>
+<p>La GAN tiene la arquitectura estándar: generador <span class="arithmatex">\(G\)</span> que transforma ruido <span class="arithmatex">\(z \sim \mathcal{N}(0, I)\)</span> en datos sintéticos, y discriminador <span class="arithmatex">\(D\)</span> que intenta distinguir datos reales de sintéticos. El objetivo es el minimax estándar:</p>
+<div class="arithmatex">\[\min_G \max_D \; \mathbb{E}_{x \sim p_{\text{data}}}[\log D(x)] + \mathbb{E}_{z \sim p_z}[\log(1 - D(G(z)))]\]</div>
+<h4 id="evaluacion-de-datos-sinteticos">Evaluación de datos sintéticos<a class="headerlink" href="#evaluacion-de-datos-sinteticos" title="Permanent link">¶</a></h4>
+<p>La evaluación de la calidad de los datos sintéticos es un problema complejo que debe cubrir tres dimensiones:</p>
+<ol>
+<li>
+<p><strong>Fidelidad estadística:</strong> ¿se parece la distribución sintética a la real? Métricas: distancia de Jensen-Shannon entre distribuciones marginales, Wasserstein distance, diferencias en correlaciones entre variables.</p>
+</li>
+<li>
+<p><strong>Utilidad:</strong> ¿sirven los datos sintéticos para entrenar modelos? El protocolo <strong>Train-on-Synthetic, Test-on-Real (TSTR)</strong> entrena un clasificador sobre datos sintéticos y lo evalúa sobre datos reales, comparando con el resultado de Train-on-Real, Test-on-Real (TRTR). Una brecha pequeña indica alta utilidad.</p>
+</li>
+<li>
+<p><strong>Privacidad:</strong> los datos sintéticos pueden filtrar información sobre los datos de entrenamiento. Métricas:</p>
+</li>
+<li><strong>Membership inference attack:</strong> ¿puede un atacante determinar si un registro específico estaba en el dataset de entrenamiento? La resistencia a este ataque se mide con la métrica <span class="arithmatex">\(\text{DCR}\)</span> (Distance to Closest Record): si los sintéticos son muy cercanos a los reales, se corre el riesgo de memorización.</li>
+<li><strong>Attribute disclosure:</strong> ¿puede inferirse un atributo sensible de un individuo a partir de los datos sintéticos?</li>
+</ol>
+<p><strong>Herramientas:</strong> <a href="https://sdv.dev/">SDV/CTGAN</a>, <a href="https://imbalanced-learn.org/">Imbalanced-learn</a> (SMOTE y variantes), <a href="https://github.com/jsyoon0823/TimeGAN">TimeGAN</a> (series temporales), <a href="https://gretel.ai/">Gretel.ai</a>.</p>
+<hr>
+<h2 id="9-referencias-y-recursos">9. Referencias y Recursos<a class="headerlink" href="#9-referencias-y-recursos" title="Permanent link">¶</a></h2>
+<h3 id="articulos-seminales_1">Artículos seminales<a class="headerlink" href="#articulos-seminales_1" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>FL:</strong> McMahan, H. B. et al. (2017). <em>Communication-Efficient Learning of Deep Networks from Decentralized Data.</em> AISTATS.</li>
+<li><strong>FedProx:</strong> Li, T. et al. (2020). <em>Federated Optimization in Heterogeneous Networks.</em> MLSys.</li>
+<li><strong>DP:</strong> Dwork, C. et al. (2006). <em>Calibrating Noise to Sensitivity in Private Data Analysis.</em> TCC.</li>
+<li><strong>DP-SGD:</strong> Abadi, M. et al. (2016). <em>Deep Learning with Differential Privacy.</em> CCS.</li>
+<li><strong>SHAP:</strong> Lundberg, S. M. &amp; Lee, S.-I. (2017). <em>A Unified Approach to Interpreting Model Predictions.</em> NeurIPS.</li>
+<li><strong>LIME:</strong> Ribeiro, M. T. et al. (2016). <em>"Why Should I Trust You?": Explaining the Predictions of Any Classifier.</em> KDD.</li>
+<li><strong>DiCE:</strong> Mothilal, R. K. et al. (2020). <em>Explaining Machine Learning Classifiers through Diverse Counterfactual Explanations.</em> FAccT.</li>
+<li><strong>Fairness imposibility:</strong> Chouldechova, A. (2017). <em>Fair Prediction with Disparate Impact.</em> Big Data.</li>
+<li><strong>FGSM:</strong> Goodfellow, I. et al. (2015). <em>Explaining and Harnessing Adversarial Examples.</em> ICLR.</li>
+<li><strong>PGD / Adversarial training:</strong> Madry, A. et al. (2018). <em>Towards Deep Learning Models Resistant to Adversarial Attacks.</em> ICLR.</li>
+<li><strong>MIA (shadow models):</strong> Shokri, R. et al. (2017). <em>Membership Inference Attacks Against Machine Learning Models.</em> IEEE S&amp;P.</li>
+<li><strong>MIA (loss threshold):</strong> Yeom, S. et al. (2018). <em>Privacy Risk in Machine Learning: Analyzing the Connection to Overfitting.</em> CSF.</li>
+<li><strong>SMOTE:</strong> Chawla, N. V. et al. (2002). <em>SMOTE: Synthetic Minority Over-sampling Technique.</em> JAIR.</li>
+<li><strong>CTGAN:</strong> Xu, L. et al. (2019). <em>Modeling Tabular Data using Conditional GAN.</em> NeurIPS.</li>
+</ul>
+<h3 id="recursos-de-referencia">Recursos de referencia<a class="headerlink" href="#recursos-de-referencia" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Libros:</strong> <em>Fairness and Machine Learning</em> (Barocas, Hardt, Narayanan) — disponible en <a href="https://fairmlbook.org/">fairmlbook.org</a>. <em>Interpretable Machine Learning</em> (Molnar) — disponible en <a href="https://christophm.github.io/interpretable-ml-book/">christophm.github.io/interpretable-ml-book</a>.</li>
+<li><strong>Legislación:</strong> <a href="https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32016R0679">RGPD completo</a>. <a href="https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32024R1689">AI Act</a>.</li>
+<li><strong>Datasets de referencia:</strong> <a href="https://github.com/propublica/compas-analysis">COMPAS (ProPublica)</a>, <a href="https://archive.ics.uci.edu/">UCI ML Repository</a>, <a href="https://paperswithcode.com/">Papers with Code</a>.</li>
+</ul>
 
 
 
