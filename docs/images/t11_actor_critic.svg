@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="100%"
+   viewBox="0 0 680 420"
+   font-family="Georgia, serif"
+   version="1.1"
+   id="svg26"
+   sodipodi:docname="fig_actor_critic.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview26"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.4618419"
+     inkscape:cx="387.52481"
+     inkscape:cy="168.28085"
+     inkscape:window-width="1449"
+     inkscape:window-height="825"
+     inkscape:window-x="0"
+     inkscape:window-y="34"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg26" />
+  <defs
+     id="defs5">
+    <marker
+       id="arr"
+       viewBox="0 0 10 10"
+       refX="8"
+       refY="5"
+       markerWidth="6"
+       markerHeight="6"
+       orient="auto-start-reverse">
+      <path
+         d="M2 1L8 5L2 9"
+         fill="none"
+         stroke="#888780"
+         stroke-width="1.5"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         id="path1" />
+    </marker>
+    <marker
+       id="arr-blue"
+       viewBox="0 0 10 10"
+       refX="8"
+       refY="5"
+       markerWidth="6"
+       markerHeight="6"
+       orient="auto-start-reverse">
+      <path
+         d="M2 1L8 5L2 9"
+         fill="none"
+         stroke="#4051b5"
+         stroke-width="1.5"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         id="path2" />
+    </marker>
+    <marker
+       id="arr-teal"
+       viewBox="0 0 10 10"
+       refX="8"
+       refY="5"
+       markerWidth="6"
+       markerHeight="6"
+       orient="auto-start-reverse">
+      <path
+         d="M2 1L8 5L2 9"
+         fill="none"
+         stroke="#1d9e75"
+         stroke-width="1.5"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         id="path3" />
+    </marker>
+    <marker
+       id="arr-coral"
+       viewBox="0 0 10 10"
+       refX="8"
+       refY="5"
+       markerWidth="6"
+       markerHeight="6"
+       orient="auto-start-reverse">
+      <path
+         d="M2 1L8 5L2 9"
+         fill="none"
+         stroke="#d85a30"
+         stroke-width="1.5"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         id="path4" />
+    </marker>
+    <marker
+       id="arr-amber"
+       viewBox="0 0 10 10"
+       refX="8"
+       refY="5"
+       markerWidth="6"
+       markerHeight="6"
+       orient="auto-start-reverse">
+      <path
+         d="M2 1L8 5L2 9"
+         fill="none"
+         stroke="#ba7517"
+         stroke-width="1.5"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         id="path5" />
+    </marker>
+    <marker
+       id="arr-coral-1"
+       viewBox="0 0 10 10"
+       refX="8"
+       refY="5"
+       markerWidth="6"
+       markerHeight="6"
+       orient="auto-start-reverse">
+      <path
+         d="M 2,1 8,5 2,9"
+         fill="none"
+         stroke="#d85a30"
+         stroke-width="1.5"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         id="path4-4" />
+    </marker>
+  </defs>
+  <!-- ── Estado s_t ────────────────────────────────────────────────────── -->
+  <rect
+     x="270"
+     y="20"
+     width="140"
+     height="44"
+     rx="10"
+     fill="#f1efe8"
+     stroke="#888780"
+     stroke-width="1.5"
+     id="rect5" />
+  <text
+     x="340"
+     y="38"
+     text-anchor="middle"
+     font-size="13"
+     fill="#2c2c2a"
+     font-weight="bold"
+     id="text5">Estado</text>
+  <text
+     x="340"
+     y="54"
+     text-anchor="middle"
+     font-size="12px"
+     fill="#5f5e5a"
+     font-style="italic"
+     id="text6">s<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan18">t</tspan></text>
+  <!-- ── Flecha estado → actor ─────────────────────────────────────────── -->
+  <line
+     x1="280"
+     y1="64"
+     x2="210"
+     y2="138"
+     stroke="#888780"
+     stroke-width="1.5"
+     marker-end="url(#arr)"
+     id="line6" />
+  <!-- ── Flecha estado → crítico ───────────────────────────────────────── -->
+  <line
+     x1="400"
+     y1="64"
+     x2="470"
+     y2="138"
+     stroke="#888780"
+     stroke-width="1.5"
+     marker-end="url(#arr)"
+     id="line7" />
+  <!-- ── Actor ─────────────────────────────────────────────────────────── -->
+  <rect
+     x="100"
+     y="140"
+     width="200"
+     height="80"
+     rx="10"
+     fill="#eeedfe"
+     stroke="#4051b5"
+     stroke-width="2"
+     id="rect7" />
+  <text
+     x="200"
+     y="166"
+     text-anchor="middle"
+     font-size="14"
+     fill="#3c3489"
+     font-weight="bold"
+     id="text7">Actor</text>
+  <text
+     x="200"
+     y="184"
+     text-anchor="middle"
+     font-size="11px"
+     fill="#534ab7"
+     id="text8">π<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan16">θ</tspan>(a | s)</text>
+  <text
+     x="200"
+     y="200"
+     text-anchor="middle"
+     font-size="10"
+     fill="#534ab7"
+     id="text9">parámetros θ</text>
+  <!-- ── Crítico ────────────────────────────────────────────────────────── -->
+  <rect
+     x="380"
+     y="140"
+     width="200"
+     height="80"
+     rx="10"
+     fill="#e1f5ee"
+     stroke="#1d9e75"
+     stroke-width="2"
+     id="rect9" />
+  <text
+     x="480"
+     y="166"
+     text-anchor="middle"
+     font-size="14"
+     fill="#085041"
+     font-weight="bold"
+     id="text10">Crítico</text>
+  <text
+     x="480"
+     y="184"
+     text-anchor="middle"
+     font-size="11px"
+     fill="#1d9e75"
+     id="text11">V<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan17">φ</tspan>(s)</text>
+  <text
+     x="480"
+     y="200"
+     text-anchor="middle"
+     font-size="10"
+     fill="#1d9e75"
+     id="text12">parámetros φ</text>
+  <!-- ── Flecha actor → acción ─────────────────────────────────────────── -->
+  <line
+     x1="200"
+     y1="220"
+     x2="200"
+     y2="268"
+     stroke="#4051b5"
+     stroke-width="1.5"
+     marker-end="url(#arr-blue)"
+     id="line12" />
+  <!-- ── Acción a_t ─────────────────────────────────────────────────────── -->
+  <rect
+     x="120"
+     y="270"
+     width="160"
+     height="44"
+     rx="10"
+     fill="#eeedfe"
+     stroke="#4051b5"
+     stroke-width="1.5"
+     id="rect12" />
+  <text
+     x="200"
+     y="288"
+     text-anchor="middle"
+     font-size="12"
+     fill="#3c3489"
+     font-weight="bold"
+     id="text13">Acción</text>
+  <text
+     x="200"
+     y="304"
+     text-anchor="middle"
+     font-size="12px"
+     fill="#534ab7"
+     font-style="italic"
+     id="text14">a<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan13">t</tspan> ~ π<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan14">θ</tspan>(· | s<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan15">t</tspan>)</text>
+  <!-- ── Flecha crítico → valor ─────────────────────────────────────────── -->
+  <line
+     x1="480"
+     y1="220"
+     x2="480"
+     y2="268"
+     stroke="#1d9e75"
+     stroke-width="1.5"
+     marker-end="url(#arr-teal)"
+     id="line14" />
+  <!-- ── Valor V_φ(s_t) ─────────────────────────────────────────────────── -->
+  <rect
+     x="400"
+     y="270"
+     width="160"
+     height="44"
+     rx="10"
+     fill="#e1f5ee"
+     stroke="#1d9e75"
+     stroke-width="1.5"
+     id="rect14" />
+  <text
+     x="480"
+     y="288"
+     text-anchor="middle"
+     font-size="12"
+     fill="#085041"
+     font-weight="bold"
+     id="text15">Valor estimado</text>
+  <text
+     x="480"
+     y="304"
+     text-anchor="middle"
+     font-size="12px"
+     fill="#1d9e75"
+     font-style="italic"
+     id="text16">V<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan19">φ</tspan>(s_t)</text>
+  <!-- ── Flecha acción → entorno ────────────────────────────────────────── -->
+  <line
+     x1="200"
+     y1="314"
+     x2="200"
+     y2="358"
+     stroke="#4051b5"
+     stroke-width="1.5"
+     marker-end="url(#arr-blue)"
+     id="line16" />
+  <!-- ── Entorno ────────────────────────────────────────────────────────── -->
+  <rect
+     x="99.859131"
+     y="359.85913"
+     width="235.95673"
+     height="44.281734"
+     rx="6.5543537"
+     fill="#f1efe8"
+     stroke="#888780"
+     stroke-width="1.21827"
+     id="rect16" />
+  <text
+     x="200"
+     y="378"
+     text-anchor="middle"
+     font-size="13px"
+     fill="#2c2c2a"
+     font-weight="bold"
+     id="text17">Entorno</text>
+  <text
+     x="200"
+     y="394"
+     text-anchor="middle"
+     font-size="11px"
+     fill="#5f5e5a"
+     font-style="italic"
+     id="text18">s<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan11">t+1</tspan>, r<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan12">t+1</tspan></text>
+  <!-- ── Flecha valor → error TD ────────────────────────────────────────── -->
+  <line
+     x1="480"
+     y1="314"
+     x2="480"
+     y2="343.34802"
+     stroke="#1d9e75"
+     stroke-width="1.22505"
+     marker-end="url(#arr-teal)"
+     id="line18" />
+  <!-- ── Error TD δ_t ────────────────────────────────────────────────────── -->
+  <rect
+     x="409.64584"
+     y="344.79599"
+     width="139.44228"
+     height="57.843834"
+     rx="12.911323"
+     fill="#faeeda"
+     stroke="#ba7517"
+     stroke-width="1.70213"
+     id="rect18" />
+  <text
+     x="480"
+     y="360"
+     text-anchor="middle"
+     font-size="11px"
+     fill="#633806"
+     font-weight="bold"
+     id="text19">Error TD</text>
+  <text
+     x="440"
+     y="380"
+     text-anchor="middle"
+     font-size="10px"
+     fill="#854f0b"
+     font-style="italic"
+     id="text20">δ<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan20">t</tspan> = r<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan21">t+1</tspan> +</text>
+  <text
+     x="502"
+     y="380"
+     text-anchor="middle"
+     font-size="10px"
+     fill="#854f0b"
+     font-style="italic"
+     id="text21">γV<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan22">φ</tspan>(s<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan23">t+1</tspan>) − V<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan24">φ</tspan>(s<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan25">t</tspan>)</text>
+  <!-- ── Flecha entorno → error TD ─────────────────────────────────────── -->
+  <!-- ── Flecha error TD → actualización crítico ───────────────────────── -->
+  <path
+     d="M 549.08813,373.71791 C 575.21805,381.0036 635.08695,168.33231 580,195.30849"
+     fill="none"
+     stroke="#ba7517"
+     stroke-width="1.5"
+     stroke-dasharray="5, 3"
+     marker-end="url(#arr-amber)"
+     id="path21"
+     sodipodi:nodetypes="cc" />
+  <text
+     x="550"
+     y="236"
+     font-size="9px"
+     fill="#854f0b"
+     id="text22">actualiza φ</text>
+  <text
+     x="550"
+     y="250"
+     font-size="9px"
+     fill="#854f0b"
+     id="text23">(min δ<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan26">t</tspan>²)</text>
+  <!-- ── Flecha error TD → actualización actor ──────────────────────────── -->
+  <path
+     d="m 409.64584,357.96564 c -73.82998,1.89349 -106.5638,-6.62652 -118.73723,-137.91677"
+     fill="none"
+     stroke="#d85a30"
+     stroke-width="1.35606"
+     stroke-dasharray="5, 3"
+     marker-end="url(#arr-coral)"
+     id="path23"
+     sodipodi:nodetypes="cc" />
+  <path
+     d="m 335.81586,382 c 21.25554,-2.21092 34.69828,-4.91265 73.82998,-8.28209"
+     fill="none"
+     stroke="#d85a30"
+     stroke-width="1.35606"
+     stroke-dasharray="5, 3"
+     marker-end="url(#arr-coral-1)"
+     id="path23-7"
+     sodipodi:nodetypes="cc"
+     style="marker-end:url(#arr-coral-1)" />
+  <text
+     x="310"
+     y="295"
+     font-size="9px"
+     fill="#993c1d"
+     id="text24">ventaja Â<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan27">t</tspan> ≈ δ<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan28">t</tspan></text>
+  <text
+     x="308"
+     y="283"
+     font-size="9px"
+     fill="#993c1d"
+     id="text25">actualiza θ</text>
+  <!-- ── Flecha entorno → nuevo estado ─────────────────────────────────── -->
+  <path
+     d="M100 382 Q40 382 40 164 Q40 64 270 42"
+     fill="none"
+     stroke="#888780"
+     stroke-width="1.2"
+     stroke-dasharray="5,3"
+     marker-end="url(#arr)"
+     id="path25" />
+  <text
+     x="-206"
+     y="34"
+     font-size="9px"
+     fill="#888780"
+     transform="rotate(-90)"
+     id="text26">s<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan29">t+1</tspan> → s<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan30">t</tspan></text>
+</svg>
