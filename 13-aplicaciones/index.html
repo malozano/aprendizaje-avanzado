@@ -901,6 +901,196 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#robustez-y-ataques-adversariales" class="md-nav__link">
+    Robustez y Ataques Adversariales
+  </a>
+  
+    <nav class="md-nav" aria-label="Robustez y Ataques Adversariales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-fenomeno-adversarial" class="md-nav__link">
+    El fenómeno adversarial
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clasificacion-de-ataques" class="md-nav__link">
+    Clasificación de ataques
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ataques-de-evasion-principales" class="md-nav__link">
+    Ataques de evasión principales
+  </a>
+  
+    <nav class="md-nav" aria-label="Ataques de evasión principales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fgsm-fast-gradient-sign-method" class="md-nav__link">
+    FGSM (Fast Gradient Sign Method)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pgd-projected-gradient-descent" class="md-nav__link">
+    PGD (Projected Gradient Descent)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cw-carlini-wagner" class="md-nav__link">
+    C&amp;W (Carlini &amp; Wagner)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#defensa-adversarial-training" class="md-nav__link">
+    Defensa: Adversarial Training
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deriva-del-modelo-y-mlops" class="md-nav__link">
+    Deriva del Modelo y MLOps
+  </a>
+  
+    <nav class="md-nav" aria-label="Deriva del Modelo y MLOps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-supuesto-de-estacionariedad" class="md-nav__link">
+    El supuesto de estacionariedad
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clasificacion-de-la-deriva" class="md-nav__link">
+    Clasificación de la deriva
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deteccion-de-deriva" class="md-nav__link">
+    Detección de deriva
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estrategias-de-reentrenamiento" class="md-nav__link">
+    Estrategias de reentrenamiento
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mlops" class="md-nav__link">
+    MLOps
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#datos-escasos-y-sinteticos" class="md-nav__link">
+    Datos Escasos y Sintéticos
+  </a>
+  
+    <nav class="md-nav" aria-label="Datos Escasos y Sintéticos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#el-problema-de-los-datos-escasos" class="md-nav__link">
+    El problema de los datos escasos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tecnicas-de-aumentacion-clasica" class="md-nav__link">
+    Técnicas de aumentación clásica
+  </a>
+  
+    <nav class="md-nav" aria-label="Técnicas de aumentación clásica">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#smote-synthetic-minority-over-sampling-technique" class="md-nav__link">
+    SMOTE (Synthetic Minority Over-sampling Technique)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generacion-de-datos-sinteticos" class="md-nav__link">
+    Generación de datos sintéticos
+  </a>
+  
+    <nav class="md-nav" aria-label="Generación de datos sintéticos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ctgan-para-datos-tabulares" class="md-nav__link">
+    CTGAN para datos tabulares
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evaluacion-de-datos-sinteticos" class="md-nav__link">
+    Evaluación de datos sintéticos
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hacia-una-evaluacion-responsable-de-modelos" class="md-nav__link">
+    Hacia una Evaluación Responsable de Modelos
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1357,6 +1547,189 @@ automatizado" y, según se indica en el Art. 13, a obtener "información signifi
 <div class="arithmatex">\[\min_{c_1, \ldots, c_k} \frac{1}{k} \sum_{i=1}^k \text{yloss}(f(c_i), \hat{y}) + \frac{\lambda_1}{k} \sum_{i=1}^k \text{dist}(c_i, x) - \frac{\lambda_2}{k^2} \sum_{i,j} \text{dist}(c_i, c_j)\]</div>
 <p>Donde <span class="arithmatex">\(\hat{y}\)</span> se refiere a la <strong>clase deseada</strong> (esto es, la alternativa que se desea obtener, por ejemplo, "crédito aprobado"), <span class="arithmatex">\(\lambda_1\)</span> y <span class="arithmatex">\(\lambda_2\)</span> son hiperparámetros que controlan el equilibrio de los tres términos. El primer término obliga a que los contrafactuales tengan la clase deseada (<span class="arithmatex">\(\text{yloss}\)</span> mide cuánto se aleja la predicción de cada contrafactual de la clase deseada), el segundo que sean cercanos al punto original <span class="arithmatex">\(x\)</span> (cambios mínimos), y el tercero que sean diversos entre sí (no todos el mismo cambio).</p>
 <p><strong>Herramientas</strong> clave en este campo son <a href="https://shap.readthedocs.io/">SHAP</a>, <a href="https://github.com/marcotcr/lime">LIME</a>, <a href="https://github.com/interpretml/DiCE">DiCE</a> y <a href="https://captum.ai/">Captum</a> (para redes neuronales, basado en gradiente).</p>
+<h2 id="robustez-y-ataques-adversariales">Robustez y Ataques Adversariales<a class="headerlink" href="#robustez-y-ataques-adversariales" title="Permanent link">¶</a></h2>
+<h3 id="el-fenomeno-adversarial">El fenómeno adversarial<a class="headerlink" href="#el-fenomeno-adversarial" title="Permanent link">¶</a></h3>
+<p>En 2013, Szegedy et al. (Szegedy et al., 2014)<sup id="fnref:szegedy2014adversarial"><a class="footnote-ref" href="#fn:szegedy2014adversarial">19</a></sup> descubrieron que los clasificadores de imagen basados en redes neuronales profundas son extremadamente vulnerables a perturbaciones imperceptibles al ojo humano. Una imagen correctamente clasificada puede modificarse con un ruido pequeño que un humano no sería capaz de detectar, pero que causa que la red neuronal cambie su predicción completamente, y con alta confianza.</p>
+<p>Este fenómeno no es exclusivo de imágenes, sino que se ha demostrado en texto, audio, series temporales, grafos y datos tabulares. La existencia de ejemplos adversariales es una propiedad estructural de los clasificadores de alta dimensión, no un fallo de implementación.</p>
+<h3 id="clasificacion-de-ataques">Clasificación de ataques<a class="headerlink" href="#clasificacion-de-ataques" title="Permanent link">¶</a></h3>
+<p><strong>Por el conocimiento del atacante:</strong></p>
+<ul>
+<li><strong>Caja blanca (white-box):</strong> El atacante conoce la arquitectura del modelo, sus pesos y puede calcular gradientes. Es el escenario más favorable para el atacante y el más usado en investigación para encontrar cotas superiores de vulnerabilidad.</li>
+<li><strong>Caja negra (black-box):</strong> El atacante solo puede hacer consultas al modelo (suministrar entradas y observar salidas) sin acceder a su estructura interna. Es un escenario más realista en la práctica.</li>
+</ul>
+<p><strong>Por el objetivo del ataque:</strong></p>
+<ul>
+<li><strong>No dirigido (<em>untargeted</em>):</strong> Consiste en hacer que el modelo prediga cualquier clase incorrecta.</li>
+<li><strong>Dirigido (<em>targeted</em>):</strong> Consiste en hacer que el modelo prediga una clase específica.</li>
+</ul>
+<p><strong>Por el momento del ataque:</strong></p>
+<ul>
+<li><strong>Ataques de evasión (evasion):</strong> Consiste en modificar las entradas en tiempo de prueba para engañar al modelo sin modificarlo.</li>
+<li><strong>Ataques de envenenamiento (<em>poisoning</em>):</strong> Consiste en modificar el <em>dataset</em> de entrenamiento para que el modelo aprendido tenga el comportamiento deseado por el atacante.</li>
+<li><strong>Ataques de <em>backdoor</em>:</strong> insertar un patrón "<em>trigger</em>" en el <em>dataset</em> de entrenamiento de modo que el modelo se comporte correctamente en general pero prediga una clase específica cuando aparece el <em>trigger</em>.</li>
+</ul>
+<h3 id="ataques-de-evasion-principales">Ataques de evasión principales<a class="headerlink" href="#ataques-de-evasion-principales" title="Permanent link">¶</a></h3>
+<h4 id="fgsm-fast-gradient-sign-method">FGSM (<em>Fast Gradient Sign Method</em>)<a class="headerlink" href="#fgsm-fast-gradient-sign-method" title="Permanent link">¶</a></h4>
+<p>FGSM (Goodfellow et al., 2015)<sup id="fnref:goodfellow2015fgsm"><a class="footnote-ref" href="#fn:goodfellow2015fgsm">20</a></sup> es el ataque más simple y sirvió para establecer la conexión entre la linealidad de las redes neuronales en el espacio de entrada y su vulnerabilidad adversarial. Dado un ejemplo <span class="arithmatex">\((x, y)\)</span>, genera un ejemplo adversarial <span class="arithmatex">\(x'\)</span> con:</p>
+<div class="arithmatex">\[x' = x + \varepsilon \cdot \text{sign}(\nabla_x \mathcal{L}(\theta, x, y))\]</div>
+<p>Podemos ver que al ejemplo de entrada se le añade una perturbación <span class="arithmatex">\(\varepsilon\)</span> en la dirección que maximiza la pérdida <span class="arithmatex">\(\text{sign}(\nabla_x \mathcal{L})\)</span>, para provocar que el modelo se equivoque. Es decir, movemos cada <em>feature</em> de entrada (por ejemplo píxeles de una imagen) en un paso de tamaño <span class="arithmatex">\(\varepsilon\)</span>, en la dirección que hace aumentar más el error. Dicha dirección se obtiene a partir del gradiente de la función de pérdida <span class="arithmatex">\(\mathcal{L}\)</span> respecto a la entrada <span class="arithmatex">\(x\)</span>, quedándonos solo con el signo (dirección) y no su magnitud. Podemos ver este proceso ilustrado en la <a href="#fig-fgsm">Figura 6</a>.</p>
+<p>La perturbación está acotada en <span class="arithmatex">\(\varepsilon\)</span> por <em>feature</em>, lo que en caso de píxeles la hace imperceptible visualmente. Considerando que la norma <span class="arithmatex">\(L_\infty\)</span> se calcula como la diferencia máxima de todas las dimensiones, podemos decir que la perturbación aplicada está acotada por <span class="arithmatex">\(\varepsilon\)</span> en la norma <span class="arithmatex">\(L_\infty\)</span>. De esta forma, se puede decir que todas las posibles perturbaciones están contenidas en una bola <span class="arithmatex">\(L_\infty\)</span> de radio <span class="arithmatex">\(\varepsilon\)</span>.</p>
+<p>Es importante destacar que se trata de un ataque de caja blanca, ya que para aplicarlo necesitamos acceso completo al modelo para poder calcular los gradientes respecto a <span class="arithmatex">\(x\)</span>. Es un ataque de un solo paso, computacionalmente barato pero no el más fuerte.</p>
+<p></p><figure id="fig-fgsm"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t13_fgsm.svg" data-desc-position="bottom"><img alt="" src="../images/t13_fgsm.svg"></a><figcaption>Figura 6: Ejemplo de aplicación de FGSM para alterar la clase predicha. A la izquierda se muestran las imágenes originales, que el modelo clasifica correctamente como "avión". Sobre ellas se aplica una pequeña perturbación que provocha que la predicción del modelo cambie. </figcaption></figure><p></p>
+<h4 id="pgd-projected-gradient-descent">PGD (Projected Gradient Descent)<a class="headerlink" href="#pgd-projected-gradient-descent" title="Permanent link">¶</a></h4>
+<p>PGD (Madry et al., 2018)<sup id="fnref:madry2018pgd"><a class="footnote-ref" href="#fn:madry2018pgd">21</a></sup> es la versión iterativa de FGSM. En lugar de un único paso grande, aplica <span class="arithmatex">\(T\)</span> pasos de tamaño pequeño <span class="arithmatex">\(\alpha\)</span>, lo que le permite explorar mejor el espacio de perturbaciones y encontrar ejemplos adversariales más efectivos. Tras cada paso, se proyecta sobre la bola <span class="arithmatex">\(L_\infty\)</span> de <span class="arithmatex">\(\varepsilon\)</span> centrada en <span class="arithmatex">\(x\)</span>, es decir, se recorta cualquier <em>feature</em> que haya superado el límite <span class="arithmatex">\(\varepsilon\)</span> respecto al valor original, garantizando que la perturbación acumulada siga siendo imperceptible:</p>
+<div class="arithmatex">\[x'^{(t+1)} = \Pi_{x, \varepsilon} \left( x'^{(t)} + \alpha \cdot \text{sign}(\nabla_x \mathcal{L}(\theta, x'^{(t)}, y)) \right)\]</div>
+<p>donde <span class="arithmatex">\(\Pi_{x, \varepsilon}\)</span> es la proyección sobre el hipercubo <span class="arithmatex">\([x - \varepsilon, x + \varepsilon]^d\)</span>. PGD con múltiples reinicios aleatorios es considerado el ataque de caja blanca más fuerte bajo la norma <span class="arithmatex">\(L_\infty\)</span>.</p>
+<h4 id="cw-carlini-wagner">C&amp;W (Carlini &amp; Wagner)<a class="headerlink" href="#cw-carlini-wagner" title="Permanent link">¶</a></h4>
+<p>El ataque C&amp;W (Carlini &amp; Wagner, 2017)<sup id="fnref:carlini2017cw"><a class="footnote-ref" href="#fn:carlini2017cw">22</a></sup> formula la búsqueda del ejemplo adversarial como un problema de optimización con dos objetivos: (i) encontrar la perturbación <span class="arithmatex">\(\delta\)</span> más pequeña posible en norma <span class="arithmatex">\(L_2\)</span>​ que (ii) consiga que el modelo clasifique <span class="arithmatex">\(x + \delta\)</span> como la clase objetivo <span class="arithmatex">\(t\)</span>:</p>
+<div class="arithmatex">\[\min_\delta \|\delta\|_2 + c \cdot \max(\max_{j \neq t} f(x + \delta)_j - f(x + \delta)_t, -\kappa)\]</div>
+<p>El primer término minimiza el tamaño de la perturbación. El segundo penaliza que la clase objetivo <span class="arithmatex">\(t\)</span> no sea la más probable: es negativo (y por tanto no penaliza) cuando <span class="arithmatex">\(t\)</span> supera a cualquier otra clase con margen <span class="arithmatex">\(\kappa\)</span>, y positivo en caso contrario. El hiperparámetro <span class="arithmatex">\(c\)</span> controla el equilibrio entre ambos objetivos y se determina mediante búsqueda binaria. Es más caro computacionalmente que FGSM y PGD, pero produce perturbaciones mucho más pequeñas e imperceptibles al optimizar directamente sobre <span class="arithmatex">\(L_2\)</span> en lugar de <span class="arithmatex">\(L_\infty\)</span>.</p>
+<p><strong>Transferibilidad:</strong> Un hallazgo importante es que los ejemplos adversariales generados sobre un modelo <span class="arithmatex">\(A\)</span> son frecuentemente efectivos también sobre un modelo <span class="arithmatex">\(B\)</span> diferente (incluso si <span class="arithmatex">\(B\)</span> tiene arquitectura distinta). Esto hace que los ataques de caja negra sean más peligrosos de lo que parecería, ya que un atacante puede entrenar un modelo sustituto sobre el que generar ejemplos adversariales.</p>
+<h3 id="defensa-adversarial-training">Defensa: Adversarial Training<a class="headerlink" href="#defensa-adversarial-training" title="Permanent link">¶</a></h3>
+<p>El método de defensa más efectivo conocido hasta la fecha es el <strong>entrenamiento adversarial</strong> (Madry et al., 2018)<sup id="fnref2:madry2018pgd"><a class="footnote-ref" href="#fn:madry2018pgd">21</a></sup>, que consiste en aumentar el <em>dataset</em> de entrenamiento con ejemplos adversariales generados durante el propio entrenamiento. El objetivo de optimización se convierte en un minimax:</p>
+<div class="arithmatex">\[\min_\theta \mathbb{E}_{(x,y) \sim \mathcal{D}} \left[ \max_{\delta \in \mathcal{B}(0, \varepsilon)} \mathcal{L}(\theta, x + \delta, y) \right]\]</div>
+<p>donde <span class="arithmatex">\(\mathcal{B}(0, \varepsilon)\)</span> es la bola de perturbaciones admisibles, de radio <span class="arithmatex">\(\varepsilon\)</span> en norma <span class="arithmatex">\(L_\infty\)</span>.</p>
+<p>El problema interno (<span class="arithmatex">\(\max\)</span>) se resuelve con PGD, y el problema externo (<span class="arithmatex">\(\min\)</span>) con SGD estándar. El coste es un mayor tiempo de entrenamiento y habitualmente una degradación de la precisión en ejemplos limpios.</p>
+<p><strong>Herramientas</strong> destacadas en este contexto son <a href="https://adversarial-robustness-toolbox.readthedocs.io/">Adversarial Robustness Toolbox</a> (IBM), que soporta múltiples ataques y defensas, <a href="https://foolbox.jonasrauber.de/">Foolbox</a> y <a href="https://github.com/cleverhans-lab/cleverhans">CleverHans</a>.</p>
+<h2 id="deriva-del-modelo-y-mlops">Deriva del Modelo y MLOps<a class="headerlink" href="#deriva-del-modelo-y-mlops" title="Permanent link">¶</a></h2>
+<h3 id="el-supuesto-de-estacionariedad">El supuesto de estacionariedad<a class="headerlink" href="#el-supuesto-de-estacionariedad" title="Permanent link">¶</a></h3>
+<p>Todos los modelos de ML que hemos estudiado asumen implícitamente que la distribución de los datos es estacionaria, es decir, que los datos de producción siguen la misma distribución que los de entrenamiento. En la práctica, el mundo cambia, y los modelos que no se monitorizan ni actualizan se degradan con el tiempo.</p>
+<h3 id="clasificacion-de-la-deriva">Clasificación de la deriva<a class="headerlink" href="#clasificacion-de-la-deriva" title="Permanent link">¶</a></h3>
+<p><strong>Data drift (covariable shift):</strong> La distribución marginal de las entradas <span class="arithmatex">\(P(X)\)</span> cambia, pero la relación <span class="arithmatex">\(P(Y|X)\)</span> se mantiene. Por ejemplo, el perfil demográfico de los usuarios de un sistema cambia con el tiempo, pero el comportamiento de cada tipo de usuario es el mismo.</p>
+<p><strong>Concept drift:</strong> La relación <span class="arithmatex">\(P(Y|X)\)</span> cambia. Por ejemplo, el fraude bancario evoluciona y los patrones que antes eran fraudulentos ya no lo son, o nuevos patrones emergen. Es el tipo de deriva más dañino y difícil de detectar, porque el modelo puede seguir viendo entradas similares pero con una relación distinta con la salida. A su vez, el <em>concept drift</em> puede ser:</p>
+<ul>
+<li><strong>Repentino</strong>: Ocurre de forma abrupta (por ejemplo, un cambio normativo que altera el comportamiento). </li>
+<li><strong>Gradual</strong>: Evolución lenta de los hábitos.</li>
+<li><strong>Recurrente</strong>: Patrones estacionales que se repiten.</li>
+</ul>
+<p><strong>Label shift (prior probability shift):</strong> La distribución marginal de <span class="arithmatex">\(P(Y)\)</span> cambia. Por ejemplo, la prevalencia de una enfermedad aumenta estacionalmente.</p>
+<p>En la <a href="#fig-drift">Figura 7</a> se ilustran los diferentes tipos de deriva del modelo que hemos descrito.</p>
+<p></p><figure id="fig-drift"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t13_drift.png" data-desc-position="bottom"><img alt="" src="../images/t13_drift.png"></a><figcaption>Figura 7: En la fila superior se ilustra la diferencia entre los datos de entrenamiento y los datos de producción para diferentes tipos de deriva del modelo: <em>Data drift</em> (izquierda), <em>Concept drift</em> (centro) y <em>Label shift</em> (derecha).  En la fila inferior se muestra como se degrada la precisión del modelo para diferentes subtipos de <em>Concept drift</em>: repentino (izquierda), gradual (centro) y recurrente (derecha). </figcaption></figure><p></p>
+<h3 id="deteccion-de-deriva">Detección de deriva<a class="headerlink" href="#deteccion-de-deriva" title="Permanent link">¶</a></h3>
+<p>La detección de deriva en la distribución de las entradas puede abordarse estadísticamente. Para cada <em>feature</em> <span class="arithmatex">\(j\)</span>, queremos contrastar si la distribución en producción <span class="arithmatex">\(P_t(X_j)\)</span> difiere de la distribución de referencia <span class="arithmatex">\(P_{\text{ref}}(X_j)\)</span>.</p>
+<p>El enfoque general consiste en formular un test de hipótesis: se parte de una hipótesis nula <span class="arithmatex">\(H_0\)</span>​ que asume que no hay deriva (ambas distribuciones son iguales), y se evalúa si los datos en producción dan suficiente evidencia estadística para rechazarla. Si el <em>test</em> rechaza <span class="arithmatex">\(H_0\)</span>​, se concluye que la deriva es estadísticamente significativa y que el modelo debe ser revisado.</p>
+<p><strong>Para variables continuas utilizamos Kolmogorov-Smirnov</strong>, que mide la mayor discrepancia entre las funciones de distribución acumulada (CDA) de referencia y producción:</p>
+<div class="arithmatex">\[D = \sup_x |F_{\text{ref}}(x) - F_t(x)|\]</div>
+<p>donde <span class="arithmatex">\(F\)</span> denota la función de distribución acumulada (CDA) empírica y <span class="arithmatex">\(\sup_x\)</span>​ indica que se toma el máximo sobre todos los posibles valores de <span class="arithmatex">\(x\)</span>. Un valor de <span class="arithmatex">\(D\)</span> grande indica que las dos distribuciones difieren significativamente en algún punto, lo que llevaría a rechazar <span class="arithmatex">\(H_0\)</span>​ y detectar deriva. </p>
+<p><strong>Para variables categóricas utilizamos chi-cuadrado:</strong></p>
+<div class="arithmatex">\[\chi^2 = \sum_{k} \frac{(O_k - E_k)^2}{E_k}\]</div>
+<p>donde <span class="arithmatex">\(O_k\)</span> son las frecuencias observadas en producción y <span class="arithmatex">\(E_k\)</span> las esperadas según la distribución de referencia para cada posible valor <span class="arithmatex">\(k\)</span> de la variable categórica.</p>
+<p><strong>Population Stability Index (PSI):</strong> Es ampliamente usado en el sector financiero, y mide el cambio global en la distribución de una variable:</p>
+<div class="arithmatex">\[\text{PSI} = \sum_{k=1}^{K} (p_k^t - p_k^{\text{ref}}) \cdot \ln\frac{p_k^t}{p_k^{\text{ref}}}\]</div>
+<p>donde <span class="arithmatex">\(p_k\)</span> es la proporción de observaciones en el bin <span class="arithmatex">\(k\)</span>. Como regla práctica, a partir de observaciones empíricas en el sector financiero se considera <span class="arithmatex">\(\text{PSI} &lt; 0.1\)</span> estable, <span class="arithmatex">\(0.1–0.25\)</span> requiere atención, y <span class="arithmatex">\(\text{PSI} &gt; 0.25\)</span> cambio significativo.</p>
+<p>La detección del <em>concept drift</em> es más difícil porque requiere etiquetas en producción, que habitualmente llegan con retraso (o no llegan). Cuando se dispone de etiquetas, se pueden monitorizar las métricas del modelo (precisión, F1, AUC) con <em>tests</em> estadísticos sobre ventanas temporales deslizantes.</p>
+<h3 id="estrategias-de-reentrenamiento">Estrategias de reentrenamiento<a class="headerlink" href="#estrategias-de-reentrenamiento" title="Permanent link">¶</a></h3>
+<p>Una vez detectada la deriva, hay que decidir cómo actualizar el modelo:</p>
+<ul>
+<li><strong>Reentrenamiento completo:</strong> Descartar el modelo actual y entrenar desde cero con datos recientes. Garantiza que el modelo refleja la distribución actual pero es costoso y puede perder patrones que sí son estables.</li>
+<li><strong>Reentrenamiento incremental (<em>online learning</em>):</strong> actualizar el modelo continuamente con cada nuevo dato o <em>batch</em>. La librería <a href="https://riverml.xyz/">River</a> implementa algoritmos de ML online (Hoeffding Trees, etc.) diseñados para este escenario.</li>
+<li><strong>Ventana deslizante:</strong> Entrenar solo con los datos más recientes (últimos <span class="arithmatex">\(N\)</span> días/meses). El tamaño de la ventana es un hiperparámetro que controla el <em>trade-off</em> entre adaptabilidad y estabilidad.</li>
+<li><strong>Ponderación temporal:</strong> Mantener todos los datos pero asignar mayor peso a los más recientes.</li>
+</ul>
+<h3 id="mlops">MLOps<a class="headerlink" href="#mlops" title="Permanent link">¶</a></h3>
+<p><strong>MLOps</strong> (<em>Machine Learning Operations</em>) es el conjunto de prácticas, herramientas y culturas organizativas que permiten desplegar y mantener sistemas de ML de forma fiable y escalable. Es la aplicación de los principios de DevOps al ciclo de vida del ML.</p>
+<p>Los componentes principales de una infraestructura MLOps son:</p>
+<ul>
+<li><strong>Tracking de experimentos:</strong> Registro de hiperparámetros, métricas y artefactos de cada experimento. <a href="https://mlflow.org/">MLflow</a>, <a href="https://wandb.ai/">Weights &amp; Biases</a>.</li>
+<li><strong>Versionado de datos y modelos:</strong> <a href="https://dvc.org/">DVC</a> permite versionar <em>datasets</em> y modelos de la misma forma que Git versiona el código.</li>
+<li><strong>Pipelines reproducibles:</strong> <a href="https://kedro.org/">Kedro</a>, <a href="https://zenml.io/">ZenML</a>.</li>
+<li><strong>Serving y despliegue:</strong> <a href="https://bentoml.com/">BentoML</a>, <a href="https://www.seldon.io/">Seldon Core</a>, <a href="https://docs.ray.io/en/latest/serve/index.html">Ray Serve</a>.</li>
+<li><strong>Monitorización en producción:</strong> <a href="https://www.evidentlyai.com/">Evidently AI</a>, <a href="https://whylabs.ai/">WhyLogs/WhyLabs</a>.</li>
+</ul>
+<h2 id="datos-escasos-y-sinteticos">Datos Escasos y Sintéticos<a class="headerlink" href="#datos-escasos-y-sinteticos" title="Permanent link">¶</a></h2>
+<h3 id="el-problema-de-los-datos-escasos">El problema de los datos escasos<a class="headerlink" href="#el-problema-de-los-datos-escasos" title="Permanent link">¶</a></h3>
+<p>En muchos dominios críticos, los datos etiquetados son escasos o muy desbalanceados, como por ejemplo:</p>
+<ul>
+<li><strong>Enfermedades raras:</strong> Pocos casos disponibles por definición.</li>
+<li><strong>Eventos de fraude:</strong> Tasas de fraude del 0.1-1% generan datasets extremadamente desbalanceados.</li>
+<li><strong>Accidentes industriales:</strong> Afortunadamente son infrecuentes, pero eso hace difícil aprender a predecirlos.</li>
+<li><strong>Etiquetado caro:</strong> El etiquetado por expertos (radiólogos, juristas, lingüistas) es lento y costoso.</li>
+</ul>
+<h3 id="tecnicas-de-aumentacion-clasica">Técnicas de aumentación clásica<a class="headerlink" href="#tecnicas-de-aumentacion-clasica" title="Permanent link">¶</a></h3>
+<p>La <strong>aumentación de datos</strong> aplica transformaciones que preservan la etiqueta para generar nuevas instancias de entrenamiento a partir de las existentes.</p>
+<p><strong>Para imágenes:</strong> Aplicamos rotaciones, traslaciones, recortes, volteos horizontales, cambios de brillo y contraste, mezclas de imágenes (Mixup, CutMix).</p>
+<p><strong>Para series temporales:</strong> Aplicamos escalado temporal (<em>time warping</em>), <em>jitter</em> (adición de ruido), permutación de segmentos, inversión temporal.</p>
+<p><strong>Para datos tabulares:</strong> El enfoque más directo es la interpolación en el espacio de <em>features</em>, implementada por la familia de métodos SMOTE.</p>
+<h4 id="smote-synthetic-minority-over-sampling-technique">SMOTE (Synthetic Minority Over-sampling Technique)<a class="headerlink" href="#smote-synthetic-minority-over-sampling-technique" title="Permanent link">¶</a></h4>
+<p>SMOTE (Chawla et al., 2002)<sup id="fnref:chawla2002smote"><a class="footnote-ref" href="#fn:chawla2002smote">23</a></sup> genera instancias sintéticas de la clase minoritaria interpolando entre instancias reales. Para cada instancia <span class="arithmatex">\(x_i\)</span> de la clase minoritaria seguimos el siguiente proceso:</p>
+<ol>
+<li>Encontrar sus <span class="arithmatex">\(k\)</span> vecinos más cercanos en la clase minoritaria: <span class="arithmatex">\(\{x_{i_1}, \ldots, x_{i_k}\}\)</span>.</li>
+<li>Seleccionar aleatoriamente uno de ellos: <span class="arithmatex">\(x_{i_j}\)</span>.</li>
+<li>Generar un nuevo ejemplo: <span class="arithmatex">\(x_{\text{new}} = x_i + \lambda (x_{i_j} - x_i)\)</span>, donde <span class="arithmatex">\(\lambda \sim U(0,1)\)</span>.</li>
+</ol>
+<p>El resultado es un punto aleatorio en el segmento entre <span class="arithmatex">\(x_i\)</span> y <span class="arithmatex">\(x_{i_j}\)</span> (ver <a href="#fig-smote">Figura 8</a>). Variantes como <strong>SMOTE-NC</strong> manejan variables categóricas, <strong>SMOTE-ENN</strong> combina sobremuestreo con submuestreo eliminando ejemplos ruidosos, y <strong>ADASYN</strong> pondera más los ejemplos de la clase minoritaria que son más difíciles de aprender.</p>
+<p></p><figure id="fig-smote"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t13_smote.png" data-desc-position="bottom"><img alt="" src="../images/t13_smote.png"></a><figcaption>Figura 8: Aumentación de datos con SMOTE. A la izquierda se muestra cómo se generan nuevos datos. Se identifican los k=3 puntos más cercanos a <span class="arithmatex">\(x_i\)</span> y se genera un nuevo punto en una posición aleatoria dentro del segmento que une <span class="arithmatex">\(x_i\)</span> con cada uno de estos vecinos. A la derecha vemos el resultado final de la aumentación, donde la clase minoritaria ha pasado de tener <span class="arithmatex">\(12\)</span> ejemplos a tener <span class="arithmatex">\(48\)</span>. </figcaption></figure><p></p>
+<h3 id="generacion-de-datos-sinteticos">Generación de datos sintéticos<a class="headerlink" href="#generacion-de-datos-sinteticos" title="Permanent link">¶</a></h3>
+<p>Más allá de la aumentación, los modelos generativos permiten aprender la distribución de los datos y muestrear instancias completamente nuevas.</p>
+<h4 id="ctgan-para-datos-tabulares">CTGAN para datos tabulares<a class="headerlink" href="#ctgan-para-datos-tabulares" title="Permanent link">¶</a></h4>
+<p>Los datos tabulares son más difíciles de modelar que las imágenes porque mezclan variables continuas y categóricas con distribuciones arbitrarias (no gaussianas). <strong>CTGAN</strong> (Xu et al., 2019)<sup id="fnref:xu2019ctgan"><a class="footnote-ref" href="#fn:xu2019ctgan">24</a></sup>, implementado en la librería <a href="https://sdv.dev/">SDV</a>, adapta las GANs a este dominio con dos innovaciones:</p>
+<ul>
+<li><strong>Mode-specific normalization:</strong> En lugar de normalizar las variables continuas con media y varianza, estima una mezcla de gaussianas (VGM) y normaliza cada muestra relativa al modo más probable. Esto maneja distribuciones multimodales o sesgadas.</li>
+<li><strong>Conditional generator con training-by-sampling:</strong> El generador recibe como condición el valor de una variable categórica y el entrenamiento muestrea condiciones con frecuencia inversamente proporcional a su frecuencia real, mejorando la generación de categorías raras.</li>
+</ul>
+<p>La GAN tiene la arquitectura estándar: generador <span class="arithmatex">\(G\)</span> que transforma ruido <span class="arithmatex">\(z \sim \mathcal{N}(0, I)\)</span> en datos sintéticos, y discriminador <span class="arithmatex">\(D\)</span> que intenta distinguir datos reales de sintéticos. La arquitectura base sigue el objetivo minimax estándar de las GANs, al que CTGAN añade el condicionamiento sobre variables categóricas:</p>
+<div class="arithmatex">\[\min_G \max_D \; \mathbb{E}_{x \sim p_{\text{data}}}[\log D(x)] + \mathbb{E}_{z \sim p_z}[\log(1 - D(G(z)))]\]</div>
+<h4 id="evaluacion-de-datos-sinteticos">Evaluación de datos sintéticos<a class="headerlink" href="#evaluacion-de-datos-sinteticos" title="Permanent link">¶</a></h4>
+<p>La evaluación de la calidad de los datos sintéticos es un problema complejo que debe cubrir tres dimensiones:</p>
+<ol>
+<li>
+<p><strong>Fidelidad estadística:</strong> Nos preguntamos si se parece la distribución sintética a la real. Como métricas podemos utilizar la distancia de Jensen-Shannon entre distribuciones marginales, Wasserstein distance o diferencias en correlaciones entre variables.</p>
+</li>
+<li>
+<p><strong>Utilidad:</strong> Nos preguntamos si sirven los datos sintéticos para entrenar modelos. El protocolo <strong>Train-on-Synthetic, Test-on-Real (TSTR)</strong> entrena un clasificador sobre datos sintéticos y lo evalúa sobre datos reales, comparando con el resultado de Train-on-Real, Test-on-Real (TRTR). Una brecha pequeña indica alta utilidad.</p>
+</li>
+<li>
+<p><strong>Privacidad:</strong> Los datos sintéticos pueden filtrar información sobre los datos de entrenamiento. Como métricas para evaluar esto tenemos:</p>
+</li>
+<li><strong>Membership inference attack:</strong> Nos preguntamos si puede un atacante determinar si un registro específico estaba en el <em>dataset</em> de entrenamiento. </li>
+<li><strong>Attribute disclosure:</strong> Nos preguntamos si puede inferirse un atributo sensible de un individuo a partir de los datos sintéticos.</li>
+</ol>
+<p>Como <strong>herramientas destacadas</strong> en este campo encontramos <a href="https://sdv.dev/">SDV/CTGAN</a>, <a href="https://imbalanced-learn.org/">Imbalanced-learn</a> (SMOTE y variantes), <a href="https://github.com/jsyoon0823/TimeGAN">TimeGAN</a> (series temporales) y <a href="https://gretel.ai/">Gretel.ai</a>.</p>
+<h2 id="hacia-una-evaluacion-responsable-de-modelos">Hacia una Evaluación Responsable de Modelos<a class="headerlink" href="#hacia-una-evaluacion-responsable-de-modelos" title="Permanent link">¶</a></h2>
+<p>A lo largo de este tema hemos estudiado cinco dimensiones que el paradigma clásico de entrenamiento y evaluación ignora: privacidad, sesgo, explicabilidad, robustez adversarial y deriva. Para finalizar, lo natural es preguntarnos cómo integrar estos análisis en el flujo de trabajo real de un proyecto de ML.</p>
+<p>El esquema básico que hemos aprendido a lo largo de la asignatura sigue siendo el punto de partida correcto, consistente en dividir los datos en <em>train</em> y <em>test</em>, ajustar hiperparámetros mediante validación cruzada sobre <em>train</em>, y evaluar el modelo final sobre <em>test</em>. Lo que este tema añade es una capa de análisis adicional en cada fase de ese proceso.</p>
+<p><strong>Durante el diseño del <em>dataset</em></strong>, antes de entrenar el modelo, es el momento de examinar los orígenes del sesgo y preguntarnos ¿es el <em>dataset</em> representativo de la población sobre la que se desplegará el modelo? ¿Las variables objetivo pueden introducir sesgo de medición? ¿Existen atributos protegidos cuya distribución deba analizarse? Todo ello puede abordarse dentro del Análisis Exploratorio de los Datos (EDA). Si se trabaja con datos sensibles, también es el momento de decidir si es necesario FL o DP-SGD, ya que estas decisiones afectan a la arquitectura del sistema y no pueden añadirse fácilmente al final.</p>
+<p><strong>Durante el entrenamiento</strong>, si se usa DP-SGD, el número de épocas deja de ser un hiperparámetro libre y debe gestionarse junto al presupuesto de privacidad <span class="arithmatex">\(\varepsilon\)</span>. Si se trabaja con clases desbalanceadas, las técnicas de aumentación (SMOTE, CTGAN) se aplican exclusivamente sobre el conjunto de <em>train</em>, nunca sobre <em>test</em>, para no contaminar la evaluación.</p>
+<p><strong>Durante la evaluación sobre test</strong>, las métricas clásicas (<em>accuracy</em>, F1, AUC) deben complementarse con:</p>
+<ul>
+<li><strong>Métricas de fairness</strong> desagregadas por grupo: No basta con un AUC global si el modelo rinde de forma muy distinta entre subpoblaciones. La elección de qué métrica de <em>fairness</em> priorizar (paridad demográfica, igualdad de oportunidades, calibración) debe estar justificada explícitamente.</li>
+<li><strong>Evaluación de robustez adversarial</strong>: Medir la precisión del modelo bajo ataques FGSM y PGD con distintos valores de <span class="arithmatex">\(\varepsilon\)</span>, para tener una cota de vulnerabilidad. En sistemas de alto riesgo esto debería ser un requisito, y no una opción.</li>
+<li><strong>Análisis de explicabilidad</strong>: Aplicar SHAP para identificar qué <em>features</em> dominan las predicciones globalmente y verificar que son las esperadas desde el conocimiento del dominio. Una <em>feature</em> con alta importancia SHAP que no debería ser relevante es una señal de fuga de datos o sesgo no detectado.</li>
+<li><strong>Auditoría de privacidad</strong>: Si el modelo se va a publicar, estimar la vulnerabilidad ante MIA mediante la brecha de generalización o herramientas como ML Privacy Meter.</li>
+</ul>
+<p><strong>Tras el despliegue</strong>, la evaluación no termina. Es necesario monitorizar la deriva de la distribución de entradas con los <em>tests</em> estadísticos descritos (KS, chi-cuadrado, PSI) y, cuando se disponga de etiquetas, las métricas del modelo sobre ventanas temporales. La detección de deriva debe estar conectada a un protocolo de reentrenamiento definido de antemano.</p>
+<p>En la siguiente tabla resumimos en qué punto del ciclo de vida actúa cada una de las herramientas estudiadas en este tema:</p>
+<table>
+<thead>
+<tr>
+<th>Fase</th>
+<th>Herramientas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Diseño del <em>dataset</em></td>
+<td>Análisis de sesgo, FL, decisión sobre DP</td>
+</tr>
+<tr>
+<td>Entrenamiento</td>
+<td>DP-SGD, <em>adversarial training</em>, técnicas de <em>fairness in-processing</em>, SMOTE/CTGAN</td>
+</tr>
+<tr>
+<td>Evaluación <em>offline</em></td>
+<td>Métricas de <em>fairness</em>, robustez adversarial, SHAP, auditoría MIA</td>
+</tr>
+<tr>
+<td>Despliegue y monitorización</td>
+<td>Detección de deriva (KS, PSI), MLOps</td>
+</tr>
+<tr>
+<td>Reentrenamiento</td>
+<td>Estrategias de ventana deslizante, <em>online learning</em></td>
+</tr>
+</tbody>
+</table>
+<p>Como cierre, podemos decir que ninguna de estas dimensiones es un añadido opcional que pueda dejarse para el final. El AI Act lo hace explícito desde el punto de vista legal para sistemas de alto riesgo, pero la práctica responsable del ML exige tenerlas presentes desde el inicio del proyecto, independientemente del marco regulatorio.</p>
 <div class="footnote">
 <hr>
 <ol>
@@ -1413,6 +1786,24 @@ automatizado" y, según se indica en el Art. 13, a obtener "información signifi
 </li>
 <li id="fn:mothilal2020dice">
 <p>Mothilal, R. K., Sharma, A., &amp; Tan, C. (2020). Explaining machine learning classifiers through diverse counterfactual explanations. <em>Proceedings of the 2020 ACM Conference on Fairness, Accountability, and Transparency (FAccT)</em>, 607--617.&nbsp;<a class="footnote-backref" href="#fnref:mothilal2020dice" title="Jump back to footnote 18 in the text">↩</a></p>
+</li>
+<li id="fn:szegedy2014adversarial">
+<p>Szegedy, C., Zaremba, W., Sutskever, I., Bruna, J., Erhan, D., Goodfellow, I., &amp; Fergus, R. (2014). Intriguing properties of neural networks. <em>Proceedings of the 2nd International Conference on Learning Representations (ICLR)</em>.&nbsp;<a class="footnote-backref" href="#fnref:szegedy2014adversarial" title="Jump back to footnote 19 in the text">↩</a></p>
+</li>
+<li id="fn:goodfellow2015fgsm">
+<p>Goodfellow, I. J., Shlens, J., &amp; Szegedy, C. (2015). Explaining and harnessing adversarial examples. <em>Proceedings of the 3rd International Conference on Learning Representations (ICLR)</em>.&nbsp;<a class="footnote-backref" href="#fnref:goodfellow2015fgsm" title="Jump back to footnote 20 in the text">↩</a></p>
+</li>
+<li id="fn:madry2018pgd">
+<p>Madry, A., Makelov, A., Schmidt, L., Tsipras, D., &amp; Vladu, A. (2018). Towards deep learning models resistant to adversarial attacks. <em>Proceedings of the 6th International Conference on Learning Representations (ICLR)</em>.&nbsp;<a class="footnote-backref" href="#fnref:madry2018pgd" title="Jump back to footnote 21 in the text">↩</a><a class="footnote-backref" href="#fnref2:madry2018pgd" title="Jump back to footnote 21 in the text">↩</a></p>
+</li>
+<li id="fn:carlini2017cw">
+<p>Carlini, N., &amp; Wagner, D. (2017). Towards evaluating the robustness of neural networks. <em>Proceedings of the 2017 IEEE Symposium on Security and Privacy (s\ &amp;p)</em>, 39--57.&nbsp;<a class="footnote-backref" href="#fnref:carlini2017cw" title="Jump back to footnote 22 in the text">↩</a></p>
+</li>
+<li id="fn:chawla2002smote">
+<p>Chawla, N. V., Bowyer, K. W., Hall, L. O., &amp; Kegelmeyer, W. P. (2002). SMOTE: Synthetic minority over-sampling technique. <em>Journal of Artificial Intelligence Research</em>, <em>16</em>, 321--357.&nbsp;<a class="footnote-backref" href="#fnref:chawla2002smote" title="Jump back to footnote 23 in the text">↩</a></p>
+</li>
+<li id="fn:xu2019ctgan">
+<p>Xu, L., Skoularidou, M., Cuesta-Infante, A., &amp; Veeramachaneni, K. (2019). Modeling tabular data using conditional GAN. <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, <em>32</em>.&nbsp;<a class="footnote-backref" href="#fnref:xu2019ctgan" title="Jump back to footnote 24 in the text">↩</a></p>
 </li>
 </ol>
 </div>

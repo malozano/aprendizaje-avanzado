@@ -1403,8 +1403,7 @@ V_\phi(s_t)\)</span> como el error TD de un paso, se puede demostrar que:</p>
 <ul>
 <li><strong><span class="arithmatex">\(\lambda = 0\)</span></strong>: <span class="arithmatex">\(\hat{A}_t^{\text{GAE}} = \delta_t\)</span> (TD puro, un paso).
   Baja varianza, sesgo mayor si el crítico no es exacto.</li>
-<li><strong><span class="arithmatex">\(\lambda = 1\)</span></strong>: <span class="arithmatex">\(\hat{A}_t^{\text{GAE}} = G_t - V_\phi(s_t)\)</span> (Monte Carlo
-  sobre el <em>rollout</em>). Sin sesgo adicional del crítico, pero mayor varianza.</li>
+<li><strong><span class="arithmatex">\(\lambda = 1\)</span></strong>: <span class="arithmatex">\(\hat{A}_t^{\text{GAE}} = G_t^{(N)} - V_\phi(s_t)\)</span> (retorno de <span class="arithmatex">\(N\)</span> pasos completo). Sin sesgo adicional del crítico, pero mayor varianza.</li>
 <li><strong><span class="arithmatex">\(0 &lt; \lambda &lt; 1\)</span></strong> (Interpolación suave). En la práctica se usan valores como <span class="arithmatex">\(\lambda = 0.95\)</span>, que dan más peso a los errores TD próximos y reducen progresivamente la influencia de los más lejanos.</li>
 </ul>
 <!-- Figura fig_gae_lambda.svg -->
