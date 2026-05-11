@@ -546,8 +546,7 @@ El parámetro $\lambda$ controla directamente el compromiso sesgo-varianza:
 
 - **$\lambda = 0$**: $\hat{A}_t^{\text{GAE}} = \delta_t$ (TD puro, un paso).
   Baja varianza, sesgo mayor si el crítico no es exacto.
-- **$\lambda = 1$**: $\hat{A}_t^{\text{GAE}} = G_t - V_\phi(s_t)$ (Monte Carlo
-  sobre el _rollout_). Sin sesgo adicional del crítico, pero mayor varianza.
+- **$\lambda = 1$**: $\hat{A}_t^{\text{GAE}} = G_t^{(N)} - V_\phi(s_t)$ (retorno de $N$ pasos completo). Sin sesgo adicional del crítico, pero mayor varianza.
 - **$0 < \lambda < 1$** (Interpolación suave). En la práctica se usan valores como $\lambda = 0.95$, que dan más peso a los errores TD próximos y reducen progresivamente la influencia de los más lejanos.
 
 <!-- Figura fig_gae_lambda.svg -->

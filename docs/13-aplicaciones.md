@@ -398,3 +398,250 @@ Donde $\hat{y}$ se refiere a la **clase deseada** (esto es, la alternativa que s
 
 **Herramientas** clave en este campo son [SHAP](https://shap.readthedocs.io/), [LIME](https://github.com/marcotcr/lime), [DiCE](https://github.com/interpretml/DiCE) y [Captum](https://captum.ai/) (para redes neuronales, basado en gradiente).
 
+
+## Robustez y Ataques Adversariales
+
+### El fenómeno adversarial
+
+En 2013, Szegedy et al. [@szegedy2014adversarial] descubrieron que los clasificadores de imagen basados en redes neuronales profundas son extremadamente vulnerables a perturbaciones imperceptibles al ojo humano. Una imagen correctamente clasificada puede modificarse con un ruido pequeño que un humano no sería capaz de detectar, pero que causa que la red neuronal cambie su predicción completamente, y con alta confianza.
+
+Este fenómeno no es exclusivo de imágenes, sino que se ha demostrado en texto, audio, series temporales, grafos y datos tabulares. La existencia de ejemplos adversariales es una propiedad estructural de los clasificadores de alta dimensión, no un fallo de implementación.
+
+### Clasificación de ataques
+
+**Por el conocimiento del atacante:**
+
+- **Caja blanca (white-box):** El atacante conoce la arquitectura del modelo, sus pesos y puede calcular gradientes. Es el escenario más favorable para el atacante y el más usado en investigación para encontrar cotas superiores de vulnerabilidad.
+- **Caja negra (black-box):** El atacante solo puede hacer consultas al modelo (suministrar entradas y observar salidas) sin acceder a su estructura interna. Es un escenario más realista en la práctica.
+
+**Por el objetivo del ataque:**
+
+- **No dirigido (_untargeted_):** Consiste en hacer que el modelo prediga cualquier clase incorrecta.
+- **Dirigido (_targeted_):** Consiste en hacer que el modelo prediga una clase específica.
+
+**Por el momento del ataque:**
+
+- **Ataques de evasión (evasion):** Consiste en modificar las entradas en tiempo de prueba para engañar al modelo sin modificarlo.
+- **Ataques de envenenamiento (_poisoning_):** Consiste en modificar el _dataset_ de entrenamiento para que el modelo aprendido tenga el comportamiento deseado por el atacante.
+- **Ataques de _backdoor_:** insertar un patrón "_trigger_" en el _dataset_ de entrenamiento de modo que el modelo se comporte correctamente en general pero prediga una clase específica cuando aparece el _trigger_.
+
+### Ataques de evasión principales
+
+#### FGSM (_Fast Gradient Sign Method_)
+
+FGSM [@goodfellow2015fgsm] es el ataque más simple y sirvió para establecer la conexión entre la linealidad de las redes neuronales en el espacio de entrada y su vulnerabilidad adversarial. Dado un ejemplo $(x, y)$, genera un ejemplo adversarial $x'$ con:
+
+$$x' = x + \varepsilon \cdot \text{sign}(\nabla_x \mathcal{L}(\theta, x, y))$$
+
+Podemos ver que al ejemplo de entrada se le añade una perturbación $\varepsilon$ en la dirección que maximiza la pérdida $\text{sign}(\nabla_x \mathcal{L})$, para provocar que el modelo se equivoque. Es decir, movemos cada _feature_ de entrada (por ejemplo píxeles de una imagen) en un paso de tamaño $\varepsilon$, en la dirección que hace aumentar más el error. Dicha dirección se obtiene a partir del gradiente de la función de pérdida $\mathcal{L}$ respecto a la entrada $x$, quedándonos solo con el signo (dirección) y no su magnitud. Podemos ver este proceso ilustrado en la [](#fig-fgsm).
+
+La perturbación está acotada en $\varepsilon$ por _feature_, lo que en caso de píxeles la hace imperceptible visualmente. Considerando que la norma $L_\infty$ se calcula como la diferencia máxima de todas las dimensiones, podemos decir que la perturbación aplicada está acotada por $\varepsilon$ en la norma $L_\infty$. De esta forma, se puede decir que todas las posibles perturbaciones están contenidas en una bola $L_\infty$ de radio $\varepsilon$.
+
+Es importante destacar que se trata de un ataque de caja blanca, ya que para aplicarlo necesitamos acceso completo al modelo para poder calcular los gradientes respecto a $x$. Es un ataque de un solo paso, computacionalmente barato pero no el más fuerte.
+
+Figure: Ejemplo de aplicación de FGSM para alterar la clase predicha. A la izquierda se muestran las imágenes originales, que el modelo clasifica correctamente como "avión". Sobre ellas se aplica una pequeña perturbación que provocha que la predicción del modelo cambie. {#fig-fgsm}
+
+![](images/t13_fgsm.svg)
+
+
+
+#### PGD (Projected Gradient Descent)
+
+PGD [@madry2018pgd] es la versión iterativa de FGSM. En lugar de un único paso grande, aplica $T$ pasos de tamaño pequeño $\alpha$, lo que le permite explorar mejor el espacio de perturbaciones y encontrar ejemplos adversariales más efectivos. Tras cada paso, se proyecta sobre la bola $L_\infty$ de $\varepsilon$ centrada en $x$, es decir, se recorta cualquier _feature_ que haya superado el límite $\varepsilon$ respecto al valor original, garantizando que la perturbación acumulada siga siendo imperceptible:
+
+$$x'^{(t+1)} = \Pi_{x, \varepsilon} \left( x'^{(t)} + \alpha \cdot \text{sign}(\nabla_x \mathcal{L}(\theta, x'^{(t)}, y)) \right)$$
+
+donde $\Pi_{x, \varepsilon}$ es la proyección sobre el hipercubo $[x - \varepsilon, x + \varepsilon]^d$. PGD con múltiples reinicios aleatorios es considerado el ataque de caja blanca más fuerte bajo la norma $L_\infty$.
+
+#### C&W (Carlini & Wagner)
+
+El ataque C&W [@carlini2017cw] formula la búsqueda del ejemplo adversarial como un problema de optimización con dos objetivos: (i) encontrar la perturbación $\delta$ más pequeña posible en norma $L_2$​ que (ii) consiga que el modelo clasifique $x + \delta$ como la clase objetivo $t$:
+
+$$\min_\delta \|\delta\|_2 + c \cdot \max(\max_{j \neq t} f(x + \delta)_j - f(x + \delta)_t, -\kappa)$$
+
+El primer término minimiza el tamaño de la perturbación. El segundo penaliza que la clase objetivo $t$ no sea la más probable: es negativo (y por tanto no penaliza) cuando $t$ supera a cualquier otra clase con margen $\kappa$, y positivo en caso contrario. El hiperparámetro $c$ controla el equilibrio entre ambos objetivos y se determina mediante búsqueda binaria. Es más caro computacionalmente que FGSM y PGD, pero produce perturbaciones mucho más pequeñas e imperceptibles al optimizar directamente sobre $L_2$ en lugar de $L_\infty$.
+
+**Transferibilidad:** Un hallazgo importante es que los ejemplos adversariales generados sobre un modelo $A$ son frecuentemente efectivos también sobre un modelo $B$ diferente (incluso si $B$ tiene arquitectura distinta). Esto hace que los ataques de caja negra sean más peligrosos de lo que parecería, ya que un atacante puede entrenar un modelo sustituto sobre el que generar ejemplos adversariales.
+
+### Defensa: Adversarial Training
+
+El método de defensa más efectivo conocido hasta la fecha es el **entrenamiento adversarial** [@madry2018pgd], que consiste en aumentar el _dataset_ de entrenamiento con ejemplos adversariales generados durante el propio entrenamiento. El objetivo de optimización se convierte en un minimax:
+
+$$\min_\theta \mathbb{E}_{(x,y) \sim \mathcal{D}} \left[ \max_{\delta \in \mathcal{B}(0, \varepsilon)} \mathcal{L}(\theta, x + \delta, y) \right]$$
+
+donde $\mathcal{B}(0, \varepsilon)$ es la bola de perturbaciones admisibles, de radio $\varepsilon$ en norma $L_\infty$.
+
+El problema interno ($\max$) se resuelve con PGD, y el problema externo ($\min$) con SGD estándar. El coste es un mayor tiempo de entrenamiento y habitualmente una degradación de la precisión en ejemplos limpios.
+
+
+**Herramientas** destacadas en este contexto son [Adversarial Robustness Toolbox](https://adversarial-robustness-toolbox.readthedocs.io/) (IBM), que soporta múltiples ataques y defensas, [Foolbox](https://foolbox.jonasrauber.de/) y [CleverHans](https://github.com/cleverhans-lab/cleverhans).
+
+
+## Deriva del Modelo y MLOps
+
+### El supuesto de estacionariedad
+
+Todos los modelos de ML que hemos estudiado asumen implícitamente que la distribución de los datos es estacionaria, es decir, que los datos de producción siguen la misma distribución que los de entrenamiento. En la práctica, el mundo cambia, y los modelos que no se monitorizan ni actualizan se degradan con el tiempo.
+
+### Clasificación de la deriva
+
+**Data drift (covariable shift):** La distribución marginal de las entradas $P(X)$ cambia, pero la relación $P(Y|X)$ se mantiene. Por ejemplo, el perfil demográfico de los usuarios de un sistema cambia con el tiempo, pero el comportamiento de cada tipo de usuario es el mismo.
+
+**Concept drift:** La relación $P(Y|X)$ cambia. Por ejemplo, el fraude bancario evoluciona y los patrones que antes eran fraudulentos ya no lo son, o nuevos patrones emergen. Es el tipo de deriva más dañino y difícil de detectar, porque el modelo puede seguir viendo entradas similares pero con una relación distinta con la salida. A su vez, el _concept drift_ puede ser:
+
+- **Repentino**: Ocurre de forma abrupta (por ejemplo, un cambio normativo que altera el comportamiento). 
+- **Gradual**: Evolución lenta de los hábitos.
+- **Recurrente**: Patrones estacionales que se repiten.
+
+
+**Label shift (prior probability shift):** La distribución marginal de $P(Y)$ cambia. Por ejemplo, la prevalencia de una enfermedad aumenta estacionalmente.
+
+En la [](#fig-drift) se ilustran los diferentes tipos de deriva del modelo que hemos descrito.
+
+Figure: En la fila superior se ilustra la diferencia entre los datos de entrenamiento y los datos de producción para diferentes tipos de deriva del modelo: _Data drift_ (izquierda), _Concept drift_ (centro) y _Label shift_ (derecha).  En la fila inferior se muestra como se degrada la precisión del modelo para diferentes subtipos de _Concept drift_: repentino (izquierda), gradual (centro) y recurrente (derecha). {#fig-drift}
+
+![](images/t13_drift.png)
+
+### Detección de deriva
+
+La detección de deriva en la distribución de las entradas puede abordarse estadísticamente. Para cada _feature_ $j$, queremos contrastar si la distribución en producción $P_t(X_j)$ difiere de la distribución de referencia $P_{\text{ref}}(X_j)$.
+
+El enfoque general consiste en formular un test de hipótesis: se parte de una hipótesis nula $H_0$​ que asume que no hay deriva (ambas distribuciones son iguales), y se evalúa si los datos en producción dan suficiente evidencia estadística para rechazarla. Si el _test_ rechaza $H_0$​, se concluye que la deriva es estadísticamente significativa y que el modelo debe ser revisado.
+
+**Para variables continuas utilizamos Kolmogorov-Smirnov**, que mide la mayor discrepancia entre las funciones de distribución acumulada (CDA) de referencia y producción:
+
+$$D = \sup_x |F_{\text{ref}}(x) - F_t(x)|$$
+
+donde $F$ denota la función de distribución acumulada (CDA) empírica y $\sup_x$​ indica que se toma el máximo sobre todos los posibles valores de $x$. Un valor de $D$ grande indica que las dos distribuciones difieren significativamente en algún punto, lo que llevaría a rechazar $H_0$​ y detectar deriva. 
+
+**Para variables categóricas utilizamos chi-cuadrado:**
+
+$$\chi^2 = \sum_{k} \frac{(O_k - E_k)^2}{E_k}$$
+
+donde $O_k$ son las frecuencias observadas en producción y $E_k$ las esperadas según la distribución de referencia para cada posible valor $k$ de la variable categórica.
+
+**Population Stability Index (PSI):** Es ampliamente usado en el sector financiero, y mide el cambio global en la distribución de una variable:
+
+$$\text{PSI} = \sum_{k=1}^{K} (p_k^t - p_k^{\text{ref}}) \cdot \ln\frac{p_k^t}{p_k^{\text{ref}}}$$
+
+donde $p_k$ es la proporción de observaciones en el bin $k$. Como regla práctica, a partir de observaciones empíricas en el sector financiero se considera $\text{PSI} < 0.1$ estable, $0.1–0.25$ requiere atención, y $\text{PSI} > 0.25$ cambio significativo.
+
+La detección del _concept drift_ es más difícil porque requiere etiquetas en producción, que habitualmente llegan con retraso (o no llegan). Cuando se dispone de etiquetas, se pueden monitorizar las métricas del modelo (precisión, F1, AUC) con _tests_ estadísticos sobre ventanas temporales deslizantes.
+
+### Estrategias de reentrenamiento
+
+Una vez detectada la deriva, hay que decidir cómo actualizar el modelo:
+
+- **Reentrenamiento completo:** Descartar el modelo actual y entrenar desde cero con datos recientes. Garantiza que el modelo refleja la distribución actual pero es costoso y puede perder patrones que sí son estables.
+- **Reentrenamiento incremental (_online learning_):** actualizar el modelo continuamente con cada nuevo dato o _batch_. La librería [River](https://riverml.xyz/) implementa algoritmos de ML online (Hoeffding Trees, etc.) diseñados para este escenario.
+- **Ventana deslizante:** Entrenar solo con los datos más recientes (últimos $N$ días/meses). El tamaño de la ventana es un hiperparámetro que controla el _trade-off_ entre adaptabilidad y estabilidad.
+- **Ponderación temporal:** Mantener todos los datos pero asignar mayor peso a los más recientes.
+
+### MLOps
+
+**MLOps** (_Machine Learning Operations_) es el conjunto de prácticas, herramientas y culturas organizativas que permiten desplegar y mantener sistemas de ML de forma fiable y escalable. Es la aplicación de los principios de DevOps al ciclo de vida del ML.
+
+Los componentes principales de una infraestructura MLOps son:
+
+- **Tracking de experimentos:** Registro de hiperparámetros, métricas y artefactos de cada experimento. [MLflow](https://mlflow.org/), [Weights & Biases](https://wandb.ai/).
+- **Versionado de datos y modelos:** [DVC](https://dvc.org/) permite versionar _datasets_ y modelos de la misma forma que Git versiona el código.
+- **Pipelines reproducibles:** [Kedro](https://kedro.org/), [ZenML](https://zenml.io/).
+- **Serving y despliegue:** [BentoML](https://bentoml.com/), [Seldon Core](https://www.seldon.io/), [Ray Serve](https://docs.ray.io/en/latest/serve/index.html).
+- **Monitorización en producción:** [Evidently AI](https://www.evidentlyai.com/), [WhyLogs/WhyLabs](https://whylabs.ai/).
+
+
+## Datos Escasos y Sintéticos
+
+### El problema de los datos escasos
+
+En muchos dominios críticos, los datos etiquetados son escasos o muy desbalanceados, como por ejemplo:
+
+- **Enfermedades raras:** Pocos casos disponibles por definición.
+- **Eventos de fraude:** Tasas de fraude del 0.1-1% generan datasets extremadamente desbalanceados.
+- **Accidentes industriales:** Afortunadamente son infrecuentes, pero eso hace difícil aprender a predecirlos.
+- **Etiquetado caro:** El etiquetado por expertos (radiólogos, juristas, lingüistas) es lento y costoso.
+
+### Técnicas de aumentación clásica
+
+La **aumentación de datos** aplica transformaciones que preservan la etiqueta para generar nuevas instancias de entrenamiento a partir de las existentes.
+
+**Para imágenes:** Aplicamos rotaciones, traslaciones, recortes, volteos horizontales, cambios de brillo y contraste, mezclas de imágenes (Mixup, CutMix).
+
+**Para series temporales:** Aplicamos escalado temporal (_time warping_), _jitter_ (adición de ruido), permutación de segmentos, inversión temporal.
+
+**Para datos tabulares:** El enfoque más directo es la interpolación en el espacio de _features_, implementada por la familia de métodos SMOTE.
+
+#### SMOTE (Synthetic Minority Over-sampling Technique)
+
+SMOTE [@chawla2002smote] genera instancias sintéticas de la clase minoritaria interpolando entre instancias reales. Para cada instancia $x_i$ de la clase minoritaria seguimos el siguiente proceso:
+
+1. Encontrar sus $k$ vecinos más cercanos en la clase minoritaria: $\{x_{i_1}, \ldots, x_{i_k}\}$.
+2. Seleccionar aleatoriamente uno de ellos: $x_{i_j}$.
+3. Generar un nuevo ejemplo: $x_{\text{new}} = x_i + \lambda (x_{i_j} - x_i)$, donde $\lambda \sim U(0,1)$.
+
+El resultado es un punto aleatorio en el segmento entre $x_i$ y $x_{i_j}$ (ver [](#fig-smote)). Variantes como **SMOTE-NC** manejan variables categóricas, **SMOTE-ENN** combina sobremuestreo con submuestreo eliminando ejemplos ruidosos, y **ADASYN** pondera más los ejemplos de la clase minoritaria que son más difíciles de aprender.
+
+Figure: Aumentación de datos con SMOTE. A la izquierda se muestra cómo se generan nuevos datos. Se identifican los k=3 puntos más cercanos a $x_i$ y se genera un nuevo punto en una posición aleatoria dentro del segmento que une $x_i$ con cada uno de estos vecinos. A la derecha vemos el resultado final de la aumentación, donde la clase minoritaria ha pasado de tener $12$ ejemplos a tener $48$. {#fig-smote}
+
+![](images/t13_smote.png)
+
+### Generación de datos sintéticos
+
+Más allá de la aumentación, los modelos generativos permiten aprender la distribución de los datos y muestrear instancias completamente nuevas.
+
+#### CTGAN para datos tabulares
+
+Los datos tabulares son más difíciles de modelar que las imágenes porque mezclan variables continuas y categóricas con distribuciones arbitrarias (no gaussianas). **CTGAN** [@xu2019ctgan], implementado en la librería [SDV](https://sdv.dev/), adapta las GANs a este dominio con dos innovaciones:
+
+- **Mode-specific normalization:** En lugar de normalizar las variables continuas con media y varianza, estima una mezcla de gaussianas (VGM) y normaliza cada muestra relativa al modo más probable. Esto maneja distribuciones multimodales o sesgadas.
+- **Conditional generator con training-by-sampling:** El generador recibe como condición el valor de una variable categórica y el entrenamiento muestrea condiciones con frecuencia inversamente proporcional a su frecuencia real, mejorando la generación de categorías raras.
+
+La GAN tiene la arquitectura estándar: generador $G$ que transforma ruido $z \sim \mathcal{N}(0, I)$ en datos sintéticos, y discriminador $D$ que intenta distinguir datos reales de sintéticos. La arquitectura base sigue el objetivo minimax estándar de las GANs, al que CTGAN añade el condicionamiento sobre variables categóricas:
+
+$$\min_G \max_D \; \mathbb{E}_{x \sim p_{\text{data}}}[\log D(x)] + \mathbb{E}_{z \sim p_z}[\log(1 - D(G(z)))]$$
+
+#### Evaluación de datos sintéticos
+
+La evaluación de la calidad de los datos sintéticos es un problema complejo que debe cubrir tres dimensiones:
+
+1. **Fidelidad estadística:** Nos preguntamos si se parece la distribución sintética a la real. Como métricas podemos utilizar la distancia de Jensen-Shannon entre distribuciones marginales, Wasserstein distance o diferencias en correlaciones entre variables.
+
+2. **Utilidad:** Nos preguntamos si sirven los datos sintéticos para entrenar modelos. El protocolo **Train-on-Synthetic, Test-on-Real (TSTR)** entrena un clasificador sobre datos sintéticos y lo evalúa sobre datos reales, comparando con el resultado de Train-on-Real, Test-on-Real (TRTR). Una brecha pequeña indica alta utilidad.
+
+3. **Privacidad:** Los datos sintéticos pueden filtrar información sobre los datos de entrenamiento. Como métricas para evaluar esto tenemos:
+   - **Membership inference attack:** Nos preguntamos si puede un atacante determinar si un registro específico estaba en el _dataset_ de entrenamiento. 
+   - **Attribute disclosure:** Nos preguntamos si puede inferirse un atributo sensible de un individuo a partir de los datos sintéticos.
+
+Como **herramientas destacadas** en este campo encontramos [SDV/CTGAN](https://sdv.dev/), [Imbalanced-learn](https://imbalanced-learn.org/) (SMOTE y variantes), [TimeGAN](https://github.com/jsyoon0823/TimeGAN) (series temporales) y [Gretel.ai](https://gretel.ai/).
+
+
+## Hacia una Evaluación Responsable de Modelos
+
+A lo largo de este tema hemos estudiado cinco dimensiones que el paradigma clásico de entrenamiento y evaluación ignora: privacidad, sesgo, explicabilidad, robustez adversarial y deriva. Para finalizar, lo natural es preguntarnos cómo integrar estos análisis en el flujo de trabajo real de un proyecto de ML.
+
+El esquema básico que hemos aprendido a lo largo de la asignatura sigue siendo el punto de partida correcto, consistente en dividir los datos en _train_ y _test_, ajustar hiperparámetros mediante validación cruzada sobre _train_, y evaluar el modelo final sobre _test_. Lo que este tema añade es una capa de análisis adicional en cada fase de ese proceso.
+
+**Durante el diseño del _dataset_**, antes de entrenar el modelo, es el momento de examinar los orígenes del sesgo y preguntarnos ¿es el _dataset_ representativo de la población sobre la que se desplegará el modelo? ¿Las variables objetivo pueden introducir sesgo de medición? ¿Existen atributos protegidos cuya distribución deba analizarse? Todo ello puede abordarse dentro del Análisis Exploratorio de los Datos (EDA). Si se trabaja con datos sensibles, también es el momento de decidir si es necesario FL o DP-SGD, ya que estas decisiones afectan a la arquitectura del sistema y no pueden añadirse fácilmente al final.
+
+**Durante el entrenamiento**, si se usa DP-SGD, el número de épocas deja de ser un hiperparámetro libre y debe gestionarse junto al presupuesto de privacidad $\varepsilon$. Si se trabaja con clases desbalanceadas, las técnicas de aumentación (SMOTE, CTGAN) se aplican exclusivamente sobre el conjunto de _train_, nunca sobre _test_, para no contaminar la evaluación.
+
+**Durante la evaluación sobre test**, las métricas clásicas (_accuracy_, F1, AUC) deben complementarse con:
+
+- **Métricas de fairness** desagregadas por grupo: No basta con un AUC global si el modelo rinde de forma muy distinta entre subpoblaciones. La elección de qué métrica de _fairness_ priorizar (paridad demográfica, igualdad de oportunidades, calibración) debe estar justificada explícitamente.
+- **Evaluación de robustez adversarial**: Medir la precisión del modelo bajo ataques FGSM y PGD con distintos valores de $\varepsilon$, para tener una cota de vulnerabilidad. En sistemas de alto riesgo esto debería ser un requisito, y no una opción.
+- **Análisis de explicabilidad**: Aplicar SHAP para identificar qué _features_ dominan las predicciones globalmente y verificar que son las esperadas desde el conocimiento del dominio. Una _feature_ con alta importancia SHAP que no debería ser relevante es una señal de fuga de datos o sesgo no detectado.
+- **Auditoría de privacidad**: Si el modelo se va a publicar, estimar la vulnerabilidad ante MIA mediante la brecha de generalización o herramientas como ML Privacy Meter.
+
+**Tras el despliegue**, la evaluación no termina. Es necesario monitorizar la deriva de la distribución de entradas con los _tests_ estadísticos descritos (KS, chi-cuadrado, PSI) y, cuando se disponga de etiquetas, las métricas del modelo sobre ventanas temporales. La detección de deriva debe estar conectada a un protocolo de reentrenamiento definido de antemano.
+
+En la siguiente tabla resumimos en qué punto del ciclo de vida actúa cada una de las herramientas estudiadas en este tema:
+
+| Fase | Herramientas  |
+|---|---|
+| Diseño del _dataset_ | Análisis de sesgo, FL, decisión sobre DP |
+| Entrenamiento | DP-SGD, _adversarial training_, técnicas de _fairness in-processing_, SMOTE/CTGAN |
+| Evaluación _offline_ | Métricas de _fairness_, robustez adversarial, SHAP, auditoría MIA |
+| Despliegue y monitorización | Detección de deriva (KS, PSI), MLOps |
+| Reentrenamiento | Estrategias de ventana deslizante, _online learning_ |
+
+Como cierre, podemos decir que ninguna de estas dimensiones es un añadido opcional que pueda dejarse para el final. El AI Act lo hace explícito desde el punto de vista legal para sistemas de alto riesgo, pero la práctica responsable del ML exige tenerlas presentes desde el inicio del proyecto, independientemente del marco regulatorio.
