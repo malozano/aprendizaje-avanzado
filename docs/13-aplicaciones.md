@@ -92,7 +92,7 @@ En FL, existe un **servidor central** que coordina el entrenamiento y $K$ **clie
 3. Los clientes envían sus actualizaciones (gradientes o pesos) al servidor.
 4. El servidor agrega las actualizaciones para obtener el nuevo modelo global $w^{t+1}$.
 
-Figure: Arquitectura de un sistema de Federated Learning. El servidor comparte un modelo centrar con cada cliente. Cada cliente entrena el modelo con sus propios datos de forma local y devuelve el modelo actualizado al servidor. El servidor promedia los modelos recibidos ponderando por el número de ejemplos de cada cliente. {#fig-fl}
+Figure: Arquitectura de un sistema de Federated Learning. El servidor comparte un modelo central con cada cliente. Cada cliente entrena el modelo con sus propios datos de forma local y devuelve el modelo actualizado al servidor. El servidor promedia los modelos recibidos ponderando por el número de ejemplos de cada cliente. {#fig-fl}
 
 ![](images/t13_federated_learning.svg)
 
@@ -150,7 +150,7 @@ $$\mathcal{M}(D) = f(D) + \mathcal{N}(0, \sigma^2 \cdot \mathbf{I})$$
 
 donde la sensibilidad global $\Delta f = \max_{D, D'} \|f(D) - f(D')\|_2$ mide cuánto puede cambiar la salida de $f$ al cambiar un individuo. Para lograr $(\varepsilon, \delta)$-DP se puede demostrar que es suficiente tomar $\sigma = \frac{\Delta f \cdot \sqrt{2 \ln(1.25/\delta)}}{\varepsilon}$.
 
-#### DP-SGD: entrenamiento diferencialment privado de redes neuronales
+#### DP-SGD: entrenamiento diferencialmente privado de redes neuronales
 
 El algoritmo **DP-SGD** [@abadi2016dpsgd], implementado en la librería **Opacus** de Meta, adapta SGD para satisfacer DP:
 
@@ -439,7 +439,7 @@ La perturbación está acotada en $\varepsilon$ por _feature_, lo que en caso de
 
 Es importante destacar que se trata de un ataque de caja blanca, ya que para aplicarlo necesitamos acceso completo al modelo para poder calcular los gradientes respecto a $x$. Es un ataque de un solo paso, computacionalmente barato pero no el más fuerte.
 
-Figure: Ejemplo de aplicación de FGSM para alterar la clase predicha. A la izquierda se muestran las imágenes originales, que el modelo clasifica correctamente como "avión". Sobre ellas se aplica una pequeña perturbación que provocha que la predicción del modelo cambie. {#fig-fgsm}
+Figure: Ejemplo de aplicación de FGSM para alterar la clase predicha. A la izquierda se muestran las imágenes originales, que el modelo clasifica correctamente como "avión". Sobre ellas se aplica una pequeña perturbación que provoca que la predicción del modelo cambie. {#fig-fgsm}
 
 ![](images/t13_fgsm.svg)
 
@@ -609,8 +609,8 @@ La evaluación de la calidad de los datos sintéticos es un problema complejo qu
 2. **Utilidad:** Nos preguntamos si sirven los datos sintéticos para entrenar modelos. El protocolo **Train-on-Synthetic, Test-on-Real (TSTR)** entrena un clasificador sobre datos sintéticos y lo evalúa sobre datos reales, comparando con el resultado de Train-on-Real, Test-on-Real (TRTR). Una brecha pequeña indica alta utilidad.
 
 3. **Privacidad:** Los datos sintéticos pueden filtrar información sobre los datos de entrenamiento. Como métricas para evaluar esto tenemos:
-   - **Membership inference attack:** Nos preguntamos si puede un atacante determinar si un registro específico estaba en el _dataset_ de entrenamiento. 
-   - **Attribute disclosure:** Nos preguntamos si puede inferirse un atributo sensible de un individuo a partir de los datos sintéticos.
+      - **Membership inference attack:** Nos preguntamos si puede un atacante determinar si un registro específico estaba en el _dataset_ de entrenamiento. 
+      - **Attribute disclosure:** Nos preguntamos si puede inferirse un atributo sensible de un individuo a partir de los datos sintéticos.
 
 Como **herramientas destacadas** en este campo encontramos [SDV/CTGAN](https://sdv.dev/), [Imbalanced-learn](https://imbalanced-learn.org/) (SMOTE y variantes), [TimeGAN](https://github.com/jsyoon0823/TimeGAN) (series temporales) y [Gretel.ai](https://gretel.ai/).
 
