@@ -722,8 +722,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dp-sgd-entrenamiento-diferencialment-privado-de-redes-neuronales" class="md-nav__link">
-    DP-SGD: entrenamiento diferencialment privado de redes neuronales
+  <a href="#dp-sgd-entrenamiento-diferencialmente-privado-de-redes-neuronales" class="md-nav__link">
+    DP-SGD: entrenamiento diferencialmente privado de redes neuronales
   </a>
   
 </li>
@@ -1346,7 +1346,7 @@ automatizado" y, según se indica en el Art. 13, a obtener "información signifi
 <li>Los clientes envían sus actualizaciones (gradientes o pesos) al servidor.</li>
 <li>El servidor agrega las actualizaciones para obtener el nuevo modelo global <span class="arithmatex">\(w^{t+1}\)</span>.</li>
 </ol>
-<p></p><figure id="fig-fl"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t13_federated_learning.svg" data-desc-position="bottom"><img alt="" src="../images/t13_federated_learning.svg"></a><figcaption>Figura 2: Arquitectura de un sistema de Federated Learning. El servidor comparte un modelo centrar con cada cliente. Cada cliente entrena el modelo con sus propios datos de forma local y devuelve el modelo actualizado al servidor. El servidor promedia los modelos recibidos ponderando por el número de ejemplos de cada cliente. </figcaption></figure><p></p>
+<p></p><figure id="fig-fl"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t13_federated_learning.svg" data-desc-position="bottom"><img alt="" src="../images/t13_federated_learning.svg"></a><figcaption>Figura 2: Arquitectura de un sistema de Federated Learning. El servidor comparte un modelo central con cada cliente. Cada cliente entrena el modelo con sus propios datos de forma local y devuelve el modelo actualizado al servidor. El servidor promedia los modelos recibidos ponderando por el número de ejemplos de cada cliente. </figcaption></figure><p></p>
 <h4 id="fedavg">FedAvg<a class="headerlink" href="#fedavg" title="Permanent link">¶</a></h4>
 <p>El algoritmo <strong>FedAvg</strong> (McMahan et al., 2017)<sup id="fnref:mcmahan2017fedavg"><a class="footnote-ref" href="#fn:mcmahan2017fedavg">4</a></sup> es el punto de partida de la mayoría de métodos de FL. La agregación en el servidor se realiza como una media ponderada por el tamaño del <em>dataset</em> local:</p>
 <div class="arithmatex">\[w^{t+1} = \sum_{k=1}^{K} \frac{n_k}{n} w_k^{t+1}\]</div>
@@ -1373,7 +1373,7 @@ automatizado" y, según se indica en el Art. 13, a obtener "información signifi
 <p>El mecanismo más utilizado en ML consiste en añadir ruido gaussiano calibrado a la sensibilidad <span class="arithmatex">\(\Delta f\)</span> de la función que se desea privatizar:</p>
 <div class="arithmatex">\[\mathcal{M}(D) = f(D) + \mathcal{N}(0, \sigma^2 \cdot \mathbf{I})\]</div>
 <p>donde la sensibilidad global <span class="arithmatex">\(\Delta f = \max_{D, D'} \|f(D) - f(D')\|_2\)</span> mide cuánto puede cambiar la salida de <span class="arithmatex">\(f\)</span> al cambiar un individuo. Para lograr <span class="arithmatex">\((\varepsilon, \delta)\)</span>-DP se puede demostrar que es suficiente tomar <span class="arithmatex">\(\sigma = \frac{\Delta f \cdot \sqrt{2 \ln(1.25/\delta)}}{\varepsilon}\)</span>.</p>
-<h4 id="dp-sgd-entrenamiento-diferencialment-privado-de-redes-neuronales">DP-SGD: entrenamiento diferencialment privado de redes neuronales<a class="headerlink" href="#dp-sgd-entrenamiento-diferencialment-privado-de-redes-neuronales" title="Permanent link">¶</a></h4>
+<h4 id="dp-sgd-entrenamiento-diferencialmente-privado-de-redes-neuronales">DP-SGD: entrenamiento diferencialmente privado de redes neuronales<a class="headerlink" href="#dp-sgd-entrenamiento-diferencialmente-privado-de-redes-neuronales" title="Permanent link">¶</a></h4>
 <p>El algoritmo <strong>DP-SGD</strong> (Abadi et al., 2016)<sup id="fnref:abadi2016dpsgd"><a class="footnote-ref" href="#fn:abadi2016dpsgd">8</a></sup>, implementado en la librería <strong>Opacus</strong> de Meta, adapta SGD para satisfacer DP:</p>
 <ol>
 <li>Por cada <em>batch</em>, calcular el gradiente por cada ejemplo individual: <span class="arithmatex">\(g_i = \nabla_w \mathcal{L}(w; x_i, y_i)\)</span>.</li>
@@ -1575,7 +1575,7 @@ automatizado" y, según se indica en el Art. 13, a obtener "información signifi
 <p>Podemos ver que al ejemplo de entrada se le añade una perturbación <span class="arithmatex">\(\varepsilon\)</span> en la dirección que maximiza la pérdida <span class="arithmatex">\(\text{sign}(\nabla_x \mathcal{L})\)</span>, para provocar que el modelo se equivoque. Es decir, movemos cada <em>feature</em> de entrada (por ejemplo píxeles de una imagen) en un paso de tamaño <span class="arithmatex">\(\varepsilon\)</span>, en la dirección que hace aumentar más el error. Dicha dirección se obtiene a partir del gradiente de la función de pérdida <span class="arithmatex">\(\mathcal{L}\)</span> respecto a la entrada <span class="arithmatex">\(x\)</span>, quedándonos solo con el signo (dirección) y no su magnitud. Podemos ver este proceso ilustrado en la <a href="#fig-fgsm">Figura 6</a>.</p>
 <p>La perturbación está acotada en <span class="arithmatex">\(\varepsilon\)</span> por <em>feature</em>, lo que en caso de píxeles la hace imperceptible visualmente. Considerando que la norma <span class="arithmatex">\(L_\infty\)</span> se calcula como la diferencia máxima de todas las dimensiones, podemos decir que la perturbación aplicada está acotada por <span class="arithmatex">\(\varepsilon\)</span> en la norma <span class="arithmatex">\(L_\infty\)</span>. De esta forma, se puede decir que todas las posibles perturbaciones están contenidas en una bola <span class="arithmatex">\(L_\infty\)</span> de radio <span class="arithmatex">\(\varepsilon\)</span>.</p>
 <p>Es importante destacar que se trata de un ataque de caja blanca, ya que para aplicarlo necesitamos acceso completo al modelo para poder calcular los gradientes respecto a <span class="arithmatex">\(x\)</span>. Es un ataque de un solo paso, computacionalmente barato pero no el más fuerte.</p>
-<p></p><figure id="fig-fgsm"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t13_fgsm.svg" data-desc-position="bottom"><img alt="" src="../images/t13_fgsm.svg"></a><figcaption>Figura 6: Ejemplo de aplicación de FGSM para alterar la clase predicha. A la izquierda se muestran las imágenes originales, que el modelo clasifica correctamente como "avión". Sobre ellas se aplica una pequeña perturbación que provocha que la predicción del modelo cambie. </figcaption></figure><p></p>
+<p></p><figure id="fig-fgsm"><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../images/t13_fgsm.svg" data-desc-position="bottom"><img alt="" src="../images/t13_fgsm.svg"></a><figcaption>Figura 6: Ejemplo de aplicación de FGSM para alterar la clase predicha. A la izquierda se muestran las imágenes originales, que el modelo clasifica correctamente como "avión". Sobre ellas se aplica una pequeña perturbación que provoca que la predicción del modelo cambie. </figcaption></figure><p></p>
 <h4 id="pgd-projected-gradient-descent">PGD (Projected Gradient Descent)<a class="headerlink" href="#pgd-projected-gradient-descent" title="Permanent link">¶</a></h4>
 <p>PGD (Madry et al., 2018)<sup id="fnref:madry2018pgd"><a class="footnote-ref" href="#fn:madry2018pgd">21</a></sup> es la versión iterativa de FGSM. En lugar de un único paso grande, aplica <span class="arithmatex">\(T\)</span> pasos de tamaño pequeño <span class="arithmatex">\(\alpha\)</span>, lo que le permite explorar mejor el espacio de perturbaciones y encontrar ejemplos adversariales más efectivos. Tras cada paso, se proyecta sobre la bola <span class="arithmatex">\(L_\infty\)</span> de <span class="arithmatex">\(\varepsilon\)</span> centrada en <span class="arithmatex">\(x\)</span>, es decir, se recorta cualquier <em>feature</em> que haya superado el límite <span class="arithmatex">\(\varepsilon\)</span> respecto al valor original, garantizando que la perturbación acumulada siga siendo imperceptible:</p>
 <div class="arithmatex">\[x'^{(t+1)} = \Pi_{x, \varepsilon} \left( x'^{(t)} + \alpha \cdot \text{sign}(\nabla_x \mathcal{L}(\theta, x'^{(t)}, y)) \right)\]</div>
@@ -1680,9 +1680,11 @@ automatizado" y, según se indica en el Art. 13, a obtener "información signifi
 </li>
 <li>
 <p><strong>Privacidad:</strong> Los datos sintéticos pueden filtrar información sobre los datos de entrenamiento. Como métricas para evaluar esto tenemos:</p>
-</li>
+<ul>
 <li><strong>Membership inference attack:</strong> Nos preguntamos si puede un atacante determinar si un registro específico estaba en el <em>dataset</em> de entrenamiento. </li>
 <li><strong>Attribute disclosure:</strong> Nos preguntamos si puede inferirse un atributo sensible de un individuo a partir de los datos sintéticos.</li>
+</ul>
+</li>
 </ol>
 <p>Como <strong>herramientas destacadas</strong> en este campo encontramos <a href="https://sdv.dev/">SDV/CTGAN</a>, <a href="https://imbalanced-learn.org/">Imbalanced-learn</a> (SMOTE y variantes), <a href="https://github.com/jsyoon0823/TimeGAN">TimeGAN</a> (series temporales) y <a href="https://gretel.ai/">Gretel.ai</a>.</p>
 <h2 id="hacia-una-evaluacion-responsable-de-modelos">Hacia una Evaluación Responsable de Modelos<a class="headerlink" href="#hacia-una-evaluacion-responsable-de-modelos" title="Permanent link">¶</a></h2>
